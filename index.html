@@ -192,7 +192,7 @@ footer .f-sq{float:right}
 
 <section id="s3">
   <div class="wrap">
-    <div class="sec-hd"><span class="sec-no">03 / COVERAGE</span><h2>品种覆盖</h2><span class="sec-note">13 品种 · 各有独立矛盾 / 成本线 / 定价权 / 白名单</span></div>
+    <div class="sec-hd"><span class="sec-no">03 / COVERAGE</span><h2>品种覆盖</h2><span class="sec-note">15 品种 · 各有独立矛盾 / 成本线 / 定价权 / 白名单</span></div>
     <div class="group">
       <div class="g-name">贵金属 — 纯宏观定价（美债 / 美元 / 实际利率）</div>
       <div class="chips"><span class="chip"><b>AU</b>沪金</span><span class="chip"><b>AG</b>沪银</span></div>
@@ -205,14 +205,16 @@ footer .f-sq{float:right}
       <div class="g-name">新能源与加工</div>
       <div class="chips"><span class="chip"><b>LC</b>碳酸锂</span><span class="chip"><b>AD</b>铸造铝合金</span></div>
     </div>
+    <div class="group">
+      <div class="g-name">硅链 <span style="font-weight:normal;color:var(--gray);font-size:12px">数据库接入中</span></div>
+      <div class="chips"><span class="chip"><b>SI</b>工业硅</span><span class="chip"><b>PS</b>多晶硅</span></div>
+    </div>
     <div class="group" style="margin-top:26px">
-      <div class="g-name">跨品种配置（剥 β 留 α）<span style="font-weight:normal;color:var(--gray);font-size:12px;margin-left:10px">2026-10-09 数据复核</span></div>
-      <div class="chips">
-        <span class="chip">多金空银 · 沪金银比 59.5→61.7（8/27 来组合 +3.3%，金 -8.8%/银 -12.1%）· 旧「68-70 锚均值回归」确认弃用（90 日区间 53.5-64.7 已回不去），按「比价回升」趋势逻辑重新立项，站稳 62-63 升级</span>
-        <span class="chip">多铜空锌 · 有效维持（8/27 来 CU +1.6%/ZN -0.9%，组合 +2.5%；锌侧发令枪仍差 Back 走平）</span>
-        <span class="chip" style="border-color:var(--gray);color:var(--gray);text-decoration:line-through">锡 = SPX 的 β · 降级停用（日收益相关性已塌：近 30 日 0.10；8/27 来锡 -6.5% vs SPX +0.4%，锡回归自身供需定价；VIX 15.1 未触发 19 降敞口线）</span>
-        <span class="chip" style="border-color:var(--red);color:var(--red)">禁用：多铝空氧化铝（同链 α 对冲，逻辑矛盾）</span>
+      <div class="g-name">有色截面多空 · 实盘头寸（CU/AL/ZN/PB/NI/SN，日频打分多前二空后二 · <span id="xs-date">同步中…</span>）<a class="lnk" href="https://amiya866.github.io/metals-framework/xs-panel/" style="margin-left:10px;font-size:12px">截面面板 ↗</a></div>
+      <div class="chips" id="xs-live">
+        <span class="chip" style="border-color:var(--gray);color:var(--gray)">读取截面策略实时头寸中…（源：xs-panel live_payload.json，交易日 15:37 刷新）</span>
       </div>
+      <div id="xs-stats" style="font-size:12px;color:var(--gray);margin-top:8px"></div>
     </div>
   </div>
 </section>
@@ -290,6 +292,30 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 /* 左侧实时消息栏已下线（2026-09-01）：新闻数据仍由云端管线每日更新，见日报页跑马灯与消息流页签 */
+
+/* 有色截面多空实盘头寸：拉取 xs-panel live_payload.json（交易日 15:37 由 XsMonitorDaily 刷新） */
+(function(){
+  var URL='https://amiya866.github.io/metals-framework/xs-panel/live_payload.json';
+  fetch(URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    document.getElementById('xs-date').textContent='截至 '+d.sig_date+' 收盘';
+    var scoreMap={};(d.scores||[]).forEach(function(s){scoreMap[s[0]]=s[1]});
+    var html='';
+    (d.longs||[]).forEach(function(n){
+      html+='<span class="chip" style="border-color:var(--green);color:var(--green)">多 · '+n+' <b>'+(scoreMap[n]>=0?'+':'')+scoreMap[n]+'</b></span>';
+    });
+    (d.shorts||[]).forEach(function(n){
+      html+='<span class="chip" style="border-color:var(--red);color:var(--red)">空 · '+n+' <b>'+(scoreMap[n]>=0?'+':'')+scoreMap[n]+'</b></span>';
+    });
+    document.getElementById('xs-live').innerHTML=html;
+    var pct=function(x){return (x>=0?'+':'')+(x*100).toFixed(2)+'%'};
+    document.getElementById('xs-stats').textContent=
+      '净值 '+(d.equity/1e4).toFixed(1)+' 万 · 实盘累计 '+pct(d.cum)+'（2026-09-18 起） · 年化 '+pct(d.ann)+' · Sharpe '+d.sharpe+' · 最大回撤 '+pct(d.mdd)+
+      (d.today_pnl?' · 今日盈亏 '+(d.today_pnl>=0?'+':'')+(d.today_pnl/1e4).toFixed(1)+' 万':'');
+  }).catch(function(){
+    document.getElementById('xs-date').textContent='离线';
+    document.getElementById('xs-live').innerHTML='<span class="chip" style="border-color:var(--gray);color:var(--gray)">实时头寸拉取失败 → 直接打开截面面板查看</span>';
+  });
+})();
 </script>
 </body>
 </html>
