@@ -1,0 +1,1 @@
+window.MM_CATALOG = [];

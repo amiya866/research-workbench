@@ -1,0 +1,32 @@
+name: 每日数据机器人(Polymarket+宏观免费API)
+on:
+  schedule:
+    - cron: "5 1 * * *"   # 每天 09:05 北京时间
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pandas xlrd
+      - run: python scripts/fetch_polymarket.py
+      - run: python scripts/fetch_macro.py
+      - run: python scripts/fetch_cftc.py
+      - run: python scripts/fetch_liquidity.py
+      - run: python scripts/fetch_extra.py
+      - run: python scripts/fetch_trump.py || true
+      - name: commit & push
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/polymarket.json data/chart_series.js data/macro_series.json data/macro_catalog.js data/cftc.json data/liquidity.json data/auctions.json data/tic.json data/trump_zone.json data/truth_posts.json
+          git diff --cached --quiet || git commit -m "每日数据 $(date -u +%F)"
+          git pull --rebase origin main || (git rebase --abort && git pull --no-rebase -X ours origin main)
+          git push

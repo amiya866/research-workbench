@@ -1,0 +1,77 @@
+name: 一键更新全部数据
+on:
+  schedule:
+    - cron: '30 9 * * *'  # 每天 17:30 北京时间全量兜底(UTC 09:30)
+  workflow_dispatch:   # 手动按钮：Actions页点 Run workflow 即全量刷新
+
+permissions:
+  contents: write
+
+jobs:
+  update-all:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests pandas lxml html5lib xlrd curl_cffi websocket-client playwright
+      - run: python -m playwright install chromium --with-deps
+
+      - name: 快讯快照(三站合并)
+        env:
+          JIN10_TOKEN: ${{ secrets.JIN10_TOKEN }}
+          AH_SESSION: ${{ secrets.AH_SESSION }}
+          CS_TOKEN: ${{ secrets.CS_TOKEN }}
+        run: python3 scripts/fetch_news.py || true
+
+      - name: 增量快讯源(东财/新浪/LME)
+        run: python3 scripts/fetch_extra_news.py || true
+
+      - name: 主数据管线(宏观/流动性/CFTC/日历/特朗普/图集)
+        env:
+          JIN10_TOKEN: ${{ secrets.JIN10_TOKEN }}
+        run: |
+          python3 scripts/fetch_polymarket.py || true
+          python3 scripts/fetch_liquidity.py || true
+          python3 scripts/fetch_cftc.py || true
+          python3 scripts/fetch_macro.py || true
+          python3 scripts/fetch_extra.py || true
+          python3 scripts/fetch_cn_macro.py || true
+          python3 scripts/fetch_calendar.py || true
+          python3 scripts/fetch_trump.py || true
+          python3 scripts/fetch_downstream.py || true
+          python3 scripts/gen_charts.py || true
+
+      - name: FedWatch(CME官方加息概率)
+        run: python3 scripts/fetch_fedwatch.py || true
+
+      - name: 数据发布面板(BLS/BEA分项贡献+发布概率)
+        env:
+          BLS_KEY: ${{ secrets.BLS_KEY }}
+          BEA_KEY: ${{ secrets.BEA_KEY }}
+        run: python3 scripts/fetch_release.py || true
+
+      - name: 实时行情快照
+        run: python3 scripts/fetch_live.py || true
+
+      - name: iFinD专业数据(如已配置密钥)
+        env:
+          IFIND_MCP_KEY: ${{ secrets.IFIND_MCP_KEY }}
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        run: python3 scripts/fetch_ifind_mcp.py || true
+
+      - name: 上期所锡铜库存(iFinD EDB)
+        env:
+          IFIND_MCP_KEY: ${{ secrets.IFIND_MCP_KEY }}
+        run: python3 scripts/fetch_shfe_stock.py || true
+
+      - name: 提交并发布到网站
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/ charts/ || true
+          git diff --cached --quiet && echo "数据无变化" || git commit -m "一键全量更新 $(date -u +'%F %H:%M')Z"
+          git pull --rebase origin main || (git rebase --abort && git pull --no-rebase -X ours origin main)
+          git push

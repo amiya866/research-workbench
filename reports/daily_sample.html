@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观研究日报 · 主题样本预览（白底藏青）</title>
+<script src="../lib/echarts.min.js"></script>
+<script>
+/* 样本皮肤：深色图表配色 → 白底配色（仅本页生效） */
+(function(){
+  if(!window.echarts) return;
+  var CMAP={'#222a3a':'#e4eaf2','#8a94a6':'#66788f','#333':'#c5cfdd','#aeb8c8':'#44536b','#12161f':'#eef3fa','#262d3d':'#d9e1ee','#3a4a65':'#b9c6da','#d7dde8':'#22304a','#1c2333':'#ffffff'};
+  function remap(o){
+    if(!o) return o;
+    if(Array.isArray(o)){o.forEach(remap);return o;}
+    if(typeof o==='object'){for(var k in o){var v=o[k];
+      if(typeof v==='string'&&CMAP[v.toLowerCase()]) o[k]=CMAP[v.toLowerCase()];
+      else remap(v);}}
+    return o;
+  }
+  var _init=echarts.init;
+  echarts.init=function(){
+    var ch=_init.apply(echarts,arguments);
+    var _so=ch.setOption;
+    ch.setOption=function(opt){return _so.call(ch,remap(opt));};
+    return ch;
+  };
+})();
+</script>
+<script src="../data/chart_series.js" id="csjs"></script>
+<script src="../lib/sig.js"></script>
+<script src="../lib/big4_panel.js"></script>
+<script src="../lib/owner_edit.js"></script>
+<script src="../lib/fresh_panels.js"></script>
+<script src="../data/macro_catalog.js" onerror="window.MACRO_CATALOG=null"></script>
+<script src="../lib/research_toolbox.js"></script>
+<script src="../lib/release_panels.js"></script>
+<script src="../lib/econ_calendar.js"></script>
+<script src="../lib/chart_widget.js"></script>
+<script src="../data/live_snapshot.js"></script>
+<style>
+  :root{--bg:#0e1117;--card:#161b26;--line:#262d3d;--txt:#d7dde8;--dim:#8a94a6;--up:#e5534b;--dn:#4caf7d;--gold:#d4a944;--blue:#5b9bd5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.7;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+  header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px;}
+  h1{font-family:Georgia,"Songti SC",serif;font-size:26px;letter-spacing:1px;}
+  .meta{color:var(--dim);font-size:12px;margin-top:6px;}
+  .meta b{color:var(--gold);}
+  h2{font-family:Georgia,"Songti SC",serif;font-size:17px;margin:32px 0 12px;color:#fff;border-left:3px solid var(--gold);padding-left:10px;}
+  h2 .en{color:var(--dim);font-size:11px;letter-spacing:2px;margin-left:8px;}
+  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px;}
+  th{background:#1c2333;color:#aeb8c8;font-weight:600;text-align:left;padding:7px 10px;font-size:12px;}
+  td{padding:7px 10px;border-top:1px solid var(--line);}
+  .up{color:var(--up);} .dn{color:var(--dn);} .flat{color:var(--dim);}
+  .badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;border:1px solid var(--line);color:var(--dim);margin-left:6px;}
+  .b1{color:#7ec8a9;border-color:#2d4a3f;} .b2{color:#5b9bd5;border-color:#2a3f57;}
+  .bc{color:#b08ad9;border-color:#46365c;} .bg2{color:#666;border-color:#333;}
+  .hot{background:rgba(229,83,75,.08);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 18px;margin-bottom:12px;}
+  .chg{border-left:3px solid var(--up);}
+  .chg h3{font-size:15px;margin-bottom:6px;}
+  .chg p{font-size:13px;}
+  .falsify{color:var(--dim);font-size:12px;margin-top:6px;}
+  .falsify b{color:#c9a2e8;}
+  details{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-bottom:10px;}
+  summary{cursor:pointer;font-weight:600;color:var(--blue);}
+  details li{font-size:13px;}
+  details ul{padding-left:20px;}
+  .news{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .ncol{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px;max-height:520px;overflow-y:auto;}
+  .ncol h4{font-size:13px;color:var(--gold);margin-bottom:8px;position:sticky;top:-12px;background:var(--card);padding:8px 0 4px;}
+  .ni{font-size:12px;padding:6px 0;border-top:1px dashed var(--line);}
+  .ni .t{color:var(--dim);font-size:11px;display:block;}
+  .radar td{font-size:12px;}
+  a{color:var(--blue);text-decoration:none;}
+  .concl{font-size:13px;}
+  .concl b{color:var(--gold);}
+  /* 图表区 */
+  .chart-panel{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px;}
+  .chart-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .seg button{background:#1c2333;color:var(--dim);border:none;padding:5px 14px;font-size:12px;cursor:pointer;}
+  .seg button.on{background:var(--gold);color:#111;font-weight:600;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px;}
+  .cw{background:#12161f;border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:12px;}
+  .cw .ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .cw .seg2{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .cw .seg2 button{background:#1c2333;color:var(--dim);border:none;padding:4px 12px;font-size:11px;cursor:pointer;}
+  .cw .seg2 button.on{background:var(--gold);color:#111;font-weight:600;}
+  .cw details{margin-top:8px;border:none;background:transparent;padding:0;}
+  .cw details summary{font-size:11px;color:var(--dim);font-weight:400;}
+  .cw .tags{display:none;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .cw details[open] .tags{display:flex;}
+  .cw .tag2{font-size:11px;padding:2px 9px;border:1px solid var(--line);border-radius:11px;cursor:pointer;color:var(--dim);background:#161b26;}
+  .cw .tag2.on{border-color:var(--gold);color:var(--gold);background:rgba(212,169,68,.08);}
+  .cw .tag2 .u{font-size:9px;opacity:.7;}
+  .cw .chart{width:100%;height:400px;margin-top:8px;}
+  .cw .cn{font-size:10px;color:var(--dim);margin-top:4px;}
+  .tag2{font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:12px;cursor:pointer;color:var(--dim);background:#12161f;}
+  .tag2.on{border-color:var(--gold);color:var(--gold);background:rgba(212,169,68,.08);}
+  .tag2 .axb{display:inline-block;margin-left:6px;padding:0 5px;font-size:10px;line-height:15px;border:1px solid var(--gold);border-radius:4px;color:var(--gold);background:rgba(212,169,68,.15);cursor:pointer;}
+  .tag2 .u{font-size:10px;opacity:.7;}
+  #chartBox{width:100%;height:520px;}
+  .dtabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px;position:sticky;top:0;z-index:50;background:var(--bg);padding:10px 0;}
+  .dtabs button{background:#1c2333;color:var(--dim);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-family:inherit;font-size:13px;cursor:pointer;}
+  .dtabs button.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700;}
+  .dp{display:none;} .dp.on{display:block;}
+  .chart-note{font-size:11px;color:var(--dim);margin-top:6px;}
+  /* 置顶日历横排 */
+  .calrow{display:flex;flex-wrap:wrap;gap:10px;}
+  .calitem{flex:1 1 200px;min-width:180px;background:#12161f;border:1px solid var(--line);border-radius:6px;padding:10px 12px;}
+  .calitem.hot{border-color:#5a3a3a;background:rgba(229,83,75,.06);}
+  .cald{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px;}
+  .calt{font-size:12px;color:var(--txt);line-height:1.5;}
+  /* 关键数据时间表 */
+  .kdbar{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin-bottom:12px;}
+  .kd{text-align:center;padding:4px 10px;border-radius:5px;background:#12161f;border:1px solid var(--line);min-width:86px;}
+  .kd.hot{border-color:var(--gold);background:rgba(212,169,68,.08);}
+  .kdd{font-size:13px;font-weight:700;color:var(--gold);}
+  .kde{font-size:11px;color:var(--txt);margin:2px 0;}
+  .kds{font-size:10px;color:var(--up);letter-spacing:1px;}
+  .kdarr{align-self:center;color:var(--dim);font-size:12px;}
+  @media(max-width:900px){.news{grid-template-columns:1fr;}#chartBox{height:420px;}.grid3,.grid2{grid-template-columns:1fr;}}
+  .updbtn{background:var(--gold);color:#111;border:none;border-radius:4px;padding:7px 18px;font-size:13px;font-weight:600;cursor:pointer;}
+  .updbtn:active{opacity:.8;}
+  #updMsg{font-size:12px;color:var(--dim);margin-left:10px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .mini{background:#12161f;border:1px solid var(--line);border-radius:6px;padding:12px 14px;}
+  .mini h4{font-size:13px;color:var(--gold);margin-bottom:8px;}
+  .big{font-size:26px;font-weight:700;font-family:Georgia,serif;}
+  .zonebar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:8px 0 4px;}
+  .zonebar div{flex:1;}
+  .ch-tag{font-size:11px;color:var(--dim);border:1px solid var(--line);border-radius:10px;padding:2px 10px;margin-right:6px;display:inline-block;margin-bottom:4px;}
+  /* 消息跑马灯 */
+  .tickerWrap{display:flex;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:6px;margin-bottom:16px;overflow:hidden;}
+  .tkLabel{flex:0 0 auto;background:var(--gold);color:#111;font-size:12px;font-weight:700;display:flex;align-items:center;padding:0 12px;}
+  .tkLab{flex:1;display:flex;align-items:center;justify-content:center;padding:0 10px;font-size:11px;font-weight:700;}
+  .tkLab+.tkLab{border-top:1px dashed var(--line);}
+  .tickerClip{flex:1;overflow:hidden;position:relative;}
+  .tkRow{overflow:hidden;}
+  .tkRow+.tkRow{border-top:1px dashed var(--line);}
+  .tickerInner{display:inline-block;white-space:nowrap;padding:5px 0;animation-name:tickmove;animation-timing-function:linear;animation-iteration-count:infinite;animation-duration:90s;will-change:transform;}
+  .tickerClip:hover .tickerInner{animation-play-state:paused;}
+  @keyframes tickmove{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .tk{font-size:12px;color:var(--txt);margin:0 14px;}
+  .tk b{color:var(--dim);font-weight:400;font-size:11px;margin-right:4px;}
+  .tk i{font-style:normal;font-size:10px;border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-right:5px;}
+  .tk.imp{color:#fff;}
+  .tk .kw{color:var(--gold);font-weight:700;background:rgba(212,169,68,.14);border-radius:3px;padding:0 2px;}
+  .ni .kw{color:var(--gold);font-weight:700;background:rgba(212,169,68,.14);border-radius:3px;padding:0 2px;text-decoration:none;}
+  .tkSep{color:#3a4356;font-size:10px;}
+  /* 流动性卡 */
+  .lqGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:10px 0;}
+  .lqCard{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 12px;}
+  .lqCard .lqN{font-size:12px;color:var(--txt);}
+  .lqCard .lqV{font-size:20px;font-weight:700;font-family:Georgia,serif;margin:2px 0;}
+  .lqCard .lqV small{font-size:11px;color:var(--dim);font-weight:400;margin-left:3px;}
+  .lqBar{height:4px;background:#1c2333;border-radius:2px;margin:6px 0 4px;}
+  .lqBar i{display:block;height:4px;border-radius:2px;}
+  .lqCard .lqD{font-size:10px;color:var(--dim);line-height:1.5;}
+  /* 数据总览 */
+  .ovGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:8px;}
+  .ovCard{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 12px;}
+  .ovN{font-size:12px;color:var(--txt);}
+  .ovU{font-size:10px;color:var(--dim);margin-left:4px;}
+  .ovV{font-size:20px;font-weight:700;font-family:Georgia,serif;margin:2px 0;}
+  .ovChips{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:11px;}
+  .ovChips span{white-space:nowrap;}
+  .ovC{font-size:11px;color:var(--gold);border-top:1px dashed var(--line);margin-top:6px;padding-top:5px;line-height:1.5;}
+  .ovD{font-size:10px;color:var(--dim);margin-top:4px;}
+  /* 日历折叠 */
+  .calMoreBtn{background:#1c2333;color:var(--blue);border:1px dashed var(--line);border-radius:10px;padding:1px 10px;font-size:11px;cursor:pointer;margin:0 6px 2px 0;font-family:inherit;}
+  .calMoreBtn:hover{border-color:var(--blue);}
+  .calOther{display:none;}
+  .calOther.open{display:inline;}
+  /* 特朗普专区 & 预测市场墙 */
+  .tznote{font-size:11px;color:var(--dim);margin-top:6px;}
+  details.tzEv{background:none;border:none;border-top:1px dashed var(--line);border-radius:0;padding:7px 0;margin:0;}
+  details.tzEv summary{font-size:12px;color:var(--txt);font-weight:400;}
+  details.tzEv p{font-size:11.5px;color:var(--dim);margin:4px 0 0;line-height:1.6;}
+  .tg{font-size:10px;border:1px solid var(--line);border-radius:3px;padding:0 5px;margin-right:6px;font-style:normal;}
+  .st-强{color:var(--up);border-color:#5a3a3a;}
+  .st-中{color:var(--gold);border-color:#4a3f2d;}
+  .st-中强{color:#e8956b;border-color:#5a453a;}
+  .st-弱{color:var(--dim);}
+  .pm-hot{border-color:rgba(212,169,68,.55)!important;background:rgba(212,169,68,.05);}
+  .pmQ{font-size:12px;color:var(--txt);line-height:1.4;min-height:34px;}
+  .pmBig{font-size:18px;font-weight:700;color:var(--gold);font-family:Georgia,serif;}
+
+  /* ===== 移动端适配（≤820px） ===== */
+  @media(max-width:820px){
+    body{font-size:13px;}
+    h1{font-size:19px !important;line-height:1.35;}
+    .meta{font-size:11px;line-height:1.7;}
+    header .wrap, .wrap{padding:0 10px !important;}
+    .dtabs{overflow-x:auto;flex-wrap:nowrap !important;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .dtabs::-webkit-scrollbar{display:none;}
+    .dtabs button{flex:0 0 auto;white-space:nowrap;padding:6px 12px;font-size:12px;}
+    .ovGrid{grid-template-columns:repeat(2,1fr) !important;gap:8px;}
+    .lqGrid{grid-template-columns:repeat(2,1fr) !important;}
+    .mw-g{grid-template-columns:1fr !important;}
+    .grid2{grid-template-columns:1fr !important;}
+    .calrow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
+    .calrow>div{flex:0 0 240px;}
+    .kdbar{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;}
+    section.dp table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}
+    #bankBox table{min-width:600px;}
+    #fwFullBox table{min-width:440px;}
+    #dp12 .card table,#dp13 .card table{min-width:640px;}
+    #dp12 table td:first-child,#dp13 table td:first-child{white-space:nowrap;}
+    .cw .chart{height:300px !important;}
+    .tickerWrap{margin-bottom:10px;}
+    .chg p, .concl{font-size:12.5px;line-height:1.8;}
+    h2{font-size:15px !important;}
+    iframe{max-width:100%;}
+    footer{word-break:break-all;}
+  }
+</style>
+</head>
+<body>
+<div style="background:#c8342a;color:#fff;text-align:center;padding:6px 10px;font-size:13px;letter-spacing:1px;font-family:KaiTi,STKaiti,serif">主题样本预览 · 白底藏青红+楷体 · 内容与原版日报完全一致 · 仅换皮肤，原页面未做任何改动</div>
+<div class="wrap">
+
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h1>宏观研究日报 · 自动更新 <span style="font-size:14px;color:var(--gold);font-weight:400;margin-left:10px;">宏观有色研究 · 沈轶天</span></h1>
+      <div class="meta">自动更新版 · 数据日 <b id="autoDate">读取中…</b> · <a href="macro_daily.html" style="display:inline-block;background:#c8342a;color:#fff;border-radius:5px;padding:2px 14px;font-weight:700;text-decoration:none;letter-spacing:1px;">宏观数据日报·图表版 ↗</a> · 全部结论文字由⚙️规则引擎按最新数据自动生成 · 人工旧观点<a href="daily_2026-09-02.html" style="color:var(--gold)">9/2存档 ↗</a> · 事后数据不回填 · <b class="snapAsof"></b></div>
+    </div>
+    <div style="display:flex;align-items:center;">
+      <span id="updMsg"></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 板块页签 ============ -->
+<div style="background:rgba(76,175,125,.07);border:1px solid rgba(76,175,125,.3);border-radius:8px;padding:8px 14px;margin-bottom:12px;font-size:12px;color:var(--dim);line-height:1.7;">⚡ <b style="color:var(--txt)">自动更新版</b>：数据每日 07:40/20:40（北京）管线自动更新；<b>本页全部结论文字（日度结论/九维/证伪雷达/债市/外汇/象限/评分）由⚙️规则引擎按最新数据在打开页面时现场生成，数据变→文字自动变，不再有人工冻结</b>。本页<b>零人工维护</b>，打开即最新。</div>
+<div class="dtabs" id="dtabs">
+  <button data-dp="dp1" class="on">总览</button>
+  <button data-dp="dp14" style="border-color:var(--gold)">重要数据总览</button>
+  <button data-dp="dp2">观点与证伪</button>
+  <button data-dp="dp3">政策与地缘</button>
+  <button data-dp="dp8">特朗普专区</button>
+  <button data-dp="dp10" style="border-color:var(--gold)">流动性</button>
+  <button data-dp="dp12" style="border-color:var(--gold)">债市</button>
+  <button data-dp="dp13" style="border-color:var(--gold)">外汇</button>
+  <button data-dp="dp4">数据图表</button>
+  <button data-dp="dp7">分项贡献</button>
+  <button data-dp="dp15" style="border-color:var(--gold)">近日新出数据</button>
+  <button data-dp="dp16" style="border-color:var(--gold)">每日财经图表</button>
+  <button data-dp="dp17">外资研报观点</button>
+  <button data-dp="dp11" style="border-color:var(--gold)">数据预测</button>
+  <button data-dp="dp5">数据总表</button>
+  <button data-dp="dp9">图表工作区</button>
+  <button data-dp="dp6">消息解读</button>
+</div>
+
+<section class="dp on" id="dp1">
+<!-- ============ 消息跑马灯（三源快讯滚动 · BJT07-23点每60秒拉取/其余5分钟） ============ -->
+<div class="tickerWrap"><div class="tkLabel" style="display:flex;flex-direction:column;padding:0;background:#141b28;border-right:3px solid var(--gold);">
+  <div class="tkLab" style="color:#d4a944;">宏观</div>
+  <div class="tkLab" style="color:#5b9bd5;">股市</div>
+  <div class="tkLab" style="color:#4caf7d;">商品</div>
+</div><div class="tickerClip">
+  <div class="tkRow"><div class="tickerInner" id="tkIn1">加载快讯快照…</div></div>
+  <div class="tkRow"><div class="tickerInner" id="tkIn2"></div></div>
+  <div class="tkRow"><div class="tickerInner" id="tkIn3"></div></div>
+</div></div>
+<!-- ============ 宏观日历（置顶·横排·按钮切换） ============ -->
+<h2 style="margin-top:0">宏观日历<span class="en">MACRO CALENDAR · 未来两周与关键节点</span><span id="calBtnBar" class="ec-titlebtns"></span></h2>
+<div class="card" style="padding:14px 16px;">
+  <div class="seg" id="calSeg" style="margin-bottom:12px;"></div>
+  <div id="calTopBox" class="calrow"></div>
+  <div style="font-size:11px;color:var(--dim);margin-top:10px;" id="calNote"></div>
+</div>
+
+<!-- ============ 数据总览（价格+变动+一行点评） ============ -->
+<h2>数据总览<span class="en">MARKET SNAPSHOT · 只放价格与变动 · 点评为⚙️自建规则生成</span></h2>
+<div class="ovGrid" id="ovGrid"></div>
+
+<!-- ============ 一、今日三条边际变化（置顶） ============ -->
+<h2 style="margin-top:0">一、今日三条边际变化<span class="en">THREE CHANGES · 框架同9/2人工版：事件+定量+证伪点 · ⚙️规则按边际分每日取前三（霍尔木兹/FOMC/通胀/就业/美债/黄金/美元/流动性/中国）</span></h2>
+<div id="autoChg">扫描中…</div>
+
+<!-- ============ 关键数据时间表（结论上方） ============ -->
+<div class="kdbar" id="keyDateBar"></div>
+
+<!-- ============ 二、日度结论 ============ -->
+<h2>二、日度结论<span class="en">CONCLUSIONS · 数据→政策→资产</span></h2>
+<div id="ceDailyConclusion">加载中…</div>
+<!-- ============ 二·补、日报观点（人工更新·冻结制） ============ -->
+<h2>二·补、日报观点<span class="en">DAILY VIEWS · 人工更新 · 事后数据不回填、修正以注记追加</span></h2>
+<div id="viewsBox">读取中…</div>
+</section>
+<section class="dp" id="dp14">
+<!-- ============ 重要数据总览（美元/美债/外汇/霍尔木兹·自动读管线快照） ============ -->
+<h2>一之二、重要数据总览<span class="en">KEY DATA · 美元/美债/外汇/霍尔木兹 · 全表直读 chart_series 管线快照，每日自动跟新</span></h2>
+<div id="ceOverview">加载中…</div>
+<div id="ovGrid14"></div>
+<div class="card" style="margin-top:12px;" id="ovHormuz"><p style="font-size:13px;margin:0 0 6px;"><b style="color:var(--gold)">霍尔木兹海峡 · 事件时间线（近三条）</b><span style="font-size:11px;color:var(--dim);"> L2·权威媒体汇编，事实不含观点</span></p><div id="ovHormuzLines" style="font-size:12.5px;line-height:1.9;color:var(--dim);">读取中…</div></div>
+</section>
+
+<section class="dp" id="dp2">
+<!-- ============ 三之一、七维状态检视 ============ -->
+<h2>三之一、九维状态检视<span class="en">MULTI-DIMENSION CHECK · 每维指向中心矛盾(A端 vs B端)的方向</span></h2>
+<div id="ceNineDim">加载中…</div>
+<!-- ============ 三之二、证伪雷达 ============ -->
+<h2>三之二、证伪雷达<span class="en">FALSIFICATION RADAR · 触发线量化，事后不回填</span></h2>
+<div id="ceFalsify">加载中…</div>
+<!-- ============ 三之二·补、A/B端检验说明书（0902 16:30补丁） ============ -->
+<div id="ceAB">加载中…</div>
+<!-- ============ 三之三、黄金×有色 利空利多坐标象限（0902 16:30补丁） ============ -->
+<h2 style="margin-top:20px;">三之三、黄金×有色 · 利空利多坐标象限<span class="en">QUADRANT · X=A端压制力(利空) Y=B端支撑力(利多) · ⚙️规则量化0-10</span></h2>
+<div id="ceMetalQuad">加载中…</div>
+<!-- ============ 三之四、美元-美股-美债 三角稳定评分（0902 16:30补丁） ============ -->
+<h2 style="margin-top:20px;">三之四、美元-美股-美债 · 三角稳定评分<span class="en">TRIANGLE STABILITY SCORE · ⚙️自建量化 0-100 · 越高越稳</span></h2>
+<div id="ceTriangle">加载中…</div>
+<!-- ============ 四、存续结论档案 ============ -->
+<h2>四、存续结论档案<span class="en">STANDING VIEWS · 触发证伪线前不作废</span></h2>
+<details open><summary>0828面板·中心矛盾（A端 vs B端）与联合阈值</summary>
+  <ul>
+    <li><b>A端</b>｜财政主导+通胀黏性→实际利率与美元高位：30Y TIPS拍卖2.973%创近25年新高（非价格证据）；PCE 3.7%超预期；FFR 3.50-3.75%（7/29按兵不动，9-3票，3票加息异议）；ISM物价71.1高位持平（9/1）。</li>
+    <li><b>B端</b>｜央行购金（连续21个月）+矿紧供给+AI电力资本开支→实物资产重估：金银铜锂实物溢价。</li>
+    <li><b>联合阈值</b>：10Y实际利率&gt;2.45%且金破4520→A胜；DXY回98.5下且金破4700→B胜。<b>当前状态：金破4520✅且加速下行（4348）、实际利率2.44%贴线❌→读秒状态，L1官方确认≥2.45%即宣告A胜（0902面板）。</b></li>
+  </ul>
+</details>
+<details><summary>更早结论一句话索引</summary>
+  <ul>
+    <li><s>金4500整数关口支撑</s>：已证伪作废（8/31收4431、9/1收4348，连续两日线下）。</li>
+    <li><s>原油83-88区间震荡</s>：已作废（9/1破上沿至90.2，霍尔木兹袭船+飓风炼厂停电）。</li>
+    <li>碳酸锂"按反弹对待不升级"：库存腿转多✅、仓单腿压制❌（0828面板）。</li>
+    <li>SPR异常单周-370万桶（08-21当周289.7M桶）：挂尾部风险雷达，持续观察（EIA实测）。</li>
+    <li>"通胀下行舒适期结束"：8月CPI实时预测3.49-3.36%；油价冲击带来上行风险（0902强化）。</li>
+    <li>美股盈利高增速（EPS fwd同比周期高点）→10Y易上难下。</li>
+    <li>锌$174深Back=挤仓（结构）≠断裂（功能）（0828面板）。</li>
+  </ul>
+</details>
+
+<!-- ============ 五、数据图表区 ============ -->
+</section>
+<section class="dp" id="dp3">
+<!-- ============ 五、政策定价与日历 ============ -->
+<h2>五、政策定价与地缘跟踪<span class="en">POLICY PRICING & GEO</span></h2>
+<div class="grid2">
+  <div class="mini"><h4>CME FedWatch 加息预期（联邦基金期货定价）<a href="https://www.cmegroup.cn/fed-watch/" target="_blank" rel="noopener" style="float:right;background:var(--gold);color:#111;font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;text-decoration:none;">↗ CME官方实时页</a></h4><div id="fwBox"></div><div style="font-size:11px;color:var(--dim);margin-top:6px;">此表=每2小时管线快照（工作日07-23点）；秒级实时请点右上直达官方页——CME主站X-Frame-Options:DENY+工具会话校验，官方明确禁止第三方嵌入，已实测无解。</div></div>
+  <div class="mini"><h4>特朗普 TACO 压力指数</h4><div id="tacoBox"></div></div>
+</div>
+<div class="mini"><h4>美伊局势 · 预测市场跟踪</h4><div id="iranBox"></div></div>
+<div class="mini" style="margin-top:12px;"><h4>地缘专区 · 美伊与中东格局重要事件时间线</h4>
+<div class="chart-note" style="margin-bottom:8px;">事实梳理自权威媒体公开报道（L2），管线随新闻每日更新。<span style="color:#e5534b">■</span>升级 <span style="color:#4caf7d">■</span>缓和 <span style="color:#d4a944">■</span>博弈 <span style="color:#5b9bd5">■</span>数据节点</div>
+<div id="geoBox" class="grid2"></div></div>
+<div class="mini" style="margin-top:12px;"><h4>预测市场图表墙 · Polymarket（Yes概率历史走势）</h4>
+<div class="chart-note" style="margin-bottom:8px;">霍尔木兹海峡复航、美联储加息概率置顶金框重点展示；折线为Yes概率历史（CLOB，最长400日），数据由云端管线每日更新。</div>
+<div id="pmWall" class="mw-g"></div>
+<div class="mw-d" id="pmNote" style="margin-top:6px;"></div></div>
+
+</section>
+<section class="dp" id="dp8">
+<!-- ============ 特朗普执政关注焦点（完整面板嵌入：压力指数·民调含参众两院·政策预期·TACO·Truths） ============ -->
+<h2>特朗普执政关注焦点<span class="en">TRUMP ZONE · 政策压力 · 民调（含2026参众两院控制权） · TACO · Truth Social · 数据每日管线更新</span></h2>
+<div class="card"><p style="font-size:12px;color:var(--dim);margin:0;">完整面板内嵌：压力指数 / 民调（净支持率 + <b style="color:#e5534b">共和党拿下参议院</b> / <b style="color:#e5534b">共和党赢得众议院</b>概率）/ 市场政策预期 / 美中竞赛 / 财政 / 贸易 / 物价 / 利率 / 流动性 / 就业 / 能源 / 资产 / TACO事件复盘 / Truths跟踪。数据源 L3·ocmacro + L2·Polymarket交易所，每日管线自动更新。<a href="../panels/trump_zone.html" style="color:var(--gold);">新窗口打开 ↗</a></p></div>
+<iframe src="../panels/trump_zone.html" style="width:100%;height:2450px;border:0;border-radius:8px;background:#0d1117;" loading="lazy" title="特朗普执政关注焦点"></iframe>
+</section>
+<section class="dp" id="dp4">
+<h2>六、数据图表<span class="en">CHARTS · 宏观图表墙 + 点选指标叠加</span></h2>
+<div id="macroWall" style="margin-bottom:14px"></div>
+<div class="chart-panel">
+  <div class="chart-ctl">
+    <div class="seg" id="modeSeg">
+      <button class="on" data-m="line">折线图</button>
+      <button data-m="bar">柱状图</button>
+      <button data-m="seasonal">季节性图（按年叠加）</button>
+    </div>
+    <div class="seg" id="rangeSeg">
+      <button data-r="1">近1年</button>
+      <button class="on" data-r="3">近3年</button>
+      <button data-r="6">2020以来</button>
+      <button data-r="99">全部</button>
+    </div>
+  </div>
+  <div class="tags" id="tagBox"></div>
+  <div id="chartBox"></div>
+  <div id="chartConcl" style="margin-top:8px;"></div>
+  <div class="chart-note">折线模式：选中指标上的小标可手动指定坐标轴（<b>自</b>=按量纲自动分配 / <b>右</b>=次坐标轴 / <b>左</b>=强制左轴），每个选中指标下方自动生成⚙️规则文字结论，拖动下方滑块缩放。季节性模式：同一指标按年份叠线（当年加粗金色），适合库存/能源/贵金属等强季节性品种；多选时各指标分图显示。</div>
+</div>
+
+<h3 style="margin:22px 0 4px;color:var(--gold,#d4a944);">研究工具箱<span class="en" style="font-size:11px;color:#8a94a6;margin-left:8px;">RESEARCH TOOLBOX · 全量指标库 × 四则运算 × 八模式图表</span></h3>
+<div class="chart-note" style="margin-bottom:6px;">点选叠加≤8个指标；字母键盘四则运算（如 (A-B)*100 算中美利差bp，结果以⚙️入库可再叠加）；折线/柱状/堆叠/涨跌幅/报酬率/季节性/相关性矩阵+滚动相关/分位回测八模式；对数轴、平滑、范围切换、CSV/PNG导出、组合收藏（存本机浏览器）。分位回测为样本内历史统计，不构成预测。</div>
+<div id="rtb"></div>
+
+</section>
+<section class="dp" id="dp7">
+<!-- ============ 六之二、分项贡献·数据发布 ============ -->
+<h2>六之二、分项贡献（数据发布）<span class="en">RELEASES · 非农/CPI/PCE/GDP分项 + FedWatch · 全部L1官方源,官网更新管线即跟新</span></h2>
+<div class="chart-panel">
+<div id="rp-host"></div>
+</div>
+<div class="card" style="margin-top:14px;" id="joltsCard">JOLTS就业数据加载中…</div>
+
+</section>
+<section class="dp" id="dp15">
+<!-- ============ 六之二·补、近日新出数据（本周已公布·按日留存·周一清空换新） ============ -->
+<h2>六之二·补、近日新出数据<span class="en">BIG-4+FOMC · 保留 非农/CPI/PPI/PCE/议息决议 · 每周一自动换新 · 贡献拆解+⚙️规则解读</span></h2>
+<div class="card"><p style="font-size:12px;color:var(--dim);margin:0;">跟踪最重要发布：<b style="color:var(--txt)">非农 / CPI / PPI / PCE / FOMC议息决议</b>（其余小数据见「政策与地缘」页宏观日历）。每期自动给出<b style="color:var(--txt)">分项环比贡献拆解</b>（口径同彭博贡献图）与 <b style="color:var(--txt)">⚙️规则解读</b>。数据源全部L1官方（BLS/BEA），官网发布当晚管线自动跟新；每周一旧卡片自动换新。</p></div>
+<div id="newDataBox" style="margin-top:12px;">加载中…</div>
+</section>
+<section class="dp" id="dp16">
+<!-- ============ 六之四、每日财经图表（自有管线每日自动重绘） ============ -->
+<h2>六之四、每日财经图表<span class="en">DAILY CHART PACK · 自有管线每日自动重绘 · 官方(L1)+行情(L2)数据源</span></h2>
+<div class="card"><p style="font-size:12px;color:var(--dim);margin:0;">每日由数据管线用 <b style="color:var(--txt)">官方(L1)＋行情源(L2)</b> 自动重绘的框架图集，与全站数据同源、每日两次随管线刷新。按主题分五类，点按钮过滤。点开大图可另存。</p></div>
+<div id="chartCatBar" style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;"></div>
+<div id="chartGallery" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;">加载中…</div>
+</section>
+<section class="dp" id="dp17">
+<!-- ============ 六之五、外资研报观点（每日供稿·转述引用·7天滚动） ============ -->
+<h2>六之五、外资研报观点<span class="en">SELL-SIDE DAILY · 用户供稿转述 · 观点事实引用+数据点提取 · 7天滚动</span></h2>
+<div class="card"><p style="font-size:12px;color:var(--dim);margin:0;line-height:1.8;">每日把外资研报（高盛/大摩/小摩/花旗/野村…）或财经图表发给助手 → 当晚管线写入：<b style="color:var(--txt)">核心观点转述（自己语言，非原文复制）</b>＋<b style="color:var(--txt)">关键数据点</b>＋<b style="color:var(--txt)">与本框架九维/三角评分的交叉验证</b>（支持✅/冲突⚠️/新变量🆕）。图表类供稿：提取图中数据事实，经自有管线验证后<b>重绘</b>进「每日财经图表」，原图与水印不上站。观点卡保留7天滚动。标注规则：机构+报告日期+「用户供稿·转述」。</p></div>
+<div id="notesBox" style="margin-top:12px;">加载中…</div>
+</section>
+<section class="dp" id="dp11">
+<!-- ============ 六之三、数据预测（FedWatch官方+投行预测矩阵+重要逻辑） ============ -->
+<h2>六之三、数据预测<span class="en">FORECAST · CME FedWatch官方加息概率（管线每日自动更新） + 投行对非农/CPI/FOMC预测 + 重要逻辑</span></h2>
+<div class="mini"><h4>CME FedWatch · 各次会议加息概率<span style="float:right;font-size:11px;color:var(--dim);font-weight:400;" id="fwFullAsof"></span></h4><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:rgba(212,169,68,.08);border:1px solid rgba(212,169,68,.35);border-radius:8px;padding:10px 14px;margin-bottom:10px;"><a href="https://www.cmegroup.cn/fed-watch/" target="_blank" rel="noopener" style="background:var(--gold);color:#111;font-size:13px;font-weight:700;padding:8px 18px;border-radius:6px;text-decoration:none;">↗ 打开 CME FedWatch 官方实时页（中文站）</a><span style="font-size:11.5px;color:var(--dim);line-height:1.7;">点开后<b style="color:var(--txt)">永远是官方当前秒级值</b>（含各会议逐档概率/隐含利率曲线）。<br>官方双重封锁第三方嵌入（主站X-Frame-Options:DENY＋官方嵌入工具会话校验，9/2实测两路均拒），故页内只能放每2小时管线快照表，实时请用此入口。</span></div><div id="fwFullBox">加载中…</div></div>
+<div class="mini" style="margin-top:14px;"><h4>投行预测矩阵 · 非农 / CPI / FOMC<span style="float:right;font-size:11px;color:var(--dim);font-weight:400;" id="bankAsof"></span></h4><div id="bankBox">加载中…</div></div>
+</section>
+<section class="dp" id="dp5">
+<!-- ============ 六、日度数据总表 ============ -->
+<h2>七、日度数据总表<span class="en">ALL DAILY SERIES · L1官方 / L2交易所·权威媒体 / ⚙️自建 / 灰=缺口</span></h2>
+<div id="tables"></div>
+
+<h2 style="margin-top:30px">附、截面快照<span class="en">CROSS-SECTION · L3·第三方终端EDB快照(2026-08-24) · 全量1932条序列见特朗普专区·数据工具箱</span></h2>
+<div id="snapBox"></div>
+<h3 style="margin-top:18px;color:var(--gold);font-size:13px">商品期限结构（5个历史快照日曲线，最新加粗）</h3>
+<div id="snapCurve" style="width:100%;height:360px"></div>
+
+</section>
+<section class="dp" id="dp9">
+<!-- ============ 图表工作区（自由叠加·与周报同源） ============ -->
+<h2>八、图表工作区<span class="en">CHART WORKSPACE · 全部序列任选叠加</span></h2>
+<div class="card"><p style="font-size:13px;">自由图表工作区：<b style="color:var(--gold);">全部序列任选</b>（宏观库+官方序列/行情/终端快照，含美债全期限·汇率·商品·流动性·CFTC等）叠加最多4个，折线/柱状/季节性自由切换。高相关组合预设：
+<button class="tag2" style="margin-left:6px;" onclick="presetWSd(['DGS10','DGS2','DGS30','T10Y2Y'])">美债曲线</button>
+<button class="tag2" onclick="presetWSd(['DFII10','T5YIE','T10YIE'])">实际利率与通胀预期</button>
+<button class="tag2" onclick="presetWSd(['Y_USDJPY','IRLTLT01JPM156N','DTWEXBGS'])">日元与日本国债</button>
+<button class="tag2" onclick="presetWSd(['EFFR','SOFR','RRPONTSYD','WDTGAL'])">流动性三件套</button>
+<button class="tag2" onclick="presetWSd(['VIXCLS','BAMLC0A4CBBB'])">风险偏好</button>
+<button class="tag2" onclick="presetWSd(['DCOILWTICO','EIA商业原油库存'])">原油量价</button>
+<button class="tag2" onclick="presetWSd(['沪金主连','沪银主连','INE原油主连'])">境内商品</button>
+</p></div>
+<div class="cw" id="cw-wsd"></div>
+</section>
+<section class="dp" id="dp6">
+<!-- ============ 消息解读区（关键字自动归类·⚙️规则生成） ============ -->
+<h2>九、消息解读区<span class="en">NEWS DIGEST · 三源按主题归类 · 重要置顶</span></h2>
+<div class="card"><p style="font-size:12px;color:var(--dim);margin:0;">三路快讯源合并去重，按关键字归入四类：<b style="color:#e5534b">地缘</b> · <b style="color:#d4a944">宏观·政策</b> · <b style="color:#5b9bd5">股市·科技</b> · <b style="color:#4caf7d">商品·产业</b>；每类内重要消息（★）置顶、其余按时间倒序。<b>每次打开本页/点「更新全部内容」即从云端 news_latest.json 实时重拉</b>（管线07-23点每60秒更新）。归类、标签与顶部总结为⚙️规则自动生成，不构成观点。</p></div>
+<div class="news" id="newsDigest"></div>
+</section>
+<section class="dp" id="dp10">
+<!-- ============ 流动性追踪（日频·管线每日09:05 BJT更新） ============ -->
+<h2>十、流动性追踪<span class="en">USD LIQUIDITY · 日频更新 · 压力分位与缩表阶段</span></h2>
+<div class="card" id="liqSumD"><p style="font-size:13px;color:var(--dim);margin:0;">流动性总览加载中…</p></div>
+<div class="card" style="margin-top:12px;">
+  <p style="font-size:13px;margin:0 0 8px;"><b style="color:var(--gold)">三分钟读懂这页指标</b><span style="color:var(--dim);font-size:11px;">（判断"美元紧不紧"的三层证据）</span></p>
+  <table>
+    <tr><th style="width:110px;">层</th><th>指标</th><th>怎么看</th></tr>
+    <tr><td><b>钱的价格</b><br><span style="font-size:10px;color:var(--dim);">回购·货币市场</span></td>
+        <td style="font-size:12px;">SOFR-IORB利差 / SOFR-ONRRP利差 / SOFR尾部99分位差 / 商票-SOFR</td>
+        <td style="font-size:12px;">SOFR是有抵押隔夜借钱的市价，IORB是联储付给银行的"地板价"。<b>SOFR站上IORB且越走越高=资金开始变贵</b>；尾部99分位差是"极端尖刺探测器"——飙高才是有人抢钱；商票-SOFR是企业短期融资的额外溢价。</td></tr>
+    <tr><td><b>钱的数量</b><br><span style="font-size:10px;color:var(--dim);">联储资产负债表</span></td>
+        <td style="font-size:12px;">ON RRP余额 / 银行准备金 / TGA / 净流动性 / SRF用量</td>
+        <td style="font-size:12px;">ON RRP是货币基金存在联储的"余粮"——<b>余粮耗尽后，缩表开始直接抽银行准备金</b>；准备金是银行体系的核心水分，3万亿美元是市场公认的心理线；TGA是财政部钱包，越鼓越抽市场的水；SRF是"应急借钱窗口"，<b>放量=有机构喊渴</b>。</td></tr>
+    <tr><td><b>市场情绪</b><br><span style="font-size:10px;color:var(--dim);">波动率·信用</span></td>
+        <td style="font-size:12px;">MOVE / VIX / 高收益债OAS</td>
+        <td style="font-size:12px;">MOVE是债市恐慌指数、VIX是股市恐慌指数；高收益OAS是垃圾债风险溢价——<b>极低分位=市场自满</b>，与货币市场的紧张形成反差时最危险。</td></tr>
+  </table>
+  <div style="border-top:1px dashed var(--line);margin-top:10px;padding-top:10px;" id="liqConclusionD">
+    <p style="font-size:13px;margin:0;"><b style="color:var(--gold)">本页结论</b>：<span style="color:var(--dim);">随流动性数据加载…</span></p>
+  </div>
+</div>
+<div class="lqGrid" id="liqGridD"></div>
+<div class="card"><p style="font-size:13px;margin:0;"><b style="color:var(--gold)">利率管道</b>（SOFR/EFFR/ON RRP利率与利差）·<b style="color:var(--gold)">数量维度</b>（联储总资产/准备金/RRP余额/TGA）·<b style="color:var(--gold)">波动率</b>（债市MOVE+股市VIX）三维追踪，任选叠加：</p></div>
+<div class="cw" id="cw-liqd1"></div>
+<div class="cw" id="cw-liqd2"></div>
+<div class="cw" id="cw-liqd3"></div>
+<div class="card"><p style="font-size:11px;color:var(--dim);margin:0;" id="liqMethD"></p></div>
+</section>
+<section class="dp" id="dp12">
+<!-- ============ 债市追踪（美债+全球债市·数据日9/1美盘） ============ -->
+<h2>十一、债市追踪<span class="en">GLOBAL RATES · 美债全期限/信用/拍卖/持仓/全球共振 + 象限裁决</span></h2>
+<div id="ceBond">加载中…</div>
+<div id="ceBondBoard">加载中…</div>
+<div class="card" style="margin-top:12px;"><p style="font-size:13px;margin:0;"><b style="color:var(--gold)">债市图表工作区</b>：美债曲线/实际利率/通胀预期/信用/拍卖/外资持仓/全球收益率，任选叠加最多4个：</p></div>
+<div class="cw" id="cw-bond"></div>
+<!-- ===== 美国资产象限裁决（⚙️规则引擎自动生成） ===== -->
+<div id="ceUSQuad">加载中…</div>
+</section>
+<section class="dp" id="dp13">
+<!-- ============ 外汇追踪（美元与非美·数据日9/1-9/2） ============ -->
+<h2>十二、外汇追踪<span class="en">FX WATCH · 美元/日元/欧元/人民币 + 头寸与利差驱动</span></h2>
+<div id="ceFx">加载中…</div>
+<div id="ceFxBoard">加载中…</div>
+<div class="card" style="margin-top:12px;"><p style="font-size:13px;margin:0;"><b style="color:var(--gold)">外汇图表工作区</b>：DXY/广义美元/USDJPY/EURUSD/人民币汇率/CFTC头寸/中美利差，任选叠加最多4个：</p></div>
+<div class="cw" id="cw-fx"></div>
+<div class="card" style="margin-top:12px;"><p style="font-size:12px;color:var(--dim);margin:0;">→ 美股×美债×美元的<b>美国资产象限裁决</b>见「债市」页签底部（当前：股跌+债跌+美元强=滞胀紧缩象限，A端全面兑现）。</p></div>
+</section>
+
+<footer style="margin-top:36px;color:var(--dim);font-size:11px;border-top:1px solid var(--line);padding-top:12px;">
+  宏观研究日报 · 数据皆有来源，缺口标灰 · 观点事前冻结 · 框架版本 v1.0（八大版块）<br>
+  <a href="weekly_2026-W35.html">最新周报 ↗</a> · <a href="../panels/trump_zone.html">特朗普执政关注焦点 ↗</a> · 宏观有色研究 · 沈轶天
+  <a href="../panels/owner.html" style="float:right;color:#5a6a82;text-decoration:none;font-size:11px;" title="站长入口（需站长密码）">· 站长</a>
+</footer>
+</div>
+
+<script>
+const N = {"jin10": [{"src": "jin10", "time": "2026-09-02 12:21:42", "ts": "2026-09-02 12:21:42", "content": "美国总统特朗普的最新表态不仅暗示美国高阶精确制导弹药的确短缺，更暴露出美军正准备依赖“老旧库存”来维持一场可能永无休止的中东消耗战……点击查看...", "important": 1, "vip": 0, "tags": [], "id": "20260902122142848800"}, {"src": "jin10", "time": "2026-09-02 12:19:24", "ts": "2026-09-02 12:19:24", "content": "【新加坡经济学家上调2026年经济增长预期至5%】金十数据9月2日讯，新加坡金管局周三公布的一项调查显示，经济学家上调了对新加坡2026年经济增长的预期，同时小幅下调了通胀预测。在新加坡金管局第三季度调查中，约一半受访者将中东冲突持续或升级列为新加坡面临的主要下行风险之一，另有29.4%的经济学家担心人工智能泡沫可能破裂。调查显示，受访者对新加坡今年经济增长的预测中值升至5%，高于6月调查中的3.5%；对2027年经济增长的预测也从2.5%上调至3.1%。受访者预计，新加坡2026年核心通胀率为1.9%，整体通胀率为2.1%，均低于上次调查分别为2%和2.3%的预测。", "important": 0, "vip": 0, "tags": [], "id": "20260902121924542800"}, {"src": "jin10", "time": "2026-09-02 12:17:53", "ts": "2026-09-02 12:17:53", "content": "1. 贵金属：随着对通胀和金融压制的担忧加剧，贵金属受到了提振。黄金价格8月上涨9.7%，至每盎司4437美元，白银上涨15.6%至66.58美元/盎司。2. 农业商品：霍尔木兹海峡仍然关闭，厄尔尼诺影响仍存，食品价格飙升。小麦价格8月大幅上涨18.3%，玉米上涨16.8%，糖价上涨21.5%。3. 油气：8月份油价小幅上涨，7月份时曾大幅反弹。布伦特原油8本月上涨0.4%，至每桶90.49美元，WTI原油上涨1.3%，至每桶85.76美元。同时，欧洲天然气期货上涨18.2%、美国天然气期货上涨6.8%。4. 股票：强劲的全球数据和财报让这个月的股票表现不错。标普500指数8月上涨2.7%，欧洲斯托克600指数上涨0.5%以及 MSCI 新兴市场指数上涨+3.4%。（以上数据来自德意志银行的最新月度回顾）", "important": 0, "vip": 0, "tags": [], "id": "20260902121753194800"}, {"src": "jin10", "time": "2026-09-02 12:13:47", "ts": "2026-09-02 12:13:47", "content": "花旗数据显示，欧美和中国的Token 价格正在趋近。原因是欧美高价被竞争压低，而中国低价战开始修复。好处是AI应用成本下降、企业议价增强、模型API商品化加速。对中国模型厂商来说，有助于改善收入质量和毛利率。但对单纯卖API、卖推理服务的厂商，定价权会持续受到挑战。最终市场会从“谁模型最强”转向“谁能用更低成本把AI变成稳定现金流”。", "important": 0, "vip": 0, "tags": [], "id": "20260902121347624800"}, {"src": "jin10", "time": "2026-09-02 12:13:43", "ts": "2026-09-02 12:13:43", "content": "杰富瑞：将甲骨文(ORCL.N)目标价从320美元下调至290美元。", "important": 0, "vip": 0, "tags": [], "id": "20260902121343920800"}, {"src": "jin10", "time": "2026-09-02 12:12:49", "ts": "2026-09-02 12:12:49", "content": "日经225指数日内大跌3.00%，现报64225.19点。", "important": 1, "vip": 0, "tags": [], "id": "20260902121249734800"}, {"src": "jin10", "time": "2026-09-02 12:11:37", "ts": "2026-09-02 12:11:37", "content": "【蓝色起源获得火星通信网络开发合同】金十数据9月2日讯，美国航空航天局9月1日表示，已授予蓝色起源公司一份合同，由其负责开发火星通信网络，旨在为当前及未来火星探测任务提供可靠的高带宽通信及导航服务。据美航空航天局介绍，这份固定总价合同的最高潜在价值约为7亿美元。根据合同，蓝色起源公司将负责火星通信网络的设计、开发、整合、发射和运营，并在2028年12月31日前向美航空航天局交付一个高性能的火星通信轨道器。", "important": 0, "vip": 0, "tags": [], "id": "20260902121137003800"}, {"src": "jin10", "time": "2026-09-02 12:10:14", "ts": "2026-09-02 12:10:14", "content": "【欧洲央行管委马赫鲁夫：欧洲央行必须做好进一步加息的准备】金十数据9月2日讯，据英国金融时报报道，欧洲央行一位高级政策制定者表示，如果通胀“开始朝着错误的方向发展”，欧洲央行不应回避进一步加息。欧洲央行管委马赫鲁夫表示，欧元区通胀率徘徊在3%以上，而经济增长比夏季之前预测的“略强”，这让他感到“不安”。马赫鲁夫表示：“我们下周将做出的决定不会让任何人感到意外。”他还补充说，他预计欧洲央行今年也会“小幅”上调欧元区经济增长预期。马赫鲁夫强调，即使利率达到2.5%，欧洲央行的基准存款利率仍不会抑制经济活动。“政策并非限制性的，”他表示，并补充说，限制性政策“大致来说，要等到利率超过2.75%才会开始”。此外他认为，目前尚不明确在预计下周加息之后是否还需要进一步加息，欧洲央行应坚持其“逐次会议”的策略，避免提供前瞻性指引。他表示，通胀预期“处于良好状态”，且没有迹象表明存在“工资方面的第二轮通胀效应。我们看到相关风险正在得到管控。”", "important": 0, "vip": 0, "tags": [], "id": "20260902121014165800"}, {"src": "jin10", "time": "2026-09-02 12:04:12", "ts": "2026-09-02 12:04:12", "content": "据英国金融时报：欧洲央行管委马赫鲁夫表示，欧洲央行必须做好进一步加息的准备。", "important": 1, "vip": 0, "tags": [], "id": "20260902120412317800"}, {"src": "jin10", "time": "2026-09-02 12:03:38", "ts": "2026-09-02 12:03:38", "content": "【港股午评：恒指收跌0.96%，生物医药股局部活跃】金十数据9月2日讯，今日早盘，港股两大指数低开后震荡走低。截至中午收盘，恒生指数收跌0.96%，恒生科技指数收跌1.54%。生物医药股局部活跃，百奥赛图-B(02315.HK)涨超11%，再鼎医药(09688.HK)涨超5%；除此以外，婴童用品、教育、百货业等板块涨幅居前。黄金股连日回调，招金矿业(01818.HK)、紫金黄金国际(02259.HK)均跌超4%；中资券商股大跌，中金(03908.HK)跌超6%，中信证券(06030.HK)跌超3%；光通信股走低，华虹宏力(01347.HK)跌超4%，中际旭创(03308.HK)跌超3%；除此以外，电力设备、零售、物流、新能源车企、芯片、建材水泥等板块跌幅居前。个股方面，理想汽车(02015.HK)跌超4%，创上市以来新低。", "important": 0, "vip": 0, "tags": [], "id": "20260902120338884800"}, {"src": "jin10", "time": "2026-09-02 12:03:17", "ts": "2026-09-02 12:03:17", "content": "新加坡金管局调查：经济学家将新加坡2026年非油气产品出口（NODX）增长预测从6.1%上调至17.0%。", "important": 0, "vip": 0, "tags": [], "id": "20260902120317244800"}, {"src": "jin10", "time": "2026-09-02 12:02:56", "ts": "2026-09-02 12:02:56", "content": "新加坡金管局调查：经济学家将新加坡2027年GDP增长预测从2.5%上调至3.1%。", "important": 0, "vip": 0, "tags": [], "id": "20260902120256659800"}, {"src": "jin10", "time": "2026-09-02 12:02:40", "ts": "2026-09-02 12:02:40", "content": "新加坡金管局调查：经济学家将新加坡2026年通胀预期从2.3%下调至2.1%。", "important": 0, "vip": 0, "tags": [], "id": "20260902120240541800"}, {"src": "jin10", "time": "2026-09-02 12:02:26", "ts": "2026-09-02 12:02:26", "content": "【国家药监局：愈美制剂非处方药转换为处方药】金十数据9月2日讯，国家药监局最新发布公告，为保障公众用药安全，我国将愈美制剂非处方药转换为处方药，按处方药管理。公告要求相关品种的药品上市许可持有人应依据《药品注册管理办法》等有关规定，在2026年11月30日前向国家药监局药品审评中心提出修订说明书的补充申请，说明书其他内容按照处方药要求进行修订，药品标签应当一并进行修订。药品修改说明书的补充申请批准后，相关品种的药品上市许可持有人应在9个月内对已出厂的药品说明书及标签予以更换，或以其他形式告知患者。同时应及时收集并报告不良反应信息，做好风险控制及药物警戒工作。国家药监局要求，相关品种的药品上市许可持有人、生产经营企业、临床使用单位，应严格按照处方药的相关管理要求生产、销售和使用本品。", "important": 0, "vip": 0, "tags": [], "id": "20260902120226309800"}, {"src": "jin10", "time": "2026-09-02 12:02:14", "ts": "2026-09-02 12:02:14", "content": "新加坡金管局调查：55%的受访者预计在十月份的货币政策审查中，新加坡元名义有效汇率的斜率将保持不变。", "important": 0, "vip": 0, "tags": [], "id": "20260902120214928800"}, {"src": "jin10", "time": "2026-09-02 12:01:21", "ts": "2026-09-02 12:01:21", "content": "新加坡金管局调查：经济学家预计2026年经济增长将达到5%，之前预期为3.5%。", "important": 0, "vip": 0, "tags": [], "id": "20260902120121395800"}, {"src": "jin10", "time": "2026-09-02 12:01:04", "ts": "2026-09-02 12:01:04", "content": "新加坡金管局调查：经济学家预计2026年核心通胀率为1.9%，此前预估为2%。", "important": 0, "vip": 0, "tags": [], "id": "20260902120104037800"}, {"src": "jin10", "time": "2026-09-02 12:00:29", "ts": "2026-09-02 12:00:29", "content": "【地面兵装，逆市大爆发】金十数据9月2日讯，9月2日早盘，内蒙一机被一笔1.81亿元的大单直接拉到涨停板，并封死涨停，这也是该股连续第二天涨停。随后，长城军工也封死涨停板。北方长龙、天秦装备、建设工业、国科军工等股票大幅拉升。这些股票都属于地面兵装板块。机构分析人士认为，军贸是“十五五”时期的重要增量方向，但上半年军贸链整体表现偏弱，市场对订单兑现仍比较谨慎。随着我国装备实战能力得以持续验证、珠海航展临近以及外贸订单后续披露，有望重新获得资金关注。", "important": 0, "vip": 0, "tags": [], "id": "20260902120029218800"}, {"src": "jin10", "time": "2026-09-02 11:59:36", "ts": "2026-09-02 11:59:36", "content": "【飓风“爱德华”过境后，瓦莱罗得州炼厂遭遇停电】金十数据9月2日讯，知情人士称，热带风暴“爱德华”（Edouard）过境后，瓦莱罗能源公司位于得克萨斯州亚瑟港、日产能38.5万桶的炼油厂周二晚间遭遇部分停电。美国能源信息署（EIA）数据显示，瓦莱罗亚瑟港炼油厂占美国全国炼油产能的2%。目前美国炼厂开工率为全国日产能1803万桶的97.4%，这意味着该炼厂的产能相当于美国当前尚未投入使用的炼油产能中的大部分。“爱德华”周二登陆期间，得州东部另外3家炼油厂均维持正常运营。沙特阿美旗下Motiva Enterprises公司位于亚瑟港、日产能65.64万桶的炼油厂周二在热带风暴期间继续正常运营。该炼油厂是美国规模最大的炼油厂。埃克森美孚位于得克萨斯州博蒙特、日产能61.2万桶的最大炼油厂也在“爱德华”登陆期间继续运行。道达尔能源位于亚瑟港、日产能23.8万桶的炼油厂同样维持运营。", "important": 0, "vip": 0, "tags": [], "id": "20260902115936190800"}, {"src": "jin10", "time": "2026-09-02 11:55:57", "ts": "2026-09-02 11:55:57", "content": "【伊朗高官强硬喊话阿拉伯国家：要么驱逐美军，要么准备承受打击】金十数据9月2日讯，伊朗革命卫队政治副司令亚多拉·贾瓦尼向阿拉伯国家发出警告，要求它们驱逐美国军队，否则将面临毁灭性的军事回应。贾瓦尼在塔斯尼姆通讯社发布的一份声明中表示：“最好将美国人驱逐出你们的国家，收回这些军事基地。”他警告称，伊朗军方已经证明，只要任何地点被用于发动针对伊朗的攻击，伊朗都将对相关地点实施坚决报复，并特别点名科威特、巴林和约旦。", "important": 0, "vip": 0, "tags": [], "id": "20260902115557800800"}], "ah": [{"src": "ah", "time": "09-01 12:20", "ts": "2026-09-01 12:20", "content": "无人机袭击俄罗斯萨马拉地区的诺沃库比舍夫斯克：俄罗斯通讯社援引州长消息", "logic": "无人机袭击俄罗斯境内区域加剧了地缘政治紧张局势，可能导致能源供应链波动或市场避险情绪升温。需关注国防军工板块及大宗商品价格走势，警惕冲突升级带来的市场波动风险。", "sentiment": "利空", "level": "S", "source": "VIP终端", "importance": 100}, {"src": "ah", "time": "09-01 12:19", "ts": "2026-09-01 12:19", "content": "WPP削减最多1000个更多职位，因人工智能重塑广告行业 – FT", "logic": "人工智能技术的快速发展正在对广告行业产生深远影响，企业为适应变化而进行裁员，这可能对相关股票和行业信心造成负面影响。", "sentiment": "利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 12:16", "ts": "2026-09-01 12:16", "content": "Dogecoin和Bitcoin在8月份上涨，但这个基于Solana的代币涨幅近100%，并超过了它们", "logic": "加密货币上涨，相关概念板块受益", "sentiment": "利多", "level": "B", "source": "Benzinga", "importance": 67}, {"src": "ah", "time": "09-01 12:15", "ts": "2026-09-01 12:15", "content": "美国电池安装量预计在2026年创纪录，行业报告称", "logic": "电池安装量增长预示电动车需求上升", "sentiment": "利多", "level": "B", "source": "Bloomberg", "importance": 60}, {"src": "ah", "time": "09-01 12:14", "ts": "2026-09-01 12:14", "content": "卡尼的自由党在加拿大赢得三次特别选举", "logic": "加拿大政治稳定利好经济，相关板块受益", "sentiment": "利多", "level": "B", "source": "Bloomberg", "importance": 60}, {"src": "ah", "time": "09-01 12:13", "ts": "2026-09-01 12:13", "content": "英国银行在政府施压后对新冠贷款违约者采取行动 – FT", "logic": "银行对新冠贷款违约者的严格处理可能增加企业负担，影响市场信心。", "sentiment": "利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 12:13", "ts": "2026-09-01 12:13", "content": "日本面临政策清算时刻，贝森特宣布结束大规模刺激措施", "logic": "日本政策变动影响全球市场，科技股受影响较大", "sentiment": "利空", "level": "B", "source": "Reuters", "importance": 59}, {"src": "ah", "time": "09-01 12:12", "ts": "2026-09-01 12:12", "content": "霍尔木兹海峡商品船通行量保持在个位数，数据显示", "logic": "海峡通行量下降，可能增加能源运输成本，利好能源和航运板块。", "sentiment": "利多", "level": "B", "source": "Reuters", "importance": 59}, {"src": "ah", "time": "09-01 12:10", "ts": "2026-09-01 12:10", "content": "欧洲央行官员雷恩警告称，伊朗可能陷入“消耗战”冲突，这可能导致通胀居高不下 - FT", "logic": "地缘政治冲突加剧可能引发能源价格波动，进而推高通胀预期。这会增加欧洲央行维持高利率的时间，从而对全球风险资产及新兴市场货币构成压力。需关注能源板块及通胀数据表现。", "sentiment": "利空", "level": "S", "source": "VIP终端", "importance": 100}, {"src": "ah", "time": "09-01 12:04", "ts": "2026-09-01 12:04", "content": "英国首相在政治斗争线日益分明之际暗示将采取新的生活成本措施 – 金融时报", "logic": "英国首相暗示将采取新措施应对生活成本问题，可能对经济和市场情绪产生积极影响，但具体效果取决于政策内容和实施方式。", "sentiment": "利多", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 12:02", "ts": "2026-09-01 12:02", "content": "最新消息：约翰·特努斯正式成为苹果公司 $AAPL 首席执行官，接替蒂姆·库克。", "logic": "规则兜底识别为可能引发波动的重要事件，方向取决于具体资产和市场预期。", "sentiment": "利多/利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 12:02", "ts": "2026-09-01 12:02", "content": "Shein在香港上市首日股价暴跌，IPO之路波折", "logic": "海外电商巨头股价波动影响国内相关行业", "sentiment": "利空", "level": "B", "source": "Bloomberg", "importance": 68}, {"src": "ah", "time": "09-01 11:58", "ts": "2026-09-01 11:58", "content": "韩国议员称朝鲜和美国显示出恢复对话的迹象", "logic": "地缘政治缓和利好相关产业链", "sentiment": "利多", "level": "B", "source": "Reuters", "importance": 59}, {"src": "ah", "time": "09-01 11:58", "ts": "2026-09-01 11:58", "content": "缅甸敏昂莱本周将访问越南，继续推动重新接触", "logic": "地缘政治关系改善，利好相关板块投资", "sentiment": "利多", "level": "B", "source": "Reuters", "importance": 59}, {"src": "ah", "time": "09-01 11:58", "ts": "2026-09-01 11:58", "content": "埃杜阿尔德可能在抵达西北墨西哥湾海岸前接近飓风强度，NHC表示", "logic": "极端天气影响能源供应和保险赔付", "sentiment": "利空", "level": "B", "source": "Reuters", "importance": 59}, {"src": "ah", "time": "09-01 11:56", "ts": "2026-09-01 11:56", "content": "Jefferies将Novonesis目标价从480丹麦克朗上调至540丹麦克朗", "logic": "分析师上调目标价表明对该公司前景持乐观态度，可能推动股价上涨。", "sentiment": "利多", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:54", "ts": "2026-09-01 11:54", "content": "日本10年期债券发行需求与12个月平均值一致 - BBG", "logic": "该消息表明日本10年期债券的市场需求处于正常水平，未出现明显波动，对市场影响有限。", "sentiment": "中性", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:53", "ts": "2026-09-01 11:53", "content": "Jefferies 将 Robertet 目标股价下调 20 欧元至 930 欧元", "logic": "机构将目标股价下调，表明对该公司未来表现的预期有所降低，可能对股价产生压力。", "sentiment": "利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:47", "ts": "2026-09-01 11:47", "content": "Jefferies 将 RWE 目标价从 68 欧元上调至 75 欧元", "logic": "该消息表明机构对 RWE 的股价前景更加乐观，可能推动投资者对该股票的兴趣增加。", "sentiment": "利多", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:44", "ts": "2026-09-01 11:44", "content": "印度央行可能在市场开盘前介入以提振卢比 - 交易员", "logic": "央行干预货币直接利好相关行业", "sentiment": "利多", "level": "B", "source": "Reuters", "importance": 59}, {"src": "ah", "time": "09-01 11:44", "ts": "2026-09-01 11:44", "content": "印度尼西亚火灾引发区域烟雾警报和学校关闭", "logic": "环境问题引发政策关注，相关板块受益", "sentiment": "利空", "level": "B", "source": "Bloomberg", "importance": 60}, {"src": "ah", "time": "09-01 11:37", "ts": "2026-09-01 11:37", "content": "韩联社报道，韩国情报机构获得了一枚朝鲜导弹的蓝图。", "logic": "规则兜底判断为偏负面事件；AI不可用时请结合受影响资产复核。", "sentiment": "利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:34", "ts": "2026-09-01 11:34", "content": "朝鲜似乎正在为金朱爱接替金正恩做准备，韩国议员称", "logic": "该消息涉及朝鲜领导层可能的权力交接，但未直接提及经济或市场相关因素，因此对金融市场影响不明确。", "sentiment": "中性", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:34", "ts": "2026-09-01 11:34", "content": "朝鲜和美国显示出重新启动对话的迹象，韩国议员表示。", "logic": "规则兜底暂无法确定方向，为避免漏掉新型重要事件已保守保留。", "sentiment": "利多/利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:32", "ts": "2026-09-01 11:32", "content": "*日本10年期收益率升至3%，自1996年以来首次...", "logic": "规则兜底判断为偏正面事件；AI不可用时请结合受影响资产复核。", "sentiment": "利多", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:30", "ts": "2026-09-01 11:30", "content": "美国-委内瑞拉石油交易成形，以下是关键点", "logic": "国际石油交易利好相关产业链", "sentiment": "利多", "level": "B", "source": "Bloomberg", "importance": 68}, {"src": "ah", "time": "09-01 11:30", "ts": "2026-09-01 11:30", "content": "特朗普与委内瑞拉的石油交易引发一些主要生产商的担忧，消息人士称", "logic": "国际石油交易影响全球能源市场", "sentiment": "利空", "level": "B", "source": "Reuters", "importance": 67}, {"src": "ah", "time": "09-01 11:27", "ts": "2026-09-01 11:27", "content": "斯科特·贝森特的债券回购计划使货币贬值问题再次成为焦点——加密货币和黄金获得动力", "logic": "货币贬值预期增强，避险资产价格上涨", "sentiment": "利多", "level": "A", "source": "Benzinga", "importance": 75}, {"src": "ah", "time": "09-01 11:27", "ts": "2026-09-01 11:27", "content": "乌克兰无人机携带更大威力，深入俄罗斯境内 - WSJ", "logic": "该新闻可能对俄罗斯构成军事威胁，对乌克兰具有战略意义，可能影响相关国家的军事和政治局势，进而对能源、军工等资产产生影响。", "sentiment": "利多/利空", "level": "S", "source": "先讯终端", "importance": 100}, {"src": "ah", "time": "09-01 11:18", "ts": "2026-09-01 11:18", "content": "习近平会见外国领导人：追踪，2026年8月 - SCMP", "logic": "该快讯仅提及国家领导人的活动，未涉及具体经济政策或市场数据，因此对金融市场影响不明确。", "sentiment": "中性", "level": "S", "source": "先讯终端", "importance": 100}], "cs": [{"src": "cs", "time": "2026-09-02 12:15:12", "ts": "2026-09-02 12:15:12", "content": "日经225指数低开低走大跌3%，现报64265点。", "tags": ["环球市场情报"], "id": 245204}, {"src": "cs", "time": "2026-09-02 12:14:22", "ts": "2026-09-02 12:14:22", "content": "杰富瑞将甲骨文目标价从320美元下调至290美元。", "tags": ["美股动态"], "id": 245203}, {"src": "cs", "time": "2026-09-02 12:13:58", "ts": "2026-09-02 12:13:58", "content": "巴克莱将阿迪达斯评级从“持有（Equal Weight）”上调至“超配（Overweight）”，同时将目标价从190欧元上调至210欧元。", "tags": ["外汇期货", "欧股动态"], "id": 245202}, {"src": "cs", "time": "2026-09-02 12:09:24", "ts": "2026-09-02 12:09:24", "content": "【上海发布中心城区雷电黄色预警】上海市气象台2026年09月02日12时01分发布中心城区雷电黄色预警信号：预计今天半夜以前，中心城区大部将发生雷电活动，可能会造成雷电灾害事故，请注意防范。", "tags": ["天气变化"], "id": 245201}, {"src": "cs", "time": "2026-09-02 12:05:49", "ts": "2026-09-02 12:05:49", "content": "欧洲央行管委马赫鲁夫表示，欧洲央行必须做好进一步加息的准备。", "tags": ["期货市场情报", "欧洲央行动态"], "id": 245200}, {"src": "cs", "time": "2026-09-02 12:05:18", "ts": "2026-09-02 12:05:18", "content": "【中国气象局：9月或有5到7个台风生成】中国气象局举行新闻发布会。国家气候中心副主任高荣介绍，预计9月，西北太平洋和南海海域有5~7个台风生成，接近常年同期（5.1个）到偏多；有2~3个台风登陆或明显影响我国，较常年同期（1.6个）偏多；强度总体偏强，主要影响华东和华南沿海地区，存在较强台风北上影响我国北方地区的风险。", "tags": ["天气变化", "航运期货"], "id": 245199}, {"src": "cs", "time": "2026-09-02 12:04:16", "ts": "2026-09-02 12:04:16", "content": "【财联社9月2日午间新闻精选】\n1、截至午间收盘，沪指跌0.82%，深证成指跌1.71%，创业板指跌2.18%。\n2、港股午间收盘，恒生指数跌0.96%，恒生科技指数跌1.54%。\n3、国家能源局召开新型电网建设工作部署会，加快输电通道等重大电网工程核准建设。\n4、美国10年期国债收益率一度攀升至4.8102%，为2023年末以来最高水平。\n5、当地时间9月1日，美国总统特朗普表示，他并未像美国媒体所报道的那样，试图逼迫伊朗重返谈判桌，并称自己并不在意伊朗是否签署一份“毫无价值的协议”。", "tags": [], "id": 245198}, {"src": "cs", "time": "2026-09-02 12:00:48", "ts": "2026-09-02 12:00:48", "content": "港股午间收盘，恒生指数跌0.96%，恒生科技指数跌1.54%。大型科网股多数下跌，百度跌2.61%，阿里巴巴跌近2%，腾讯控股跌逾1%。", "tags": [], "id": 245197}, {"src": "cs", "time": "2026-09-02 12:00:31", "ts": "2026-09-02 12:00:31", "content": "【我国在高端遥感动态成像关键技术领域取得重要突破】市场监管总局消息，近日，我国在高端遥感动态成像关键技术领域取得重要突破。针对无人机、卫星、机器人等领域亟待解决的轻量化、低功耗、高动态成像性能相互制约的矛盾，依托中国计量大学建立的国家市场监督管理总局重点实验室（光传感与图像计量）联合北京航空航天大学等单位组织开展技术攻关，实现了小型低功耗约束下厘米级超高分辨率三维成像，解决了低空经济和智能视觉等产业对场景信息的精准捕捉与解析问题。据介绍，研究团队突破了“小型化低功耗超高分辨率成像、高精度传递函数动态像差补偿、强噪声环境三维高精度重建”等核心关键技术，相关成果具有自主知识产权，总体技术达到国际先进水平，其中部分技术处于国际领先水平。目前，相关技术成果已应用于无人机、航空航天、森林防火、安防、边海防、工业机器人、特种设备监测、智慧城市等领域，经济与社会效益显著。", "tags": ["无人机", "机器人", "航空航天", "智慧城市", "低空经济"], "id": 245196}, {"src": "cs", "time": "2026-09-02 11:54:28", "ts": "2026-09-02 11:54:28", "content": "【大普微：SCM SSD产品具备批量供应能力】大普微在互动平台表示，公司SCM SSD产品具备批量供应能力，公司将根据客户需求持续推进相关产品的迭代研发与市场拓展。", "tags": ["互动平台精选"], "id": 245195}, {"src": "cs", "time": "2026-09-02 11:54:03", "ts": "2026-09-02 11:54:03", "content": "MSCI亚太指数下跌2%至273.46点。", "tags": ["环球市场情报"], "id": 245194}, {"src": "cs", "time": "2026-09-02 11:52:41", "ts": "2026-09-02 11:52:41", "content": "Melius Research将戴尔科技目标价格从650美元上调至735美元。", "tags": ["TMT行业观察", "美股动态"], "id": 245193}, {"src": "cs", "time": "2026-09-02 11:51:31", "ts": "2026-09-02 11:51:31", "content": "【国家医保局：特例单议保障医疗机构收治疑难重症的积极性与合理性】国家医保局召开新闻发布会，发布按病种付费3.0版分组方案和技术规范。国家医保局有关负责人介绍，特例单议是按病种付费的重要配套机制，重点支持医疗机构使用新药耗新技术、收治疑难复杂重症，由医疗机构自主向医保经办机构申报，经专家审核评议后，符合条件的可给予合理补偿。根据3.0版分组方案，DRG付费的统筹地区特例单议数量不超过DRG出院总病例的5%；DIP付费的统筹地区特例单议数量进行适度调整优化，2027年起可不超过DIP出院总病例的1%，更好满足医疗机构实际运行疑难重症申报需求。", "tags": [], "id": 245192}, {"src": "cs", "time": "2026-09-02 11:50:48", "ts": "2026-09-02 11:50:48", "content": "本田计划到2030年削减1.5万亿日元成本。", "tags": ["外汇期货", "汽车大新闻"], "id": 245191}, {"src": "cs", "time": "2026-09-02 11:48:42", "ts": "2026-09-02 11:48:42", "content": "【防范挤压夹伤风险 家用儿童学习桌椅国家标准发布】今天了解到，市场监管总局近日批准发布《家用儿童学习桌、椅》国家标准，针对家用儿童学习桌椅产品建立专项安全与性能指标体系。标准明确适用于3岁至14岁儿童阅读、书写、绘画的家用学习桌椅，充分兼顾当前市场产品在升降、角度调节、带电功能等方面的创新设计，系统规定产品技术要求与对应试验方法，为产品生产制造、质量检测、消费选购提供技术支撑。标准确立电动升降遇阻回退安全保护机制，一键升降桌面受到外力阻碍时，必须在5秒内将挤压力下降至安全阈值，有效防止儿童发生挤压、夹伤事故；松开操作按键后，桌面位移不得超过10毫米，保障升降操作即时响应、可控可停。同时标准明确禁止使用声控、远程控制实现升降调节，从产品设计源头消除儿童误操作引发的机械安全风险。 （央视新闻）", "tags": ["期货市场情报", "促消费举措"], "id": 245190}, {"src": "cs", "time": "2026-09-02 11:46:10", "ts": "2026-09-02 11:46:10", "content": "印度NIFTY指数下跌1%至23,812.05点。", "tags": ["期货市场情报", "环球市场情报"], "id": 245189}, {"src": "cs", "time": "2026-09-02 11:43:49", "ts": "2026-09-02 11:43:49", "content": "【德尔股份：固态电池PACK中试线已经建成 电芯中试线在建设中】德尔股份在互动平台表示，公司固态电池PACK中试线已经建成，电芯中试线在建设中。", "tags": ["互动平台精选", "固态电池"], "id": 245188}, {"src": "cs", "time": "2026-09-02 11:39:13", "ts": "2026-09-02 11:39:13", "content": "【9月2日午间涨停分析】今日午盘全市场共40股涨停，连板股总数13只，16股封板未遂，封板率为71%（不含ST股、退市股）。焦点股方面，PTFE概念股沃特股份9天5板，AI应用概念股竞业达4连板，零售板块国芳集团4连板。", "tags": ["盘面直播"], "id": 245187}, {"src": "cs", "time": "2026-09-02 11:38:23", "ts": "2026-09-02 11:38:23", "content": "【OpenAI即将发布新AI模型Astra】据报道，OpenAI计划很快推出一款名为Astra的AI模型。该模型前期执行高级网络安全相关任务的能力将仅限于部分测试人员。之后，该公司将通过“Daybreak Blue”计划向更多用户开放该模型，用于防御性网络安全工作。OpenAI周二表示，他们认为该模型已达到“关键网络安全门槛”，公司已加强Astra模型的安全防护措施，以防止其被滥用。", "tags": ["人工智能", "网络安全"], "id": 245186}, {"src": "cs", "time": "2026-09-02 11:36:09", "ts": "2026-09-02 11:36:09", "content": "现货黄金日内跌幅扩大至1%，报4283.74美元/盎司。", "tags": ["期货市场情报", "有色金属", "黄金"], "id": 245185}, {"src": "cs", "time": "2026-09-02 11:36:05", "ts": "2026-09-02 11:36:05", "content": "【奇点国峰盘中大涨超5成】奇点国峰(01280.HK)震荡上扬，截至发稿涨44%报2.35港元，创近4个月新高。该公司日前发布2026年中期业绩。收入约为人民币2.35亿元，同比增约29.4%，主要由白酒业务快速放量及AI人工智能产品及服务收入等新业务新增贡献带动。公司拥有人应占亏损约为人民币3510万元，同比扩大约82.0%。", "tags": ["港股动态"], "id": 245184}, {"src": "cs", "time": "2026-09-02 11:35:19", "ts": "2026-09-02 11:35:19", "content": "【伊朗官员说美军最新袭击造成至少7人死亡】据伊朗媒体2日报道，伊朗西南部胡齐斯坦省负责安全事务的副省长说，美军前一晚对该省发动的袭击造成7人死亡，8人受伤。伊朗媒体1日报道，美国当天夜间对伊朗南部多地发动袭击，波及霍尔木兹甘省库赫斯塔克一场婚礼活动现场，已造成4人死亡、50人受伤。", "tags": ["期货市场情报", "中东冲突"], "id": 245183}, {"src": "cs", "time": "2026-09-02 11:32:23", "ts": "2026-09-02 11:32:23", "content": "【午评：创业板指半日跌超2% 全市场近4000只个股下挫】市场早盘震荡调整，创业板指走势较弱。沪深两市半日成交额1.21万亿，较上个交易日缩量1403亿。盘面上热点较为杂乱，全市场近4000只个股下跌。从板块来看，军工板块逆势走强，内蒙一机2连板，建设工业、长城军工涨停。电网设备板块震荡反弹，太阳电缆、神马电力涨停。PCB概念表现活跃，沃特股份5天4板，山东玻纤涨停。互联金融概念日内震荡回升，恒宝股份2连板。光纤概念盘中震荡拉升，杭电股份涨停。下跌方面，农业板块震荡调整，登海种业触及跌停，华绿生物、康农种业、秋乐种业纷纷下挫。截至收盘，沪指跌0.82%，深成指跌1.71%，创业板指跌2.18%。", "tags": ["盘面直播"], "id": 245181}, {"src": "cs", "time": "2026-09-02 11:31:43", "ts": "2026-09-02 11:31:43", "content": "【国内期货主力合约涨跌不一 SC原油涨超9%】国内期货主力合约涨跌不一，SC原油涨超9%，集运欧线、乙二醇（EG）涨超5%，甲醇涨近5%，燃料油涨超4%，低硫燃料油（LU）、液化石油气（LPG）涨超3%，纯苯涨近3%。跌幅方面，钯跌近6%，沪银、铂跌超4%，碳酸锂、沪金跌超3%，20号胶、沪锡、棉花跌超2%。", "tags": ["期货市场情报", "环球市场情报", "原油市场动态", "海外大宗商品", "盐湖提锂", "锂电池"], "id": 245180}, {"src": "cs", "time": "2026-09-02 11:23:22", "ts": "2026-09-02 11:23:22", "content": "【中国人民解放军南部战区位中国黄岩岛领海领空及周边区域组织战备警巡】中国人民解放军南部战区今日组织海空兵力位中国黄岩岛领海领空及周边海空域开展战备警巡。黄岩岛是中国固有领土。8月份以来，战区部队组织海空兵力持续加强黄岩岛领海周边海空域巡逻警戒，进一步强化有关海空域管控力度，有力有效应对各类侵权挑衅行径，坚决捍卫国家主权安全，坚定维护南海地区和平稳定。", "tags": [], "id": 245178}, {"src": "cs", "time": "2026-09-02 11:21:27", "ts": "2026-09-02 11:21:27", "content": "文件显示，本田已指示供应商大幅降价，本田计划将部分关键零部件的成本削减30%，其中就包括软件定义汽车相关的零部件。", "tags": [], "id": 245177}, {"src": "cs", "time": "2026-09-02 11:19:48", "ts": "2026-09-02 11:19:48", "content": "【第十五届中国知识产权年会将围绕人工智能与知识产权设置多个议题】从第十五届中国知识产权年会媒体吹风会上了解到，年会将围绕人工智能与知识产权设置多个议题。聚焦AI知识产权治理的法律维度，围绕大模型训练数据的版权合法性、AIGC生成物的可版权性、人机共创场景下的侵权责任分担、AI工具在专利检索和商标监测中的实务应用等前沿议题展开研讨，从司法、行政、产业三个维度探讨AI时代知识产权规则的演进方向。聚焦人工智能产业发展的技术维度，围绕AI原生技术与下一代创新范式、具身智能与未来产业变革、AI重构企业组织与生产方式等议题展开，邀请人工智能产业工作委员会知识产权中心、工信部电子知识产权中心、具身智能企业代表等出席，共同探讨AI如何从数字世界走向物理世界、从技术突破走向产业变革。 （央视新闻）", "tags": ["TMT行业观察", "人工智能", "知识产权", "AIGC"], "id": 245176}, {"src": "cs", "time": "2026-09-02 11:18:29", "ts": "2026-09-02 11:18:29", "content": "【我驻泰使馆：泰国调整免签政策不影响中泰双边免签协定】中国驻泰国大使馆9月2日发布关于泰国调整免签政策的领事提醒，中国公民持有效护照赴泰仍可享受免签待遇，泰方取消此前面向包括中国在内的93个国家和地区实施的单方面停留期60日免签政策。", "tags": [], "id": 245175}, {"src": "cs", "time": "2026-09-02 11:16:08", "ts": "2026-09-02 11:16:08", "content": "【康诺思腾与美敦力达成战略合作】近日，康诺思腾（Cornerstone Robotics）宣布，与美敦力（Medtronic）达成战略合作。根据合作协议，美敦力将向康诺思腾战略投资约7亿美元，并有权在美国以外的部分已获批市场分销康诺思腾的Sentire思腾®腔镜手术机器人。", "tags": ["期货市场情报", "机器人"], "id": 245174}, {"src": "cs", "time": "2026-09-02 11:15:01", "ts": "2026-09-02 11:15:01", "content": "【军工板块涨势扩大 晟楠科技30cm涨停】军工板块盘中涨势扩大，晟楠科技30cm涨停，此前内蒙一机、建设工业、长城军工、博云新材涨停，北方长龙、通易航天、天秦装备均涨超10%。", "tags": ["盘面直播", "军工"], "id": 245173}]};
+
+/* ---------- 数据总表渲染（动态·直读管线底稿） ---------- */
+if(typeof buildSnapD==='function')buildSnapD();
+
+/* ---------- 消息解读区渲染（关键字自动归类·重要置顶·⚙️规则生成 · 动态拉取news_latest.json） ---------- */
+function renderNewsDigest(NN){
+const ndHost = document.getElementById('newsDigest'); if(!ndHost) return;
+const srcNames = {jin10:'金十', ah:'先讯', cs:'CS'};
+const CATS=[
+ {n:'地缘', c:'#e5534b', kw:/(伊朗|美伊|霍尔木兹|伊拉克|俄罗斯|乌克兰|特朗普|关税|委内瑞拉|以色列|中东)/},
+ {n:'宏观·政策', c:'#d4a944', kw:/(美债|美元|美伊|美国|伊朗|贝森特|沃什|加息|降息|美联储|财政部|赤字|非农|CPI|通胀)/},
+ {n:'股市·科技', c:'#5b9bd5', kw:/(美股|科技股|\bAI\b|机器人|存储|英伟达|\bARR\b|\btoken\b|\bMeta\b|芯片|港股|A股|恒生|纳斯达克|标普)/},
+ {n:'商品·产业', c:'#4caf7d', kw:/(铜|铝|(?<!无)(?<!比)锡(?!斯坦|林|金)|镍|锌|铅|焦煤|焦炭|螺纹|铁矿|光伏|反内卷|煤|工信部|发改委|锂|硅(?!谷)|工业硅|多晶硅|原油|石油|黄金|白银|欧佩克)/}
+];
+const KWH=/(伊朗|美伊|霍尔木兹|伊拉克|俄罗斯|乌克兰|特朗普|关税|委内瑞拉|以色列|中东|美债|美元|美国|贝森特|沃什|加息|降息|美联储|财政部|非农|CPI|通胀|美股|科技股|机器人|存储|英伟达|芯片|港股|A股|恒生|纳斯达克|标普|铜|铝|(?<!无)(?<!比)锡(?!斯坦|林|金)|光伏|反内卷|煤|工信部|发改委|锂|硅(?!谷)|原油|石油|黄金|白银|欧佩克|\bAI\b|\bARR\b|\bTOKEN\b|\bMETA\b)/gi;
+function escN(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+let all=[];
+['jin10','ah','cs'].forEach(k=>{ (NN[k]||[]).forEach(it=>{
+  const c=(it.content||it.title||'').replace(/<[^>]+>/g,'');
+  all.push({t:it.time||it.t||'', c:c, s:k, imp:it.important?1:0});
+});});
+all.sort((a,b)=>a.t<b.t?1:-1);
+const seen=new Set(); all=all.filter(it=>{const k=it.c.slice(0,40); if(seen.has(k))return false; seen.add(k); return true;});
+let h='';
+CATS.forEach(cat=>{
+  const items=all.filter(it=>cat.kw.test(it.c));
+  const nImp=items.filter(it=>it.imp).length;
+  const sorted=items.slice().sort((a,b)=> b.imp-a.imp || (a.t<b.t?1:-1));
+  const top=sorted.slice(0,12), rest=sorted.slice(12);
+  h+='<div class="ncol"><h4 style="color:'+cat.c+'">'+cat.n+'（'+items.length+'条'+(nImp?' · ★重要'+nImp:'')+'）</h4>';
+  const render=it=>'<div class="ni"><span class="t">'+escN(it.t).slice(5,16)+'</span>'
+    +(it.imp?'<span style="color:var(--gold);font-size:11px;margin-right:3px;">★</span>':'')
+    +'<span style="font-size:10px;color:var(--dim);border:1px solid var(--line);border-radius:3px;padding:0 3px;margin-right:4px;">'+srcNames[it.s]+'</span>'
+    +escN(it.c.slice(0,180)).replace(KWH,'<u class="kw">$1</u>')+(it.c.length>180?'…':'')+'</div>';
+  h+=top.map(render).join('');
+  if(rest.length) h+='<details style="margin-top:6px;"><summary style="cursor:pointer;font-size:11px;color:var(--dim);">其余 '+rest.length+' 条 ▸</summary>'+rest.map(render).join('')+'</details>';
+  h+='</div>';
+});
+/* ===== 自动总结（⚙️规则生成）：规模 + 结构 + ★重要头条 + 主导主题定性 ===== */
+const catCnt = CATS.map(cat=>({n:cat.n, c:cat.c, m:all.filter(it=>cat.kw.test(it.c))}));
+const total = all.length;
+const impAll = all.filter(it=>it.imp).sort((a,b)=>a.t<b.t?1:-1);
+const dom = catCnt.slice().sort((a,b)=>b.m.length-a.m.length)[0];
+const asof = total? all[0].t : '';
+const domPct = total? Math.round(dom.m.length/total*100):0;
+let tone;
+if(dom.n==='地缘'&&domPct>=28) tone='信息流由地缘主导——供给冲击与避险是今日定价主线，宏观数据让位。';
+else if(dom.n==='宏观·政策'&&domPct>=28) tone='信息流由宏观政策主导——央行定价与数据预期是今日主线。';
+else if(dom.n==='商品·产业'&&domPct>=28) tone='信息流由商品产业主导——实物链条（能源/金属）事件密度高于宏观。';
+else tone='信息流结构分散，无单一主导主题——关注★重要消息的点状冲击。';
+const sumHtml = '<div class="card" style="border-color:var(--gold);margin-bottom:2px;grid-column:1/-1;"><p style="font-size:13px;margin:0 0 6px;"><b style="color:var(--gold)">本日信息流总结</b>'
+  +'<span style="font-size:11px;color:var(--dim);margin-left:8px;">⚙️规则生成 · 截至 '+escN(asof).slice(5,16)+'</span></p>'
+  +'<p style="font-size:12.5px;margin:0 0 6px;line-height:1.8;">三源合计 <b>'+total+'</b> 条：'
+  +catCnt.map(x=>'<span style="color:'+x.c+'">'+x.n+' '+x.m.length+'</span>').join(' · ')
+  +'；★重要 <b style="color:var(--gold)">'+impAll.length+'</b> 条。<br><b>定性：</b>'+tone+'</p>'
+  +(impAll.length? '<p style="font-size:12px;margin:0;color:var(--dim);">★头条：</p><ul style="margin:2px 0 0;padding-left:18px;">'
+    +impAll.slice(0,3).map(it=>'<li style="font-size:12.5px;line-height:1.7;margin-bottom:3px;"><span style="color:var(--dim)">'+escN(it.t).slice(5,16)+'</span> '+escN(it.c.slice(0,90))+(it.c.length>90?'…':'')+'</li>').join('')+'</ul>':'')
+  +'</div>';
+ndHost.innerHTML=sumHtml+(h||'<div class="ncol">暂无匹配消息</div>');
+}
+function loadNewsDigest(){
+  fetch('../data/news_latest.json?v='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    renderNewsDigest(d||N);
+  }).catch(function(){ renderNewsDigest(N); });
+}
+document.addEventListener('DOMContentLoaded', loadNewsDigest);
+/* ---------- 图表工作区（懒挂载） ---------- */
+var _wsdDone=false;
+function presetWSd(ids){ document.getElementById('cw-wsd').innerHTML=''; chartWidget('cw-wsd', ids, null); _wsdDone=true; }
+function mountWSd(){ if(_wsdDone)return; chartWidget('cw-wsd', ['DGS10','DGS30','Y_USDJPY'], null); _wsdDone=true; }
+document.querySelectorAll('[data-dp="dp9"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountWSd,60);});});
+/* ====== 流动性追踪（日频·读 data/liquidity.json，管线每日09:05 BJT更新） ====== */
+var _liqDone=false;
+function renderLiqConclusion(j){
+  var host=document.getElementById('liqConclusionD'); if(!host)return;
+  var by={}; (j.cards||[]).forEach(function(c){by[c.id]=c;});
+  function C(id){return by[id]||{};}
+  function num(v,d){return (typeof v==='number'&&isFinite(v))?v.toFixed(d):'—';}
+  function pct(c){return (typeof c.pct==='number')?Math.round(c.pct)+'%':'—';}
+  function sign(v,d){return (typeof v==='number'&&isFinite(v))?((v>0?'+':'')+v.toFixed(d)):'—';}
+  function bnYi(v){return (typeof v==='number'&&isFinite(v))?num(v*10,1)+'亿$':'—';}
+  function chgBnYi(v){return (typeof v==='number'&&isFinite(v))?((v>0?'+':'')+num(v*10,1)+'亿$'):'—';}
+  var sofr=C('sofr_iorb'), tail=C('sofr_tail'), cp=C('cp_sofr'), onrrp=C('onrrp'), res=C('reserves'), tga=C('tga'), net=C('netliq'), srf=C('srf'), real=C('real10y');
+  var st=(j.stress&&typeof j.stress.value==='number')?j.stress.value:null;
+  var state, stateC='var(--gold)';
+  if(j.funding_alert){state='融资压力警报已触发';stateC='#e5534b';}
+  else if((typeof sofr.val==='number'&&sofr.val>=10)||(typeof srf.val==='number'&&srf.val>=50)){state='接近融资压力线';stateC='#e5534b';}
+  else if(j.buy_signal){state='广义冲击信号出现，但融资管道未报警';stateC='#4caf7d';}
+  else if(typeof sofr.val==='number'&&sofr.val>0){state='融资溢价仍在，但尚未构成美元紧缺';}
+  else{state='管道价格暂未报警，缓冲层仍偏薄';}
+  var bufferTxt=(typeof onrrp.val==='number'&&onrrp.val<100)?'货币基金缓冲仍接近枯竭，缩表冲击会更直接传导到银行准备金。':'ON RRP仍有一定余量，货币基金缓冲尚未耗尽。';
+  var srfTxt=(typeof srf.val==='number'&&srf.val===0)?'零用量，银行体系尚未通过应急窗口“喊渴”。':'用量为 '+num(srf.val,2)+' 十亿$，需观察是否连续放量。';
+  var radarRow=document.getElementById('liqRadarRow');
+  if(radarRow){
+    radarRow.innerHTML='<td><b>美元流动性</b></td><td>SOFR-IORB '+sign(sofr.val,0)+'bp（'+pct(sofr)+'）；ON RRP '+bnYi(onrrp.val)+'仍近枯竭；准备金 '+num(res.val,2)+'万亿$（'+pct(res)+'）；SRF '+num(srf.val,2)+'十亿$——详见流动性页签</td><td class="flat">'+state+'</td><td>中性偏A（缓冲薄）</td>';
+  }
+  var falsifyRow=document.getElementById('liqFalsifyRow');
+  if(falsifyRow){
+    falsifyRow.innerHTML='<td>货币市场缓冲垫维持低位</td><td>SOFR-IORB重新站上+10bp，或SRF单周用量超过500亿$</td><td class="'+(j.funding_alert?'dn':'flat')+'">'+sign(sofr.val,0)+'bp（'+pct(sofr)+'） · SRF '+num(srf.val,2)+'十亿$ · 综合压力 '+(st==null?'—':st.toFixed(1))+'/100 → '+(j.funding_alert?'已触发警报':'未触发警报')+'</td>';
+  }
+  host.innerHTML='<p style="font-size:13px;margin:0 0 6px;"><b style="color:var(--gold)">本页结论（随数据更新 · 数据截至 '+(j.asof||'—')+'）</b>：<b style="color:'+stateC+'">'+state+'</b></p>'
+    +'<ul style="margin:0;padding-left:20px;font-size:12.5px;line-height:1.85;">'
+    +'<li><b>管道价格</b>：SOFR-IORB为 <b>'+sign(sofr.val,0)+'bp</b>（'+(sofr.date||'—')+'，分位 '+pct(sofr)+'）；SOFR尾部差 '+num(tail.val,0)+'bp（分位 '+pct(tail)+'），商票-SOFR '+num(cp.val,0)+'bp（分位 '+pct(cp)+'）——<b>未出现“抢钱”尖刺</b>。</li>'
+    +'<li><b>缓冲垫</b>：ON RRP余额 <b>'+bnYi(onrrp.val)+'</b>（日变动 '+chgBnYi(onrrp.chg)+'，分位 '+pct(onrrp)+'）；银行准备金 '+num(res.val,2)+'万亿$（分位 '+pct(res)+'），TGA '+bnYi(tga.val)+'（日变动 '+chgBnYi(tga.chg)+'）。'+bufferTxt+'</li>'
+    +'<li><b>应急窗口</b>：SRF常备回购'+srfTxt+'<b>这不符合“短期美元紧缺”的定义</b>；真正的紧缺需要SOFR-IORB大幅走阔、尾部飙升和SRF/贴现窗口放量同时出现。</li>'
+    +'<li><b>主要压力源</b>：10Y实际利率 <b>'+num(real.val,2)+'%</b>（'+(real.date||'—')+'，分位 '+pct(real)+'），净流动性 '+num(net.val,2)+'万亿$，综合压力分位 '+(st==null?'—':st.toFixed(1))+'/100——压力仍主要来自政策利率绝对高度，而非货币市场管道断裂。</li>'
+    +'<li><b>升级/降级线</b>：SOFR-IORB重新站上 +10bp，或SRF单周用量超过500亿$，升级为“融资压力警报”；若SOFR-IORB持续≤0、准备金企稳且缩表停止，则对久期与贵金属的流动性压制缓解。</li>'
+    +'</ul>';
+}
+function mountLiq(){
+  if(_liqDone)return; _liqDone=true;
+  fetch('../data/liquidity.json?v='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(!j){document.getElementById('liqSumD').innerHTML='<p style="font-size:13px;color:var(--dim);margin:0;">liquidity.json 未加载</p>';return;}
+    var st=j.stress||{}, rg=j.regime||{};
+    var stC=st.value>=70?'#e5534b':st.value>=50?'#d4a944':'#4caf7d';
+    var sig=(j.buy_signal||j.funding_alert)?((j.buy_signal?'<span style="color:#4caf7d">广义冲击买入窗口</span> ':'')+(j.funding_alert?'<span style="color:#e5534b">融资压力警报</span>':'')):'无';
+    document.getElementById('liqSumD').innerHTML='<p style="font-size:13px;margin:0;"><b style="color:var(--gold)">流动性总览</b>（更新 '+j.updated+' · 数据截至 '+j.asof+' · 管线每日09:05 BJT刷新）<br>'
+      +'综合压力分位 <b style="color:'+stC+';font-size:18px;">'+(st.value!=null?st.value:'—')+'/100</b>（'+(st.n_comp||0)+'项分量等权，2019以来全样本）· 缩表阶段 <b style="color:var(--gold)">'+(rg.stage!=null?rg.stage:'—')+'</b>（ON RRP '+(rg.onrrp_bn!=null?rg.onrrp_bn.toFixed(2):'—')+'十亿$，'+(rg.desc||'')+'）· 信号：'+sig+'</p>';
+    renderLiqConclusion(j);
+    /* 14张分量卡：最新值+日变动+2019以来分位条 */
+    var pctC=function(p){return p>=80?'#e5534b':p>=50?'#d4a944':'#4caf7d';};
+    var h='';
+    (j.cards||[]).forEach(function(c){
+      var chg=c.chg||0, cc=chg>0?'up':chg<0?'dn':'flat';
+      var cstr=(chg>0?'+':'')+(Math.abs(chg)<1?(+chg).toFixed(2):(+chg).toFixed(1))+' '+c.unit;
+      var p=c.pct!=null?c.pct:null;
+      h+='<div class="lqCard"><div class="lqN">'+c.name+'</div>'
+        +'<div class="lqV">'+c.val+'<small>'+c.unit+'</small></div>'
+        +'<div style="font-size:11px;"><span class="'+cc+'">日 '+cstr+'</span>'+(p!=null?' <span style="color:var(--dim)">· 分位 </span><span style="color:'+pctC(p)+'">'+Math.round(p)+'%</span>':'')+'</div>'
+        +(p!=null?'<div class="lqBar"><i style="width:'+Math.min(100,Math.max(0,p))+'%;background:'+pctC(p)+'"></i></div>':'<div class="lqBar"></div>')
+        +'<div class="lqD">'+c.date+' · 分位=2019以来全样本 · 分位越高压力越大（净流动性/准备金为逆向）</div></div>';
+    });
+    document.getElementById('liqGridD').innerHTML=h||'<div class="lqD">无分量数据</div>';
+    document.getElementById('liqMethD').textContent='方法学：'+j.methodology+' · 缺口(标灰不分配权重)：'+((j.gaps||[]).join('；'));
+    /* 双维图：利率管道 + 数量 */
+    chartWidget('cw-liqd1', ['DFEDTARU','SOFR','EFFR','RRPONTSYAWARD'], ['DFEDTARU','DFEDTARL','SOFR','SOFR99','TGCRRATE','OBFR','EFFR','IORB','RRPONTSYAWARD','DCPF1M','SPR_SOFR_IORB','SPR_TGCR_IORB','SPR_SOFR_EFFR','SPR_SOFR99','SPR_SOFR_ONRRP','SPR_CP_SOFR','SPR_SOFR99_ONRRP','SPR_TGCR_ONRRP','LIQ_SRF']);
+    chartWidget('cw-liqd2', ['WALCL','WRESBAL','RRPONTSYD'], ['WALCL','WRESBAL','RRPONTSYD','WDTGAL','WTREGEN','NETLIQ','WREPOFOR','SWPT','M2SL','M1SL','MMMFFAQ027S','LIQ_EZM3','LIQ_CNM2','CA_M2','ECBASSETSW','JPNASSETS','GM2_YOY','M2SL_YOY','LIQ_CNM2_YOY']);
+    chartWidget('cw-liqd3', ['Y_MOVE','VIXCLS'], ['Y_MOVE','VIXCLS','BAMLH0A0HYM2','Y_TLT','Y_HYG','Y_GLD','NFCI','STFSI4']);
+  }).catch(function(){
+    document.getElementById('liqSumD').innerHTML='<p style="font-size:13px;color:var(--dim);margin:0;">liquidity.json 拉取失败，请刷新重试</p>';
+    document.getElementById('liqConclusionD').innerHTML='<p style="font-size:13px;margin:0;color:var(--dim);">流动性结论加载失败，请刷新重试。</p>';
+  });
+}
+document.querySelectorAll('[data-dp="dp10"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountLiq,60);});});
+/* ====== 债市/外汇图表工作区（懒挂载） ====== */
+var _bondDone=false, _fxDone=false;
+function mountBond(){
+  if(_bondDone)return; _bondDone=true;
+  chartWidget('cw-bond', ['DGS2','DGS10','DGS30'], ['DGS2','DGS10','DGS30','T10Y2Y','T10Y3M','DFII10','T5YIE','T10YIE','T5YIFR','ACMTP10','MORTGAGE30US','BAMLH0A0HYM2','BAMLC0A4CBBB','BAMLC0A1CAAA','Y_MOVE','Y_TLT','Y_LQD','Y_HYG','Y_EMB','US_AUC_2Y_BTC','US_AUC_10Y_BTC','US_AUC_30Y_BTC','JP_UST_HOLD','CN_UST_HOLD','UK_UST_HOLD','FO_UST_HOLD','CFTC_TY_NET','CFTC_TU_NET','CFTC_US_NET','IRLTLT01JPM156N','IRLTLT01DEM156N','IRLTLT01GBM156N','EM_CGB2Y','EM_CGB10Y','EM_CGB30Y','SPR_USCN10Y','DFF','SOFR','PD_UST_POS']);
+}
+function mountFx(){
+  if(_fxDone)return; _fxDone=true;
+  chartWidget('cw-fx', ['Y_DXY','Y_USDJPY','Y_EURUSD'], ['Y_DXY','DTWEXBGS','Y_USDJPY','Y_EURUSD','DEXCHUS','CFTC_DX_NET','CFTC_JY_NET','SPR_USCN10Y','DGS10','DFII10','EM_CGB10Y','CN_LPR1Y','CN_SHIBOR3M','ECBDFR','IRLTLT01JPM156N']);
+}
+document.querySelectorAll('[data-dp="dp12"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountBond,60);});});
+document.querySelectorAll('[data-dp="dp13"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountFx,60);});});
+/* ---------- 重要数据总览(dp14) ---------- */
+var OV_SPEC=[
+ {sec:'美元',rows:[
+  {k:'Y_DXY',n:'美元指数DXY',u:'',s:'L2·L2行情盘中',b:'b2',t:'pct',d:2},
+  {k:'DTWEXBGS',n:'广义贸易加权美元指数',u:'',s:'L1·周度',b:'b1',t:'pct',d:2},
+  {k:'DFF',n:'联邦基金有效利率EFFR',u:'%',s:'L1·NYFed(T+1)',b:'b1',t:'bp',d:2},
+  {k:'GOLD_SILVER_RATIO',n:'金银比(避险/美元信用温度计)',u:'倍',s:'⚙️自建(金/银)',b:'bc',t:'pct',d:1}]},
+ {sec:'美债',rows:[
+  {k:'DGS10',n:'美债10Y收益率',u:'%',s:'L1·财政部',b:'b1',t:'bp',d:2},
+  {k:'DGS2',n:'美债2Y收益率',u:'%',s:'L1·财政部',b:'b1',t:'bp',d:2},
+  {k:'DGS30',n:'美债30Y收益率',u:'%',s:'L1·财政部',b:'b1',t:'bp',d:2},
+  {k:'T10Y2Y',n:'10Y-2Y利差(曲线形态)',u:'bp',s:'L1',b:'b1',t:'bp',d:0,x100:true},
+  {k:'T10Y3M',n:'10Y-3M利差(衰退概率计)',u:'bp',s:'L1',b:'b1',t:'bp',d:0,x100:true},
+  {k:'DFII10',n:'10Y TIPS实际利率',u:'%',s:'L1',b:'b1',t:'bp',d:2},
+  {k:'T10YIE',n:'10Y盈亏平衡通胀',u:'%',s:'L1',b:'b1',t:'bp',d:2},
+  {k:'T5YIE',n:'5Y盈亏平衡通胀',u:'%',s:'L1',b:'b1',t:'bp',d:2},
+  {k:'ACMTP10',n:'10Y期限溢价ACM(月度)',u:'%',s:'L1·NYFed',b:'b1',t:'bp',d:2},
+  {k:'Y_MOVE',n:'MOVE债市波动率',u:'',s:'L2·L2行情',b:'b2',t:'abs',d:1}]},
+ {sec:'外汇',rows:[
+  {k:'Y_USDJPY',n:'美元兑日元USDJPY',u:'',s:'L2·L2行情盘中',b:'b2',t:'pct',d:2},
+  {k:'Y_EURUSD',n:'欧元兑美元EURUSD',u:'',s:'L2·L2行情盘中',b:'b2',t:'pct',d:4},
+  {k:'DEXCHUS',n:'人民币兑美元(官方周度)',u:'',s:'L1·财政部H.10',b:'b1',t:'pct',d:4},
+  {k:'SPR_USCN10Y',n:'中美10Y利差(美-中)',u:'bp',s:'⚙️自建(官方-中债)',b:'bc',t:'bp',d:0,x100:true},
+  {k:'CFTC_DX_NET',n:'CFTC美元指数净持仓',u:'手',s:'L1·CFTC(周度)',b:'b1',t:'abs',d:0},
+  {k:'CFTC_JY_NET',n:'CFTC日元净持仓',u:'手',s:'L1·CFTC(周度)',b:'b1',t:'abs',d:0}]},
+ {sec:'霍尔木兹·能源链',rows:[
+  {k:'DCOILWTICO',n:'WTI原油现货',u:'美元/桶',s:'L1·EIA(发布滞后约1周)',b:'b1',t:'pct',d:2},
+  {k:'DCOILBRENTEU',n:'布伦特原油现货',u:'美元/桶',s:'L1·EIA(发布滞后约1周)',b:'b1',t:'pct',d:2},
+  {k:'INE原油主连',n:'上海INE原油主连',u:'元/桶',s:'L3·L2终端(INE)',b:'bg2',t:'pct',d:1},
+  {k:'DHHNGSP',n:'亨利港天然气',u:'美元/MMBtu',s:'L1·EIA',b:'b1',t:'pct',d:2},
+  {k:'GASREGW',n:'美国汽油零售价(政治约束线)',u:'美元/加仑',s:'L1·EIA(周度)',b:'b1',t:'pct',d:3}]}
+];
+function ovFmt(v,d){return v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function ovRow(r){
+  var s=(window.CHART_SERIES||{})[r.k];
+  if(!s||!s.length)return '<tr><td>'+r.n+'</td><td style="text-align:right;color:var(--dim)">—</td><td style="text-align:right;color:var(--dim)">缺口</td><td>待管线补齐</td><td><span class="badge bg2">灰</span></td></tr>';
+  var a=s[s.length-1],pv=s.length>1?s[s.length-2][1]:null;
+  var vv=r.x100?a[1]*100:a[1];
+  var chg='<span class="flat">—</span>';
+  if(pv!==null){
+    var pvv=r.x100?pv*100:pv,diff=vv-pvv,cls=diff>0?'up':(diff<0?'dn':'flat'),txt;
+    if(r.t==='bp')txt=(diff>0?'+':'')+diff.toFixed(0)+'bp';
+    else if(r.t==='pct')txt=(diff>0?'+':'')+(pvv?diff/Math.abs(pvv)*100:0).toFixed(2)+'%';
+    else txt=(diff>0?'+':'')+diff.toFixed(r.d);
+    chg='<span class="'+cls+'">'+txt+'</span>';
+  }
+  return '<tr><td>'+r.n+'</td><td style="text-align:right;"><b>'+ovFmt(vv,r.d)+'</b>'+r.u+'</td><td style="text-align:right;">'+chg+'</td><td>'+a[0]+' · '+r.s+'</td><td><span class="badge '+r.b+'">'+(r.b==='b1'?'L1':r.b==='b2'?'L2':r.b==='bc'?'⚙️':'L3')+'</span></td></tr>';
+}
+function mountOv(){
+  if(window._ovDone)return; window._ovDone=true;
+  var h='';
+  OV_SPEC.forEach(function(g){
+    h+='<div class="card" style="margin-top:12px;"><p style="font-size:13px;margin:0 0 8px;"><b style="color:var(--gold)">'+g.sec+'</b></p>'+
+      '<table><tr><th>指标</th><th style="text-align:right;">最新</th><th style="text-align:right;">日变动</th><th>数据日 · 来源</th><th></th></tr>'+
+      g.rows.map(ovRow).join('')+'</table></div>';
+  });
+  document.getElementById('ovGrid14').innerHTML=h;
+  fetch('../data/geopolitics.json?v='+Date.now()).then(function(r){return r.json();}).then(function(g){
+    var line=(g.lines||[]).find(function(x){return x.id==='usiran';});
+    var el=document.getElementById('ovHormuzLines');
+    if(!line){el.textContent='未找到美伊·霍尔木兹线索';return;}
+    el.innerHTML=line.events.slice(-3).reverse().map(function(e){
+      return '<div>· <b>'+e[0]+'</b> '+e[1]+'——'+e[3]+'</div>';
+    }).join('')+'<div style="margin-top:4px;font-size:11px;">更新: '+g.updated+' · '+g.src+'</div>';
+  }).catch(function(){document.getElementById('ovHormuzLines').textContent='地缘时间线读取失败';});
+}
+document.querySelectorAll('[data-dp="dp14"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountOv,60);});});
+
+/* ============ JOLTS就业五件套（dp7） ============ */
+function _csLast2(key){
+  var a=(window.CHART_SERIES||{})[key]||[];
+  a=a.filter(function(p){return p[1]!=null;});
+  return a.slice(-2);
+}
+function joltsCard(){
+  var el=document.getElementById('joltsCard'); if(!el||el._done)return; el._done=1;
+  if(!window.CHART_SERIES){setTimeout(joltsCard,300);el._done=0;return;}
+  var defs=[
+    ['JTSJOL','职位空缺','万',function(v){return (v/10).toFixed(1);}],
+    ['JTSJOR','空缺率','%',function(v){return v.toFixed(1);}],
+    ['JTSHIR','雇用率','%',function(v){return v.toFixed(1);}],
+    ['JTSQUR','离职率(主动)','%',function(v){return v.toFixed(1);}],
+    ['UNEMPLOY','失业人数','万',function(v){return (v/10).toFixed(1);}]
+  ];
+  var rows='',latest={};
+  defs.forEach(function(d){
+    var p=_csLast2(d[0]);
+    if(!p.length){rows+='<tr><td>'+d[1]+'</td><td colspan="4" style="color:var(--dim)">缺口</td></tr>';return;}
+    var cur=p[p.length-1],prev=p.length>1?p[p.length-2]:null;
+    latest[d[0]]=cur[1];
+    var cv=d[3](cur[1]),pv=prev?d[3](prev[1]):'—';
+    var dir='';
+    if(prev){dir=cur[1]>prev[1]?'<span style="color:#e5534b">↑</span>':(cur[1]<prev[1]?'<span style="color:#4caf7d">↓</span>':'→');}
+    rows+='<tr><td style="text-align:left">'+d[1]+'</td><td style="color:var(--gold);font-weight:700">'+cv+'<span style="font-size:10px;color:var(--dim);font-weight:400"> '+d[2]+'</span></td><td>'+dir+'</td><td style="color:var(--dim)">'+pv+'</td><td style="color:var(--dim);font-size:11px">'+cur[0]+'</td></tr>';
+  });
+  var ratio='—';
+  if(latest.JTSJOL&&latest.UNEMPLOY){ratio=(latest.JTSJOL/latest.UNEMPLOY).toFixed(2);}
+  el.innerHTML='<p style="font-size:13px;margin:0 0 8px;"><b style="color:var(--gold)">JOLTS 就业五件套</b>'
+    +'<span class="badge b1" style="margin-left:8px">L1·BLS</span>'
+    +'<span style="float:right;font-size:11px;color:var(--dim)">空缺÷失业 = <b style="color:var(--gold);font-size:13px">'+ratio+'</b>（疫情前约1.2，2022峰值2.0）</span></p>'
+    +'<table style="margin:0"><tr><th style="text-align:left">指标</th><th>最新(7月)</th><th>环比</th><th>前值(6月)</th><th>数据日</th></tr>'+rows+'</table>'
+    +'<p style="font-size:11.5px;color:var(--dim);margin:8px 0 0;line-height:1.7;">⚙️框架读法：空缺回升但<b style="color:var(--txt)">雇用率↓＋离职率↓</b>＝企业「不裁人也不招人」的冻结态——雇主与雇员双方都在观望。离职率是信心最敏感的温度计（敢跳槽=看好外面机会），降至1.9%已贴近疫情前低点区。<b style="color:var(--txt)">9/9 QCEW基准修正</b>前，这是检验「就业失速」成色的关键交叉验证：若非农再弱而空缺率继续回升，则弱非农更可能是供给端噪音而非需求崩塌。</p>';
+}
+
+/* ============ 近日新出数据（dp15）· 四大发布面板 ============ */
+var _ndDone=0;
+function mountNewData(){
+  if(_ndDone)return; _ndDone=1;
+  renderBig4Panel('newDataBox','../data/release_panels.json');
+}
+
+/* ============ 每日财经图表（dp16） ============ */
+var _cgDone=0,_cgCat='all',_cgData=null;
+function mountCharts(){
+  var gal=document.getElementById('chartGallery'); if(!gal||_cgDone)return; _cgDone=1;
+  fetch('../charts/catalog.json?v='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    _cgData=d;
+    var bar=document.getElementById('chartCatBar');
+    var btns='<button class="tag2" data-cat="all" style="border-color:var(--gold);color:var(--gold)">全部</button>';
+    (d.cats||[]).forEach(function(c){btns+='<button class="tag2" data-cat="'+c[0]+'">'+c[1]+'</button>';});
+    bar.innerHTML=btns+'<span style="font-size:11px;color:var(--dim);align-self:center;margin-left:auto;">图集生成：'+(d.asof||'—')+' · 每日两次随管线重绘</span>';
+    bar.querySelectorAll('[data-cat]').forEach(function(b){
+      b.addEventListener('click',function(){
+        _cgCat=b.getAttribute('data-cat');
+        bar.querySelectorAll('[data-cat]').forEach(function(x){x.style.borderColor='';x.style.color='';});
+        b.style.borderColor='var(--gold)';b.style.color='var(--gold)';
+        drawGallery();
+      });
+    });
+    drawGallery();
+  }).catch(function(){gal.innerHTML='<div class="card"><p style="color:var(--dim)">图集目录加载失败。</p></div>';});
+}
+function drawGallery(){
+  var gal=document.getElementById('chartGallery'); if(!_cgData)return;
+  var html='';
+  (_cgData.charts||[]).forEach(function(c){
+    if(_cgCat!=='all'&&c.cat!==_cgCat)return;
+    html+='<a href="../charts/'+c.file+'" target="_blank" style="text-decoration:none;"><div class="card" style="margin:0;padding:10px;">'
+      +'<img src="../charts/'+c.file+'?v='+encodeURIComponent(_cgData.asof||'')+'" loading="lazy" style="width:100%;border-radius:6px;display:block;">'
+      +'<p style="font-size:13px;margin:8px 0 2px;color:var(--txt);font-weight:700;">'+c.title+'</p>'
+      +'<p style="font-size:11px;margin:0;color:var(--dim);">'+c.sub+'</p></div></a>';
+  });
+  gal.innerHTML=html||'<div class="card"><p style="color:var(--dim)">该分类暂无图。</p></div>';
+}
+
+document.querySelectorAll('[data-dp="dp15"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountNewData,60);});});
+document.querySelectorAll('[data-dp="dp16"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountCharts,60);});});
+
+/* ============ 外资研报观点（dp17） ============ */
+var _ntDone=0;
+function mountNotes(){
+  var box=document.getElementById('notesBox'); if(!box||_ntDone)return; _ntDone=1;
+  fetch('../data/research_notes.json?v='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    var notes=(d.notes||[]);
+    var html='<div style="font-size:11px;color:var(--dim);margin-bottom:8px;">用户供稿制 · 整理截至 '+(d.asof||'—')+' · 新供稿（研报PDF/截图）发Kimi当晚入库</div>';
+    if(!notes.length){
+      html='<div class="card"><p style="font-size:13px;color:var(--dim);margin:0;line-height:1.8;">📮 <b style="color:var(--txt)">今日供稿位空置</b>。把研报PDF/截图或财经图表发给助手，当晚写入本页：<br>· 研报 → 机构+日期+核心观点转述+关键数据+框架交叉验证<br>· 图表 → 数据事实提取，自有管线验证后重绘进「每日财经图表」</p></div>';
+    }else{
+      notes.slice().reverse().forEach(function(n){
+        var pts=(n.points||[]).map(function(x){return '<li style="margin:3px 0;">'+x+'</li>';}).join('');
+        var kd=(n.key_data||[]).map(function(x){return '<span class="tag2" style="margin:2px 4px 2px 0;display:inline-block;">'+x+'</span>';}).join('');
+        html+='<div class="card" style="margin-bottom:12px;"><p style="font-size:13px;margin:0 0 6px;"><b style="color:var(--gold)">'+n.org+'</b>'
+          +'<span style="color:var(--dim);font-size:11px;margin-left:8px">'+n.date+' · '+n.title+'</span>'
+          +'<span class="badge bg2" style="margin-left:8px">用户供稿·转述</span></p>'
+          +'<ul style="margin:6px 0 6px 18px;padding:0;font-size:12.5px;line-height:1.8;">'+pts+'</ul>'
+          +(kd?'<div style="margin:4px 0;">'+kd+'</div>':'')
+          +(n.xcheck?'<p style="font-size:11.5px;color:var(--dim);margin:6px 0 0;border-top:1px dashed rgba(255,255,255,.08);padding-top:6px;">⚙️框架交叉验证：'+n.xcheck+'</p>':'')
+          +'</div>';
+      });
+    }
+    box.innerHTML=html+'<p style="font-size:11px;color:var(--dim);margin-top:4px;">更新：'+(d.updated||'—')+' · 观点为转述引用，不代表本框架立场 · 7天滚动</p>';
+  }).catch(function(){box.innerHTML='<div class="card"><p style="color:var(--dim)">研报观点加载失败。</p></div>';});
+}
+document.querySelectorAll('[data-dp="dp17"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountNotes,60);});});
+
+document.querySelectorAll('[data-dp="dp7"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(joltsCard,200);});});
+
+
+
+/* ---------- 图表区 ---------- */
+const CATALOG = [
+  {id:'DGS10',       name:'美债10Y',       unit:'%',      src:'L1'},
+  {id:'DGS2',        name:'美债2Y',        unit:'%',      src:'L1'},
+  {id:'T10Y2Y',      name:'10Y-2Y利差',    unit:'%',      src:'L1'},
+  {id:'DFII10',      name:'10Y实际利率',   unit:'%',      src:'L1'},
+  {id:'T5YIE',       name:'5Y盈亏平衡通胀',unit:'%',      src:'L1'},
+  {id:'VIXCLS',      name:'VIX波动率',     unit:'点',     src:'L1', seasonal:true},
+  {id:'BAMLC0A4CBBB',name:'高收益债OAS',   unit:'%',      src:'L1'},
+  {id:'DCOILWTICO',  name:'WTI原油',       unit:'美元/桶', src:'L1', seasonal:true},
+  {id:'DCOILBRENTEU',name:'布伦特原油',    unit:'美元/桶', src:'L1', seasonal:true},
+  {id:'沪金主连',     name:'沪金主连',      unit:'元/克',   src:'L2', seasonal:true},
+  {id:'沪银主连',     name:'沪银主连',      unit:'元/千克', src:'L2', seasonal:true},
+  {id:'沪铜主连',     name:'沪铜主连',      unit:'元/吨',   src:'L2', seasonal:true},
+  {id:'INE原油主连',  name:'INE原油主连',   unit:'元/桶',   src:'L2'},
+  {id:'EIA商业原油库存', name:'EIA商业原油库存', unit:'百万桶', src:'L1', seasonal:true},
+  {id:'SOFR',          name:'SOFR',           unit:'%',      src:'L1'},
+  {id:'EFFR',          name:'EFFR',           unit:'%',      src:'L1'},
+  {id:'RRPONTSYD',     name:'ON RRP余额',     unit:'十亿美元', src:'L1'},
+  {id:'WRESBAL',       name:'银行准备金',     unit:'百万美元', src:'L1'},
+  {id:'WDTGAL',        name:'TGA(日度)',      unit:'百万美元', src:'L1'},
+  {id:'SPR_SOFR_IORB', name:'SOFR-IORB',      unit:'bp',     src:'⚙️'},
+  {id:'NETLIQ',        name:'净流动性',       unit:'万亿美元', src:'⚙️'},
+  {id:'ACMTP10',       name:'10Y期限溢价',    unit:'%',      src:'L1'},
+  {id:'T10Y3M',        name:'10Y-3M利差',     unit:'%',      src:'L1'},
+  {id:'BAMLH0A0HYM2EY',name:'高收益债收益率', unit:'%',      src:'L1'},
+  {id:'SPR_USCN10Y',   name:'中美10Y利差',    unit:'pt',     src:'⚙️'},
+  {id:'EM_CGB10Y',     name:'中债10Y',        unit:'%',      src:'L3'},
+  {id:'CN_LPR1Y',      name:'LPR1Y',          unit:'%',      src:'L1'},
+  {id:'CN_SHIBOR3M',   name:'SHIBOR3M',       unit:'%',      src:'L1'},
+  {id:'GOLD_SILVER_RATIO', name:'金银比',     unit:'倍',     src:'⚙️'},
+];
+if(window.MACRO_CATALOG){window.MACRO_CATALOG.forEach(function(m){if(!CATALOG.some(function(c){return c.id===m.id;}))CATALOG.push({id:m.id,name:m.name,unit:m.unit||'',src:'L1'});});}
+let HIST = null, sel = ['DGS10','DFII10','T5YIE'], mode = 'line', rng = 3;
+/* 坐标轴手动指定：axisPref[id]=1右轴(次坐标轴)/0左轴/缺省=自动按量纲分配 */
+const axisPref = {};
+const chart = echarts.init(document.getElementById('chartBox'), null, {renderer:'canvas'});
+
+HIST = window.CHART_SERIES || {};
+
+function renderTags(){
+  const tb = document.getElementById('tagBox');
+  tb.innerHTML = '';
+  CATALOG.forEach(c=>{
+    const t = document.createElement('span');
+    t.className = 'tag2' + (sel.includes(c.id)?' on':'');
+    t.innerHTML = `${c.name}<span class="u"> ${c.unit}</span>`;
+    if(sel.includes(c.id)){
+      const ax = document.createElement('span');
+      ax.className = 'axb';
+      ax.textContent = axisPref[c.id]===1 ? '右' : axisPref[c.id]===0 ? '左' : '自';
+      ax.title = '坐标轴：点按循环 自动→次坐标轴(右)→左轴';
+      ax.onclick = (e)=>{
+        e.stopPropagation();
+        axisPref[c.id] = axisPref[c.id]===undefined ? 1 : (axisPref[c.id]===1 ? 0 : undefined);
+        renderTags(); render();
+      };
+      t.appendChild(ax);
+    }
+    t.onclick = ()=>{
+      if(sel.includes(c.id)){ sel = sel.filter(x=>x!==c.id); delete axisPref[c.id]; }
+      else { if(sel.length>=4){ alert('最多同时叠加4个指标'); return; } sel.push(c.id); }
+      renderTags(); render();
+    };
+    tb.appendChild(t);
+  });
+}
+document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{
+  mode=b.dataset.m;
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  render();
+});
+document.querySelectorAll('#rangeSeg button').forEach(b=>b.onclick=()=>{
+  rng=+b.dataset.r;
+  document.querySelectorAll('#rangeSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  render();
+});
+
+function cutoffDate(){
+  if(rng>=99) return '1900-01-01';
+  const now = new Date('2026-08-29');
+  now.setFullYear(now.getFullYear()-rng);
+  return now.toISOString().slice(0,10);
+}
+
+const PALETTE = ['#d4a944','#5b9bd5','#4caf7d','#e5534b'];
+function render(){
+  if(!HIST) return;
+  if(mode==='seasonal') renderSeasonal(); else renderLine();
+  renderConcl();
+}
+/* 每个选中指标一条⚙️规则文字结论 */
+function renderConcl(){
+  const host = document.getElementById('chartConcl');
+  if(!host) return;
+  if(!window.CE || !CE.seriesConclusion){ host.innerHTML=''; return; }
+  const lines = sel.map(id=>{
+    const c = CATALOG.find(x=>x.id===id);
+    try{ return CE.seriesConclusion(id, c?c.name:id, c?c.unit:''); }catch(e){ return ''; }
+  }).filter(Boolean);
+  host.innerHTML = lines.length ? lines.join('') + (CE.stamp?CE.stamp():'') : '';
+}
+function renderLine(){
+  const cut = cutoffDate();
+  const defs = [];
+  sel.forEach((id,i)=>{
+    const c = CATALOG.find(x=>x.id===id);
+    const data = (HIST[id]||[]).filter(p=>p[0]>=cut);
+    if(!data.length) return;
+    // 轴分配：手动指定优先；否则首指标左轴、量纲不同的后续右轴
+    let yi = 0;
+    if(axisPref[id]!==undefined) yi = axisPref[id];
+    else if(defs.length>0 && c.unit!==defs[0].c.unit) yi = 1;
+    defs.push({c:c, data:data, yi:yi, i:i});
+  });
+  const used = [...new Set(defs.map(d=>d.yi))].sort((a,b)=>a-b);
+  const idxMap = {}, yAxis = [];
+  used.forEach(u=>{
+    idxMap[u] = yAxis.length;
+    const d0 = defs.find(d=>d.yi===u);
+    yAxis.push({type:'value', name:d0?d0.c.unit:'', position: u===0?'left':'right',
+      axisLabel:{color:'#8a94a6',fontSize:10}, splitLine:{lineStyle:{color:'#222a3a'}}, scale:true});
+  });
+  const series = defs.map(d=>{
+    const sers={name:`${d.c.name}(${d.c.unit})`, type:mode==='bar'?'bar':'line', yAxisIndex:idxMap[d.yi], showSymbol:false,
+      data:d.data, lineStyle:{width:1.6, color:PALETTE[d.i%4]}, itemStyle:{color:PALETTE[d.i%4]}};
+    if(mode==='bar'){ sers.barMaxWidth=14; delete sers.lineStyle; }
+    return sers;
+  });
+  chart.clear();
+  chart.setOption({
+    backgroundColor:'transparent',
+    tooltip:{trigger:'axis', backgroundColor:'#1c2333', borderColor:'#262d3d', textStyle:{color:'#d7dde8',fontSize:11}},
+    legend:{textStyle:{color:'#aeb8c8',fontSize:11}, top:0},
+    grid:{left:56,right:56,top:34,bottom:60},
+    xAxis:{type:'time', axisLabel:{color:'#8a94a6',fontSize:10}, axisLine:{lineStyle:{color:'#333'}}},
+    yAxis:yAxis,
+    dataZoom:[{type:'slider', height:18, bottom:8, backgroundColor:'#1a2130', fillerColor:'rgba(212,169,68,.15)', borderColor:'#333', textStyle:{color:'#8a94a6',fontSize:9}}],
+    series:series
+  }, true);
+}
+function renderSeasonal(){
+  // 每个选中指标一个子图，垂直堆叠；子图内按年叠线，当年金色加粗
+  const n = sel.length || 1;
+  const grids=[], xAxes=[], yAxes=[], series=[];
+  // 固定category轴 01-01..12-31
+  const md = [];
+  for(let m=1;m<=12;m++){ const dm=[31,29,31,30,31,30,31,31,30,31,30,31][m-1];
+    for(let d=1;d<=dm;d++) md.push(String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0')); }
+  const curYear = '2026';
+  sel.forEach((id,gi)=>{
+    const c = CATALOG.find(x=>x.id===id);
+    const data = HIST[id]||[];
+    const byYear = {};
+    data.forEach(([dt,v])=>{ const y=dt.slice(0,4), m2=dt.slice(5); (byYear[y]=byYear[y]||{}); byYear[y][m2]=v; });
+    const top = 6 + gi*(88/n), hgt = 88/n - 12;
+    grids.push({left:56,right:20,top:`${top}%`,height:`${hgt}%`});
+    xAxes.push({type:'category', data:md, gridIndex:gi, axisLabel:{show:false}, axisTick:{show:false}, axisLine:{lineStyle:{color:'#333'}}});
+    yAxes.push({type:'value', gridIndex:gi, scale:true, name:`${c.name} ${c.unit}`, nameTextStyle:{color:'#aeb8c8',fontSize:10},
+      axisLabel:{color:'#8a94a6',fontSize:9}, splitLine:{lineStyle:{color:'#222a3a'}}});
+    Object.keys(byYear).sort().forEach(y=>{
+      const yd = md.map(m2=> byYear[y][m2]!==undefined? byYear[y][m2] : null);
+      const isCur = (y===curYear);
+      series.push({name:y, type:'line', xAxisIndex:gi, yAxisIndex:gi, data:yd, showSymbol:false, connectNulls:true,
+        lineStyle:{width: isCur?2.6:0.8, color: isCur? '#d4a944' : undefined, opacity: isCur?1:0.55},
+        itemStyle:{color: isCur? '#d4a944' : undefined},
+        emphasis:{lineStyle:{width:2}}, z: isCur?10:2});
+    });
+  });
+  chart.clear();
+  chart.setOption({
+    backgroundColor:'transparent',
+    color:['#3a4a65','#4a5a75','#5b6b86','#6d7d97','#8090a8','#93a3b9','#a6b6ca','#b9c9db'],
+    tooltip:{trigger:'axis', backgroundColor:'#1c2333', borderColor:'#262d3d', textStyle:{color:'#d7dde8',fontSize:10}},
+    legend:{textStyle:{color:'#aeb8c8',fontSize:10}, top:0},
+    grid:grids, xAxis:xAxes, yAxis:yAxes, series:series
+  }, true);
+}
+renderTags(); render();
+window.addEventListener('resize', ()=>chart.resize());
+</script>
+<script>
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function renderLive(S){
+  // FedWatch（若官方管线 fedwatch.json 已成功渲染，则跳过手工快照，避免旧值覆盖新值）
+  if(!window.__fwFresh){
+  let fw = S.fedwatch;
+  let rows = fw.meetings.map(m=>`<tr><td>${m.date}</td><td>${m.hold}%</td><td class="up">${m.hike25}%</td><td>${m.hike50?m.hike50+'%':'—'}</td></tr>`).join('');
+  document.getElementById('fwBox').innerHTML =
+    `<table><tr><th>FOMC会议</th><th>维持不变</th><th>加息25bp</th><th>加息50bp</th></tr>${rows}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:6px;">${esc(fw.src)} · 截至 ${fw.asof} · ${esc(fw.note)}；前一快照(${fw.prev.asof})：9月维持${fw.prev.hold}% / 加息${fw.prev.hike25}%</div>`;
+  }
+  // TACO（若 fresh_panels.js 已用 trump_zone.json 渲染，则跳过快照）
+  if(!window.__tacoFresh){
+  let t = S.taco;
+  let comps = t.comps.map(c=>`<tr><td>${c[0]}</td><td class="${c[1]>=0?'up':'dn'}" style="text-align:right;">${c[1]>0?'+':''}${c[1]}%</td></tr>`).join('');
+  let evs = t.events.map(e=>`<div style="font-size:12px;padding:5px 0;border-top:1px dashed var(--line);"><span style="color:var(--dim);font-size:11px;">${e[0]}</span> ${e[1]}</div>`).join('');
+  document.getElementById('tacoBox').innerHTML =
+    `<div style="display:flex;align-items:baseline;gap:14px;"><span class="big" style="color:${t.value>0?'var(--up)':'var(--dn)'};">${t.value>0?'+':''}${t.value}%</span>
+     <span class="ch-tag" style="border-color:var(--gold);color:var(--gold);">${t.zone}区</span>
+     <span style="font-size:12px;color:var(--dim);">较20个交易日前 ${t.chg20d}%</span></div>
+     <div class="zonebar"><div style="background:#2d4a3f;"></div><div style="background:#3a4a2d;"></div><div style="background:#4a3a2d;"></div><div style="background:#4a2d2d;"></div></div>
+     <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--dim);"><span>膨胀(易GAMBLE)</span><span>低压</span><span>中压</span><span>高压(易TACO)</span></div>
+     <div style="font-size:11px;color:var(--dim);margin:8px 0;">分项贡献（20日变动标准化）：</div>
+     <table>${comps}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:10px;">近期TACO事件：</div>${evs}
+     <div style="font-size:11px;color:var(--dim);margin-top:8px;">${esc(t.src)} · 数据日 ${t.asof} · ${esc(t.method)}</div>`;
+  }
+  // 美伊（若 fresh_panels.js 已用 polymarket.json+geopolitics.json 渲染，则跳过快照）
+  if(!window.__iranFresh){
+  let ir = S.iran;
+  let mk = ir.markets.map(m=>`<tr><td>${m.q}</td><td class="up" style="text-align:right;font-weight:700;">${m.yes}%</td><td style="text-align:right;">${m.vol}</td><td style="font-size:11px;color:var(--dim);">${m.chg}</td></tr>`).join('');
+  let iev = ir.events.map(e=>`<div style="font-size:12px;padding:5px 0;border-top:1px dashed var(--line);"><span style="color:var(--dim);font-size:11px;">${e[0]}</span> ${e[1]}</div>`).join('');
+  document.getElementById('iranBox').innerHTML =
+    `<table><tr><th>预测市场（Yes=达成/恢复）</th><th style="text-align:right;">概率</th><th style="text-align:right;">成交额</th><th>变动</th></tr>${mk}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:8px;">最新进展：</div>${iev}
+     <div style="font-size:11px;color:var(--dim);margin-top:8px;">${esc(ir.src)} · 数据日 ${ir.asof}</div>`;
+  }
+  // 金十式数据日历（本周/下周/关键节点 按钮切换;每卡仅显最重要1条,其余折叠"其他+N"）
+  let cal = S.calendar;
+  document.getElementById('calSeg').style.display='none';
+  function calFallback(){
+    document.getElementById('calTopBox').innerHTML = cal.weeks[0].items.map(it=>{
+      const star = (it[1].match(/★/g)||[]).length;
+      return `<div class="calitem ${star>=4?'hot':''}"><div class="cald">${it[0]}</div><div class="calt">${it[1]}</div></div>`;
+    }).join('');
+    document.getElementById('calNote').textContent = cal.note + ' · 数据日 ' + cal.asof;
+  }
+  if(window.loadEconCal){
+    window.loadEconCal('calTopBox','../data/econ_calendar.json',{btnHostId:'calBtnBar'},function(ec){
+      var tb=document.getElementById('calTopBox'); if(tb) tb.classList.remove('calrow');
+      document.getElementById('calNote').textContent='';
+    }, calFallback);
+  } else { calFallback(); }
+  // 关键数据时间表（结论上方）（若 fresh_panels.js 已用 calendar_consensus 渲染则跳过）
+  if(cal.keydates && !window.__kdFresh){
+    document.getElementById('keyDateBar').innerHTML = cal.keydates.map(k=>
+      `<div class="kd ${k[2].length>=4?'hot':''}"><div class="kdd">${k[0]}</div><div class="kde">${k[1]}</div><div class="kds">${k[2]}</div></div>`
+    ).join('<div class="kdarr">→</div>');
+  }
+  document.querySelectorAll('.snapAsof').forEach(e=>e.textContent='FedWatch·事件快照：'+S.asof);
+}
+/* ====== 总览实时卡·盘中补丁②：管线L2行情快照(每2小时,盘中直连失败时兜底+覆盖更多键) ====== */
+function liveQuotes(cb){
+  fetch('../data/live_quotes.json?v='+Date.now()).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(Q){
+    var F=window._ovFmt;
+    if(F){Object.keys(Q.quotes||{}).forEach(function(k){
+      var card=document.querySelector('.ovCard[data-ovid="'+k+'"]'); if(!card)return;
+      /* CNBC已写入盘中价的卡不覆盖(看ovD是否含盘中实时) */
+      var od=card.querySelector('.ovD'); if(od&&od.textContent.indexOf('盘中实时')>=0)return;
+      var q=Q.quotes[k]; if(q.price==null)return;
+      card.querySelector('.ovV').textContent=F.fmtV(q.price);
+      var chips=card.querySelectorAll('.ovChips span');
+      if(chips[0]&&q.chg_pct!=null){var pc=q.chg_pct;chips[0].className=pc>0?'up':pc<0?'dn':'flat';chips[0].textContent='日 '+(pc>0?'+':'')+pc.toFixed(2)+'%';}
+      if(od)od.innerHTML='<span style="color:#d4a944">快照 '+Q.asof+' · L2·管线快照(每2小时)</span> · 点评⚙️自建规则';
+    });}
+    /* 顶部FedWatch/事件快照标签旁的行情时间 */
+    if(cb)cb(Q);
+  }).catch(function(){ if(cb)cb(null); });
+}
+
+function refreshAll(){
+  const m=document.getElementById('updMsg');
+  if(m)m.textContent='刷新中：穿透缓存重拉全部数据源…';
+  /* 重置全部面板守卫, 强制重挂载 */
+  try{_liqDone=false;_bondDone=false;_fxDone=false;_wsdDone=false;_rpMounted=false;}catch(e){}
+  try{window._ovDone=false;}catch(e){}
+  try{_ndDone=0;_cgDone=0;_ntDone=0;}catch(e){}
+  const jc=document.getElementById('joltsCard'); if(jc)jc._done=0;
+  /* ① 官方底稿chart_series重载 → 重建全部依赖面板 */
+  const ocs=document.getElementById('csjs'); if(ocs)ocs.remove();
+  const cs=document.createElement('script'); cs.id='csjs';
+  cs.src='../data/chart_series.js?t='+Date.now();
+  cs.onload=()=>{ try{
+    buildOvCards();
+    if(typeof mountOv==='function')mountOv();
+    if(typeof mountRp==='function')mountRp();
+    if(typeof joltsCard==='function')joltsCard();
+    if(typeof mountBond==='function')mountBond();
+    if(typeof mountFx==='function')mountFx();
+    if(typeof mountWSd==='function')mountWSd();
+    if(typeof autoChg==='function')autoChg();
+    if(typeof buildSnapD==='function')buildSnapD();
+    if(window.CE&&CE.renderDaily){CE._reset();CE.renderDaily();}
+    if(window.RW_OWNER){window.RW_OWNER.applyOverrides();if(window.RW_OWNER.isOwner())window.RW_OWNER.arm();}
+  }catch(e){} };
+  document.head.appendChild(cs);
+  /* ② 手工策划快照 */
+  const old = document.getElementById('livejs'); if(old) old.remove();
+  const s2 = document.createElement('script'); s2.id='livejs';
+  s2.src = '../data/live_snapshot.js?t=' + Date.now();
+  s2.onload = ()=>{ renderLive(window.LIVE_SNAPSHOT); };
+  document.head.appendChild(s2);
+  /* ③ 各json面板重拉 */
+  loadForecast(); loadNewsDigest(); liveUST(); liveCNBC();
+  if(typeof mountLiq==='function')mountLiq();
+  if(typeof mountNewData==='function')mountNewData();
+  if(typeof mountCharts==='function')mountCharts();
+  if(typeof mountNotes==='function')mountNotes();
+  if(typeof loadViews==='function')loadViews();
+  liveQuotes(function(Q){
+    setTimeout(function(){
+      if(m)m.textContent='已更新 · '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})
+        +' · 官方底稿/分项贡献/新出数据/图集/流动性/研报观点已重拉 · 行情 '+(Q?Q.asof:'直连中');
+    },1200);
+  });
+}
+function refreshLive(){ refreshAll(); }
+/* 本页全自动更新，无人工维护入口 */
+/* 页面加载完成后：规则引擎生成全部结论文字 → 再应用站长本机人工修订（如有） */
+window.addEventListener('load',function(){
+  try{ if(window.CE&&CE.renderDaily)CE.renderDaily(); }catch(e){}
+  try{ if(window.RW_OWNER){ window.RW_OWNER.applyOverrides(); if(window.RW_OWNER.isOwner())window.RW_OWNER.arm(); } }catch(e){}
+});
+
+/* ================= 自动更新版专属 ================= */
+/* --- 自动数据日 --- */
+function autoDate(){
+  var el=document.getElementById('autoDate'); if(!el)return;
+  if(!window.CHART_SERIES){setTimeout(autoDate,400);return;}
+  var mx='';
+  ['DGS10','Y_GOLD','IF_000300SH','T10Y2Y','SOFR'].forEach(function(k){
+    var a=(window.CHART_SERIES[k]||[]).filter(function(p){return p[1]!=null;});
+    if(a.length&&a[a.length-1][0]>mx)mx=a[a.length-1][0];
+  });
+  el.textContent=mx?mx+'（管线最新）':'—';
+}
+autoDate();
+
+/* --- 观点区：读views.json(人工供稿,冻结制) --- */
+function loadViews(){
+  fetch('../data/views.json?v='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    var el=document.getElementById('viewsBox'); if(!el)return;
+    el.innerHTML='<div class="card concl">'+d.html+'</div>'
+      +'<p style="font-size:11px;color:var(--dim);margin-top:6px;">观点冻结于 <b style="color:var(--gold)">'+d.frozen+'</b>（'+d.updated+'）· 事后数据不回填，修正以注记追加 · 最新数据佐证见各面板</p>';
+  }).catch(function(){var el=document.getElementById('viewsBox');if(el)el.innerHTML='<div class="card"><p style="color:var(--dim)">观点加载失败。</p></div>';});
+}
+loadViews();
+
+/* --- 今日边际变化：自动扫描器 --- */
+var CHG_RULES=[
+ {k:'DGS10',n:'美债10Y',u:'%',mode:'bp',thr:function(v){return v>=4.90?'破4.90%·债市失序警报线触发':null;}},
+ {k:'DGS30',n:'美债30Y',u:'%',mode:'bp'},
+ {k:'DGS2',n:'美债2Y',u:'%',mode:'bp'},
+ {k:'T10Y2Y',n:'10Y-2Y利差',u:'bp',mode:'bp100'},
+ {k:'DFII10',n:'10Y实际利率',u:'%',mode:'bp',thr:function(v){return v>=2.45?'站上2.45%·贵金属压制线':null;}},
+ {k:'T5YIE',n:'5Y盈亏平衡通胀',u:'%',mode:'bp'},
+ {k:'BAMLC0A4CBBB',n:'高收益债OAS',u:'%',mode:'bp',thr:function(v){return v>=1.20?'破1.20%·信用风险警报':null;}},
+ {k:'Y_GOLD',n:'COMEX黄金',u:'美元',mode:'pct',thr:function(v){return v<4360?'破4363双底·下看4220(MA50)':(v>4520?'收复4520·压制解除':null);}},
+ {k:'Y_SLV',n:'COMEX白银',u:'美元',mode:'pct'},
+ {k:'DCOILWTICO',n:'WTI原油',u:'美元',mode:'pct',thr:function(v){return v>=96?'破96区间上沿·滞胀压力加剧':null;}},
+ {k:'Y_DXY',n:'美元指数',u:'',mode:'pct',thr:function(v){return v>=102?'破102·紧缩型走强确认':null;}},
+ {k:'Y_USDJPY',n:'USDJPY',u:'',mode:'pct',thr:function(v){return v>=155?'入155+·干预雷区':null;}},
+ {k:'VIXCLS',n:'VIX',u:'',mode:'abs',thr:function(v){return v>=18?'破18·risk-off确认线':null;}},
+ {k:'Y_GSPC',n:'标普500',u:'点',mode:'pct'},
+ {k:'IF_000300SH',n:'沪深300',u:'点',mode:'pct'},
+ {k:'IF_AU9999',n:'AU9999',u:'元/克',mode:'pct'},
+ {k:'EM_CGB10Y',n:'中债10Y',u:'%',mode:'bp'},
+ {k:'SOFR',n:'SOFR',u:'%',mode:'bp'}
+];
+function _csP(key,back){var a=(window.CHART_SERIES||{})[key]||[];a=a.filter(function(p){return p[1]!=null;});if(a.length<=back)return null;return {cur:a[a.length-1],prev:a[a.length-1-back]};}
+function _fmtChg(o){
+  if(o.mode==='pct'){var p=o.chg/o.prev*100;return (p>=0?'+':'')+p.toFixed(2)+'%';}
+  if(o.mode==='abs'){return (o.chg>=0?'+':'')+o.chg.toFixed(2);}
+  var b=o.chg*100;return (b>=0?'+':'')+b.toFixed(0)+'bp';
+}
+function _fmtV(o){return o.mode==='bp100'?(o.v*100).toFixed(0)+'bp':(o.v>=1000?o.v.toFixed(1):o.v.toFixed(2))+o.u;}
+function autoChg(){
+  var box=document.getElementById('autoChg'); if(!box)return;
+  if(!window.CHART_SERIES||!window.CE||!window.CE.threeEdges){setTimeout(autoChg,400);return;}
+  /* 并发取地缘时间线与Polymarket（失败不阻塞，主题卡自动降级为纯数据版） */
+  var gp=fetch('../data/geopolitics.json?v='+Date.now()).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+  var pp=fetch('../data/polymarket.json?v='+Date.now()).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+  Promise.all([gp,pp]).then(function(rs){
+    var h='';
+    try{ h+=window.CE.threeEdges(rs[0],rs[1]); }catch(e){ h+='<div class="card"><p style="color:var(--dim)">主题卡生成失败：'+e+'</p></div>'; }
+    /* 折叠备查：序列扫描全榜（原自动扫描保留） */
+    var rows=[];
+    CHG_RULES.forEach(function(r){
+      var d1=_csP(r.k,1); if(!d1)return;
+      var o={r:r,v:d1.cur[1],dt:d1.cur[0],prev:d1.prev[1],chg:d1.cur[1]-d1.prev[1]};
+      o.hit=r.thr?r.thr(o.v):null;
+      o.mag=r.mode==='pct'?Math.abs(o.chg/o.prev*100):Math.abs(o.chg*100);
+      rows.push(o);
+    });
+    rows.sort(function(a,b){return b.mag-a.mag;});
+    if(rows.length){
+      h+='<details class="card" style="padding:10px 14px;"><summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">序列扫描全榜（'+rows.length+'条规则·阈值+单日变动排序，备查）▼</summary>'
+        +'<table style="margin-top:8px;"><tr><th>指标</th><th style="text-align:right;">最新</th><th style="text-align:right;">日变动</th><th>信号</th></tr>';
+      rows.slice(0,12).forEach(function(o){
+        h+='<tr><td>'+o.r.n+'</td><td style="text-align:right;">'+_fmtV({v:o.v,mode:o.r.mode==='bp100'?'bp100':'x',u:o.r.u})+'</td>'
+          +'<td style="text-align:right;">'+(o.chg>=0?'<span class="dn">':'<span class="up">')+_fmtChg({chg:o.chg,prev:o.prev,mode:o.r.mode})+'</span></td>'
+          +'<td>'+(o.hit?'<span style="color:#e5534b">'+o.hit+'</span>':'<span style="color:var(--dim)">—</span>')+'</td></tr>';
+      });
+      h+='</table></details>';
+    }
+    if(window.CE.edgeSummary){ try{ h+=window.CE.edgeSummary(); }catch(e){} }
+    box.innerHTML=h;
+    if(window.RW_OWNER){ try{ window.RW_OWNER.applyOverrides(); if(window.RW_OWNER.isOwner())window.RW_OWNER.arm(); }catch(e){} }
+  });
+}
+autoChg();
+
+/* --- 数据总表：动态截面 --- */
+var SNAP_GROUPS=[
+ {g:'利率·美元·信用',items:[
+  {n:'美债10Y收益率',k:'DGS10',u:'%',mode:'bp',src:'L1',hot:1},{n:'美债30Y收益率',k:'DGS30',u:'%',mode:'bp',src:'L1'},
+  {n:'美债2Y收益率',k:'DGS2',u:'%',mode:'bp',src:'L1'},{n:'10Y-2Y利差',k:'T10Y2Y',u:'bp',mode:'bp100',src:'L1'},
+  {n:'10Y TIPS实际利率',k:'DFII10',u:'%',mode:'bp',src:'L1',hot:1},{n:'5Y盈亏平衡通胀',k:'T5YIE',u:'%',mode:'bp',src:'L1'},
+  {n:'美高收益债OAS',k:'BAMLC0A4CBBB',u:'%',mode:'bp',src:'L1'},{n:'中债10Y收益率',k:'EM_CGB10Y',u:'%',mode:'bp',src:'L1'},
+  {n:'中美10Y利差(美-中)',k:'SPR_USCN10Y',u:'bp',mode:'bp100',src:'⚙️'},{n:'美元指数DXY',k:'Y_DXY',u:'',mode:'pct',src:'L2'}]},
+ {g:'汇率',items:[
+  {n:'USDJPY',k:'Y_USDJPY',u:'',mode:'pct',src:'L2'},{n:'EURUSD',k:'Y_EURUSD',u:'',mode:'pct',src:'L2'},
+  {n:'USDCHF',k:'Y_USDCHF',u:'',mode:'pct',src:'L2'}]},
+ {g:'股指·波动率',items:[
+  {n:'标普500',k:'Y_GSPC',u:'点',mode:'pct',src:'L2',hot:1},{n:'纳斯达克',k:'Y_IXIC',u:'点',mode:'pct',src:'L2'},
+  {n:'VIX',k:'VIXCLS',u:'',mode:'abs',src:'L1',hot:1},
+  {n:'上证指数',k:'IF_000001SH',u:'点',mode:'pct',src:'L2'},{n:'沪深300',k:'IF_000300SH',u:'点',mode:'pct',src:'L2'},
+  {n:'创业板指',k:'IF_399006SZ',u:'点',mode:'pct',src:'L2'}]},
+ {g:'商品·贵金属',items:[
+  {n:'COMEX黄金',k:'Y_GOLD',u:'美元/盎司',mode:'pct',src:'L2',hot:1},{n:'COMEX白银',k:'Y_SLV',u:'美元/盎司',mode:'pct',src:'L2'},
+  {n:'AU9999(上金所)',k:'IF_AU9999',u:'元/克',mode:'pct',src:'L2'},{n:'沪银AG9999',k:'IF_AG9999',u:'元/千克',mode:'pct',src:'L2'},
+  {n:'WTI原油',k:'DCOILWTICO',u:'美元/桶',mode:'pct',src:'L1',hot:1},{n:'布伦特原油',k:'DCOILBRENTEU',u:'美元/桶',mode:'pct',src:'L1'}]}
+];
+function buildSnapD(){
+  var box=document.getElementById('tables'); if(!box)return;
+  if(!window.CHART_SERIES){setTimeout(buildSnapD,400);return;}
+  var out='';
+  SNAP_GROUPS.forEach(function(g){
+    var h='<table><tr><th style="width:30%">'+g.g+'</th><th>最新值</th><th>日变动</th><th>数据日</th><th>来源</th></tr>';
+    g.items.forEach(function(it){
+      var a=(window.CHART_SERIES[it.k]||[]).filter(function(p){return p[1]!=null;});
+      var badge=it.src==='L1'?'<span class="badge b1">L1</span>':it.src==='L2'?'<span class="badge b2">L2</span>':'<span class="badge bc">⚙️</span>';
+      if(!a.length){h+='<tr><td>'+it.n+'</td><td colspan="3" style="color:var(--dim)">缺口</td><td><span class="badge bg2">灰</span></td></tr>';return;}
+      var cur=a[a.length-1],prev=a.length>1?a[a.length-2]:null;
+      var v=cur[1],vs=it.mode==='bp100'?(v*100).toFixed(0)+'bp':(v>=1000?v.toFixed(1):v.toFixed(2))+it.u;
+      var chg='—',cls='flat';
+      if(prev){var d=v-prev[1];
+        if(it.mode==='pct'){var pc=d/prev[1]*100;chg=(pc>=0?'+':'')+pc.toFixed(2)+'%';cls=pc<0?'up':'dn';}
+        else if(it.mode==='abs'){chg=(d>=0?'+':'')+d.toFixed(2);cls=d<0?'up':'dn';}
+        else{var bb=d*100;chg=(bb>=0?'+':'')+bb.toFixed(0)+'bp';cls=bb<0?'up':'dn';}}
+      h+='<tr'+(it.hot?' class="hot"':'')+'><td>'+it.n+'</td><td><b>'+vs+'</b></td><td class="'+cls+'">'+chg+'</td>'
+        +'<td style="color:var(--dim);font-size:12px">'+cur[0]+'</td><td>'+badge+'</td></tr>';
+    });
+    out+=h+'</table><div style="height:10px"></div>';
+  });
+  box.innerHTML=out;
+}
+buildSnapD();
+
+// ===== 数据预测页签（dp11）：FedWatch官方全会议表 + 投行预测矩阵 =====
+function renderFwFull(F){
+  const rows = fwPerMeeting(F).map((m,i)=>{
+    const hi = m.hike>=50 ? 'up' : (m.ease>=50 ? 'dn' : '');
+    return `<tr style="${i===0?'background:rgba(212,169,68,.08);':''}"><td>${m.meeting}${i===0?' ◀最近':''}</td>`+
+      `<td style="text-align:right;">${m.ease}%</td><td style="text-align:right;">${m.no_change}%</td>`+
+      `<td class="${hi}" style="text-align:right;font-weight:700;">${m.hike}%</td>`+
+      `<td style="text-align:right;color:var(--dim);">${m.mid||'—'}</td></tr>`;
+  }).join('');
+  document.getElementById('fwFullBox').innerHTML =
+    `<table><tr><th>FOMC会议</th><th style="text-align:right;">降息</th><th style="text-align:right;">维持</th><th style="text-align:right;">加息</th><th style="text-align:right;">中间价</th></tr>${rows}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:6px;">L2·交易所口径：${esc(F.source)} · ${esc(F.contract||'')} · 截至 ${F.asof} · 工作日07-23点每2小时管线自动更新·「更新全部内容」即时穿透拉取最新快照</div>`;
+  document.getElementById('fwFullAsof').textContent = F.asof;
+  window.__fwAsof=F.asof;
+}
+function fwFullFallback(){
+  if(!window.LIVE_SNAPSHOT) return;
+  const fw = window.LIVE_SNAPSHOT.fedwatch;
+  document.getElementById('fwFullBox').innerHTML =
+    `<table><tr><th>FOMC会议</th><th>维持不变</th><th>加息25bp</th><th>加息50bp</th></tr>`+
+    fw.meetings.map(m=>`<tr><td>${m.date}</td><td>${m.hold}%</td><td class="up">${m.hike25}%</td><td>${m.hike50?m.hike50+'%':'—'}</td></tr>`).join('')+
+    `</table><div style="font-size:11px;color:var(--dim);margin-top:6px;">${esc(fw.src)} · 截至 ${fw.asof}（fedwatch.json暂缺，回落到手工快照口径）</div>`;
+  document.getElementById('fwFullAsof').textContent = fw.asof + '（快照）';
+}
+function renderBanks(F){
+  document.getElementById('bankAsof').textContent = F.asof;
+  document.getElementById('bankBox').innerHTML = F.events.map(ev=>{
+    const subs = (ev.subs&&ev.subs.length) ?
+      `<div style="font-size:12px;margin:6px 0 2px;color:var(--dim);">分项共识：</div><table><tr><th>分项</th><th style="text-align:right;">共识</th><th>前值</th></tr>`+
+      ev.subs.map(s=>`<tr><td>${s[0]}</td><td style="text-align:right;color:var(--gold);">${s[1]}</td><td style="color:var(--dim);">${s[2]}</td></tr>`).join('')+`</table>` : '';
+    const banks = (ev.banks&&ev.banks.length) ?
+      `<table style="margin-top:8px;"><tr><th>机构</th><th>数字预测</th><th>核心观点/逻辑</th><th style="text-align:right;">口径日期</th></tr>`+
+      ev.banks.map(b=>`<tr><td style="white-space:nowrap;"><b>${b.bank}</b></td>`+
+        `<td style="white-space:nowrap;${b.fc.indexOf('—')===0?'color:var(--dim);':'color:var(--gold);font-weight:700;'}">${b.fc}</td>`+
+        `<td style="font-size:12px;">${b.view}</td>`+
+        `<td style="text-align:right;font-size:11px;color:var(--dim);white-space:nowrap;">${b.date} · ${b.src}</td></tr>`).join('')+`</table>` :
+      `<div style="font-size:12px;color:var(--dim);margin-top:6px;">投行数字预测尚未披露（一般公布前1-2日），当前缺口标灰待补。</div>`;
+    const bnote = ev.banks_note ? `<div style="font-size:11px;color:var(--dim);margin-top:4px;">◈ ${ev.banks_note}</div>` : '';
+    const logic = `<div style="font-size:12px;margin:10px 0 4px;color:var(--gold);"><b>重要逻辑</b></div><ol style="margin:0;padding-left:20px;">`+
+      ev.logic.map(l=>`<li style="font-size:12.5px;line-height:1.75;margin-bottom:5px;">${l}</li>`).join('')+`</ol>`;
+    return `<div style="border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:baseline;">
+        <b style="font-size:14px;">${ev.name}</b>
+        <span style="font-size:12px;color:var(--gold);">公布：${ev.release}</span>
+      </div>
+      <div style="font-size:12px;margin-top:6px;">共识：<b style="color:${ev.consensus.indexOf('—')===0?'var(--dim)':'var(--gold)'};">${ev.consensus}</b>
+        <span style="color:var(--dim);margin-left:14px;">前值：${ev.previous}</span></div>
+      ${subs}${banks}${bnote}${logic}</div>`;
+  }).join('') +
+  `<div style="font-size:11px;color:var(--dim);">${esc(F.src)} · 整理截至 ${F.asof}</div>`;
+}
+/* 五、政策定价面板·FedWatch小表：直读官方管线 fedwatch.json（fedwatch.yml 工作日每2小时更新），
+   不再读手工快照 live_snapshot.js（该文件无管线维护、9/2起冻结）；加载失败才回落快照 */
+/* 单月口径：由官方目标区间分布推算"当月"加息/维持/降息概率
+   方法：E[会后利率]=Σ区间中值×概率；当月变动ΔE/25bp → 当月加息概率
+   锚点=首场会议hold概率所在桶（决议日即时准确，不依赖FRED目标区间） */
+function fwPerMeeting(FW){
+  var prev=null, ms=FW.meetings||[];
+  if(ms.length&&ms[0].buckets&&ms[0].buckets.length){
+    var m0=ms[0], hit=null;
+    for(var i=0;i<m0.buckets.length;i++){if(Math.abs(m0.buckets[i].p-(m0.no_change||0))<0.06){hit=m0.buckets[i];break;}}
+    var b=hit||((m0.hike||0)>=(m0.ease||0)?m0.buckets[0]:m0.buckets[m0.buckets.length-1]);
+    var r0=b.r.split('-'); prev=(parseInt(r0[0])+parseInt(r0[1]))/200;
+  }
+  if(prev==null){var cb=(FW.current_bucket||'350-375').split('-');prev=(parseInt(cb[0])+parseInt(cb[1]))/200;}
+  return ms.map(function(m){
+    if(!m.buckets||!m.buckets.length) return {meeting:m.meeting,ease:m.ease,no_change:m.no_change,hike:m.hike,mid:m.mid};
+    var E=0;
+    m.buckets.forEach(function(b){var r=b.r.split('-');E+=((parseInt(r[0])+parseInt(r[1]))/200)*(b.p/100);});
+    var d=E-prev, h=Math.max(0,Math.min(100,d/0.25*100)), e=Math.max(0,Math.min(100,-d/0.25*100));
+    prev=E;
+    return {meeting:m.meeting,ease:+e.toFixed(1),no_change:+(100-h-e).toFixed(1),hike:+h.toFixed(1),mid:m.mid};
+  });
+}
+async function loadFwMini(){
+  try{
+    const r = await fetch('../data/fedwatch.json?v='+Date.now());
+    if(!r.ok) throw 0;
+    const F = await r.json();
+    const PM = fwPerMeeting(F);
+    const rows = PM.map((m,i)=>{
+      const hi = m.hike>=50?'up':(m.ease>=50?'dn':'');
+      return `<tr style="${i===0?'background:rgba(212,169,68,.08);':''}"><td>${m.meeting}${i===0?' ◀最近':''}</td>`+
+        `<td style="text-align:right;">${m.ease}%</td><td style="text-align:right;">${m.no_change}%</td>`+
+        `<td class="${hi}" style="text-align:right;font-weight:700;">${m.hike}%</td></tr>`;
+    }).join('');
+    const concl = (window.CE&&window.CE.fwConclusion)?window.CE.fwConclusion(F):'';
+    window.__fwFresh = true;
+    document.getElementById('fwBox').innerHTML =
+      `<table><tr><th>FOMC会议</th><th style="text-align:right;">降息</th><th style="text-align:right;">维持</th><th style="text-align:right;">加息</th></tr>${rows}</table>`+
+      concl+
+      `<div style="font-size:11px;color:var(--dim);margin-top:6px;">L2·${esc(F.source)} · ${esc(F.contract||'')} · 截至 ${F.asof} · 单月口径(由官方区间分布推算) · 工作日07-23点每2小时管线自动更新</div>`;
+  }catch(e){ /* 保留 renderLive 写入的 LIVE_SNAPSHOT 快照作兜底 */ }
+}
+async function loadForecast(){
+  try{
+    const r = await fetch('../data/fedwatch.json?v='+Date.now());
+    if(!r.ok) throw 0;
+    renderFwFull(await r.json());
+  }catch(e){ fwFullFallback(); }
+  loadFwMini();
+  /* bankBox 由 fresh_panels.js 渲染：共识日历（calendar_consensus·管线）置顶 + forecasts.json 投行矩阵（人工维护带保鲜提醒） */
+}
+document.addEventListener('DOMContentLoaded', ()=>{ if(window.LIVE_SNAPSHOT) renderLive(window.LIVE_SNAPSHOT); loadForecast(); });
+</script>
+<script>
+document.getElementById('dtabs').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#dtabs button').forEach(function(x){ x.classList.toggle('on', x===b); });
+  document.querySelectorAll('.dp').forEach(function(p){ p.classList.toggle('on', p.id===b.dataset.dp); });
+  if(b.dataset.dp === 'dp4'){ setTimeout(function(){ try{ chart.resize(); }catch(err){} }, 40); }
+  window.scrollTo(0, 0);
+});
+/* 深链接：?dp=dp8 直达某页签 */
+(function(){var m=/[?&]dp=(dp\d+)/.exec(location.search);if(!m)return;var b=document.querySelector('#dtabs button[data-dp="'+m[1]+'"]');if(b)b.click();})();
+</script>
+<script>
+/* tacoBox / iranBox / fwBox / bankBox 均由 lib/fresh_panels.js 直读管线JSON渲染（trump_zone/polymarket/fedwatch/calendar_consensus），
+   不再读 9/2 手工快照；本页 renderLive 中的快照渲染已被 __tacoFresh/__iranFresh/__fwFresh 守卫跳过 */
+</script>
+<style>
+.mw-sec{margin-bottom:16px}
+.mw-h{font-size:13px;color:var(--gold);font-weight:700;margin:10px 0 8px}
+.mw-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.mw-c{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.mw-t{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.mw-n{font-size:12px;color:var(--txt)}
+.mw-v{color:var(--gold);font-weight:700;font-size:14px;white-space:nowrap}
+.mw-ch{width:100%;height:110px}
+.mw-d{color:var(--dim);font-size:10.5px;margin-top:2px}
+.mw-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:52px;background:var(--bg,#0e1117);padding:8px 0;z-index:40}
+.mw-btns button{background:#1c2333;color:var(--dim,#8a94a6);border:1px solid var(--line,#262d3d);border-radius:11px;padding:3px 12px;font-size:11px;cursor:pointer}
+.mw-btns button.on{background:var(--gold,#d4a944);color:#111;font-weight:600;border-color:var(--gold,#d4a944)}
+</style>
+<script>
+(function(){
+var WALL_ORD=['jobs','price','rate','liq','asset','energy','cn','fiscal','trade','mfg','factors','quadrant','flows','position','vol','cnbond','relperf','poll','pm','move'];
+window._mwCharts=[];
+function fv(v){var a=Math.abs(v);if(a>=10000)return v.toLocaleString('zh-CN',{maximumFractionDigits:0});if(a>=100)return v.toFixed(1);if(a>=10)return v.toFixed(2);return v.toFixed(3);}
+fetch('../data/macro_series.json').then(function(r){return r.ok?r.json():null;}).then(function(mac){
+  if(!mac)return;
+  var H=window.CHART_SERIES||{}, host=document.getElementById('macroWall'), html='', todo=[];
+  var secs=(mac.sections||[]).map(function(s){
+    var cards=s.items.filter(function(it){return (H[it.id]||[]).length>2;});
+    return {key:s.key,name:s.name||s.key,cards:cards};
+  }).filter(function(s){return s.cards.length;});
+  secs.sort(function(a,b){var ia=WALL_ORD.indexOf(a.key),ib=WALL_ORD.indexOf(b.key);return (ia<0?99:ia)-(ib<0?99:ib);});
+  var btns='<div class="mw-btns"><button data-sec="all" class="on">全部 '+secs.reduce(function(a,s){return a+s.cards.length;},0)+'图</button>'+secs.map(function(s){return '<button data-sec="'+s.key+'">'+s.name+' '+s.cards.length+'</button>';}).join('')+'</div>';
+  secs.forEach(function(s){
+    html+='<div class="mw-sec" data-sec="'+s.key+'"><div class="mw-h">'+s.name+'</div><div class="mw-g">'+s.cards.map(function(it,i){
+      var id=s.key+'_'+i;todo.push({id:id,it:it});
+      return '<div class="mw-c"><div class="mw-t"><span class="mw-n">'+it.name+'</span><span class="mw-v" id="mwv-'+id+'"></span></div><div class="mw-ch" id="mwc-'+id+'"></div><div class="mw-d">'+it.src+(it.unit?' · '+it.unit:'')+' · <span id="mwd-'+id+'"></span></div></div>';
+    }).join('')+'</div></div>';
+  });
+  if(!html)return;
+  host.innerHTML=btns+html;
+  host.querySelectorAll('.mw-btns button').forEach(function(b){
+    b.onclick=function(){
+      host.querySelectorAll('.mw-btns button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on');
+      var k=b.dataset.sec;
+      host.querySelectorAll('.mw-sec').forEach(function(sec){ sec.style.display=(k==='all'||sec.dataset.sec===k)?'':'none'; });
+      setTimeout(function(){window._mwCharts.forEach(function(c){if(c.getDom().offsetParent!==null)c.resize();});},30);
+    };
+  });
+  function draw(){
+    todo.forEach(function(t){
+      if(t.done)return;t.done=true;
+      var ser=H[t.it.id], last=ser[ser.length-1];
+      document.getElementById('mwv-'+t.id).textContent=fv(last[1]);
+      document.getElementById('mwd-'+t.id).textContent='截至 '+last[0];
+      var c=echarts.init(document.getElementById('mwc-'+t.id));
+      window._mwCharts.push(c);
+      c.setOption({backgroundColor:'transparent',animation:false,
+        grid:{left:38,right:6,top:6,bottom:16},
+        tooltip:{trigger:'axis',backgroundColor:'#161b26',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},formatter:function(ps){var p=ps[0];return p.axisValue+'<br><b>'+fv(p.data)+'</b>';}},
+        xAxis:{type:'category',data:ser.map(function(p){return p[0];}),axisLine:{lineStyle:{color:'#262d3d'}},axisLabel:{color:'#8a94a6',fontSize:9}},
+        yAxis:{type:'value',scale:true,axisLabel:{color:'#8a94a6',fontSize:9},splitLine:{lineStyle:{color:'#1d2330'}}},
+        series:[{type:'line',symbol:'none',data:ser.map(function(p){return p[1];}),lineStyle:{color:'#d4a944',width:1.4},areaStyle:{opacity:.06,color:'#d4a944'}}]});
+    });
+  }
+  var dp4=document.getElementById('dp4');
+  if(dp4.classList.contains('on')||dp4.offsetParent!==null){draw();}
+  else{
+    document.querySelectorAll('[data-dp="dp4"]').forEach(function(b){
+      b.addEventListener('click',function(){setTimeout(draw,50);});
+    });
+  }
+}).catch(function(){});
+})();
+/* 研究工具箱：懒挂载（板块隐藏时echarts尺寸为0，首次进入再初始化） */
+var _rtbMounted=false;
+function mountRtb(){
+  if(_rtbMounted)return;
+  var el=document.getElementById('rtb');
+  if(!el||typeof researchToolbox!=='function')return;
+  _rtbMounted=true;researchToolbox('rtb');
+}
+if(document.getElementById('dp4')&&(document.getElementById('dp4').classList.contains('on')||document.getElementById('dp4').offsetParent!==null)){mountRtb();}
+document.querySelectorAll('[data-dp="dp4"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountRtb,60);});});
+if(!document.querySelector('[data-dp="dp4"]'))mountRtb();
+/* 分项贡献（数据发布）面板：懒挂载 */
+var _rpMounted=false;
+function mountRp(){
+  if(_rpMounted)return;
+  var el=document.getElementById('rp-host');
+  if(!el||typeof renderReleasePanels!=='function')return;
+  _rpMounted=true;renderReleasePanels('rp-host','../data/release_panels.json?v='+Date.now());
+}
+if(document.getElementById('dp7')&&(document.getElementById('dp7').classList.contains('on')||document.getElementById('dp7').offsetParent!==null)){mountRp();}
+document.querySelectorAll('[data-dp="dp7"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountRp,60);});});
+if(!document.querySelector('[data-dp="dp7"]'))mountRp();
+</script>
+<script>
+/* 宏观日历芯片：金十WS(主,T-2~T+13含预期/前值/公布) + FF周历/东财(兜底), 每日管线刷新
+   分级显示：主显=高星/核心词重磅，其余收进“其他+N”按钮可展开 */
+window.CAL_CORE=/(CPI|PPI|非农|FOMC|联储|美联储|央行|决议|GDP|PCE|社融|LPR|RatingDog|财新|官方制造业|初请|失业率|时薪|ADP|ISM|零售销售)/i;
+window.calChips = function(caldText){
+  var cc = window.CAL_CONS; if(!cc) return '';
+  var m = /^(\d{1,2}\/\d{1,2})/.exec((caldText||'').trim()); if(!m) return '';
+  function wrap(mains, others){
+    if(!mains.length && !others.length) return '';
+    return '<div class="fcwrap">' + mains.join('')
+      + (others.length ? '<button type="button" class="calMoreBtn">其他 +' + others.length + ' ▾</button><span class="calOther">' + others.join('') + '</span>' : '')
+      + '</div>';
+  }
+  // 0. 金十日历(主源, PLUS登录, T-2~T+13, 含预期/前值/公布/星级)
+  var j10 = (cc.j10 && cc.j10.items ? cc.j10.items : []).filter(function(e){ return e.d === m[1]; });
+  if(j10.length){
+    var mains=[], others=[];
+    j10.forEach(function(e){
+      var star = e.star >= 5 ? '★★★' : (e.star === 4 ? '★★' : (e.star === 3 ? '★' : ''));
+      var tm = e.tm ? '<span class="fctm">' + e.tm + '</span>' : '';
+      var chip;
+      if(e.kind === 'event'){
+        chip = '<span class="fcchip j10 ev">' + tm + e.name + (star ? '<i>' + star + '</i>' : '') + '</span>';
+      } else {
+        var body;
+        if(e.ac){ body = '公布 <b class="fcac">' + e.ac + '</b>' + (e.fc ? ' · 预期 ' + e.fc : '') + (e.pv ? ' · 前值 ' + e.pv : ''); }
+        else if(e.fc){ body = '预期 <b>' + e.fc + '</b>' + (e.pv ? ' · 前值 ' + e.pv : ''); }
+        else { body = e.pv ? '前值 ' + e.pv : ''; }
+        chip = '<span class="fcchip j10">' + tm + e.name + (star ? '<i>' + star + '</i>' : '') + (body ? ' ' + body : '') + '</span>';
+      }
+      /* 主显收紧：≥4星 / ≥3星且有预期或公布 / 命中核心词且有预期或公布 */
+      var hasV = !!(e.ac || e.fc);
+      var hot = (e.star >= 4) || (e.star >= 3 && hasV) || (window.CAL_CORE && window.CAL_CORE.test(e.name || '') && hasV);
+      (hot ? mains : others).push(chip);
+    });
+    return wrap(mains, others);
+  }
+  // A. FF预期芯片(本周重磅)：主显=High/Medium或有实际值
+  var mainsA=[], othersA=[];
+  var list = (cc.events||[]).filter(function(e){ return e.d === m[1]; });
+  list.forEach(function(e){
+    var nm = e.tcn || e.ten;
+    var star = e.imp==='High' ? '★★★' : (e.imp==='Medium' ? '★★' : '');
+    var tm = e.tm ? '<span class="fctm">' + e.tm + '</span>' : '';
+    var body;
+    if(e.ac){ body = '实际 <b class="fcac">' + e.ac + '</b>' + (e.fc ? ' · 预期 ' + e.fc : '') + (e.pv ? ' · 前值 ' + e.pv : ''); }
+    else { body = (e.fc ? '预期 <b>' + e.fc + '</b>' : '无一致预期') + (e.pv ? ' · 前值 ' + e.pv : ''); }
+    var chip = '<span class="fcchip">' + tm + nm + '<i>' + star + '</i> ' + body + '</span>';
+    ((e.imp==='High' || (window.CAL_CORE && window.CAL_CORE.test(nm || ''))) ? mainsA : othersA).push(chip);
+  });
+  // B. 东财全景芯片(14天, 中文, 无预期)：前4条主显，其余折叠
+  var em = (cc.em||[]).filter(function(e){ return e.d === m[1]; });
+  em.forEach(function(e, i){
+    var tm = e.tm ? '<span class="fctm">' + e.tm + '</span>' : '';
+    var cls = e.kind === 'event' ? 'fcchip em ev' : 'fcchip em';
+    (i < 3 ? mainsA : othersA).push('<span class="' + cls + '">' + tm + e.name + '</span>');
+  });
+  return wrap(mainsA, othersA);
+};
+fetch('../data/calendar_consensus.json?v='+Date.now()).then(function(r){return r.json();}).then(function(cc){
+  window.CAL_CONS = cc;
+  if(window.__calRe) window.__calRe();
+  var n = document.getElementById('calNote');
+  if(n && cc.asof) n.textContent += ' · 预期值 ' + cc.asof + (cc.stale ? '(旧)' : '') + ' · ' + cc.src;
+}).catch(function(){});
+</script>
+<style>
+.fcwrap{display:block;margin-top:5px;line-height:1.9}
+.fcchip{display:inline-block;font-size:11px;color:var(--dim);border:1px solid var(--line);border-radius:10px;padding:1px 8px;margin:0 6px 2px 0;background:rgba(255,255,255,.02)}
+.fcchip b{color:var(--gold);font-weight:700}
+.fcchip i{font-style:normal;color:var(--gold);opacity:.7;margin-left:3px;letter-spacing:-1px}
+.fcchip .fctm{color:var(--gold);opacity:.85;margin-right:6px;font-variant-numeric:tabular-nums}
+.fcchip .fcac{color:var(--up)}
+.fcchip.j10{border-color:rgba(212,175,55,.35)}
+.fcchip.j10.ev{border-color:var(--gold);color:var(--txt)}
+.fcchip.em{opacity:.75;border-style:dashed}
+.fcchip.em .fctm{color:var(--dim)}
+.fcchip.em.ev{border-color:var(--gold);color:var(--txt)}
+</style>
+<style id="sampleSkin">
+/* ===== 样本皮肤：白底藏青红 + 楷体（只覆盖样式，不动内容） ===== */
+:root{--bg:#ffffff;--card:#ffffff;--line:#d9e1ee;--txt:#22304a;--dim:#66788f;--up:#d63a2b;--dn:#1d5fc4;--gold:#a8781a;--blue:#2f6fd0;--text:#22304a;--muted:#66788f;}
+body{background:#fff;color:#22304a;font-family:KaiTi,STKaiti,"楷体","楷体_GB2312",serif;font-size:14.5px;}
+h1,h2,h1 *,h2 *{font-family:KaiTi,STKaiti,"楷体","楷体_GB2312",serif !important;}
+header{background:linear-gradient(135deg,#12233c 0%,#1d3a5f 55%,#142a46 100%);border:none;border-radius:8px;padding:18px 20px;margin-bottom:22px;}
+h1{color:#fff !important;}
+.meta{color:#c9d6e8 !important;}
+.meta b{color:#f0c969 !important;}
+h2{color:#16233c !important;border-left:4px solid #c8342b;}
+h2 .en{color:#66788f;}
+table{background:#fff;}
+th{background:#dce8f7;color:#1b3a5f;}
+.card{background:#fff;border-color:#d9e1ee;box-shadow:0 1px 4px rgba(27,58,95,.06);}
+/* 按钮组白底化 */
+.seg button,.cw .seg2 button,.dtabs button,.calMoreBtn,.mw-btns button{background:#eef3fa;color:#1b3a5f;border:1px solid #d9e1ee;}
+.seg button.on,.cw .seg2 button.on,.dtabs button.on,.mw-btns button.on{background:#1d3a5f;color:#fff;border-color:#1d3a5f;}
+.updbtn{background:#c8342a;color:#fff;}
+/* 深色小块 → 浅色 */
+.cw,.mini,.kd,.calitem,.cw .tag2,.tag2{background:#f8fafd;}
+.mini h4{color:#a8781a;}
+.kdd{color:#a8781a;}
+.calitem{background:#fff;}
+.calitem.hot{background:rgba(214,58,43,.05);border-color:#e0a89f;}
+.lqBar{background:#e8eef6;}
+.tag2.on,.cw .tag2.on{border-color:#1d3a5f;color:#1d3a5f;background:rgba(29,58,95,.07);}
+.tag2 .axb{border-color:#1d3a5f;color:#1d3a5f;background:rgba(29,58,95,.1);}
+/* 跑马灯 */
+.tkLabel{background:#1d3a5f;color:#fff;}
+.tk.imp{color:#16233c;}
+.tk .kw,.ni .kw{color:#a8781a;background:rgba(168,120,26,.12);}
+.tkSep{color:#c5cfdd;}
+/* 预测市场/金句 */
+.pmBig{color:#a8781a;}
+.concl b{color:#a8781a;}
+.fcchip{color:#44536b;background:#fff;border-color:#d0dcec;}
+.fcchip b,.fcchip .fctm{color:#a8781a;opacity:1;}
+.fcchip i{color:#a8781a;opacity:.75;}
+.fcchip.em{opacity:.8;}
+/* 宏观日历（econ_calendar.js） */
+.ec-day{background:#fff;border-color:#d9e1ee;}
+.ec-ev{background:#f6f9fd;}
+.ec-btn{background:#eef3fa;color:#1b3a5f;border:1px solid #d9e1ee;}
+/* 徽章/杂项 */
+.badge{color:#66788f;border-color:#d9e1ee;}
+summary{color:#2f6fd0;}
+details{background:#fff;border-color:#d9e1ee;}
+.ncol h4{color:#a8781a;background:#fff;}
+.ch-tag{color:#66788f;border-color:#d9e1ee;}
+.st-中{color:#a8781a;border-color:#d8c9a3;}
+</style>
+<script>
+/* ====== 日历“其他”折叠：事件委托（重绘后仍有效） ====== */
+document.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest?e.target.closest('.calMoreBtn'):null; if(!b)return;
+  var o=b.nextElementSibling; if(!o||!o.classList.contains('calOther'))return;
+  var open=o.classList.toggle('open');
+  b.textContent=open?'收起 ▴':('其他 +'+o.querySelectorAll('.fcchip').length+' ▾');
+});
+/* ====== 消息跑马灯：金十/先讯/CS合并，三行按关键字过滤滚动（宏观/股市/商品）+关键词高亮；BJT 07-23点每60秒拉取，其余时段5分钟 ====== */
+(function(){
+  var rows=[document.getElementById('tkIn1'),document.getElementById('tkIn2'),document.getElementById('tkIn3')];
+  if(!rows[0])return;
+  var SRCC={jin10:['金十','#d4a944'],ah:['先讯','#5b9bd5'],cs:['CS','#b08ad9']};
+  /* 三行关键字过滤（英文词带边界,防 AI 误配 Taiwan/said 等;锡 排除无锡） */
+  var ROWKW=[
+    {n:'宏观', re:/(美债|美元|美伊|美国|伊朗|贝森特|沃什|加息|降息)/i},
+    {n:'股市', re:/(美股|科技股|\bAI\b|机器人|存储|英伟达|\bARR\b|\btoken\b|\bMeta\b|芯片)/i},
+    {n:'商品', re:/(铜|铝|(?<!无)(?<!比)锡(?!斯坦|林|金)|镍|锌|铅|焦煤|焦炭|螺纹|铁矿|光伏|反内卷|煤|工信部|发改委|锂|硅(?!谷)|工业硅|多晶硅)/i}
+  ];
+  var KW=/(美债|美元|美伊|美国|伊朗|贝森特|沃什|加息|降息|美股|科技股|机器人|存储|英伟达|芯片|铜|铝|(?<!无)(?<!比)锡(?!斯坦|林|金)|光伏|反内卷|煤|工信部|发改委|锂|硅(?!谷)|黄金|白银|\bAI\b|\bARR\b|\bTOKEN\b|\bMETA\b)/gi;
+  function escT(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function hl(s){return escT(s).replace(KW,'<u class="kw">$1</u>');}
+  function bjtHour(){var n=new Date();return new Date(n.getTime()+(n.getTimezoneOffset()+480)*60000).getHours();}
+  var SPD=[30,38,23]; /* 三行各自速度 px/s，慢速便于阅读 */
+  function poll(){
+    fetch('../data/news_latest.json?v='+Date.now()).then(function(r){return r.json();}).then(function(d){
+      var items=[];
+      ['jin10','ah','cs'].forEach(function(k){(d[k]||[]).slice(0,60).forEach(function(it){items.push({t:it.ts||it.time||'',c:it.content||'',s:k,imp:it.important});});});
+      items.sort(function(a,b){return a.t<b.t?1:-1;});
+      if(!items.length){rows[0].textContent='快讯快照为空 · 等待云端管线更新';return;}
+      rows.forEach(function(row,ri){
+        if(!row)return;
+        var slice=items.filter(function(it){return ROWKW[ri].re.test(it.c);}).slice(0,40);
+        if(!slice.length){row.innerHTML='<span class="tk" style="color:var(--dim)">暂无「'+ROWKW[ri].n+'」关键字匹配快讯</span>';return;}
+        var html=slice.map(function(it){
+          var sc=SRCC[it.s]||['快讯','#8a94a6'];
+          return '<span class="tk'+(it.imp?' imp':'')+'"><i style="color:'+sc[1]+';border-color:'+sc[1]+'55">'+sc[0]+'</i><b>'+escT(it.t).slice(5,16)+'</b>'+hl(it.c)+'</span>';
+        }).join('<span class="tkSep">◆</span>');
+        row.innerHTML=html+'<span class="tkSep">◆</span>'+html;
+        requestAnimationFrame(function(){row.style.animationDuration=Math.max(90,Math.round(row.scrollWidth/2/SPD[ri]))+'s';});
+      });
+    }).catch(function(){});
+  }
+  (function loop(){poll();var h=bjtHour();setTimeout(loop,(h>=7&&h<23)?60000:300000);})();
+})();
+/* ====== 数据总览：价格+日/20日/近1年变动+一行⚙️规则点评（序列=CHART_SERIES） ====== */
+function buildOvCards(){
+  var host=document.getElementById('ovGrid'); if(!host||!window.CHART_SERIES)return;
+  var H=window.CHART_SERIES;
+  var CFG=[
+   {id:'DGS10',n:'美债10Y',u:'%',k:'bp',src:'L1 L1官方',c:function(v,d){return (v>=4.5?'≥4.5%高压区':v>=4.0?'4.0–4.5%中性区':'4%下方')+(d>10?'，20日上行'+Math.round(d)+'bp':d<-10?'，20日回落'+Math.round(-d)+'bp':'，20日窄幅');}},
+   {id:'DGS2',n:'美债2Y',u:'%',k:'bp',src:'L1 L1官方',c:function(v,d){return '政策敏感端'+(d>10?'，收紧定价升温':d<-10?'，收紧定价降温':'，20日窄幅');}},
+   {id:'T10Y2Y',n:'10Y-2Y利差',u:'%',k:'bp',src:'L1 L1官方',c:function(v,d){return (v<0?'倒挂':'利差'+Math.round(v*100)+'bp')+(d>5?'，20日走陡':d<-5?'，20日走平':'，20日持平');}},
+   {id:'DFII10',n:'10Y实际利率',u:'%',k:'bp',src:'L1 L1官方',c:function(v){var d=Math.round((2.45-v)*100);return '距2.45%观察线'+(d>=0?'还差'+d+'bp':'已破线'+(-d)+'bp');}},
+   {id:'T10YIE',n:'盈亏平衡通胀10Y',u:'%',k:'bp',src:'L1 L1官方',c:function(v,d){return (v>=2.5?'通胀预期偏热':'通胀预期锚定')+(Math.abs(d)>8?'，20日波动加大':'，20日平稳');}},
+   {id:'DTWEXBGS',n:'广义美元指数(周度滞后)',u:'点',k:'pct',src:'L1 L1官方',c:function(v,d){return d>0.5?'美元20日走强':d<-0.5?'美元20日走弱':'美元20日横盘';}},
+   {id:'VIXCLS',n:'VIX波动率',u:'点',k:'abs',src:'L1 L1官方',c:function(v){return v<13?'极度平静，警惕反转':v<18?'低波动区':'波动放大，risk-off警戒';}},
+   {id:'Y_GSPC',n:'标普500',u:'点',k:'pct',src:'L2 行情',c:function(v,d){return d>2?'20日强势':d<-2?'20日回调':'高位震荡';}},
+   {id:'Y_GOLD',n:'COMEX黄金',u:'美元/盎司',k:'pct',src:'L2 行情',c:function(v,d){return d>2?'20日走强':d<-2?'利率压制回撤':'高位拉锯';}},
+   {id:'DCOILWTICO',n:'WTI原油',u:'美元/桶',k:'pct',src:'L1 L1官方',c:function(v,d){return '霍尔木兹关闭溢价'+(d>3?'，20日上行':d<-3?'，20日回落':'，区间震荡');}},
+   {id:'IF_000300SH',n:'沪深300',u:'点',k:'pct',src:'L2 终端',c:function(v,d){return d>2?'20日走强':d<-2?'20日走弱':'区间震荡';}},
+   {id:'DEXCHUS',n:'美元兑人民币',u:'元/美元',k:'pct',src:'L1 L1官方',c:function(v){return v>=7.3?'贬值压力区':v<=6.9?'偏强区':'中间区';}},
+   {id:'DGS30',n:'美债30Y收益率',u:'%',k:'bp',src:'L1 L1官方',c:function(v,d){return (v>=5.2?'≥5.2%关口高压':v>=4.8?'4.8–5.2%偏高区':'4.8%下方')+(d>10?'，20日上行'+Math.round(d)+'bp':d<-10?'，20日回落'+Math.round(-d)+'bp':'，20日窄幅');}},
+   {id:'Y_USDJPY',n:'美元兑日元',u:'日元',k:'pct',src:'L2 行情',c:function(v,d){return (v>=150?'日元偏弱区':v<=140?'日元偏强区':'中间区')+(d>1?'，20日日元走弱':d<-1?'，20日日元走强':'，20日窄幅');}},
+   {id:'IRLTLT01JPM156N',n:'日本10Y国债收益率',u:'%',k:'bp',src:'L1 L1官方·月度',c:function(v,d){return (v>=1.5?'≥1.5%紧缩定价':v>=1.0?'1.0–1.5%正常化途中':'1%下方')+(Math.abs(d)>5?'，近期波动加大':'，月度频率');}}
+  ];
+  function at(ser,n){return ser[Math.max(0,ser.length-1-n)];}
+  function rel(cfg,a,b){if(!b||!b[1])return 0;return cfg.k==='pct'?(a[1]/b[1]-1):(a[1]-b[1]);}
+  function fmtChg(cfg,d){if(cfg.k==='bp')return (d>=0?'+':'')+Math.round(d*100)+'bp';if(cfg.k==='abs')return (d>=0?'+':'')+d.toFixed(2);return (d>=0?'+':'')+(d*100).toFixed(2)+'%';}
+  function fmtV(v){var a=Math.abs(v);if(a>=10000)return v.toLocaleString('zh-CN',{maximumFractionDigits:0});if(a>=1000)return v.toFixed(1);return v.toFixed(2);}
+  var html='';
+  CFG.forEach(function(cfg){
+    var ser=H[cfg.id]; if(!ser||ser.length<2)return;
+    var a=ser[ser.length-1],b=ser[ser.length-2];
+    var d1=rel(cfg,a,b),d20=rel(cfg,a,at(ser,20)),d250=ser.length>260?rel(cfg,a,at(ser,250)):null;
+    html+='<div class="ovCard" data-ovid="'+cfg.id+'"><div><span class="ovN">'+cfg.n+'</span><span class="ovU">'+cfg.u+'</span></div>'
+      +'<div class="ovV">'+fmtV(a[1])+'</div>'
+      +'<div class="ovChips"><span class="'+(d1>0?'up':d1<0?'dn':'flat')+'">日 '+fmtChg(cfg,d1)+'</span>'
+      +'<span class="'+(d20>0?'up':d20<0?'dn':'flat')+'">20日 '+fmtChg(cfg,d20)+'</span>'
+      +(d250!==null?'<span class="flat">近1年 '+fmtChg(cfg,d250)+'</span>':'')+'</div>'
+      +'<div class="ovC">'+cfg.c(a[1],cfg.k==='abs'?d20:d20*100)+'</div>'
+      +'<div class="ovD">截至 '+a[0]+' · '+cfg.src+' · 点评⚙️自建规则</div></div>';
+  });
+  host.innerHTML=html||'<div class="ovD">序列未加载</div>';
+  window._ovCFG=CFG; window._ovH=H; window._ovFmt={at:at,rel:rel,fmtChg:fmtChg,fmtV:fmtV};
+  liveUST(); liveCNBC(); liveQuotes();
+}
+buildOvCards();
+/* ====== 总览实时卡·盘中补丁①：CNBC浏览器直连（美元/金/油/股/日元/VIX） ====== */
+function liveCNBC(){
+  var F=window._ovFmt; if(!F)return;
+  var MAP={'.SPX':'Y_GSPC','@GC.1':'Y_GOLD','@CL.1':'DCOILWTICO','JPY=':'Y_USDJPY','.VIX':'VIXCLS','.DXY':'Y_DXY','@SI.1':'Y_SLV'};
+  fetch('https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols='+Object.keys(MAP).join('|')+'&output=json&_='+Date.now())
+    .then(function(r){return r.json();}).then(function(d){
+      var qs=(d.FormattedQuoteResult||{}).FormattedQuote||[]; if(!qs.length)return;
+      qs.forEach(function(q){
+        var ov=MAP[q.symbol]; if(!ov)return;
+        var card=document.querySelector('.ovCard[data-ovid="'+ov+'"]'); if(!card)return;
+        var v=parseFloat(String(q.last).replace(/[%$,]/g,'')); if(isNaN(v))return;
+        var chg=parseFloat(q.change); var chgPct=parseFloat(String(q.change_pct||'').replace('%',''));
+        card.querySelector('.ovV').textContent=F.fmtV(v);
+        var chips=card.querySelectorAll('.ovChips span');
+        if(chips[0]&&!isNaN(chgPct)){chips[0].className=chgPct>0?'up':chgPct<0?'dn':'flat'; chips[0].textContent='日 '+(chgPct>0?'+':'')+chgPct.toFixed(2)+'%';}
+        var tstr=q.last_time||''; var et='';
+        try{et=new Date(tstr).toLocaleString('zh-CN',{timeZone:'America/New_York',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})+' ET';}catch(e){}
+        card.querySelector('.ovD').innerHTML='<span style="color:#d4a944">盘中 '+et+' · L2·盘中实时</span> · 点评⚙️自建规则';
+      });
+    }).catch(function(){/* CNBC不可达时静默,由liveQuotes管线快照兜底 */});
+}
+
+/* ====== 美债2Y/10Y/30Y 盘中实时补丁：CNBC quote API（CORS开放，Tradeweb行情） ====== */
+function liveUST(){
+  var CFG=window._ovCFG,H=window._ovH,F=window._ovFmt;
+  if(!CFG||!H||!F)return;
+  fetch('https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=US2Y|US10Y|US30Y&output=json&_='+Date.now())
+    .then(function(r){return r.json();}).then(function(d){
+      var qs=(d.FormattedQuoteResult||{}).FormattedQuote||[]; if(!qs.length)return;
+      var map={US2Y:'DGS2',US10Y:'DGS10',US30Y:'DGS30'}, live={}, tstr='';
+      qs.forEach(function(q){
+        var v=parseFloat(String(q.last).replace('%','')); if(isNaN(v))return;
+        live[q.symbol]={v:v, chg:parseFloat(q.change)||0, prev:parseFloat(String(q.previous_day_closing).replace('%',''))||null};
+        if(!tstr&&q.last_time)tstr=q.last_time;
+      });
+      var et=''; try{ et=new Date(tstr).toLocaleString('zh-CN',{timeZone:'America/New_York',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})+' ET'; }catch(e){}
+      Object.keys(map).forEach(function(sym){
+        var L=live[sym]; if(!L)return;
+        var card=document.querySelector('.ovCard[data-ovid="'+map[sym]+'"]'); if(!card)return;
+        var cfg=null; for(var i=0;i<CFG.length;i++){if(CFG[i].id===map[sym]){cfg=CFG[i];break;}} if(!cfg)return;
+        var ser=H[cfg.id]||[];
+        card.querySelector('.ovV').textContent=L.v.toFixed(2);
+        var chips=card.querySelectorAll('.ovChips span');
+        if(chips[0]){var d1=L.chg; chips[0].className=d1>0?'up':d1<0?'dn':'flat'; chips[0].textContent='日 '+F.fmtChg(cfg,d1);}
+        if(chips[1]&&ser.length>20){var d20=F.rel(cfg,[et,L.v],F.at(ser,20)); chips[1].className=d20>0?'up':d20<0?'dn':'flat'; chips[1].textContent='20日 '+F.fmtChg(cfg,d20);
+          card.querySelector('.ovC').textContent=cfg.c(L.v,cfg.k==='abs'?d20:d20*100);}
+        card.querySelector('.ovD').innerHTML='<span style="color:#d4a944">盘中 '+et+' · L2·盘中行情</span> · L1官方日度截至 '+(ser.length?ser[ser.length-1][0]:'—')+' · 点评⚙️自建规则';
+      });
+      /* 10Y-2Y利差同步盘中值 */
+      if(live.US10Y&&live.US2Y){
+        var sp=document.querySelector('.ovCard[data-ovid="T10Y2Y"]');
+        if(sp){var sv=(live.US10Y.v-live.US2Y.v), sd=(live.US10Y.chg-live.US2Y.chg);
+          sp.querySelector('.ovV').textContent=sv.toFixed(2);
+          var sc=sp.querySelectorAll('.ovChips span');
+          if(sc[0]){sc[0].className=sd>0?'up':sd<0?'dn':'flat'; sc[0].textContent='日 '+(sd>=0?'+':'')+Math.round(sd*100)+'bp';}
+          sp.querySelector('.ovD').innerHTML='<span style="color:#d4a944">盘中 '+et+' · L2·盘中行情推算</span> · L1官方日度截至 '+(H.T10Y2Y&&H.T10Y2Y.length?H.T10Y2Y[H.T10Y2Y.length-1][0]:'—')+' · 点评⚙️自建规则';}
+      }
+    }).catch(function(){/* 网络失败则保留L1官方日度值 */});
+}
+/* ====== 特朗普专区：TACO压力折线+净支持率折线+事件复盘（懒挂载） ====== */
+var _tzMounted=false;
+function mountTz(){
+  if(_tzMounted)return; _tzMounted=true;
+  function escZ(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  fetch('../data/trump_zone.json?v='+Date.now()).then(function(r){return r.json();}).then(function(tz){
+    var p=tz.pressure||{}, hist=p.history||[];
+    var el1=document.getElementById('tzPressure');
+    if(el1&&hist.length){
+      var evMap={};
+      (tz.taco_events||[]).forEach(function(e){evMap[e.end]=e;});
+      var evPts=[];
+      hist.forEach(function(h){var e=evMap[h[0]];if(e)evPts.push({value:[h[0],h[1]],strength:e.strength,title:e.title});});
+      var c1=echarts.init(el1);
+      c1.setOption({backgroundColor:'transparent',animation:false,
+        grid:{left:42,right:14,top:26,bottom:44},
+        tooltip:{trigger:'axis',backgroundColor:'#1c2333',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},
+          formatter:function(ps){var s=ps[0].axisValue+'<br>压力 <b>'+ps[0].data[1]+'</b>';var e=evMap[ps[0].axisValue];if(e)s+='<br><span style="color:#d4a944">▲'+e.strength+' · '+escZ(e.title)+'</span>';return s;}},
+        xAxis:{type:'time',axisLabel:{color:'#8a94a6',fontSize:10},axisLine:{lineStyle:{color:'#333'}}},
+        yAxis:{type:'value',scale:true,axisLabel:{color:'#8a94a6',fontSize:10},splitLine:{lineStyle:{color:'#222a3a'}}},
+        dataZoom:[{type:'slider',height:16,bottom:6,backgroundColor:'#1a2130',fillerColor:'rgba(212,169,68,.15)',borderColor:'#333',textStyle:{color:'#8a94a6',fontSize:9}}],
+        series:[
+          {name:'TACO压力',type:'line',showSymbol:false,data:hist.map(function(h){return [h[0],h[1]];}),lineStyle:{color:'#d4a944',width:1.8},areaStyle:{opacity:.07,color:'#d4a944'},
+           markLine:{symbol:'none',label:{color:'#8a94a6',fontSize:9},lineStyle:{color:'#3a4356',type:'dashed'},data:[{yAxis:0}]}},
+          {name:'TACO事件',type:'scatter',symbol:'triangle',symbolSize:9,data:evPts,z:10,
+           itemStyle:{color:function(pp){var s=pp.data.strength;return s==='强'?'#e5534b':s==='中'?'#d4a944':'#8a94a6';}}}
+        ]});
+      var lc=p.latest_contrib||{};
+      document.getElementById('tzNote').innerHTML='当前 <b style="color:'+(p.value>0?'var(--up)':'var(--dn)')+'">'+(p.value>0?'+':'')+p.value+'%</b>（'+p.asof+'）· 最新分项 '+Object.keys(lc).map(function(k){return k+' '+(lc[k]>0?'+':'')+(+lc[k]).toFixed(1);}).join(' / ')+' · ▲=TACO事件（红强/金中/灰弱）· L3·第三方ocmacro';
+    }
+    var el2=document.getElementById('tzAppr'), ap=tz.approval||{};
+    if(el2&&(ap.series||[]).length){
+      var c2=echarts.init(el2);
+      c2.setOption({backgroundColor:'transparent',animation:false,
+        grid:{left:42,right:14,top:26,bottom:44},
+        tooltip:{trigger:'axis',backgroundColor:'#1c2333',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},formatter:function(ps){return ps[0].axisValue+'<br>净支持率 <b>'+ps[0].data[1]+'%</b>';}},
+        xAxis:{type:'time',axisLabel:{color:'#8a94a6',fontSize:10},axisLine:{lineStyle:{color:'#333'}}},
+        yAxis:{type:'value',scale:true,axisLabel:{color:'#8a94a6',fontSize:10,formatter:'{value}%'},splitLine:{lineStyle:{color:'#222a3a'}}},
+        dataZoom:[{type:'slider',height:16,bottom:6,backgroundColor:'#1a2130',fillerColor:'rgba(91,155,213,.15)',borderColor:'#333',textStyle:{color:'#8a94a6',fontSize:9}}],
+        series:[{name:'净支持率',type:'line',showSymbol:false,data:ap.series,lineStyle:{color:'#5b9bd5',width:1.8},areaStyle:{opacity:.07,color:'#5b9bd5'},
+          markLine:{symbol:'none',label:{color:'#8a94a6',fontSize:9},lineStyle:{color:'#3a4356',type:'dashed'},data:[{yAxis:0}]}}]});
+      document.getElementById('tzApprNote').innerHTML='最新净支持率 <b>'+ap.net+'%</b>（赞成 '+ap.approve+'% / 反对 '+ap.disapprove+'%）· '+ap.asof+' · L3·第三方ocmacro';
+    }
+    var box=document.getElementById('tzEvents'), evs=tz.taco_events||[];
+    if(box&&evs.length){
+      box.innerHTML=evs.map(function(e){
+        return '<details class="tzEv"><summary><i class="tg st-'+e.strength+'">'+e.strength+'</i><span style="color:var(--dim);font-size:11px;">'+e.range+'</span> '+escZ(e.title)+'</summary>'
+          +(e.threat?'<p><b style="color:var(--dim);">威胁：</b>'+escZ(e.threat)+'</p>':'')
+          +(e.retreat?'<p><b style="color:var(--dim);">退缩：</b>'+escZ(e.retreat)+'</p>':'')
+          +(e.reason?'<p><b style="color:var(--dim);">原因：</b>'+escZ(e.reason)+'</p>':'')
+          +(e.implication?'<p><b style="color:var(--dim);">含义：</b>'+escZ(e.implication)+'</p>':'')+'</details>';
+      }).join('');
+    }
+  }).catch(function(){});
+}
+/* dp8已改为完整面板iframe嵌入，mountTz不再触发（函数保留备用，元素缺失时自动跳过） */
+/* ====== Polymarket 预测市场图表墙：霍尔木兹/加息置顶金框（懒挂载） ====== */
+var _pmMounted=false;
+function mountPm(){
+  if(_pmMounted)return; _pmMounted=true;
+  var host=document.getElementById('pmWall'); if(!host)return;
+  function escP(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  var RE_HORMUZ=/hormuz|strait/i, RE_HIKE=/rate hike|fed[^.]{0,30}hike|hike[^.]{0,20}2026/i;
+  function rank(m){var q=m.question||'';if(RE_HORMUZ.test(q))return 0;if(RE_HIKE.test(q))return 1;return 2;}
+  fetch('../data/polymarket.json?v='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    var ms=(d.markets||[]).filter(function(m){return (m.history||[]).length>=2;});
+    ms.sort(function(a,b){var r=rank(a)-rank(b);return r||((b.vol24||0)-(a.vol24||0));});
+    var html='';
+    if(!ms.some(function(m){return RE_HORMUZ.test(m.question||'');})){
+      /* 无足够历史的霍尔木兹市场时：用现有市场现价拼动态摘要，不写死数字 */
+      var hs=(d.markets||[]).filter(function(m){return RE_HORMUZ.test(m.question||'');}).map(function(m){
+        var y=(m.outcomes&&m.outcomes[0])?m.outcomes[0].price*100:null;
+        return y==null?null:((m.end||'').slice(0,7)+'到期 '+(y<1?y.toFixed(2):y.toFixed(1))+'%');
+      }).filter(Boolean).join(' / ');
+      html+='<div class="mw-c pm-hot"><div class="pmQ"><b>霍尔木兹海峡何时复航？</b></div>'
+        +'<div style="font-size:11px;color:var(--dim);line-height:1.7;">当前市场定价：'+(hs||'暂无报价')+'（最新进展见「政策与地缘」美伊局势卡，时间线由 geopolitics.json 维护）。折线图待云端管线捕获该市场历史后自动补上。<span class="ovU">L3·Polymarket管线</span></div></div>';
+    }
+    html+=ms.map(function(m,i){
+      var yo=(m.outcomes||[]).filter(function(o){return /^yes$/i.test(o.name);})[0]||(m.outcomes||[])[0]||{};
+      var h=m.history,last=h[h.length-1],prev=h.length>1?h[h.length-2]:last;
+      var chg=(last[1]-prev[1])*100;
+      return '<div class="mw-c'+(rank(m)<2?' pm-hot':'')+'"><div class="pmQ">'+escP(m.question)+'</div>'
+        +'<div style="display:flex;align-items:baseline;gap:10px;"><span class="pmBig">'+(yo.price!=null?(yo.price*100).toFixed(1)+'%':'—')+'</span>'
+        +'<span style="font-size:11px;color:'+(chg>0?'var(--up)':chg<0?'var(--dn)':'var(--dim)')+'">'+(chg>0?'+':'')+chg.toFixed(1)+'pp</span>'
+        +'<span class="ovU">截止 '+(m.end||'—')+'</span></div>'
+        +'<div class="mw-ch" id="pmc'+i+'"></div>'
+        +'<div class="mw-d">Yes概率 · '+h.length+'点 · 24h量 $'+(m.vol24||0).toLocaleString()+'</div></div>';
+    }).join('');
+    host.innerHTML=html;
+    ms.forEach(function(m,i){
+      var el=document.getElementById('pmc'+i); if(!el)return;
+      var c=echarts.init(el);
+      c.setOption({backgroundColor:'transparent',animation:false,
+        grid:{left:36,right:6,top:6,bottom:16},
+        tooltip:{trigger:'axis',backgroundColor:'#161b26',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},formatter:function(ps){var p=ps[0];return p.axisValue+'<br><b>'+(p.data[1]*100).toFixed(1)+'%</b>';}},
+        xAxis:{type:'time',axisLine:{lineStyle:{color:'#262d3d'}},axisLabel:{color:'#8a94a6',fontSize:9}},
+        yAxis:{type:'value',min:0,max:1,axisLabel:{color:'#8a94a6',fontSize:9,formatter:function(v){return Math.round(v*100)+'%';}},splitLine:{lineStyle:{color:'#1d2330'}}},
+        series:[{type:'line',symbol:'none',data:m.history,lineStyle:{color:'#d4a944',width:1.4},areaStyle:{opacity:.06,color:'#d4a944'}}]});
+    });
+    var note=document.getElementById('pmNote');
+    if(note)note.textContent='共 '+ms.length+' 个市场 · 抓取于 '+(d.fetched_at||'').slice(0,10)+' · L3·Polymarket（链上预测市场，非官方口径）· 云端每日更新';
+  }).catch(function(){});
+}
+document.querySelectorAll('[data-dp="dp3"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(mountPm,60);});});
+if(document.getElementById('dp3')&&document.getElementById('dp3').classList.contains('on'))mountPm();
+</script>
+<script>
+/* ---------- 截面快照渲染（L3·第三方终端EDB快照 2026-08-24） ---------- */
+(function(){
+function pct(v,dp){return v==null?'<span style="color:var(--dim)">—</span>':'<span class="'+(v>0?'up':v<0?'dn':'flat')+'">'+(v*100).toFixed(dp==null?1:dp)+'%</span>';}
+function num(v,dp){return v==null?'<span style="color:var(--dim)">—</span>':(+v).toLocaleString('zh-CN',{maximumFractionDigits:dp==null?2:dp});}
+fetch('../data/cs_snapshot.json').then(function(r){return r.ok?r.json():null;}).then(function(S){
+  if(!S)return;
+  var box=document.getElementById('snapBox'); if(!box)return;
+  var h='<div style="background:rgba(212,169,68,.07);border:1px solid rgba(212,169,68,.3);border-radius:6px;padding:6px 10px;margin-bottom:8px;font-size:11px;color:var(--dim);">⚠ 本区块为 <b>'+(S.asof||'—')+'</b> 第三方终端EDB人工快照（无管线自动更新），最新数值以本页「数据总览」与图表区为准；需要刷新时把终端导出发给Kimi。</div>';
+  /* 1. 大类资产表现（债券类行为bp变动，其余为百分比） */
+  var ap=S.tables.asset_perf;
+  function chg(v,bp){if(v==null)return '<span style="color:var(--dim)">—</span>';var cls=v>0?'up':v<0?'dn':'flat';return '<span class="'+cls+'">'+(bp?((v>0?'+':'')+v.toFixed(1)+'bp'):((v*100).toFixed(1)+'%'))+'</span>';}
+  h+='<h3 style="margin:14px 0 6px;color:var(--gold);font-size:13px">'+ap.title+'</h3><table><tr><th>类别</th><th>名称</th><th>最新</th><th>上周</th><th>本月</th><th>年初至今</th><th>近3年分位</th></tr>';
+  var lastCat='';
+  ap.items.forEach(function(it){
+    var cat=(it.cat+(it.sub?'·'+it.sub:''));
+    var bp=it.cat.indexOf('债券')===0;
+    h+='<tr><td style="color:var(--dim);font-size:12px">'+(cat===lastCat?'':cat)+'</td><td>'+it.name+'</td><td><b>'+num(it.last)+'</b></td><td>'+chg(it.w1,bp)+'</td><td>'+chg(it.m1,bp)+'</td><td>'+chg(it.ytd,bp)+'</td><td style="color:var(--dim)">'+(it.pct3y==null?'—':(it.pct3y*100).toFixed(0)+'%')+'</td></tr>';
+    lastCat=cat;
+  });
+  h+='</table><div style="color:var(--dim);font-size:10.5px;margin-top:2px">注：债券类（利率/利差）行变动单位为bp，其余为百分比 · L3·第三方终端EDB快照</div>';
+  /* 2. 国内股市估值 */
+  var cv=S.tables.cn_valuation;
+  h+='<h3 style="margin:18px 0 6px;color:var(--gold);font-size:13px">'+cv.title+'</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px">';
+  cv.blocks.forEach(function(b){
+    h+='<div><table><tr><th>'+b.metric+'</th>'+b.sub.map(function(s){return '<th>'+s+'</th>';}).join('')+'</tr>';
+    b.rows.forEach(function(r){
+      h+='<tr><td>'+r.name+'</td>'+r.vals.map(function(v,i){return '<td>'+(i==0?'<b>'+num(v)+'</b>':(v==null?'<span style="color:var(--dim)">—</span>':'<span style="color:var(--dim)">'+v.toFixed(0)+'%</span>'))+'</td>';}).join('')+'</tr>';
+    });
+    h+='</table></div>';
+  });
+  h+='</div>';
+  /* 3. 全球估值矩阵 */
+  var gv=S.tables.glb_valuation;
+  h+='<h3 style="margin:18px 0 6px;color:var(--gold);font-size:13px">'+gv.title+'</h3><table><tr><th></th>';
+  gv.cols.forEach(function(c,i){ if(c)h+='<th>'+c+'<div style="font-weight:400;color:var(--dim);font-size:10px">'+gv.tickers[i]+'</div></th>'; });
+  h+='</tr>';
+  gv.rows.forEach(function(r){
+    h+='<tr><td>'+r.metric+'</td>';
+    r.vals.forEach(function(v,i){ if(!gv.cols[i])return; h+='<td>'+(v==null?'<span style="color:var(--dim)">—</span>':(r.metric.indexOf('分位')>=0?'<span style="color:var(--dim)">'+v.toFixed(0)+'%</span>':'<b>'+v.toFixed(1)+'</b>'))+'</td>'; });
+    h+='</tr>';
+  });
+  h+='</table>';
+  /* 4. 利率路径预期（期货隐含，4快照日） */
+  var rl=S.tables.rate_ladder.ladder;
+  var dts=rl.dates.slice(12,16);
+  h+='<h3 style="margin:18px 0 6px;color:var(--gold);font-size:13px">美联储利率路径预期（期货隐含利率%）</h3><table><tr><th>会议</th>'+dts.map(function(d){return '<th>'+d.slice(5)+'</th>';}).join('')+'<th>周变动</th></tr>';
+  rl.rows.forEach(function(r){
+    var vs=r.vals.slice(12,16);
+    var lbl=r.label==='2026'?'当前':r.label==='2027'?'1月':r.label;
+    var wk=(vs[0]!=null&&vs[1]!=null)?(vs[0]-vs[1]):null;
+    h+='<tr><td>'+lbl+'</td>'+vs.map(function(v){return '<td>'+(v==null?'<span style="color:var(--dim)">—</span>':v.toFixed(3))+'</td>';}).join('')+'<td>'+(wk==null?'<span style="color:var(--dim)">—</span>':'<span class="'+(wk>0.001?'up':wk<-0.001?'dn':'flat')+'">'+(wk>0?'+':'')+(wk*100).toFixed(1)+'bp</span>')+'</td></tr>';
+  });
+  h+='</table>';
+  box.innerHTML=h;
+  /* 5. 商品期限结构曲线（5个快照日, 近月=100标准化, 最新加粗实线/历史虚线渐淡, tooltip显原值） */
+  var el=document.getElementById('snapCurve');
+  if(el&&window.echarts){
+    var cc=S.tables.commodity_curve.curves;
+    var PAL=['#d4a944','#5b9bd5','#e5534b','#4caf7d','#b08ad9','#7ec8a9','#e8956b','#93a3b9','#c9a2e8'];
+    var months=[];
+    cc.forEach(function(cu){var bd=cu.by_date||{};var pts=bd[cu.date]||cu.points||[];pts.forEach(function(p){if(months.indexOf(p[0])<0)months.push(p[0]);});});
+    months.sort();
+    var series=[];
+    cc.forEach(function(cu,ci){
+      var bd=cu.by_date||{};var dates=Object.keys(bd).sort();
+      if(!dates.length){dates=[cu.date];bd={};bd[cu.date]=cu.points||[];}
+      var latest=dates[dates.length-1];
+      dates.forEach(function(dt){
+        var pts=bd[dt]||[];if(!pts.length)return;
+        var b=pts[0][1]||1,map={};pts.forEach(function(p){map[p[0]]=p[1];});
+        var isNew=dt===latest;
+        series.push({name:cu.name,type:'line',symbol:'none',connectNulls:false,
+          data:months.map(function(m){return map[m]!=null?+(map[m]/b*100).toFixed(2):null;}),
+          lineStyle:{width:isNew?2.2:1,opacity:isNew?1:.3,color:PAL[ci%9],type:isNew?'solid':'dashed'},
+          itemStyle:{color:PAL[ci%9]},z:isNew?5:2,_date:dt,_raw:map});
+      });
+    });
+    var c=echarts.init(el);
+    c.setOption({backgroundColor:'transparent',animation:false,
+      grid:{left:46,right:16,top:34,bottom:26},
+      legend:{textStyle:{color:'#8a94a6',fontSize:10},top:0},
+      tooltip:{trigger:'axis',backgroundColor:'#161b26',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},
+        formatter:function(ps){var out=[ps[0].axisValue],seen={};ps.forEach(function(p){var s=series[p.seriesIndex];var raw=s._raw[ps[0].axisValue];var k=s.name+s._date;if(raw==null||p.data==null||seen[k])return;seen[k]=1;out.push(p.marker+' '+s.name+' <i style="color:#8a94a6">'+s._date.slice(2)+'</i>：<b>'+raw.toLocaleString('zh-CN')+'</b>（'+p.data.toFixed(1)+'）');});return out.join('<br>');}},
+      xAxis:{type:'category',data:months,axisLabel:{color:'#8a94a6',fontSize:9},axisLine:{lineStyle:{color:'#262d3d'}}},
+      yAxis:{type:'value',scale:true,name:'近月=100',nameTextStyle:{color:'#8a94a6',fontSize:9},axisLabel:{color:'#8a94a6',fontSize:9},splitLine:{lineStyle:{color:'#1d2330'}}},
+      series:series
+    });
+    window.addEventListener('resize',function(){c.resize();});
+  }
+}).catch(function(){});
+})();
+</script>
+<script>
+/* ---------- 地缘专区·事件时间线（L2·权威媒体公开报道汇编） ---------- */
+(function(){
+fetch('../data/geopolitics.json').then(function(r){return r.ok?r.json():null;}).then(function(G){
+  if(!G)return;
+  var box=document.getElementById('geoBox'); if(!box)return;
+  var TAG={esc:['#e5534b','升级'],ease:['#4caf7d','缓和'],game:['#d4a944','博弈'],data:['#5b9bd5','数据']};
+  var h='';
+  G.lines.forEach(function(L){
+    h+='<div><div style="font-weight:700;color:#fff;font-size:13px;margin-bottom:6px;">'+L.name+'</div>';
+    var evs=L.events.slice().reverse();
+    evs.forEach(function(e){
+      var t=TAG[e[2]]||TAG.data;
+      h+='<div style="display:flex;gap:8px;padding:5px 0;border-left:2px solid '+t[0]+';padding-left:10px;margin-left:4px;">'
+        +'<div style="flex:0 0 74px;color:var(--dim);font-size:11px;line-height:1.5;">'+e[0].slice(5)+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:600;color:#e8ecf4;">'+e[1]
+        +' <span style="font-size:10px;color:'+t[0]+';font-weight:400;">· '+t[1]+'</span></div>'
+        +'<div style="font-size:11.5px;color:var(--dim);line-height:1.55;margin-top:1px;">'+e[3]+'</div></div></div>';
+    });
+    h+='</div>';
+  });
+  box.innerHTML=h+'<div style="grid-column:1/-1;color:var(--dim);font-size:10.5px;margin-top:4px">'+G.src+' · 更新 '+G.updated+'</div>';
+}).catch(function(){});
+})();
+</script>
+</body>
+</html>

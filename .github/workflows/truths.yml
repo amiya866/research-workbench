@@ -1,0 +1,30 @@
+name: Truth Social跟踪(美东白天1h/夜间5h)
+on:
+  schedule:
+    # 美东白天(EDT 08:00-20:00 ≈ UTC 12:00-24:00)：每小时
+    - cron: "7 12-23 * * *"
+    # 美东夜间(EDT 20:00-08:00 ≈ UTC 00:00-12:00)：每5小时
+    - cron: "7 0,5,10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - run: python scripts/fetch_trump.py || true
+      - name: commit & push
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/trump_zone.json data/truth_posts.json
+          git diff --cached --quiet || git commit -m "truths跟踪 $(date -u +'%F %H:%M')Z"
+          git pull --rebase origin main || (git rebase --abort && git pull --no-rebase -X ours origin main)
+          git push

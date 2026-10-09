@@ -1,0 +1,42 @@
+name: 每日数据管线
+on:
+  schedule:
+    - cron: '40 23 * * *'   # 07:40北京(早报前)
+    - cron: '40 12 * * *'   # 20:40北京(美盘前)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests pandas lxml html5lib xlrd curl_cffi websocket-client
+      - name: fetch_macro + fetch_extra
+        env:
+          JIN10_TOKEN: ${{ secrets.JIN10_TOKEN }}
+        run: |
+          python3 scripts/fetch_polymarket.py || true
+          python3 scripts/fetch_liquidity.py || true
+          python3 scripts/fetch_cftc.py || true
+          python3 scripts/fetch_macro.py || true
+          python3 scripts/fetch_extra.py || true
+          python3 scripts/fetch_cn_macro.py || true
+          python3 scripts/fetch_calendar.py || true
+          python3 scripts/fetch_trump.py || true
+          python3 scripts/gen_charts.py || true
+      - name: 上期所锡铜库存(iFinD EDB)
+        env:
+          IFIND_MCP_KEY: ${{ secrets.IFIND_MCP_KEY }}
+        run: python3 scripts/fetch_shfe_stock.py || true
+      - name: 提交更新
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add charts/ data/polymarket.json data/chart_series.js data/macro_series.json data/macro_catalog.js data/auctions.json data/tic.json data/cftc.json data/liquidity.json data/calendar_consensus.json data/econ_calendar.json data/j10_store.json data/trump_zone.json data/truth_posts.json data/news_latest.json data/news_fallback.js
+          git diff --cached --quiet || git commit -m "每日数据 $(date +%F)"
+          git pull --rebase origin main || { git rebase --abort; git pull --no-rebase -X ours origin main; }
+          git push

@@ -1,0 +1,87 @@
+{
+ "asof": "2026-10-09 09:02 BJT",
+ "cats": [
+  [
+   "rates",
+   "利率·美债"
+  ],
+  [
+   "fx",
+   "美元·外汇"
+  ],
+  [
+   "cmdty",
+   "商品·贵金属"
+  ],
+  [
+   "liq",
+   "流动性"
+  ],
+  [
+   "cn",
+   "中国资产"
+  ]
+ ],
+ "charts": [
+  {
+   "file": "ust_yields.png",
+   "cat": "rates",
+   "title": "美债收益率·关键期限",
+   "sub": "10Y/2Y/30Y"
+  },
+  {
+   "file": "ust_spread.png",
+   "cat": "rates",
+   "title": "美债期限利差",
+   "sub": "10Y-2Y 与 10Y-3M(bp)"
+  },
+  {
+   "file": "realrate_gold.png",
+   "cat": "cmdty",
+   "title": "实际利率vs黄金",
+   "sub": "框架核心矛盾双轴"
+  },
+  {
+   "file": "dxy_jpy.png",
+   "cat": "fx",
+   "title": "美元指数vs日元",
+   "sub": "紧缩型走强双轴"
+  },
+  {
+   "file": "oil.png",
+   "cat": "cmdty",
+   "title": "原油现货价格",
+   "sub": "WTI/Brent·霍尔木兹溢价"
+  },
+  {
+   "file": "sofr_iorb.png",
+   "cat": "liq",
+   "title": "SOFR-IORB利差",
+   "sub": "货币市场压力温度计"
+  },
+  {
+   "file": "rrp_reserves.png",
+   "cat": "liq",
+   "title": "ON RRP与准备金",
+   "sub": "缓冲垫消耗双轴"
+  },
+  {
+   "file": "us_cn_spread.png",
+   "cat": "cn",
+   "title": "中美10Y利差",
+   "sub": "倒挂深度(bp)"
+  },
+  {
+   "file": "fedwatch.png",
+   "cat": "rates",
+   "title": "FedWatch各会议概率",
+   "sub": "加息/维持(%)"
+  },
+  {
+   "file": "gold_silver.png",
+   "cat": "cmdty",
+   "title": "金银比",
+   "sub": "避险温度计"
+  }
+ ]
+}

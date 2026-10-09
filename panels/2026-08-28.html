@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观有色贵金属日度面板 · 2026-08-28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2efeb; --paper:#f8f5f0; --ink:#16140f; --ink2:#5c554b; --ink3:#8d867b;
+  --line:#d9d2c4; --line2:#c9c1b1;
+  --green:#2e7d4f; --amber:#a3760e; --red:#b23a2e; --gray:#9a948a;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Consolas,monospace;
+  --sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13px;line-height:1.65;-webkit-font-smoothing:antialiased}
+::selection{background:#16140f;color:#f2efeb}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:var(--line2)}
+::-webkit-scrollbar-track{background:transparent}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em}
+.wrap{max-width:1460px;margin:0 auto;padding:0 28px}
+
+/* ── 顶栏 ─────────────────────── */
+header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line)}
+.hd-in{max-width:1460px;margin:0 auto;padding:0 28px;height:52px;display:flex;align-items:center;gap:22px}
+.hd-title{font-size:14px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.hd-title span{color:var(--ink3);font-weight:400;margin-left:10px;font-size:11px}
+.regime{display:flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:4px 12px;background:var(--paper);white-space:nowrap}
+.regime b{font-size:11.5px}
+.regime .conf{font-family:var(--mono);font-size:10px;color:var(--ink3);border-left:1px solid var(--line);padding-left:8px}
+.hd-right{margin-left:auto;display:flex;align-items:center;gap:16px;font-family:var(--mono);font-size:10.5px;color:var(--ink2);white-space:nowrap}
+.live{display:flex;align-items:center;gap:6px;color:var(--green);font-weight:600}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ticker */
+.ticker{border-bottom:1px solid var(--line);background:var(--ink);color:#e9e4d9;overflow:hidden;height:34px;display:flex;align-items:center;position:relative}
+.ticker:hover .tk-track{animation-play-state:paused}
+.tk-track{display:flex;gap:0;white-space:nowrap;animation:marq 55s linear infinite;width:max-content}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tk{display:inline-flex;align-items:center;gap:8px;padding:0 20px;font-family:var(--mono);font-size:11px;border-right:1px solid #3a362e}
+.tk b{color:#f2efeb;font-weight:600}
+.up{color:#e2635a}.dn{color:#5fbf8a}.fl{color:#8d867b}
+main{padding-top:86px;padding-bottom:80px}
+
+/* subnav */
+.subnav{position:sticky;top:52px;z-index:40;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -28px;padding:0 28px}
+.subnav-in{display:flex;gap:2px;overflow-x:auto}
+.subnav a{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink2);text-decoration:none;padding:9px 13px;border-bottom:2px solid transparent;white-space:nowrap}
+.subnav a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* section chrome */
+section{margin-top:56px}
+.sec-hd{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sq{display:inline-grid;grid-template-columns:repeat(3,4px);grid-template-rows:repeat(3,4px);gap:2px;align-self:center}
+.sq i{background:var(--ink)}
+.sec-no{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.15em}
+.sec-t{font-size:19px;font-weight:700;letter-spacing:.02em}
+.sec-sub{font-size:11.5px;color:var(--ink3);margin-left:auto;text-align:right}
+.rule{border:none;border-top:1px solid var(--ink);margin-bottom:18px}
+
+/* lamps & tags */
+.lamp{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink2)}
+.lamp i{width:8px;height:8px;border-radius:50%;flex:none}
+.lamp.g i{background:var(--green)}.lamp.a i{background:var(--amber)}.lamp.r i{background:var(--red)}.lamp.n i{background:var(--gray)}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:2px 8px;border:1px solid var(--line2);color:var(--ink2);background:var(--paper);white-space:nowrap}
+.tag.ok{color:var(--green);border-color:var(--green)}
+.tag.warn{color:var(--amber);border-color:var(--amber)}
+.tag.bad{color:var(--red);border-color:var(--red)}
+.tag.dim{color:var(--ink3)}
+.badge{font-family:var(--mono);font-size:9px;padding:1px 5px;border:1px solid var(--line2);color:var(--ink3);vertical-align:1px;margin-left:4px}
+
+/* 今日三变 */
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);background:var(--paper)}
+.tri-c{padding:20px 22px;border-right:1px solid var(--line);position:relative}
+.tri-c:last-child{border-right:none}
+.tri-no{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--line2);line-height:1}
+.tri-t{font-size:14px;font-weight:700;margin:8px 0 6px}
+.tri-d{font-size:12px;color:var(--ink2)}
+.tri-d b{color:var(--ink)}
+.tri-c .layer{position:absolute;top:18px;right:20px}
+
+/* 主要矛盾 */
+.contra{border:1px solid var(--ink);background:var(--paper)}
+.contra-grid{display:grid;grid-template-columns:1fr 120px 1fr}
+.contra-side{padding:22px 24px}
+.contra-side h4{font-size:13.5px;font-weight:700;margin-bottom:8px}
+.contra-side ul{list-style:none;font-size:12px;color:var(--ink2)}
+.contra-side li{padding:5px 0 5px 14px;position:relative;border-bottom:1px dashed var(--line)}
+.contra-side li:last-child{border-bottom:none}
+.contra-side li:before{content:"—";position:absolute;left:0;color:var(--ink3)}
+.contra-vs{border-left:1px solid var(--ink);border-right:1px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--bg)}
+.contra-vs b{font-family:var(--mono);font-size:15px;letter-spacing:.1em}
+.contra-vs span{font-size:10px;color:var(--ink3);writing-mode:vertical-rl;letter-spacing:.3em}
+.contra-ft{border-top:1px solid var(--ink);padding:12px 24px;display:flex;gap:28px;font-size:11.5px;color:var(--ink2);flex-wrap:wrap}
+.contra-ft b{color:var(--ink)}
+
+/* 尾部雷达 */
+.radar{border:1px solid var(--line);background:var(--paper)}
+.rd-row{display:grid;grid-template-columns:190px 1fr 90px 90px 200px;gap:0;border-bottom:1px solid var(--line);align-items:stretch}
+.rd-row:last-child{border-bottom:none}
+.rd-row>div{padding:13px 16px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+.rd-row>div:last-child{border-right:none}
+.rd-name{font-weight:700;font-size:12.5px}
+.rd-name small{display:block;font-weight:400;font-size:10px;color:var(--ink3);margin-top:2px}
+.rd-dist{position:relative}
+.distbar{height:6px;background:var(--bg);border:1px solid var(--line2);position:relative;margin:6px 0}
+.distbar .fill{position:absolute;left:0;top:0;bottom:0}
+.distbar .th{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.rd-dist .txt{font-size:10.5px;color:var(--ink2);font-family:var(--mono)}
+.rd-speed{font-family:var(--mono);font-size:11px;font-weight:600}
+.legs{display:flex;gap:5px;align-items:center}
+.legs i{width:10px;height:10px;border:1px solid var(--line2);background:transparent}
+.legs i.on{background:var(--ink);border-color:var(--ink)}
+.legs span{font-family:var(--mono);font-size:10px;color:var(--ink3);margin-left:6px}
+.rd-next{font-size:11px;color:var(--ink2)}
+.rd-head{background:var(--bg);font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--ink3)}
+.rd-head>div{padding:8px 16px}
+
+/* 宏观模块 */
+.macro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);background:var(--paper)}
+.mod{border-right:1px solid var(--line);padding:18px 18px 12px;min-width:0}
+.mod:last-child{border-right:none}
+.mod-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mod-t{font-size:12.5px;font-weight:700}
+.reads{display:flex;flex-direction:column}
+.rd{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);gap:8px}
+.rd:last-child{border-bottom:none}
+.rd .k{font-size:11px;color:var(--ink2);white-space:nowrap}
+.rd .v{font-family:var(--mono);font-size:12.5px;font-weight:600;text-align:right}
+.rd .v small{font-size:9.5px;color:var(--ink3);font-weight:400;display:block}
+
+/* collapsible commentary */
+details.cmt{margin-top:10px;border-top:1px solid var(--line)}
+details.cmt summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink2);padding:9px 0;display:flex;align-items:center;gap:7px;user-select:none}
+details.cmt summary::-webkit-details-marker{display:none}
+details.cmt summary:before{content:"▸";transition:transform .3s;color:var(--ink3)}
+details.cmt[open] summary:before{transform:rotate(90deg)}
+details.cmt summary:hover{color:var(--ink)}
+.cmt-body{padding:2px 0 12px;font-size:11.5px;color:var(--ink2)}
+.cmt-body .lv{margin-bottom:8px;padding-left:12px;border-left:2px solid var(--line2)}
+.cmt-body .lv b{display:block;color:var(--ink);font-size:10.5px;letter-spacing:.1em;margin-bottom:2px}
+
+/* 裁决表 */
+table{width:100%;border-collapse:collapse;font-size:12px}
+.judge{border:1px solid var(--line);background:var(--paper)}
+.judge th{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--ink3);text-align:left;padding:10px 14px;border-bottom:1px solid var(--ink);font-weight:500;background:var(--bg)}
+.judge td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.judge tr:last-child td{border-bottom:none}
+.judge .px{font-family:var(--mono);font-size:11px;white-space:nowrap}
+.verdict{font-family:var(--mono);font-size:9.5px;padding:3px 8px;white-space:nowrap;border:1px solid}
+.v-ok{color:var(--green);border-color:var(--green)}
+.v-part{color:var(--amber);border-color:var(--amber)}
+.v-no{color:var(--red);border-color:var(--red)}
+.v-un{color:var(--ink2);border-color:var(--ink3)}
+.v-wc{color:#6b4fa3;border-color:#6b4fa3}
+
+/* 品种面板 */
+.grp-t{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--ink3);margin:26px 0 10px;display:flex;align-items:center;gap:10px}
+.grp-t:after{content:"";flex:1;border-top:1px solid var(--line)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-top:none;background:var(--paper)}
+.cards.first{border-top:1px solid var(--line)}
+.card{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 16px 8px;min-width:0;position:relative}
+.card-hd{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.card-code{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.1em}
+.card-name{font-size:13px;font-weight:700}
+.card-hd .lamp{margin-left:auto}
+.card-px{display:flex;align-items:baseline;gap:10px;margin:4px 0 2px}
+.card-px .big{font-family:var(--mono);font-size:21px;font-weight:600;letter-spacing:-.02em}
+.chg{font-family:var(--mono);font-size:10.5px;font-weight:600}
+.chg.up{color:var(--red)}.chg.dn{color:var(--green)}  /* 中国习惯: 红涨绿跌 */
+.chg-sub{font-family:var(--mono);font-size:9.5px;color:var(--ink3)}
+.spark{margin:8px 0 4px;display:block}
+.posbar{height:4px;background:var(--bg);border:1px solid var(--line2);position:relative;margin:7px 0 3px}
+.posbar .mk{position:absolute;top:-3px;width:2px;height:8px;background:var(--ink)}
+.poslb{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8.5px;color:var(--ink3)}
+.card-tone{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 6px}
+.card-contra{font-size:11px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:7px;line-height:1.5}
+.card-contra b{color:var(--ink)}
+.gate{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;margin-top:8px}
+.gate div{font-size:10.5px;color:var(--ink2);border-left:2px solid var(--line2);padding-left:8px}
+.gate b{font-family:var(--mono);color:var(--ink)}
+.track{margin-top:8px;font-size:10.5px;color:var(--ink2)}
+.track b{color:var(--ink);letter-spacing:.05em}
+.falsify{margin-top:8px;font-size:10.5px;padding:7px 9px;background:var(--bg);border:1px solid var(--line)}
+.falsify b{color:var(--red)}
+
+/* 事件轴 */
+.evt{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);background:var(--paper)}
+.evt-c{padding:16px 18px;border-right:1px solid var(--line);position:relative}
+.evt-c:last-child{border-right:none}
+.evt-date{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.08em}
+.evt-t{font-size:12.5px;font-weight:700;margin:5px 0 4px}
+.evt-d{font-size:11px;color:var(--ink2)}
+.evt-q{margin-top:8px;font-size:10.5px;border-top:1px dashed var(--line);padding-top:7px;color:var(--ink2)}
+.evt-q b{color:var(--ink)}
+
+/* 冻结表 + 附录 */
+.freeze{border:1px solid var(--line);background:var(--paper)}
+.freeze th{background:var(--bg)}
+.freeze td{font-size:11.5px}
+.freeze .num{font-size:11px}
+.appendix{border:1px solid var(--line);background:var(--paper)}
+.appendix td{font-family:var(--mono);font-size:10.5px;padding:8px 12px}
+.appendix td:first-child{font-family:var(--sans);font-size:11px}
+.appendix th{padding:9px 12px}
+.stale{color:var(--ink3)}
+
+footer{margin-top:70px;border-top:1px solid var(--ink);padding:26px 0 10px}
+.ft-grid{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.ft-note{font-size:10.5px;color:var(--ink3);max-width:760px;line-height:1.8}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:9.5px;color:var(--ink2);margin-top:12px}
+
+@media(max-width:1100px){
+  .tri,.macro-grid{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:1fr 1fr}
+  .evt{grid-template-columns:1fr 1fr}
+  .contra-grid{grid-template-columns:1fr}
+  .contra-vs{flex-direction:row;padding:8px;border-left:none;border-right:none;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .contra-vs span{writing-mode:horizontal-tb}
+  .rd-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){.tri,.macro-grid,.cards,.evt{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.tk-track{animation:none}.live i{animation:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd-in">
+    <div class="hd-title">宏观有色贵金属 · 日度面板<span>MACRO · NONFERROUS · PRECIOUS DAILY</span></div>
+    <div class="regime"><span class="lamp a"><i></i></span><b>全球滞胀脉冲 + 紧缩再定价</b><span class="conf">medium</span></div>
+    <div class="hd-right">
+      <span class="live"><i></i>2026-08-28 周五 · 盘前版</span>
+      <span>数据截止 8/27 内盘收盘 + 美盘</span>
+      <span>快照 01:30 BJT</span>
+    </div>
+  </div>
+  <div class="ticker"><div class="tk-track" id="tickerTrack"></div></div>
+</header>
+
+<main class="wrap">
+
+<nav class="subnav"><div class="subnav-in">
+  <a href="#s1">01 今日三变</a><a href="#s2">02 主要矛盾</a><a href="#s3">03 尾部雷达</a>
+  <a href="#s4">04 宏观模块</a><a href="#s5">05 跨资产裁决</a><a href="#s6">06 品种面板</a>
+  <a href="#s7">07 事件轴</a><a href="#s8">08 事前冻结</a><a href="#s9">09 附录底表</a>
+</div></nav>
+
+<!-- ① 今日三变 -->
+<section id="s1">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">01 / THREE CHANGES</span><span class="sec-t">今日三变</span>
+    <span class="sec-sub">注意力约束：恰好三条边际变化 · 判断归周报</span></div>
+  <hr class="rule">
+  <div class="tri">
+    <div class="tri-c"><span class="layer tag warn">政策层</span>
+      <div class="tri-no">01</div>
+      <div class="tri-t">能源通胀腿撤退：油价 -5.3%</div>
+      <div class="tri-d">伊朗-阿曼勾勒霍尔木兹「海上走廊+扫雷」临时框架，WTI 8/26 暴跌约 <b>5.3%</b> 收 <b>80.50</b>，8/27 延续弱势。滞胀「胀」端供给溢价松动 → A端通胀叙事弱化。但框架≠复航：通行量基线仍约 <b>10%</b>，实物未验证，证伪点=通行量数据。<span class="badge">L2</span><span class="badge">L3</span></div>
+    </div>
+    <div class="tri-c"><span class="layer tag warn">政策层</span>
+      <div class="tri-no">02</div>
+      <div class="tri-t">沃什验证窗 T-0：今晚 22:00</div>
+      <div class="tri-d">主旨演讲主题「金融创新与支付」，题目非利率，但 Q&A 鹰鸽将定价 9 月议息（加息押注约 <b>1/3</b>）。前置证据：PCE 3.7% 超预期、初请回落、<b>30Y TIPS 拍卖 2.973% 创近 25 年新高</b>；10Y 实际利率 2.40%→<b>2.32%</b> 回落。NVDA 强劲 + VIX <b>14.45</b>（-5%）= 紧缩未传导为 risk-off。<span class="badge">L1</span><span class="badge">L2</span></div>
+    </div>
+    <div class="tri-c"><span class="layer tag">品种裁决层</span>
+      <div class="tri-no">03</div>
+      <div class="tri-t">碳酸锂：去库加速 vs 仓单压顶</div>
+      <div class="tri-d">SMM 周度库存 <b>-5,985</b> 吨（大样本 -7,516）全环节去库 + 枧下窝环评被撤销复产反复；但仓单 <b>43,100 手（+1,160）</b> 续增。库存腿转多✅、仓单腿压制❌ → 维持「按反弹对待」不升级。LC 收 <b>152,020</b>（-0.09%）。<span class="badge">L1</span><span class="badge">L2</span><span class="badge">iFinD</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ② 唯一主要矛盾 -->
+<section id="s2">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">02 / CENTRAL CONTRADICTION</span><span class="sec-t">唯一主要矛盾</span>
+    <span class="sec-sub">两股力量争夺定价权 · 各≥2独立证据族 · 至少一项非价格 · 维持 8/27 不跨零直翻</span></div>
+  <hr class="rule">
+  <div class="contra">
+    <div class="contra-grid">
+      <div class="contra-side">
+        <h4>A 端｜财政主导 + 通胀黏性 → 实际利率与美元高位</h4>
+        <ul>
+          <li>30Y TIPS 重开实际利率 <b>2.973%</b> 创近 25 年新高（拍卖=非价格证据）<span class="badge">L1</span><span class="badge">L2</span></li>
+          <li>PCE 3.7% 超预期 → 9月加息押注约 1/3 硬化；FFR 3.50-3.75%（9-3 票，3 票加息异议）<span class="badge">L1</span><span class="badge">L3</span></li>
+          <li>⚠️ 边际弱化：WTI -5.3% 能源腿撤退；10Y 实际利率 2.40%→<b>2.32%</b> 回落 <span class="badge">L1</span><span class="badge">L2</span></li>
+        </ul>
+      </div>
+      <div class="contra-vs"><b>VS</b><span>定价权</span></div>
+      <div class="contra-side">
+        <h4>B 端｜央行购金 + 矿紧供给 + AI电力资本开支 → 实物资产重估</h4>
+        <ul>
+          <li>央行 7 月购金 <b>2023/10 来最强</b>（连续 21 个月，+20 吨）；金顶着 2.3%+ 实际利率与超预期 PCE 仅回调 0.1-0.8% → <b>实物门禁接管边际定价</b><span class="badge">L1</span><span class="badge">L3</span></li>
+          <li>铜精矿 TC 8 月约 <b>-174 美元</b>创 2021 年来最低；刚果金 8/6 出口禁令待生效 <span class="badge">L2</span><span class="badge">L3</span></li>
+          <li>伦锌 Back <b>$174</b> 不松（8/26 官方 4,107-3,933）；碳酸锂全环节去库 <span class="badge">L2</span><span class="badge">⚙️</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="contra-ft">
+      <span><b>传导桥</b>：实际利率→美元→商品估值折价 ⇄ 实物缺口+储备多元化→实物溢价</span>
+      <span><b>下一裁决</b>：今晚 22:00 沃什 → 9/4 非农</span>
+      <span><b>失效</b>：实际利率破2.45%且金破4,520（A胜）｜DXY回98.5下且金破4,700（B胜）</span>
+    </div>
+  </div>
+</section>
+
+<!-- ③ 尾部风险雷达 -->
+<section id="s3">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">03 / TAIL RADAR</span><span class="sec-t">尾部风险雷达</span>
+    <span class="sec-sub">讲距离不讲概率 · 四字段：距离 / 速度 / 确认腿 / 下一触发</span></div>
+  <hr class="rule">
+  <div class="radar">
+    <div class="rd-row rd-head"><div>维度</div><div>当前距离（→ 观察线）</div><div>本周速度</div><div>确认腿</div><div>下一触发</div></div>
+
+    <div class="rd-row">
+      <div><span class="rd-name">久期估值冲击 <span class="lamp a"><i></i></span><small>10Y实际利率 vs 2.45%观察线</small></span></div>
+      <div class="rd-dist"><div class="distbar"><div class="fill" style="width:74%;background:var(--amber)"></div><div class="th" style="left:95%"></div></div><span class="txt">2.32%（8/25）· 距观察线 ≈13bp · 30Y TIPS拍卖2.973%创25年高</span></div>
+      <div class="rd-speed" style="color:var(--amber)">▲ 靠近放缓<span style="color:var(--ink3);font-weight:400">（2.40→2.32回落，拍卖顶格）</span></div>
+      <div><div class="legs"><i class="on"></i><i></i><i></i><i></i><span>1/4</span></div></div>
+      <div class="rd-next">今晚 22:00 沃什；9/4 非农</div>
+    </div>
+
+    <div class="rd-row">
+      <div><span class="rd-name">AI 链去杠杆 <span class="lamp g"><i></i></span><small>SOX + 科技信用广度</small></span></div>
+      <div class="rd-dist"><div class="distbar"><div class="fill" style="width:26%;background:var(--green)"></div><div class="th" style="left:88%"></div></div><span class="txt">NVDA 财报强劲落地 · VIX 14.45（-5.0%）低位</span></div>
+      <div class="rd-speed" style="color:var(--green)">▼ 远离</div>
+      <div><div class="legs"><i class="on"></i><i></i><i></i><i></i><span>1/4</span></div></div>
+      <div class="rd-next">财报消化后 SOX 方向；信用广度</div>
+    </div>
+
+    <div class="rd-row">
+      <div><span class="rd-name">美债市场功能 <span class="lamp n"><i></i></span><small>深度 / fails / 拍卖承接</small></span></div>
+      <div class="rd-dist"><div class="distbar"><div class="fill" style="width:28%;background:var(--gray)"></div><div class="th" style="left:88%"></div></div><span class="txt">30Y名义 5.17% 高位；TIPS 30Y 拍卖足额承接=功能正常佐证 · <b>MOVE 数据缺口</b>（降级，不分配权重）</span></div>
+      <div class="rd-speed" style="color:var(--ink3)">— 不变</div>
+      <div><div class="legs"><i class="on"></i><i></i><i></i><i></i><span>1/4</span></div></div>
+      <div class="rd-next">下周长债拍卖承接；MOVE 刷新</div>
+    </div>
+
+    <div class="rd-row">
+      <div><span class="rd-name">美元融资 <span class="lamp n"><i></i></span><small>SOFR-IORB / FX basis / DXY异动拆分</small></span></div>
+      <div class="rd-dist"><div class="distbar"><div class="fill" style="width:18%;background:var(--gray)"></div><div class="th" style="left:88%"></div></div><span class="txt"><b>SOFR-IORB 数据缺口</b>（不分配权重）；DXY 99.10；USDJPY 159.34 极值区（干预为独立变量）</span></div>
+      <div class="rd-speed" style="color:var(--ink3)">— 不变</div>
+      <div><div class="legs"><i></i><i></i><i></i><i></i><span>0/4</span></div></div>
+      <div class="rd-next">SOFR-IORB ≥+5bp 即触发</div>
+    </div>
+
+    <div class="rd-row">
+      <div><span class="rd-name">商品贸易融资断裂 <span class="lamp g"><i></i></span><small>联合阈值：10Y实际&gt;2.45% + Back $60+→&lt;$10 + 融资收紧新闻</small></span></div>
+      <div class="rd-dist"><div class="distbar"><div class="fill" style="width:12%;background:var(--green)"></div><div class="th" style="left:88%"></div></div><span class="txt">三条件均未触发 · 锌$174深Back=挤仓（结构）≠断裂（功能）</span></div>
+      <div class="rd-speed" style="color:var(--green)">▼ 远离</div>
+      <div><div class="legs"><i></i><i></i><i></i><i></i><span>0/4</span></div></div>
+      <div class="rd-next">三条件联合确认方升级</div>
+    </div>
+  </div>
+</section>
+
+<!-- ④ 宏观模块 -->
+<section id="s4">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">04 / MACRO MODULES</span><span class="sec-t">宏观模块</span>
+    <span class="sec-sub">宏观只提供风险环境与表达边界 · 点击展开「怎么看 / 表示什么 / 还不能证明什么」</span></div>
+  <hr class="rule">
+  <div class="macro-grid">
+    <div class="mod">
+      <div class="mod-hd"><span class="mod-t">美国通胀与政策</span><span class="lamp a"><i></i></span></div>
+      <div class="reads">
+        <div class="rd"><span class="k">7月PCE 同比 / 核心环比</span><span class="v num">3.7% / +0.2%<small>headline 超预期 0.1pt · 08-26 · L1/L3</small></span></div>
+        <div class="rd"><span class="k">FFR / 9月加息押注</span><span class="v num">3.50-3.75% / ≈1/3<small>7/29 按兵不动 9-3 票 · L1</small></span></div>
+        <div class="rd"><span class="k">10Y 名义 / TIPS 实际</span><span class="v num">4.66% / 2.32%<small>08-27 / 08-25 · L1/L3</small></span></div>
+        <div class="rd"><span class="k">30Y TIPS 重开</span><span class="v num">2.973%<small>近25年新高 · 08-26/27 · L1/L2</small></span></div>
+      </div>
+      <details class="cmt"><summary>三段式</summary><div class="cmt-body">
+        <div class="lv"><b>怎么看</b>PCE 3.7% 与 Q2 GDP 下修 1.5% 并存，联储在 higher-for-longer 与再加息间摇摆，9-3 票型说明鹰派异议已上桌。</div>
+        <div class="lv"><b>表示什么</b>实际利率高位钝化但方向未转，商品估值折价环境未解除；今晚沃什讲话前，一切头寸都是「事件前持仓」。</div>
+        <div class="lv"><b>还不能证明什么</b>单月 PCE 不证明再加速（核心环比仅 0.2%），需 8 月 CPI + 非农确认广度。</div>
+      </div></details>
+    </div>
+    <div class="mod">
+      <div class="mod-hd"><span class="mod-t">中国增长与政策</span><span class="lamp n"><i></i></span></div>
+      <div class="reads">
+        <div class="rd"><span class="k">人大常委会 24 次会议</span><span class="v num">今日闭幕<small>8/25-28 · 计划/预算/政府债务报告 · L1</small></span></div>
+        <div class="rd"><span class="k">反内卷执行层</span><span class="v num">枧下窝环评撤销<small>复产反复 · 08-26 · L2</small></span></div>
+        <div class="rd"><span class="k">7月工增 / 地产</span><span class="v num">回落 / 疲弱<small>旧锚，等 8/31 PMI · L1</small></span></div>
+        <div class="rd"><span class="k">央行购金 7 月</span><span class="v num">+20 吨<small>连续21个月 · 2023/10来最强 · L1</small></span></div>
+      </div>
+      <details class="cmt"><summary>三段式</summary><div class="cmt-body">
+        <div class="lv"><b>怎么看</b>闭幕日三份报告（计划执行/预算/政府债务）是财政与反内卷的政策观察窗；枧下窝环评撤销说明供给侧反内卷在执行层存在反复。</div>
+        <div class="lv"><b>表示什么</b>有色的「中国需求」端仍是拖累项而非驱动项——铜强靠矿端与关税，不靠中国需求。</div>
+        <div class="lv"><b>还不能证明什么</b>通稿措辞未出不预判增量政策；单月数据不证明趋势，等 8/31 官方 PMI 确认广度。</div>
+      </div></details>
+    </div>
+    <div class="mod">
+      <div class="mod-hd"><span class="mod-t">美元与流动性</span><span class="lamp n"><i></i></span></div>
+      <div class="reads">
+        <div class="rd"><span class="k">DXY</span><span class="v num">99.10<small>周内 98.80→99.17→99.10 · 08-27 · L2</small></span></div>
+        <div class="rd"><span class="k">EURUSD / USDJPY</span><span class="v num">1.1669 / 159.34<small>08-26/27 · L3</small></span></div>
+        <div class="rd"><span class="k">SOFR-IORB</span><span class="v num stale">数据缺口<small>降级，不分配权重</small></span></div>
+        <div class="rd"><span class="k">VIX / SPX</span><span class="v num">14.45 / 7,675.70<small>08-27 · L2</small></span></div>
+      </div>
+      <details class="cmt"><summary>三段式</summary><div class="cmt-body">
+        <div class="lv"><b>怎么看</b>DXY 自 8/21 低点回升但缺乏新驱动；日元 159.34 极值区埋着干预尾部。</div>
+        <div class="lv"><b>表示什么</b>非美商品折价比最紧时刻略松；美元「强而非异动」，不是当前的定价主因。</div>
+        <div class="lv"><b>还不能证明什么</b>不证明美元趋势转弱——沃什之前 99 附近是「等待定价」而非方向。</div>
+      </div></details>
+    </div>
+    <div class="mod">
+      <div class="mod-hd"><span class="mod-t">能源与供给溢价</span><span class="lamp a"><i></i></span></div>
+      <div class="reads">
+        <div class="rd"><span class="k">WTI</span><span class="v num">80.50<small>-5.3% · 08-26 · L2</small></span></div>
+        <div class="rd"><span class="k">霍尔木兹框架</span><span class="v num">走廊+扫雷<small>伊朗-阿曼临时框架 · 08-26 · L2/L3</small></span></div>
+        <div class="rd"><span class="k">海峡通行量基线</span><span class="v num">≈10%<small>第三方8/9周报 · L3</small></span></div>
+        <div class="rd"><span class="k">08-27 延续</span><span class="v num">弱势<small>复航预期继续压制 · L2</small></span></div>
+      </div>
+      <details class="cmt"><summary>三段式</summary><div class="cmt-body">
+        <div class="lv"><b>怎么看</b>价格在定价复航预期：走廊框架 + 扫雷 = 地缘溢价的快速回吐。</div>
+        <div class="lv"><b>表示什么</b>滞胀「胀」端边际降温 → 实际收入增长叙事修复 → 利多风险资产与金属消费预期，利空油系成本支撑。</div>
+        <div class="lv"><b>还不能证明什么</b>框架≠执行：通行量与战争险保费未动；证伪则油价 V 型反转并修复 A 端叙事。</div>
+      </div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ 跨资产裁决 -->
+<section id="s5">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">05 / CROSS-ASSET VERDICTS</span><span class="sec-t">跨资产裁决</span>
+    <span class="sec-sub">五标签制 · 不匹配优先当研究问题 · 矛盾即信号不平均</span></div>
+  <hr class="rule">
+  <table class="judge">
+    <tr><th style="width:24%">价格组合（窗口）</th><th style="width:16%">市场说法</th><th style="width:13%">裁决</th><th>依据与残差</th></tr>
+    <tr>
+      <td class="px">油 -5.3% + 名义10Y回落 4.74→4.66 + 金稳<br><span class="stale">8/26-27</span></td>
+      <td>「滞胀结束」🗣</td>
+      <td><span class="verdict v-part">partially_confirmed</span></td>
+      <td>供给溢价撤退为真（价格+框架双证据），但 PCE 3.7% 黏性未解、实际利率 2.32% 仍高位——只是能源腿撤退，不是 regime 翻转。残差：通行量未确认。</td>
+    </tr>
+    <tr>
+      <td class="px">PCE超预期 + 实际利率2.3%+ ｜ 金仅-0.1~-0.8%<br><span class="stale">8/27</span></td>
+      <td>「紧缩压金」🗣</td>
+      <td><span class="verdict v-no">rejected</span></td>
+      <td>价格不配合叙事：央行 +20 吨最强月度购金（非价格证据）接管边际定价，金对实际利率敏感度钝化。</td>
+    </tr>
+    <tr>
+      <td class="px">铜 LME Back 扩至 $189 + TC -174 创新低 ｜ 沪铜 -0.41%</td>
+      <td>「关税虹吸结束转弱」🗣</td>
+      <td><span class="verdict v-un">unresolved</span></td>
+      <td>LME 库存 237,475（-1,250）回流放缓，CME 66-67 万吨仍堆积；挤仓结构与库存扭曲并存，方向裁决推迟到 232 关税裁决。</td>
+    </tr>
+    <tr>
+      <td class="px">锌库存 +2,275 连升 + 注销 4.14% 崩 ｜ Back $174 不松</td>
+      <td>「挤仓结束」🗣</td>
+      <td><span class="verdict v-part">partially_confirmed</span></td>
+      <td>仓单腿确认、结构腿未确认——发令枪维持半触发，不提前开枪。</td>
+    </tr>
+    <tr>
+      <td class="px">碳酸锂去库 -5,985 + 枧下窝反复 ｜ 仓单 +1,160<br><span class="stale">8/27 周报</span></td>
+      <td>「基本面反转」🗣</td>
+      <td><span class="verdict v-un">unresolved</span></td>
+      <td>库存腿转多、仓单腿压顶；按反弹对待不升级。裁决窗：下周仓单方向 + 去库连续性。</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ⑥ 品种面板 -->
+<section id="s6">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">06 / COMMODITY PANEL</span><span class="sec-t">品种面板 · 13 品种</span>
+    <span class="sec-sub">方向回到实物门禁：库存 / 基差 / 月差 / 进口盈亏 / 持仓 / 订单 · 点击卡片展开点评 · 数据日 08-27 收盘（iFinD）</span></div>
+  <hr class="rule">
+
+  <div class="grp-t">贵金属 PRECIOUS · 纯宏观定价</div>
+  <div class="cards first">
+    <div class="card">
+      <div class="card-hd"><span class="card-code">AU · SHFE</span><span class="card-name">黄金</span><span class="lamp a"><i></i></span></div>
+      <div class="card-px"><span class="big num">995.30</span><span class="chg dn num">-0.77%</span></div>
+      <div class="chg-sub num">元/克 · 20日 +12.92%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,6.4 L1.6,5.1 L3.2,7.6 L4.8,7.5 L6.5,8.2 L8.1,14.3 L9.7,13.3 L11.3,18.6 L12.9,23.2 L14.5,20.1 L16.1,14.9 L17.7,14.4 L19.4,14.1 L21.0,15.1 L22.6,19.1 L24.2,22.7 L25.8,23.0 L27.4,27.6 L29.0,25.4 L30.6,24.4 L32.3,25.8 L33.9,28.0 L35.5,24.0 L37.1,20.1 L38.7,20.8 L40.3,21.6 L41.9,21.7 L43.5,22.5 L45.2,22.7 L46.8,24.9 L48.4,26.0 L50.0,26.0 L51.6,26.2 L53.2,27.3 L54.8,27.2 L56.5,24.2 L58.1,22.4 L59.7,22.4 L61.3,25.8 L62.9,23.6 L64.5,25.1 L66.1,25.3 L67.7,25.8 L69.4,24.5 L71.0,24.8 L72.6,24.8 L74.2,20.3 L75.8,17.2 L77.4,15.3 L79.0,13.1 L80.6,12.8 L82.3,11.2 L83.9,12.2 L85.5,14.1 L87.1,11.7 L88.7,11.6 L90.3,13.6 L91.9,8.4 L93.5,5.7 L95.2,2.0 L96.8,2.5 L98.4,2.7 L100.0,4.2" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:92%"></div></div>
+      <div class="poslb num"><span>6月来位置 92%</span><span>区间 870-1,007</span></div>
+      <div class="card-tone"><span class="tag warn">短·事件前震荡</span><span class="tag ">中短·4,520-4,700箱体</span><span class="tag ok">中期·牛市未破</span></div>
+      <div class="card-contra"><b>矛盾</b>：紧缩再定价（实际利率2.32%高位）vs 储备多元化（央行7月+20吨最强月度购金）</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>现货金 8/27 早纽约约 4,649（-0.12%），Kitco「steadies near 4,590」；沪金收 995.30，事件前强趋势按暂停键。</div><div class="lv"><b>边际</b>PCE 已过，全部权重压给今晚 22:00 沃什：明鹰→测 4,583/4,550；含糊→重返 4,670-4,700。</div><div class="lv"><b>实物门禁</b>央行 7 月 +20 吨（L1）＋ 拥挤度门禁 48.6 分位（第三方8/14口径，回调中降温）；金顶着 2.3%+ 实际利率仅微跌 = 实物接管边际定价。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：破 4,520 ＋ 实际利率破 2.45% → 箱体下翻；DXY 回 98.5 下且金破 4,700 → B端胜</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">AG · SHFE</span><span class="card-name">白银</span><span class="lamp g"><i></i></span></div>
+      <div class="card-px"><span class="big num">16,728</span><span class="chg dn num">-0.17%</span></div>
+      <div class="chg-sub num">元/千克 · 20日 +19.21%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,3.9 L1.6,2.0 L3.2,4.7 L4.8,6.1 L6.5,7.2 L8.1,14.1 L9.7,12.7 L11.3,17.1 L12.9,18.2 L14.5,15.3 L16.1,10.6 L17.7,11.4 L19.4,10.6 L21.0,12.6 L22.6,14.8 L24.2,20.3 L25.8,20.6 L27.4,26.5 L29.0,24.4 L30.6,24.1 L32.3,23.4 L33.9,25.3 L35.5,22.1 L37.1,19.0 L38.7,19.9 L40.3,20.9 L41.9,21.0 L43.5,23.4 L45.2,22.1 L46.8,24.8 L48.4,24.4 L50.0,24.3 L51.6,26.0 L53.2,28.0 L54.8,26.8 L56.5,23.3 L58.1,22.8 L59.7,22.3 L61.3,24.7 L62.9,22.6 L64.5,25.1 L66.1,24.1 L67.7,25.3 L69.4,24.1 L71.0,24.4 L72.6,23.6 L74.2,19.8 L75.8,19.8 L77.4,17.0 L79.0,16.6 L80.6,16.4 L82.3,14.3 L83.9,16.0 L85.5,16.6 L87.1,14.4 L88.7,15.3 L90.3,18.1 L91.9,13.2 L93.5,11.1 L95.2,10.7 L96.8,11.8 L98.4,11.2 L100.0,11.3" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:64%"></div></div>
+      <div class="poslb num"><span>6月来位置 64%</span><span>区间 13,522-18,522</span></div>
+      <div class="card-tone"><span class="tag ">短·跟随金</span><span class="tag ">中短·弹性>方向</span><span class="tag warn">中期·待工业数据裁决</span></div>
+      <div class="card-contra"><b>矛盾</b>：补涨弹性释放（20日+19.2%）vs 缺独立工业需求证据族（unresolved_residual）</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>现货银 8/27 约 69.42（+0.88%）；沪银收 16,728 抗跌于金。</div><div class="lv"><b>边际</b>国际金银比 67.3 vs 沪口径 59.5（⚙️ 增值税口径差）；「多金空银」失效维持——国际比接近 68-70 通道下沿但未站稳上方，不重启。</div><div class="lv"><b>实物门禁</b>ETF 持仓分布：美 56%/印 13%/英 13%（第三方8/26）；拥挤度 24.1 分位低于金。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：金银比国际站稳 68 上方 → 重估配对立项；跌破 60（国际）→ 弹性交易延续</div>
+    </div>
+  </div>
+
+  <div class="grp-t">铜系 COPPER · LME 外盘定价</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-hd"><span class="card-code">CU · SHFE</span><span class="card-name">铜</span><span class="lamp a"><i></i></span></div>
+      <div class="card-px"><span class="big num">108,300</span><span class="chg dn num">-0.41%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +3.45%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,17.2 L1.6,11.1 L3.2,11.9 L4.8,15.7 L6.5,15.7 L8.1,18.9 L9.7,17.3 L11.3,19.0 L12.9,21.9 L14.5,17.2 L16.1,14.3 L17.7,17.4 L19.4,14.9 L21.0,16.9 L22.6,16.5 L24.2,20.6 L25.8,20.7 L27.4,28.0 L29.0,26.9 L30.6,21.9 L32.3,21.5 L33.9,25.8 L35.5,25.7 L37.1,22.5 L38.7,22.6 L40.3,22.5 L41.9,22.9 L43.5,21.9 L45.2,20.2 L46.8,22.1 L48.4,18.1 L50.0,18.6 L51.6,17.9 L53.2,20.7 L54.8,20.0 L56.5,14.8 L58.1,13.6 L59.7,13.4 L61.3,17.0 L62.9,16.0 L64.5,16.8 L66.1,16.5 L67.7,17.2 L69.4,14.8 L71.0,12.7 L72.6,11.0 L74.2,8.9 L75.8,8.9 L77.4,5.6 L79.0,7.3 L80.6,7.0 L82.3,5.6 L83.9,8.7 L85.5,7.8 L87.1,2.0 L88.7,7.0 L90.3,10.4 L91.9,9.3 L93.5,7.6 L95.2,6.5 L96.8,6.9 L98.4,4.5 L100.0,5.9" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:85%"></div></div>
+      <div class="poslb num"><span>6月来位置 85%</span><span>区间 101,220-109,540</span></div>
+      <div class="card-tone"><span class="tag ">短·高位震荡</span><span class="tag ok">中短·回调买入</span><span class="tag ok">中期·矿紧牛市</span></div>
+      <div class="card-contra"><b>矛盾</b>：TC 约 -174 美元创 2021 年来最低（矿紧未解）vs LME 库存回流 + CME 66-67 万吨关税扭曲</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>LME 8/26 结算 14,525，Back 扩至 $189；沪铜 108,300（6月来位置 85%）。</div><div class="lv"><b>边际</b>232 关税裁决前外盘定价主导；油价跌 → 滞胀折价修复利多消费预期。</div><div class="lv"><b>实物门禁</b>洋山溢价仓单 85/提单 80 美元（8/27，L3）进口买盘回暖；TC 深度倒挂 = 一矿难求（非价格证据）。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：TC 连升两周 ＋ 破 103,000 → 牛市叙事暂停</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">BC · INE</span><span class="card-name">国际铜</span><span class="lamp g"><i></i></span></div>
+      <div class="card-px"><span class="big num">96,460</span><span class="chg dn num">-0.79%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +3.62%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,17.4 L1.6,11.5 L3.2,12.3 L4.8,16.2 L6.5,16.0 L8.1,19.5 L9.7,18.1 L11.3,19.5 L12.9,22.6 L14.5,18.1 L16.1,15.2 L17.7,18.1 L19.4,15.6 L21.0,17.3 L22.6,17.2 L24.2,21.1 L25.8,21.6 L27.4,28.0 L29.0,27.1 L30.6,22.7 L32.3,21.6 L33.9,25.7 L35.5,25.6 L37.1,22.2 L38.7,22.6 L40.3,22.5 L41.9,22.9 L43.5,21.8 L45.2,20.1 L46.8,22.4 L48.4,18.4 L50.0,18.7 L51.6,18.0 L53.2,20.7 L54.8,19.4 L56.5,13.6 L58.1,11.8 L59.7,11.8 L61.3,16.0 L62.9,15.6 L64.5,16.2 L66.1,16.2 L67.7,16.9 L69.4,14.3 L71.0,12.3 L72.6,10.5 L74.2,8.5 L75.8,8.2 L77.4,4.8 L79.0,7.4 L80.6,7.2 L82.3,6.1 L83.9,9.0 L85.5,7.8 L87.1,2.0 L88.7,7.4 L90.3,11.8 L91.9,9.8 L93.5,7.8 L95.2,6.1 L96.8,5.9 L98.4,4.0 L100.0,6.4" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:83%"></div></div>
+      <div class="poslb num"><span>6月来位置 83%</span><span>区间 89,520-97,880</span></div>
+      <div class="card-tone"><span class="tag ">短·跟随CU</span><span class="tag ">中短·保税口径联动</span><span class="tag ">中期·同CU</span></div>
+      <div class="card-contra"><b>矛盾</b>：与 CU 同一驱动，价差 11,840（⚙️）反映关税与交割品结构</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 96,460（-0.79%），跌幅大于沪铜，外盘情绪更谨慎。</div><div class="lv"><b>实物门禁</b>CU-BC 价差 11,840（⚙️）；关注 232 裁决后价差收敛方向。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：价差异常走阔 → 检查关税预期定价</div>
+    </div>
+  </div>
+
+  <div class="grp-t">铝链 ALUMINIUM CHAIN</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-hd"><span class="card-code">AL · SHFE</span><span class="card-name">铝</span><span class="lamp g"><i></i></span></div>
+      <div class="card-px"><span class="big num">23,820</span><span class="chg up num">+0.25%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +0.83%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,6.9 L1.6,2.0 L3.2,5.2 L4.8,7.4 L6.5,7.6 L8.1,9.6 L9.7,9.6 L11.3,11.7 L12.9,10.2 L14.5,9.0 L16.1,8.9 L17.7,12.5 L19.4,12.0 L21.0,10.9 L22.6,9.6 L24.2,16.2 L25.8,16.5 L27.4,22.8 L29.0,21.3 L30.6,20.4 L32.3,25.9 L33.9,28.0 L35.5,27.7 L37.1,23.0 L38.7,22.5 L40.3,22.0 L41.9,20.5 L43.5,20.7 L45.2,20.7 L46.8,21.9 L48.4,18.0 L50.0,19.4 L51.6,18.8 L53.2,19.4 L54.8,21.2 L56.5,19.6 L58.1,19.3 L59.7,17.7 L61.3,18.9 L62.9,19.3 L64.5,19.0 L66.1,16.5 L67.7,14.7 L69.4,14.7 L71.0,14.5 L72.6,12.7 L74.2,13.0 L75.8,12.7 L77.4,10.3 L79.0,9.0 L80.6,8.1 L82.3,7.7 L83.9,9.8 L85.5,12.0 L87.1,10.6 L88.7,11.4 L90.3,14.2 L91.9,15.0 L93.5,13.8 L95.2,13.2 L96.8,13.3 L98.4,13.3 L100.0,12.6" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:59%"></div></div>
+      <div class="poslb num"><span>6月来位置 59%</span><span>区间 22,370-24,825</span></div>
+      <div class="card-tone"><span class="tag ">短·区间 23,500-24,500</span><span class="tag ">中短·成本支撑+利润走阔</span><span class="tag ok">中期·产能天花板</span></div>
+      <div class="card-contra"><b>矛盾</b>：氧化铝让利→利润走阔 vs 高价传导困难（加工费承压）；LME 集中度入借贷指引区</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>沪铝 +0.25% 相对抗跌；LME 8/26 结算 3,227.5，cash-3M 小 contango $11.5，库存 246,825 持平。</div><div class="lv"><b>边际</b>油价 -5.3% → 电力成本预期下修；LME 持仓集中度 50-80% 借贷指引区（L3）→ 挤仓条件受制度约束。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：社库拐点确认 ＋ 电价政策 → 区间外移</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">AO · SHFE</span><span class="card-name">氧化铝</span><span class="lamp r"><i></i></span></div>
+      <div class="card-px"><span class="big num">2,614</span><span class="chg dn num">-0.91%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 -1.28%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,4.6 L1.6,8.1 L3.2,11.3 L4.8,15.7 L6.5,15.2 L8.1,14.0 L9.7,9.2 L11.3,4.4 L12.9,4.0 L14.5,2.0 L16.1,3.3 L17.7,3.3 L19.4,2.8 L21.0,4.1 L22.6,2.5 L24.2,8.7 L25.8,6.1 L27.4,10.5 L29.0,12.3 L30.6,10.1 L32.3,13.9 L33.9,13.5 L35.5,17.9 L37.1,19.2 L38.7,19.1 L40.3,20.7 L41.9,19.4 L43.5,19.1 L45.2,19.5 L46.8,22.6 L48.4,21.2 L50.0,20.3 L51.6,21.7 L53.2,24.5 L54.8,19.9 L56.5,18.5 L58.1,19.0 L59.7,19.8 L61.3,19.9 L62.9,21.9 L64.5,22.2 L66.1,22.2 L67.7,25.1 L69.4,27.4 L71.0,26.4 L72.6,25.7 L74.2,23.6 L75.8,21.1 L77.4,20.8 L79.0,21.1 L80.6,18.7 L82.3,19.6 L83.9,22.4 L85.5,21.1 L87.1,21.0 L88.7,22.4 L90.3,23.5 L91.9,23.9 L93.5,20.9 L95.2,21.6 L96.8,22.8 L98.4,26.0 L100.0,28.0" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:0%"></div></div>
+      <div class="poslb num"><span>6月来位置 0%</span><span>区间 2,614-2,923</span></div>
+      <div class="card-tone"><span class="tag warn">短·寻底</span><span class="tag warn">中短·成本线测试</span><span class="tag ">中期·过剩未解</span></div>
+      <div class="card-contra"><b>矛盾</b>：现货阴跌 + 库存压 vs 现金成本临近——破成本估值区不追空（维持）</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 2,614（-0.91%），6 月来区间最低位（位置 0%）。</div><div class="lv"><b>边际</b>跌价 → 电解铝利润走阔，产业链利润再分配；追空赔率差。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：减产证真 → 修复反弹；继续阴跌破成本区 → 触发减产观察而非追空</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">AD · SHFE</span><span class="card-name">铸造铝合金</span><span class="lamp g"><i></i></span></div>
+      <div class="card-px"><span class="big num">23,235</span><span class="chg up num">+0.45%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +0.17%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,16.9 L1.6,5.0 L3.2,9.6 L4.8,12.9 L6.5,12.6 L8.1,15.1 L9.7,11.9 L11.3,13.5 L12.9,9.5 L14.5,9.2 L16.1,7.3 L17.7,12.3 L19.4,8.1 L21.0,7.2 L22.6,2.0 L24.2,11.3 L25.8,13.7 L27.4,23.1 L29.0,22.2 L30.6,18.0 L32.3,24.0 L33.9,28.0 L35.5,26.4 L37.1,19.2 L38.7,17.0 L40.3,16.6 L41.9,13.8 L43.5,15.4 L45.2,15.5 L46.8,18.6 L48.4,14.3 L50.0,15.4 L51.6,14.1 L53.2,14.4 L54.8,17.6 L56.5,15.6 L58.1,15.0 L59.7,12.6 L61.3,14.8 L62.9,15.6 L64.5,15.5 L66.1,12.9 L67.7,11.0 L69.4,10.6 L71.0,9.2 L72.6,6.3 L74.2,6.3 L75.8,7.0 L77.4,4.0 L79.0,3.8 L80.6,3.5 L82.3,2.1 L83.9,7.0 L85.5,12.2 L87.1,10.3 L88.7,13.2 L90.3,16.0 L91.9,15.9 L93.5,13.7 L95.2,15.0 L96.8,13.3 L98.4,12.3 L100.0,10.2" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:68%"></div></div>
+      <div class="poslb num"><span>6月来位置 68%</span><span>区间 22,335-23,650</span></div>
+      <div class="card-tone"><span class="tag ">短·跟铝</span><span class="tag ">中短·价差回归观察</span><span class="tag ">中期·再生铝约束</span></div>
+      <div class="card-contra"><b>矛盾</b>：跟随铝价，AD-AL 价差 -585（⚙️）</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 23,235（+0.45%），位置 68%。</div><div class="lv"><b>实物门禁</b>AD-AL 价差 -585（⚙️）；废铝供应与汽车压铸需求为独立变量。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：价差深度偏离 → 检查再生原料约束</div>
+    </div>
+  </div>
+
+  <div class="grp-t">铅锌 LEAD · ZINC</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-hd"><span class="card-code">PB · SHFE</span><span class="card-name">铅</span><span class="lamp n"><i></i></span></div>
+      <div class="card-px"><span class="big num">16,110</span><span class="chg dn num">-0.06%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +2.35%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,3.6 L1.6,2.8 L3.2,2.0 L4.8,6.3 L6.5,7.0 L8.1,8.4 L9.7,12.0 L11.3,12.9 L12.9,11.0 L14.5,14.5 L16.1,10.5 L17.7,9.0 L19.4,5.6 L21.0,7.1 L22.6,8.1 L24.2,8.1 L25.8,8.6 L27.4,11.3 L29.0,9.7 L30.6,10.7 L32.3,15.8 L33.9,18.4 L35.5,20.8 L37.1,18.2 L38.7,18.0 L40.3,17.8 L41.9,14.3 L43.5,12.7 L45.2,15.4 L46.8,17.4 L48.4,18.6 L50.0,24.9 L51.6,22.0 L53.2,18.4 L54.8,19.8 L56.5,18.2 L58.1,21.6 L59.7,17.8 L61.3,21.6 L62.9,23.6 L64.5,23.8 L66.1,19.8 L67.7,21.3 L69.4,25.4 L71.0,28.0 L72.6,27.7 L74.2,21.0 L75.8,23.3 L77.4,21.5 L79.0,18.5 L80.6,17.8 L82.3,17.8 L83.9,17.3 L85.5,19.5 L87.1,17.4 L88.7,17.8 L90.3,17.2 L91.9,17.1 L93.5,12.9 L95.2,12.1 L96.8,12.9 L98.4,13.1 L100.0,13.3" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:56%"></div></div>
+      <div class="poslb num"><span>6月来位置 56%</span><span>区间 15,430-16,635</span></div>
+      <div class="card-tone"><span class="tag ">短·区间</span><span class="tag ">中短·等旺季</span><span class="tag ">中期·再生压制</span></div>
+      <div class="card-contra"><b>矛盾</b>：LME 410,600 吨宽松 + contango $41 vs 旺季备货预期（9-10月）</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 16,110（-0.06%）窄幅；LME 8/26 库存 410,600（-1,600），contango $41 = 供给充足。</div><div class="lv"><b>跟踪</b>废电瓶价 ｜ 再生开工 ｜ 社库 ｜ LME 去库斜率 ｜ 电池厂备货启动（9-10月）</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：环保督察落地 → 区间上破；旺季证伪 → 下破</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">ZN · SHFE</span><span class="card-name">锌</span><span class="lamp a"><i></i></span></div>
+      <div class="card-px"><span class="big num">26,140</span><span class="chg dn num">-0.38%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +5.83%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,19.2 L1.6,16.2 L3.2,14.3 L4.8,18.3 L6.5,18.5 L8.1,20.2 L9.7,18.8 L11.3,20.4 L12.9,25.5 L14.5,23.3 L16.1,18.0 L17.7,19.2 L19.4,19.4 L21.0,18.7 L22.6,18.7 L24.2,20.9 L25.8,23.6 L27.4,28.0 L29.0,28.0 L30.6,22.1 L32.3,23.4 L33.9,22.8 L35.5,25.9 L37.1,24.0 L38.7,21.5 L40.3,19.0 L41.9,19.8 L43.5,18.4 L45.2,17.6 L46.8,19.4 L48.4,18.4 L50.0,18.8 L51.6,19.9 L53.2,22.4 L54.8,23.2 L56.5,21.5 L58.1,21.0 L59.7,17.1 L61.3,18.5 L62.9,17.4 L64.5,18.5 L66.1,18.7 L67.7,19.4 L69.4,17.3 L71.0,11.7 L72.6,15.2 L74.2,11.2 L75.8,9.4 L77.4,5.3 L79.0,9.1 L80.6,8.5 L82.3,6.6 L83.9,9.8 L85.5,8.6 L87.1,6.9 L88.7,8.1 L90.3,12.4 L91.9,12.1 L93.5,8.0 L95.2,5.8 L96.8,3.9 L98.4,2.0 L100.0,3.1" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:96%"></div></div>
+      <div class="poslb num"><span>6月来位置 96%</span><span>区间 23,945-26,240</span></div>
+      <div class="card-tone"><span class="tag warn">短·挤仓尾声博弈</span><span class="tag warn">中短·等Back走平逢高空</span><span class="tag ">中期·矿过剩传导</span></div>
+      <div class="card-contra"><b>矛盾</b>：库存 97,325（+2,275）连升 ✅ + 注销 4,550 吨/4.14% 崩 ✅ vs Back $174 未走平 ❌</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 26,140（-0.38%），6 月来位置 96% 高位；LME 8/26 结算 4,107，3M 3,933 → Back $174 不松（⚙️）。</div><div class="lv"><b>边际</b>发令枪半触发维持：仓单腿已响（库存升+注销崩）、结构腿未响（深 Back = 集中持仓挤仓未解）。不提前开枪。</div><div class="lv"><b>实物门禁</b>出口盈亏 -999 元/吨（8/7 口径，L3）→ 出口窗口若开，金属回流是天然刹车。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：注销占比再飙升 = 挤仓二波，空单不进场；Back 走平 + 库存连升 → 发令枪响</div>
+    </div>
+  </div>
+
+  <div class="grp-t">镍链 NICKEL CHAIN</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-hd"><span class="card-code">NI · SHFE</span><span class="card-name">镍</span><span class="lamp g"><i></i></span></div>
+      <div class="card-px"><span class="big num">128,680</span><span class="chg dn num">-0.49%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 -1.98%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,3.7 L1.6,2.0 L3.2,4.4 L4.8,10.0 L6.5,10.4 L8.1,9.6 L9.7,11.6 L11.3,14.9 L12.9,16.4 L14.5,15.6 L16.1,13.1 L17.7,13.9 L19.4,14.0 L21.0,13.9 L22.6,13.5 L24.2,18.5 L25.8,21.7 L27.4,21.5 L29.0,24.0 L30.6,22.3 L32.3,25.4 L33.9,27.5 L35.5,28.0 L37.1,25.1 L38.7,25.8 L40.3,26.0 L41.9,27.4 L43.5,24.3 L45.2,24.0 L46.8,24.7 L48.4,22.2 L50.0,24.1 L51.6,17.8 L53.2,23.1 L54.8,21.7 L56.5,20.8 L58.1,19.7 L59.7,17.5 L61.3,16.7 L62.9,17.9 L64.5,20.3 L66.1,19.4 L67.7,19.9 L69.4,19.4 L71.0,22.4 L72.6,18.4 L74.2,20.6 L75.8,25.0 L77.4,21.0 L79.0,22.0 L80.6,22.6 L82.3,23.3 L83.9,24.3 L85.5,25.6 L87.1,23.3 L88.7,23.3 L90.3,24.5 L91.9,22.7 L93.5,23.0 L95.2,22.2 L96.8,22.8 L98.4,22.6 L100.0,23.4" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:18%"></div></div>
+      <div class="poslb num"><span>6月来位置 18%</span><span>区间 125,190-144,850</span></div>
+      <div class="card-tone"><span class="tag dn">短·弱</span><span class="tag ">中短·12.5-13.5万区间</span><span class="tag warn">中期·过剩定价中</span></div>
+      <div class="card-contra"><b>矛盾</b>：LME 268,554 吨高位 + contango $155（过剩未解）vs 印尼政策扰动</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 128,680（-0.49%），位置 18%；LME 库存 268,554（-54），contango $155（⚙️，自 $198 收窄）。</div><div class="lv"><b>边际</b>contango 收窄但库存仍升 → 精炼过剩未解（LME weekly，L2）；印尼配额 headlines 是波动源而非方向。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：印尼配额实质收紧 + LME 库存拐头 → 区间上修</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">SS · SHFE</span><span class="card-name">不锈钢</span><span class="lamp r"><i></i></span></div>
+      <div class="card-px"><span class="big num">14,015</span><span class="chg dn num">-1.48%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 -3.74%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,10.3 L1.6,5.7 L3.2,6.6 L4.8,13.2 L6.5,15.4 L8.1,14.2 L9.7,17.6 L11.3,20.1 L12.9,19.3 L14.5,13.8 L16.1,8.5 L17.7,2.0 L19.4,2.8 L21.0,3.5 L22.6,3.7 L24.2,9.5 L25.8,13.6 L27.4,14.0 L29.0,14.9 L30.6,12.0 L32.3,12.6 L33.9,15.3 L35.5,16.1 L37.1,16.1 L38.7,12.6 L40.3,11.9 L41.9,18.8 L43.5,20.0 L45.2,22.2 L46.8,22.8 L48.4,16.5 L50.0,15.7 L51.6,11.4 L53.2,14.5 L54.8,13.9 L56.5,11.3 L58.1,11.8 L59.7,10.2 L61.3,12.0 L62.9,13.7 L64.5,17.4 L66.1,16.8 L67.7,16.4 L69.4,14.8 L71.0,18.3 L72.6,10.9 L74.2,18.2 L75.8,20.4 L77.4,14.2 L79.0,15.3 L80.6,17.2 L82.3,17.0 L83.9,20.1 L85.5,25.9 L87.1,22.5 L88.7,21.3 L90.3,22.8 L91.9,22.0 L93.5,24.1 L95.2,23.8 L96.8,26.5 L98.4,23.5 L100.0,28.0" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:0%"></div></div>
+      <div class="poslb num"><span>6月来位置 0%</span><span>区间 14,015-15,240</span></div>
+      <div class="card-tone"><span class="tag dn">短·弱</span><span class="tag warn">中短·13,900 防线</span><span class="tag ">中期·金九验证</span></div>
+      <div class="card-contra"><b>矛盾</b>：跟随镍弱 + 需求平 vs 金九旺季预期</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 14,015（-1.48%），6 月来区间最低位（位置 0%）。</div><div class="lv"><b>跟踪</b>300 系排产执行 ｜ 钢厂盘价（青山/德龙）｜ 镍铁/铬铁 ｜ 金九需求</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：金九超预期去库 → 空单收敛；破 13,900 → 下行打开并触发减产观察（维持昨日锚）</div>
+    </div>
+  </div>
+
+  <div class="grp-t">小金属与新品种 TIN · LITHIUM</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-hd"><span class="card-code">SN · SHFE</span><span class="card-name">锡</span><span class="lamp a"><i></i></span></div>
+      <div class="card-px"><span class="big num">419,420</span><span class="chg dn num">-1.37%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +0.64%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,9.2 L1.6,2.0 L3.2,3.7 L4.8,10.0 L6.5,14.9 L8.1,22.7 L9.7,18.9 L11.3,22.9 L12.9,22.0 L14.5,18.8 L16.1,11.8 L17.7,13.3 L19.4,12.8 L21.0,16.3 L22.6,12.9 L24.2,22.0 L25.8,24.0 L27.4,28.0 L29.0,27.2 L30.6,24.9 L32.3,23.6 L33.9,26.2 L35.5,24.8 L37.1,21.2 L38.7,17.9 L40.3,18.3 L41.9,17.4 L43.5,15.5 L45.2,15.7 L46.8,18.2 L48.4,15.0 L50.0,17.4 L51.6,17.0 L53.2,20.5 L54.8,17.0 L56.5,14.5 L58.1,15.1 L59.7,14.4 L61.3,16.3 L62.9,13.7 L64.5,17.4 L66.1,14.8 L67.7,15.3 L69.4,11.8 L71.0,11.3 L72.6,10.3 L74.2,8.4 L75.8,9.6 L77.4,8.0 L79.0,10.8 L80.6,12.4 L82.3,9.4 L83.9,11.7 L85.5,11.0 L87.1,9.1 L88.7,11.6 L90.3,13.9 L91.9,11.5 L93.5,10.6 L95.2,11.1 L96.8,12.0 L98.4,11.9 L100.0,14.2" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:53%"></div></div>
+      <div class="poslb num"><span>6月来位置 53%</span><span>区间 385,260-449,820</span></div>
+      <div class="card-tone"><span class="tag dn">短·回调</span><span class="tag ">中短·40-45万区间</span><span class="tag ok">中期·矿紧支撑</span></div>
+      <div class="card-contra"><b>矛盾</b>：矿紧未证伪 vs 社库五周连增 = 待结算（本周无新社库，缺口不分配权重）</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>收 419,420（-1.37%），位置 53%；LME 库存 5,120（-35）低位，contango 自 $361 收窄至 $200（⚙️）→ 外盘边际转紧。</div><div class="lv"><b>边际</b>证据天平微动（外盘转紧）但不结算：两端并排，不合成中性。裁决窗：9-10 月开工率 + 库存方向。</div><div class="lv"><b>实物门禁</b>LME 低库存 + 缅甸进口 -13.8%（前期锚，L2）vs 国内社库连增。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：缅甸回万吨 + 社库加速 → 区间下沿；社库拐头 → 区间上沿</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-code">LC · GFEX</span><span class="card-name">碳酸锂</span><span class="lamp a"><i></i></span></div>
+      <div class="card-px"><span class="big num">152,020</span><span class="chg dn num">-0.09%</span></div>
+      <div class="chg-sub num">元/吨 · 20日 +7.77%</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0.0,2.0 L1.6,5.7 L3.2,9.7 L4.8,13.5 L6.5,11.2 L8.1,11.8 L9.7,8.6 L11.3,9.3 L12.9,4.7 L14.5,4.3 L16.1,4.8 L17.7,7.6 L19.4,6.8 L21.0,13.6 L22.6,12.8 L24.2,15.7 L25.8,12.2 L27.4,19.7 L29.0,20.1 L30.6,17.8 L32.3,11.8 L33.9,11.1 L35.5,11.4 L37.1,8.4 L38.7,11.1 L40.3,11.8 L41.9,14.9 L43.5,18.4 L45.2,19.3 L46.8,18.8 L48.4,18.3 L50.0,20.7 L51.6,19.2 L53.2,20.2 L54.8,24.1 L56.5,25.6 L58.1,24.5 L59.7,23.4 L61.3,23.9 L62.9,22.0 L64.5,24.4 L66.1,21.6 L67.7,25.9 L69.4,28.0 L71.0,27.3 L72.6,27.0 L74.2,24.5 L75.8,25.7 L77.4,26.6 L79.0,22.6 L80.6,22.9 L82.3,20.5 L83.9,19.4 L85.5,17.8 L87.1,18.1 L88.7,16.9 L90.3,19.8 L91.9,18.9 L93.5,14.8 L95.2,14.7 L96.8,20.1 L98.4,18.9 L100.0,19.0" fill="none" stroke="#16140f" stroke-width="0.8"/></svg>
+      <div class="posbar"><div class="mk" style="left:35%"></div></div>
+      <div class="poslb num"><span>6月来位置 35%</span><span>区间 137,760-178,900</span></div>
+      <div class="card-tone"><span class="tag ">短·区间（15万附近）</span><span class="tag warn">中短·按反弹对待</span><span class="tag warn">中期·待减产证真</span></div>
+      <div class="card-contra"><b>矛盾</b>：全环节去库 -5,985 + 枧下窝环评撤销（复产反复）vs 仓单 43,100 手（+1,160）+ 现货单日 -4,250</div>
+      <details class="cmt"><summary>点评 · 门禁 · 跟踪（08-28）</summary><div class="cmt-body">
+        <div class="lv"><b>盘面</b>LC2701 收 152,020（-0.09%），15 万附近震荡；持仓 35.9 万手（8/26，+4,552）。</div><div class="lv"><b>边际</b>SMM 周度库存 66,377 吨（-5,985）全环节去库、周产 23,007 吨（-145）持平；8/26 宜春生态环境局撤销枧下窝环评 → 复产再生变数（L1/L2）。</div><div class="lv"><b>实物门禁</b>仓单 43,100 手（+1,160）续增压顶；电碳现货 148,500-157,000（-4,250）跟跌盘面 → 现货未独立走强。</div>
+      </div></details>
+      <div class="falsify"><b>证伪</b>：站稳 15.5 万 + 减产证真 → 升级为反转；仓单持续 + 去库中断 → 回落</div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑦ 事件轴 -->
+<section id="s7">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">07 / EVENT TRACK</span><span class="sec-t">事件轴 · 闭环</span>
+    <span class="sec-sub">已定价 / 进行中 / 前瞻 — 每个事件挂裁决问题</span></div>
+  <hr class="rule">
+  <div class="evt">
+    <div class="evt-c">
+      <div class="evt-date">08-26 · 已落地</div>
+      <div class="evt-t">PCE 3.7% / NVDA / 油价 -5.3%</div>
+      <div class="evt-d">紧缩预期硬化未跳变；风险偏好未坏（VIX 14.45）。</div>
+      <div class="evt-q"><b>已定价</b>：能源腿撤退 ≠ regime 翻转，通行量未确认。</div>
+    </div>
+    <div class="evt-c">
+      <div class="evt-date">08-25 → 08-28 · 今日闭幕</div>
+      <div class="evt-t">人大常委会 24 次会议</div>
+      <div class="evt-d">计划执行 / 预算 / 2025 政府债务三份报告（L1，新华社 8/18 议程）。</div>
+      <div class="evt-q"><b>进行中</b>：盯通稿「价格秩序 / 反内卷」表述 → 碳酸锂/多晶硅系情绪变量。</div>
+    </div>
+    <div class="evt-c">
+      <div class="evt-date">08-28 22:00 BJT · T-0</div>
+      <div class="evt-t">沃什 Jackson Hole 主旨演讲</div>
+      <div class="evt-d">主题「金融创新：对支付与政策的含义」；裁决点在 Q&A 利率暗示。</div>
+      <div class="evt-q"><b>前瞻</b>：明鹰→金测 4,583/4,550；含糊→重返 4,670-4,700（见 08 冻结）。</div>
+    </div>
+    <div class="evt-c">
+      <div class="evt-date">08-31 · 前瞻</div>
+      <div class="evt-t">中国 8 月官方 PMI</div>
+      <div class="evt-d">验证中国需求端广度；有色「中国需求」仍非驱动项。</div>
+      <div class="evt-q"><b>前瞻</b>：PMI 广度改善 → B 端需求腿补强。</div>
+    </div>
+    <div class="evt-c">
+      <div class="evt-date">09-04 → 9 月中 · 前瞻</div>
+      <div class="evt-t">非农 → 美联储议息</div>
+      <div class="evt-d">加息押注约 1/3；9-3 票型下 3 票加息异议已上桌。</div>
+      <div class="evt-q"><b>前瞻</b>：9 月方向的总裁决窗，A/B 端失效条件在此结算。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧ 事前冻结 -->
+<section id="s8">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">08 / PRE-COMMITMENT</span><span class="sec-t">事前冻结</span>
+    <span class="sec-sub">decision_cutoff = 2026-08-28 01:30 BJT（盘前版）· 沃什讲话前不因盘中波动改写 · 冻结后修改只生成新修订</span></div>
+  <hr class="rule">
+  <table class="judge freeze">
+    <tr><th>判断</th><th style="width:9%">期限</th><th style="width:22%">成功条件</th><th style="width:26%">失败/失效条件</th><th style="width:16%">重估节点</th></tr>
+    <tr><td>金 4,520-4,700 箱体，牛市未破</td><td class="num">2-3周</td><td>沃什后守住 4,550</td><td>破 4,520 + 实际利率破 2.45%</td><td>今晚讲话、9/4 非农</td></tr>
+    <tr><td>铜偏多回调买入</td><td class="num">2-3月</td><td>回调 105,000-106,000 获承接</td><td>TC 连升两周 + 破 103,000</td><td>232 裁决、周四社库</td></tr>
+    <tr><td>锌等发令枪后逢高空</td><td class="num">2-3周</td><td>Back 走平 + 库存连升后锌补跌</td><td>注销占比再飙升（挤仓二波）</td><td>LME 日报、0-3 升贴水</td></tr>
+    <tr><td>碳酸锂按反弹对待（15.5 万下）</td><td class="num">2-3周</td><td>去库连续但仓单不拐头 = 仍是反弹级别</td><td>站稳 15.5 万 + 减产证真 → 升级</td><td>周四 SMM、仓单</td></tr>
+    <tr><td>锡 40-45 万区间，回调做多</td><td class="num">2-3周</td><td>40-41 万成交放量承接</td><td>缅甸回万吨 + 社库加速</td><td>海关月报、社库周度</td></tr>
+    <tr><td>能源腿撤退 ≠ regime 翻转（新增）</td><td class="num">1-2周</td><td>通行量/保费数据确认复航</td><td>框架破裂油价 V 反</td><td>通行量数据</td></tr>
+    <tr><td>「多金空银」配对失效</td><td class="num">即时</td><td>——</td><td>已触发（沪口径 59.5 &lt; 68-70；国际 67.3 未站稳 68 上，不重启）</td><td>站稳 68 上方再立项</td></tr>
+  </table>
+</section>
+
+<!-- ⑨ 附录底表 -->
+<section id="s9">
+  <div class="sec-hd"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="sec-no">09 / APPENDIX</span><span class="sec-t">附录底表</span>
+    <span class="sec-sub">全指标：最新值 / 变动 / 位置 / 数据日 / 来源徽标 · 缺口标灰不分配权重</span></div>
+  <hr class="rule">
+  <table class="judge appendix">
+    <tr><th>指标</th><th>最新值</th><th>变动</th><th>位置/分位</th><th>数据日</th><th>徽标</th></tr>
+    <tr><td>沪金主力（元/克）</td><td>995.30</td><td>日-0.77% / 20日+12.92%</td><td>6月来位置92%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>沪银主力（元/千克）</td><td>16,728</td><td>日-0.17% / 20日+19.21%</td><td>位置64%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>沪金银比 / 国际金银比（自建）</td><td>59.5 / 67.3</td><td>口径差=增值税；国际比近68-70下沿</td><td>——</td><td>08-27</td><td><span class="badge">⚙️</span></td></tr>
+    <tr><td>现货金 / 现货银（美元/盎司）</td><td>≈4,649 / ≈69.42</td><td>金-0.12%（早NY）/ 银+0.88%</td><td>——</td><td>08-27盘中</td><td><span class="badge">L3</span></td></tr>
+    <tr><td>中国央行购金</td><td>7月+20吨（连续21个月）</td><td>2023/10来最大单月</td><td>储备占比约8%</td><td>07月</td><td><span class="badge">L1</span></td></tr>
+    <tr><td>金/银拥挤度（商品杠杆框架）</td><td>金48.6分位 / 银24.1分位</td><td>回调中降温</td><td><95%预警线</td><td>08-14</td><td><span class="badge">L3</span></td></tr>
+    <tr><td>沪铜主力（元/吨）</td><td>108,300</td><td>日-0.41% / 20日+3.45%</td><td>位置85%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>国际铜 BC（元/吨）</td><td>96,460</td><td>日-0.79%；CU-BC价差11,840</td><td>位置83%</td><td>08-27</td><td><span class="badge">iFinD⚙️</span></td></tr>
+    <tr><td>铜精矿TC（美元/吨）</td><td>≈-174（8月）</td><td>创2021年来最低</td><td>深度倒挂</td><td>08月</td><td><span class="badge">L2</span><span class="badge">L3</span></td></tr>
+    <tr><td>LME铜：结算 / Back / 库存</td><td>14,525 / $189 / 237,475吨</td><td>库存日-1,250；CME 66-67万吨堆积</td><td>Back再扩</td><td>08-26</td><td><span class="badge">L2⚙️</span></td></tr>
+    <tr><td>洋山铜溢价（美元/吨）</td><td>仓单85 / 提单80</td><td>进口买盘回暖</td><td>——</td><td>08-27</td><td><span class="badge">L3</span></td></tr>
+    <tr><td>沪铝主力（元/吨）</td><td>23,820</td><td>日+0.25% / 20日+0.83%</td><td>位置59%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>LME铝：结算 / 0-3 / 库存</td><td>3,227.5 / C-$11.5 / 246,825吨</td><td>库存持平；集中度50-80%借贷指引区</td><td>——</td><td>08-26</td><td><span class="badge">L2</span><span class="badge">L3</span></td></tr>
+    <tr><td>氧化铝主力（元/吨）</td><td>2,614</td><td>日-0.91%</td><td>6月来区间最低位</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>铸造铝合金主力（元/吨）</td><td>23,235</td><td>日+0.45% / AD-AL价差-585</td><td>位置68%</td><td>08-27</td><td><span class="badge">iFinD⚙️</span></td></tr>
+    <tr><td>沪铅主力（元/吨）</td><td>16,110</td><td>日-0.06%</td><td>位置56%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>LME铅：库存 / 0-3</td><td>410,600吨 / C-$41</td><td>宽松+contango</td><td>——</td><td>08-26</td><td><span class="badge">L2⚙️</span></td></tr>
+    <tr><td>沪锌主力（元/吨）</td><td>26,140</td><td>日-0.38% / 20日+5.83%</td><td>位置96%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>LME锌：结算 / Back / 库存 / 注销</td><td>4,107 / $174 / 97,325吨 / 4,550吨(4.14%)</td><td>库存+2,275连升✅ 注销低位✅ Back未走平❌</td><td>发令枪半触发</td><td>08-26</td><td><span class="badge">L2⚙️</span></td></tr>
+    <tr><td>锌出口盈亏（元/吨）</td><td>≈-999</td><td>出口窗口关闭；若开=回流刹车</td><td>——</td><td>08-07</td><td><span class="badge">L3</span></td></tr>
+    <tr><td>沪镍主力（元/吨）</td><td>128,680</td><td>日-0.49% / 20日-1.98%</td><td>位置18%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>LME镍：库存 / 0-3</td><td>268,554吨 / C-$155</td><td>库存高位+contango收窄（$198→155）</td><td>过剩未解</td><td>08-26</td><td><span class="badge">L2⚙️</span></td></tr>
+    <tr><td>不锈钢主力（元/吨）</td><td>14,015</td><td>日-1.48%</td><td>6月来区间最低位</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>沪锡主力（元/吨）</td><td>419,420</td><td>日-1.37%</td><td>位置53%</td><td>08-27</td><td><span class="badge">iFinD</span></td></tr>
+    <tr><td>LME锡：库存 / 0-3</td><td>5,120吨 / C-$200</td><td>contango自$361收窄 → 外盘边际转紧</td><td>低位</td><td>08-26</td><td><span class="badge">L2⚙️</span></td></tr>
+    <tr class="stale"><td>锡社库周度</td><td>缺口（五周连增为前期锚）</td><td>未刷新，不分配权重</td><td>——</td><td>——</td><td><span class="badge">降级</span></td></tr>
+    <tr><td>碳酸锂主力 LC2701（元/吨）</td><td>152,020</td><td>日-0.09%；持仓35.9万手(+4,552，8/26)</td><td>位置35%</td><td>08-27</td><td><span class="badge">iFinD</span><span class="badge">L2</span></td></tr>
+    <tr><td>SMM碳酸锂周度库存（吨）</td><td>66,377（-5,985）/ 大样本86,392（-7,516）</td><td>冶炼厂-2,936 下游-1,981 其他-1,067</td><td>全环节去库</td><td>08-27周</td><td><span class="badge">L1</span></td></tr>
+    <tr><td>SMM碳酸锂周度产量（吨）</td><td>23,007（-145）</td><td>辉石+550/云母+295/盐湖-985/回收-5</td><td>持平</td><td>08-27周</td><td><span class="badge">L1</span></td></tr>
+    <tr><td>碳酸锂仓单（手）</td><td>43,100（+1,160）</td><td>续增压顶</td><td>——</td><td>08-26</td><td><span class="badge">L2</span></td></tr>
+    <tr><td>电碳现货（元/吨）</td><td>148,500-157,000（-4,250）</td><td>基差-1,050（现货-期货）</td><td>跟跌盘面</td><td>08-26</td><td><span class="badge">L1</span><span class="badge">L2</span></td></tr>
+    <tr><td>枧下窝锂矿</td><td>环评报告书被撤销（08-26）</td><td>复产再生变数</td><td>供给端反复</td><td>08-26</td><td><span class="badge">L2</span></td></tr>
+    <tr><td>WTI原油（美元/桶）</td><td>80.50</td><td>-5.3%（伊朗-阿曼霍尔木兹走廊框架）</td><td>滞胀能源腿撤退</td><td>08-26</td><td><span class="badge">L2</span></td></tr>
+    <tr><td>霍尔木兹通行量基线</td><td>≈正常10%</td><td>框架≠复航；通行量/保费未动</td><td>证伪点</td><td>08-09</td><td><span class="badge">L3</span></td></tr>
+    <tr><td>10Y美债名义 / TIPS实际</td><td>4.66%（08-27）/ 2.32%（08-25）</td><td>实际自2.40%（8/21）回落8bp</td><td>距2.45%观察线13bp</td><td>08-25/27</td><td><span class="badge">L1</span><span class="badge">L3</span></td></tr>
+    <tr><td>30Y TIPS 重开实际利率</td><td>2.973%</td><td>创近25年新高；足额承接</td><td>实际利率极值</td><td>08-26/27</td><td><span class="badge">L1</span><span class="badge">L2</span></td></tr>
+    <tr><td>30Y美债名义</td><td>5.17%</td><td>高位</td><td>——</td><td>08-25</td><td><span class="badge">L1</span></td></tr>
+    <tr><td>DXY</td><td>99.10（08-27）</td><td>周内98.80→99.17→99.10</td><td>强而非异动</td><td>08-27</td><td><span class="badge">L2</span></td></tr>
+    <tr><td>EURUSD / USDJPY</td><td>1.1669 / 159.34</td><td>日元极值区（干预独立变量）</td><td>——</td><td>08-26/27</td><td><span class="badge">L3</span></td></tr>
+    <tr><td>VIX / SPX</td><td>14.45（-5.0%）/ 7,675.70</td><td>NVDA财报强劲，风险偏好未坏</td><td>常态</td><td>08-27</td><td><span class="badge">L2</span></td></tr>
+    <tr><td>人大常委会24次会议</td><td>8/25-28 今日闭幕</td><td>计划执行/预算/政府债务三报告</td><td>政策观察窗</td><td>08-28</td><td><span class="badge">L1</span></td></tr>
+    <tr><td>9月加息押注</td><td>≈1/3</td><td>PCE后硬化未跳变</td><td>——</td><td>08-27</td><td><span class="badge">L3</span></td></tr>
+    <tr class="stale"><td>MOVE / SOFR-IORB</td><td class="stale">数据缺口（通道降级，先记录不分配权重）</td><td>——</td><td>——</td><td>——</td><td><span class="badge">降级</span></td></tr>
+  </table>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <div class="ft-note">
+        数据纪律：期货行情=同花顺iFinD（2026-08-27收盘）；外盘=LME/westmetall（08-26）、FRED/H.15、Cboe、Yahoo Finance（08-27）；产业=SMM（经第三方期货日报08-27转引）/Mysteel等公开数据，数据日逐条标注；宏观=官方发布与权威媒体。证据分层：L1官方 / L2交易所·权威媒体 / L3第三方 / ⚙️自建计算 / 🗣市场叙事（不单独支撑方向）。过期数据显示数据日；缺口标灰、不重新分配权重。宏观只提供风险环境与表达边界，品种方向回到实物门禁。本面板不构成投资建议。
+      </div>
+      <div class="legend">
+        <span class="lamp g"><i></i>常态/逻辑内</span>
+        <span class="lamp a"><i></i>靠近阈值/裁决中</span>
+        <span class="lamp r"><i></i>越线/失效</span>
+        <span class="lamp n"><i></i>观望/无信号</span>
+        <span style="color:var(--red)">红=涨</span>
+        <span style="color:var(--green)">绿=跌</span>
+      </div>
+    </div>
+    <span class="sq" style="grid-template-columns:repeat(3,6px);grid-template-rows:repeat(3,6px);gap:3px"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  </div>
+</footer>
+</main>
+
+<script>
+(function(){
+  var data=[
+    ['AU','995.30',-0.77],['AG','16,728',-0.17],['CU','108,300',-0.41],['BC','96,460',-0.79],
+    ['AL','23,820',0.25],['AO','2,614',-0.91],['ZN','26,140',-0.38],['PB','16,110',-0.06],
+    ['NI','128,680',-0.49],['SS','14,015',-1.48],['SN','419,420',-1.37],['LC','152,020',-0.09],['AD','23,235',0.45]
+  ];
+  var html=data.map(function(d){
+    var cls=d[2]>0?'up':(d[2]<0?'dn':'fl');
+    var arrow=d[2]>0?'▲':(d[2]<0?'▼':'—');
+    return '<span class="tk"><b>'+d[0]+'</b> '+d[1]+' <span class="'+cls+'">'+arrow+' '+Math.abs(d[2]).toFixed(2)+'%</span></span>';
+  }).join('');
+  document.getElementById('tickerTrack').innerHTML=html+html;
+})();
+</script>
+</body>
+</html>

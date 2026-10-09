@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>站长控制台</title>
+<style>
+  body{background:#0e1117;color:#d7dde8;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:24px;}
+  .wrap{max-width:760px;margin:0 auto;}
+  .card{background:#161b26;border:1px solid #262d3d;border-radius:10px;padding:18px 20px;margin-bottom:14px;}
+  h1{font-size:20px;margin:0 0 4px;color:#d4a944;}
+  h2{font-size:15px;margin:0 0 10px;color:#d4a944;}
+  .dim{color:#8a94a6;font-size:12px;line-height:1.8;}
+  .btn{display:inline-block;background:#d4a944;color:#111;border:0;border-radius:7px;padding:9px 18px;font-size:13.5px;font-weight:700;cursor:pointer;text-decoration:none;margin:4px 8px 4px 0;}
+  .btn.gray{background:#232c3f;color:#aeb8c8;font-weight:400;}
+  input{background:#0d1117;border:1px solid #333d52;color:#fff;border-radius:8px;padding:11px 12px;font-size:15px;outline:none;width:220px;}
+  input:focus{border-color:#d4a944;}
+  .err{color:#e5534b;font-size:12px;min-height:18px;margin-top:8px;}
+  ol{font-size:13px;line-height:2;margin:6px 0 0;padding-left:20px;}
+  code{background:#0d1117;border:1px solid #333d52;border-radius:4px;padding:1px 6px;font-size:12px;color:#e8c34a;}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+var EXPECTED='4e1f4f88fee260f59b76f9599410e9c753518dba8aea36efade920e8ee6321b1'; // 站长密码哈希（改密码=换哈希，问Kimi算）
+var OWNER_KEY='rw_owner_ok_v1';
+function sha256(t){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){
+  return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');});}
+function isOwner(){try{return sessionStorage.getItem(OWNER_KEY)==='1';}catch(e){return false;}}
+function renderLock(){
+  document.getElementById('app').innerHTML=
+  '<div class="card" style="max-width:420px;margin:12vh auto 0;"><h1>站长控制台</h1>'+
+  '<p class="dim">此页仅站长可见：数据管线一键触发、文字编辑模式、周报更新指南。<br>访客请回到 <a href="../reports/daily_latest.html" style="color:#d4a944;">日报</a>。</p>'+
+  '<div style="display:flex;gap:8px;"><input type="password" id="pw" placeholder="站长密码" onkeydown="if(event.key===\'Enter\')go()"><button class="btn" onclick="go()">进入</button></div>'+
+  '<div class="err" id="err"></div></div>';
+}
+function renderMain(){
+  document.getElementById('app').innerHTML=
+  '<h1>站长控制台</h1><p class="dim">仅你可见此页 · 站长模式已在【本标签页】激活——从下面链接进日报/周报即可看到✏️编辑按钮（同一标签页内有效）。</p>'+
+
+  '<div class="card"><h2>① 一键更新全部数据与观点</h2>'+
+  '<p class="dim">本地版：数据已挂 Windows 任务 <b>RwBenchDaily</b>（每天 07:40/20:40 全链）与 <b>RwBenchQuick</b>（工作日盘中 7 档快刷）。手动全量刷新：在站点目录跑 <code>python _refresh_all.py</code>（快刷加 <code>--quick</code>），日志在 <code>_logs/</code>。</p>'+
+  '<p class="dim" style="margin-top:8px;">文字结论不用手动改：数据一更新，⚙️规则引擎自动重写全部结论。</p></div>'+
+
+  '<div class="card"><h2>② 编辑页面文字（仅你可见）</h2>'+
+  '<p class="dim">从下面链接进入（<b>不要</b>新开标签页，否则站长模式失效）：进入后每个结论块右上角有 ✏️，点它直接改文字。<br>'+
+  '改动保存在<b>你的浏览器</b>：你自己随时可见、可改、可一键恢复自动版；<b>别人看不到</b>（他们打开仍是引擎自动版）。想让所有人看到某段文字 → 把内容发给Kimi写入正式版。</p>'+
+  '<a class="btn" href="../reports/daily_latest.html">进日报编辑</a>'+
+  '<a class="btn" href="../reports/weekly_2026-W35.html">进周报编辑</a></div>'+
+
+  '<div class="card"><h2>③ 周报怎么手动更新</h2>'+
+  '<ol><li><b>数据与顶部结论</b>：全自动——日报管线每天跑两次，周报页的数据图、顶部结论、资产表、证伪清单都随之自动刷新，<b>不用你管</b>。</li>'+
+  '<li><b>新一周的周报页面</b>（板块正文=当周存档分析）：在对话里对Kimi说一句<b>「出新一周周报」</b>即可——会按最新数据生成新周页面并给你入库文件。建议节奏：每周一、周四各一次（即一周两更）。</li>'+
+  '<li>入库方式与日报相同：网页版上传 <code>reports/weekly_20XX-WXX.html</code> 新文件，并把日报页脚/周报链接改到新文件（Kimi会给你改好的）。</li></ol></div>'+
+
+  '<div class="card"><h2>④ 其他</h2>'+
+  '<a class="btn gray" href="mm_upload.html">MM序列上传工具</a>'+
+  '<button class="btn gray" onclick="sessionStorage.removeItem(\'rw_owner_ok_v1\');location.reload();">退出站长模式</button>'+
+  '<p class="dim" style="margin-top:8px;">本页地址不公开、不在任何页面明链（页脚有一个几乎看不见的「·」）。但它仍在公开仓库里可被翻到——所以它不存放任何密钥，密码只防普通访客。</p></div>';
+}
+function go(){
+  var v=document.getElementById('pw').value;
+  sha256(v).then(function(h){
+    if(h===EXPECTED){try{sessionStorage.setItem(OWNER_KEY,'1');}catch(e){} renderMain();}
+    else document.getElementById('err').textContent='密码不对';
+  });
+}
+if(isOwner()) renderMain(); else renderLock();
+</script>
+</body>
+</html>

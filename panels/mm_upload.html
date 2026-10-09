@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更新MM数据 · 宏观研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#101216;--card:#171a20;--line:#2a2e37;--txt:#e8e6e1;--dim:#9a958c;--gold:#d4a944;--green:#4caf7d;--red:#e5534b;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:14px;line-height:1.7;padding:28px 18px 60px;}
+.wrap{max-width:880px;margin:0 auto}
+h1{font-family:'Noto Serif SC',serif;font-weight:900;font-size:26px;margin-bottom:4px}
+.sub{color:var(--dim);font-size:12.5px;margin-bottom:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:18px}
+.card h2{font-size:15px;color:var(--gold);margin-bottom:10px}
+.card h2 .no{display:inline-block;background:var(--gold);color:#111;border-radius:5px;padding:0 8px;margin-right:8px;font-size:13px}
+.hint{color:var(--dim);font-size:12px}
+input[type=password],input[type=text]{background:#0d0f13;border:1px solid var(--line);color:var(--txt);border-radius:6px;padding:8px 10px;font-family:inherit;font-size:13px;width:100%}
+input:focus{outline:none;border-color:var(--gold)}
+button{background:var(--gold);color:#111;border:none;border-radius:6px;padding:9px 18px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+button.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:34px 16px;text-align:center;color:var(--dim);cursor:pointer;transition:.15s}
+.drop.over{border-color:var(--gold);color:var(--gold);background:rgba(212,169,68,.06)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+th{color:var(--dim);text-align:left;font-weight:400;border-bottom:1px solid var(--line);padding:6px 8px}
+td{border-bottom:1px solid #22262e;padding:6px 8px;vertical-align:middle}
+td input{padding:5px 8px;font-size:12.5px}
+.log{background:#0d0f13;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12.5px;max-height:260px;overflow:auto;white-space:pre-wrap;margin-top:12px}
+.ok{color:var(--green)} .err{color:var(--red)} .warn{color:var(--gold)}
+a{color:var(--gold);text-decoration:none}
+.tok-ok{color:var(--green);font-size:12.5px}
+footer{margin-top:26px;color:var(--dim);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>更新 MM 数据</h1>
+  <div class="sub">MacroMicro CSV → 工作台图表库 · 本地版（2026-10-08 改：不再推 GitHub，改本地合并）</div>
+
+  <div class="card">
+    <h2><span class="no">1</span>把 MM 下载的 CSV 放进收件夹</h2>
+    <div class="hint">路径：<code>site\_mm_inbox\</code>（可一次放多个；本页第 2 步只是预览解析效果，不会上传任何地方）</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="no">2</span>选择 CSV 预览解析（可选）</h2>
+    <div class="drop" id="drop">把 CSV 拖到这里，或点击选择文件<br><span class="hint">在文件框里 Ctrl+A 可以全选整个文件夹的 CSV</span></div>
+    <input type="file" id="file" accept=".csv,text/csv" multiple style="display:none">
+    <div id="preview"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="no">3</span>本地合并入库</h2>
+    <div class="hint">在站点目录运行：<code>python _mm_merge.py</code> —— 合并进 <code>data/chart_series.js</code> + <code>data/mm_catalog.js</code>，原始 CSV 自动归档到 <code>data\mm\</code>。刷新周报 → 工作区图表 → 指标选项里即可点选 MM 序列。</div>
+    <div class="log" id="log" style="display:none"></div>
+  </div>
+
+  <footer>
+    <a href="../index.html">← 返回工作台</a> · <a href="../reports/weekly_2026-W35.html">宏观周报 ↗</a>
+  </footer>
+</div>
+
+<script>
+/* 本地版：仅保留浏览器内 CSV 解析预览；入库走 python _mm_merge.py（见页面第 3 步） */
+let series=[];   // 解析出的待上传序列
+const $=id=>document.getElementById(id);
+const log=(msg,cls)=>{const L=$('log');L.style.display='block';const d=document.createElement('div');if(cls)d.className=cls;d.textContent=msg;L.appendChild(d);L.scrollTop=L.scrollHeight;};
+
+/* ---------- CSV 解析（兼容UTF-8/GBK/Big5，多列自动拆多序列） ---------- */
+async function readSmart(file){
+  const buf=await file.arrayBuffer();
+  for(const enc of ['utf-8','gb18030','big5']){
+    try{return new TextDecoder(enc,{fatal:true}).decode(buf);}catch(e){}
+  }
+  return new TextDecoder('utf-8').decode(buf);
+}
+function csvRows(text){
+  text=text.replace(/^\uFEFF/,'');
+  const rows=[];let row=[],cell='',inQ=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(inQ){if(c==='"'){if(text[i+1]==='"'){cell+='"';i++;}else inQ=false;}else cell+=c;}
+    else if(c==='"')inQ=true;
+    else if(c===','){row.push(cell);cell='';}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell);rows.push(row);row=[];cell='';}
+    else cell+=c;
+  }
+  if(cell!==''||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(r=>r.some(x=>String(x).trim()!==''));
+}
+const p2=s=>String(s).padStart(2,'0');
+function normDate(s){
+  s=String(s).trim();let m;
+  if(m=s.match(/^(\d{4})[-\/.年](\d{1,2})[-\/.月](\d{1,2})日?$/))return m[1]+'-'+p2(m[2])+'-'+p2(m[3]);
+  if(m=s.match(/^(\d{4})[-\/.年](\d{1,2})月?$/))return m[1]+'-'+p2(m[2])+'-01';
+  if(m=s.match(/^(\d{4})\s*[Qq]([1-4])$/))return m[1]+'-'+['01','04','07','10'][+m[2]-1]+'-01';
+  if(m=s.match(/^(\d{4})(\d{2})(\d{2})$/))return m[1]+'-'+m[2]+'-'+m[3];
+  return null;
+}
+function normVal(s){
+  if(s==null)return null;s=String(s).trim().replace(/[%\s,]/g,'');
+  if(!s||s==='-'||s==='--'||/^n\/?a$/i.test(s))return null;
+  const v=parseFloat(s);return isFinite(v)?v:null;
+}
+function baseId(name){return name.replace(/\.csv$/i,'').trim().replace(/[\s\/\\:：,，()（）]+/g,'_').replace(/^_+|_+$/g,'')||('mm_'+Date.now());}
+
+function parseFile(text,fname){
+  const rows=csvRows(text);
+  if(rows.length<2)throw new Error('行数太少，不像数据CSV');
+  // 找表头行：前6行里，第一个"首列不是日期、但其后某行首列是日期"的行
+  let h=-1;
+  for(let i=0;i<Math.min(6,rows.length-1);i++){
+    if(!normDate(rows[i][0])){for(let j=i+1;j<rows.length;j++){if(normDate(rows[j][0])){h=i;break;}}}
+    if(h>=0)break;
+  }
+  const head=h>=0?rows[h]:null, data=h>=0?rows.slice(h+1):rows;
+  const ncols=Math.max.apply(null,data.map(r=>r.length));
+  const cols=[];
+  for(let c=1;c<ncols;c++){
+    const pts=[];
+    data.forEach(r=>{const d=normDate(r[0]);const v=normVal(r[c]);if(d&&v!==null)pts.push([d,v]);});
+    if(pts.length>=3)cols.push({c:c,pts:pts});
+  }
+  if(!cols.length)throw new Error('没找到可用的数值列（第1列应为日期）');
+  const base=baseId(fname);
+  return cols.map((col,i)=>{
+    const dedup={};col.pts.forEach(p=>{dedup[p[0]]=p[1];});
+    const pts=Object.keys(dedup).sort().map(d=>[d,dedup[d]]);
+    const hname=head&&head[col.c]?String(head[col.c]).trim():'';
+    return {id:cols.length>1?base+'_'+(i+1):base,
+            name:hname||base+(cols.length>1?' ('+(i+1)+')':''),
+            unit:/%/.test(hname)?'%':'',
+            file:fname,pts:pts,use:true};
+  });
+}
+
+/* ---------- 文件选择与预览 ---------- */
+$('drop').onclick=()=>$('file').click();
+$('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('over');};
+$('drop').ondragleave=()=>$('drop').classList.remove('over');
+$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('over');handleFiles(e.dataTransfer.files);};
+$('file').onchange=e=>handleFiles(e.target.files);
+
+async function handleFiles(files){
+  Array.from(files).forEach(f=>{picked[f.name]=f;});
+  const csvs=Array.from(files).filter(f=>/\.csv$/i.test(f.name));
+  if(!csvs.length)return alert('没看到 .csv 文件');
+  for(const f of csvs){
+    try{
+      const text=await readSmart(f);
+      parseFile(text,f.name).forEach(s=>{
+        if(!series.some(x=>x.id===s.id))series.push(s);
+        else{const old=series.find(x=>x.id===s.id);old.pts=s.pts;old.file=f.name;}
+      });
+    }catch(e){alert(f.name+'：'+e.message);}
+  }
+  renderPreview();
+}
+function renderPreview(){
+  if(!series.length){$('preview').innerHTML='';return;}
+  let h='<table><tr><th></th><th>显示名（可改）</th><th>单位（可改）</th><th>ID</th><th>点数</th><th>区间</th><th>来源文件</th></tr>';
+  series.forEach((s,i)=>{
+    h+='<tr><td><input type="checkbox" '+(s.use?'checked':'')+' onchange="series['+i'].use=this.checked"></td>'
+      +'<td><input type="text" value="'+s.name.replace(/"/g,'&quot;')+'" onchange="series['+i'].name=this.value" style="width:180px"></td>'
+      +'<td><input type="text" value="'+s.unit.replace(/"/g,'&quot;')+'" onchange="series['+i'].unit=this.value" style="width:70px"></td>'
+      +'<td class="hint">'+s.id+'</td><td>'+s.pts.length+'</td>'
+      +'<td class="hint">'+s.pts[0][0]+' ~ '+s.pts[s.pts.length-1][0]+'</td>'
+      +'<td class="hint">'+s.file+'</td></tr>';
+  });
+  $('preview').innerHTML=h+'</table>';
+}
+
+/* 归档用：保留用户选择的文件句柄（在选择文件时记录） */
+let picked={};
+</script>
+</body>
+</html>

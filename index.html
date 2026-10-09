@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观有色贵金属研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2efeb; --ink:#16140f; --line:#d9d2c4; --green:#2e7d4f; --amber:#a3760e;
+  --red:#b23a2e; --gray:#9a948a; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --serif:'Noto Serif SC',"Songti SC",serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.7}
+.num{font-variant-numeric:tabular-nums lining-nums;font-family:var(--mono)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+/* header */
+header{border-bottom:1px solid var(--ink);padding:22px 0 18px}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.sq{display:grid;grid-template-columns:repeat(3,7px);grid-template-rows:repeat(3,7px);gap:2px}
+.sq i{background:var(--ink);display:block}
+h1{font-family:var(--serif);font-size:26px;font-weight:900;letter-spacing:1px}
+.sub{font-size:11px;letter-spacing:2.5px;color:var(--gray);text-transform:uppercase;margin-top:2px}
+.hd-right{text-align:right;font-size:12px;color:var(--gray)}
+.regime{display:inline-block;border:1px solid var(--ink);padding:4px 12px;font-size:12px;margin-bottom:6px;background:var(--ink);color:var(--bg)}
+.regime b{color:#e8b93c;font-weight:600}
+.clock{font-family:var(--mono);font-size:12px}
+/* nav */
+nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:50}
+nav .wrap{display:flex;gap:26px;padding:10px 28px;overflow-x:auto}
+nav a{font-size:12px;color:var(--gray);text-decoration:none;white-space:nowrap;letter-spacing:1px}
+nav a:hover{color:var(--ink)}
+nav a b{font-family:var(--mono);font-weight:500;color:var(--ink);margin-right:5px}
+section{padding:44px 0;border-bottom:1px solid var(--line)}
+.sec-hd{display:flex;align-items:baseline;gap:14px;margin-bottom:24px}
+.sec-no{font-family:var(--mono);font-size:12px;color:var(--gray)}
+h2{font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:1px}
+.sec-note{margin-left:auto;font-size:11px;color:var(--gray)}
+/* hero */
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:end}
+.hero p.big{font-family:var(--serif);font-size:19px;line-height:2;font-weight:600}
+.hero .desc{font-size:13px;color:#4a463e;border-left:2px solid var(--ink);padding-left:16px}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ink)}
+.step{padding:24px 22px;border-right:1px solid var(--line)}
+.step:last-child{border-right:none}
+.step .no{font-family:var(--mono);font-size:24px;font-weight:700;border-bottom:1px solid var(--ink);display:inline-block;padding-bottom:4px;margin-bottom:12px}
+.step h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.step p{font-size:12.5px;color:#4a463e}
+.step code{font-family:var(--mono);font-size:11.5px;background:#e7e1d5;padding:1px 6px;border:1px solid var(--line)}
+/* pipeline */
+.pipe{border:1px solid var(--ink)}
+.pipe-row{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid var(--line)}
+.pipe-row:last-child{border-bottom:none}
+.pipe-row .l{padding:14px 18px;border-right:1px solid var(--line);font-weight:700;font-size:13px;display:flex;align-items:center;gap:9px}
+.pipe-row .r{padding:14px 18px;font-size:12.5px;color:#4a463e}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}.dot.k{background:var(--ink)}
+/* chips */
+.group{margin-bottom:20px}
+.group .g-name{font-size:11px;letter-spacing:2px;color:var(--gray);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);padding:7px 13px;font-size:12.5px;background:transparent}
+.chip b{font-family:var(--mono);font-weight:500;margin-right:6px}
+.chip:hover{border-color:var(--ink)}
+/* rules */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--ink)}
+.rule{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:baseline}
+.rule:nth-child(odd){border-right:1px solid var(--line)}
+.rule:nth-last-child(-n+2){border-bottom:none}
+.rule .rn{font-family:var(--mono);color:var(--red);font-weight:700;font-size:12px;flex:none}
+.rule p{font-size:12.5px;color:#4a463e}
+.rule b{color:var(--ink)}
+/* archive */
+table{width:100%;border-collapse:collapse;border:1px solid var(--ink)}
+th{font-size:11px;letter-spacing:1.5px;color:var(--gray);text-align:left;padding:10px 14px;border-bottom:1px solid var(--ink);font-weight:500}
+td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.tag{display:inline-block;font-size:10.5px;border:1px solid var(--line);padding:1px 8px;margin-right:5px;color:#4a463e}
+a.lnk{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);font-weight:600}
+a.lnk:hover{background:var(--ink);color:var(--bg)}
+a.btn-r{display:inline-block;background:#c8342a;color:#fff!important;border:none;border-radius:5px;padding:4px 14px;font-size:12px;font-weight:700;letter-spacing:1px;text-decoration:none}
+a.btn-r:hover{background:#a52820;color:#fff}
+.lamp{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;background:var(--green)}
+/* footer */
+footer{padding:34px 0 46px;font-size:11.5px;color:var(--gray);line-height:2}
+footer .f-sq{float:right}
+@media(max-width:860px){.hero{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.step{border-right:none;border-bottom:1px solid var(--line)}.rules{grid-template-columns:1fr}.rule:nth-child(odd){border-right:none}.rule{border-bottom:1px solid var(--line)}.pipe-row{grid-template-columns:1fr}.pipe-row .l{border-right:none;border-bottom:1px dashed var(--line)}}
+/* ==== 左侧实时消息栏（已按需求下线，2026-09-01） ==== */
+.newsrail{display:none!important}
+.nr-hd{padding:14px 16px 10px;border-bottom:1px solid var(--ink)}
+.nr-hd .t{font-family:var(--serif);font-size:16px;font-weight:900;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.nr-live{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.nr-src{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.nr-src span{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:1px 7px;color:#4a463e}
+.nr-src span.on{border-color:var(--green);color:var(--green)}
+.nr-src span.off{border-color:var(--gray);color:var(--gray);text-decoration:line-through}
+.nr-viewport{flex:1;overflow:hidden;position:relative;min-height:200px}
+.nr-track{animation:nrscroll linear infinite}
+.nr-viewport:hover .nr-track{animation-play-state:paused}
+@keyframes nrscroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.nr-item{display:block;padding:9px 16px;border-bottom:1px dashed var(--line);text-decoration:none;color:var(--ink)}
+.nr-item:hover{background:#e2dcd1}
+.nr-item .nt{font-family:var(--mono);font-size:10px;color:var(--gray);display:flex;gap:6px;align-items:center}
+.nr-item .nc{font-size:12px;line-height:1.55;color:#2b2822;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nr-item .star{color:var(--red);font-weight:700}
+.nr-item .src{font-size:9px;border:1px solid var(--line);padding:0 4px;color:#6a655a}
+.nr-item .src.ah{border-color:var(--amber);color:var(--amber)}
+.nr-item .src.cs{border-color:var(--green);color:var(--green)}
+.nr-ft{padding:10px 16px;border-top:1px solid var(--ink);font-size:11px;color:var(--gray);display:flex;justify-content:space-between;align-items:center}
+.nr-ft a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--ink)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <div class="brand">
+      <div class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div>
+        <h1>宏观有色贵金属研究工作台</h1>
+        <div class="sub">MACRO · BASE &amp; PRECIOUS METALS · WORKBENCH</div>
+      </div>
+    </div>
+    <div class="hd-right">
+      <div class="regime">周期定位：<b>全球滞胀脉冲＋紧缩再定价</b> / medium</div>
+      <div class="clock num" id="clock">--</div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#s1"><b>01</b>工作方式</a>
+    <a href="#s2"><b>02</b>研究管线</a>
+    <a href="#s3"><b>03</b>品种覆盖</a>
+    <a href="#s4"><b>04</b>硬约束</a>
+    <a href="#s5"><b>05</b>产出归档</a>
+    <a href="news/2026-08-28.html"><b>06</b>消息解读</a>
+    <a class="btn-r" href="reports/macro_daily.html" style="margin-left:auto">宏观数据日报 ↗</a>
+  </div>
+</nav>
+
+<section id="s1">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">01 / WORKFLOW</span><h2>工作方式</h2><span class="sec-note">发文件或一句话即可启动</span></div>
+    <div class="hero">
+      <p class="big">把文件直接发进对话，或只说「出今天的面板」。<br>工作台按你的研究框架自动完成 取数 → 分析 → 裁决 → 产出，<br>日报与面板沉淀在此页归档，框架随新文件持续学习。</p>
+      <div class="desc">研究框架已固化为持久技能（macro-metals-workbench）：总纲法则、合成裁决、13 品种研究锚点、面板架构、数据管线全部内置；29 份原始框架文件已归档为 ground truth。后续发新文件，我学习后更新框架并说明影响。</div>
+    </div>
+    <div style="height:34px"></div>
+    <div class="steps">
+      <div class="step">
+        <div class="no">①</div>
+        <h3>发文件 / 下指令</h3>
+        <p>直接拖拽研究文件进对话（框架、纪要、数据均可），或一句话指令：<code>出今天的面板</code> <code>更新周报</code> <code>学习这个文件</code>。</p>
+      </div>
+      <div class="step">
+        <div class="no">②</div>
+        <h3>工作台自动执行</h3>
+        <p>先学文件（若有）→ 拉取 iFinD 13 品种行情 → 联网补齐 LME/宏观/产业数据（逐条引用）→ 按框架合成裁决 → 落到品种门禁。</p>
+      </div>
+      <div class="step">
+        <div class="no">③</div>
+        <h3>产出与归档</h3>
+        <p>当日日度点评（md）＋ HTML 面板各一份，自动归档到下方「05 产出归档」，版本快照可随时回看任意一天。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">02 / PIPELINE</span><h2>研究管线</h2><span class="sec-note">总纲五层契约 · 每次任务全链路执行</span></div>
+    <div class="pipe">
+      <div class="pipe-row"><div class="l"><span class="dot k"></span>① 数据层</div><div class="r">指标白名单内批量取数：iFinD 主连日线（13 品种分 5 批，显式日期，失败重试 1 次跳过）；LME / 美债 / TIPS / DXY / 产业库存 TC 排产——联网检索逐条引用，逐条标数据日。</div></div>
+      <div class="pipe-row"><div class="l"><span class="dot k"></span>② 分项分析层</div><div class="r">宏观 / 利率 / 供需 / 库存 / 成本 / 跨品种分维度诊断；多空共用同一事实基础；缺口标注降权不忽略。</div></div>
+      <div class="pipe-row"><div class="l"><span class="dot k"></span>③ 合成裁决层</div><div class="r">regime 动态权重 + 逐维度对冲 + 主导矛盾识别 + 分时间维度方向；观点稳定性：短期不跨零直翻，中期反转需三门槛（主导矛盾切换 / 硬数据证伪 / 关键结构突破）。</div></div>
+      <div class="pipe-row"><div class="l"><span class="dot k"></span>④ 编排产出层</div><div class="r">日报九段式（今日三变 / 主要矛盾 / 尾部雷达 / 裁决表 / 宏观速读 / 品种点评 / 配置校验 / 指标总表 / 事件闭环＋事前冻结）；去 Agent 化写作，数字必须有来源。</div></div>
+      <div class="pipe-row"><div class="l"><span class="dot k"></span>⑤ 决策冻结层</div><div class="r">decision_cutoff 事前冻结：每个判断带期限 / 成功条件 / 失败（失效）条件 / 重估节点；破证伪位旧方向作废，失效组合明示不默撤。</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">03 / COVERAGE</span><h2>品种覆盖</h2><span class="sec-note">13 品种 · 各有独立矛盾 / 成本线 / 定价权 / 白名单</span></div>
+    <div class="group">
+      <div class="g-name">贵金属 — 纯宏观定价（美债 / 美元 / 实际利率）</div>
+      <div class="chips"><span class="chip"><b>AU</b>沪金</span><span class="chip"><b>AG</b>沪银</span></div>
+    </div>
+    <div class="group">
+      <div class="g-name">基本金属</div>
+      <div class="chips"><span class="chip"><b>CU</b>沪铜</span><span class="chip"><b>BC</b>国际铜</span><span class="chip"><b>AL</b>沪铝</span><span class="chip"><b>AO</b>氧化铝</span><span class="chip"><b>ZN</b>沪锌</span><span class="chip"><b>PB</b>沪铅</span><span class="chip"><b>NI</b>沪镍</span><span class="chip"><b>SS</b>不锈钢</span><span class="chip"><b>SN</b>沪锡</span></div>
+    </div>
+    <div class="group">
+      <div class="g-name">新能源与加工</div>
+      <div class="chips"><span class="chip"><b>LC</b>碳酸锂</span><span class="chip"><b>AD</b>铸造铝合金</span></div>
+    </div>
+    <div class="group" style="margin-top:26px">
+      <div class="g-name">跨品种配置（剥 β 留 α）</div>
+      <div class="chips">
+        <span class="chip" style="border-color:var(--gray);color:var(--gray);text-decoration:line-through">多金空银 · 金银比 59.5 击穿 68-70 锚 → 已失效待重估</span>
+        <span class="chip">多铜空锌 · 有效（锌侧待发令枪齐鸣）</span>
+        <span class="chip">锡 = SPX 的 β · 有效（VIX&gt;19 降敞口）</span>
+        <span class="chip" style="border-color:var(--red);color:var(--red)">禁用：多铝空氧化铝（同链 α 对冲，逻辑矛盾）</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">04 / DISCIPLINE</span><h2>硬约束</h2><span class="sec-note">任何产出不得违反 · 产出前自查</span></div>
+    <div class="rules">
+      <div class="rule"><span class="rn">R1</span><p><b>数字必须有来源。</b>行情=iFinD；LME/宏观/产业=联网检索逐条引用；禁编造，逐条标数据日。</p></div>
+      <div class="rule"><span class="rn">R2</span><p><b>观点稳定性。</b>短期不跨零直翻；中期反转需三门槛之一；失效按纪律明示「已失效」。</p></div>
+      <div class="rule"><span class="rn">R3</span><p><b>证伪校验。</b>每个判断带证伪位；价格破位旧方向作废，转中性或反手。</p></div>
+      <div class="rule"><span class="rn">R4</span><p><b>数据缺口纪律。</b>先刷新再降级；缺口标灰、不分配权重、不合成总分。</p></div>
+      <div class="rule"><span class="rn">R5</span><p><b>实物门禁。</b>商品方向必须回到库存 / 基差 / 月差 / 进口盈亏 / 持仓 / 订单 / 现货需求。</p></div>
+      <div class="rule"><span class="rn">R6</span><p><b>去 Agent 化。</b>不堆形容词，不出现流程黑话；结论可被证伪，叙事不单独支撑方向。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="s5" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">05 / ARCHIVE</span><h2>产出归档</h2><span class="sec-note">按日期倒序 · 每日面板＋日报</span> <a class="lnk" href="panels/strategy.html" style="margin-left:14px">策略页（仓位与触发线·自动）↗</a> <a class="lnk" href="panels/macro_framework.html" style="margin-left:14px">宏观框架面板（八版块×频率矩阵）↗</a> <a class="lnk" href="reports/weekly_2026-W35.html" style="margin-left:14px">宏观周报（九章体系·第35周）↗</a> <a class="lnk" href="panels/mm_upload.html" style="margin-left:14px">更新MM数据 ↗</a> <a class="lnk" href="panels/trump_zone.html" style="margin-left:14px">特朗普专区 ↗</a></div>
+    <table>
+      <thead><tr><th style="width:130px">日期</th><th>面板</th><th>日度点评</th><th style="width:280px">当日唯一主要矛盾</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="num"><span class="lamp"></span>自动更新</td>
+          <td><a class="lnk" href="reports/daily_latest.html">宏观日报·自动版 ↗</a> <a class="btn-r" href="reports/macro_daily.html">宏观数据日报·图表版 ↗</a> <span class="tag">每日自动</span><span class="tag">全数据面板</span><span class="tag">边际自扫</span><span class="tag">24图图表版</span><span class="tag">可导出</span></td>
+          <td><a class="lnk" href="reports/daily_latest.html">今日三条边际变化 ↗</a> <a class="lnk" href="panels/strategy.html">策略页 ↗</a></td>
+          <td style="font-size:12px;color:#4a463e">数据每日07:40/20:40管线自更；边际变化=规则自动扫描；观点冻结于最近人工版</td>
+        </tr>
+        <tr>
+          <td class="num"><span class="lamp"></span>2026-09-02</td>
+          <td><a class="lnk" href="reports/daily_2026-09-02.html">宏观日报 ↗</a> <span class="tag">人工版</span><span class="tag">事前冻结</span></td>
+          <td><a class="lnk" href="reports/daily_2026-09-02.html">日度结论 ↗</a></td>
+          <td style="font-size:12px;color:#4a463e">霍尔木兹油轮遇袭油价+5.2%；ISM滞胀组合；紧缩首次传导risk-off股债金三杀；金4500支撑作废</td>
+        </tr>
+        <tr>
+          <td class="num"><span class="lamp"></span>2026-08-29</td>
+          <td><a class="lnk" href="reports/daily_2026-08-29.html">宏观日报 ↗</a> <span class="tag">八版块框架</span><span class="tag">日度全表</span><span class="tag">事前冻结</span></td>
+          <td><a class="lnk" href="reports/daily_2026-08-29.html">日度结论 ↗</a></td>
+          <td style="font-size:12px;color:#4a463e">沃什JH偏鹰→2Y盘中跳升14bp、金银双杀-3.5%/-4.5%、利差收窄8bp至39bp；委内瑞拉650亿桶远期供给叙事；美股risk-on未破（HY OAS 0.98%/VIX 14.51）</td>
+        </tr>
+        <tr>
+          <td class="num"><span class="lamp"></span>2026-08-28</td>
+          <td><a class="lnk" href="panels/2026-08-28.html">打开面板 ↗</a> <span class="tag">13 品种</span><span class="tag">尾部雷达</span><span class="tag">事前冻结</span></td>
+          <td><a class="lnk" href="reports/2026-08-28.md">日度点评 .md ↗</a> <a class="lnk" href="news/2026-08-28.html">消息解读 ↗</a></td>
+          <td style="font-size:12px;color:#4a463e">A 端紧缩再定价（沃什今晚 22:00 裁决，30Y TIPS 2.973% 创 25 年高）vs B 端实物资产重估（央行购金最强月度 / 铜 TC -174 创新低）· 能源腿撤退（WTI -5.3%）</td>
+        </tr>
+        <tr>
+          <td class="num"><span class="lamp"></span>2026-08-27</td>
+          <td><a class="lnk" href="panels/2026-08-27.html">打开面板 ↗</a> <span class="tag">13 品种</span><span class="tag">尾部雷达</span><span class="tag">事前冻结</span></td>
+          <td><a class="lnk" href="reports/2026-08-27.md">日度点评 .md ↗</a></td>
+          <td style="font-size:12px;color:#4a463e">A 端紧缩再定价（PCE 3.7%，加息押注 40%）vs B 端实物资产重估</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11.5px;color:var(--gray);margin-top:14px">每个交易日产出后自动追加一行；历史版本随整站快照保存，可回滚回看。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-sq sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    数据纪律：期货行情=同花顺 iFinD；外盘=LME/westmetall；产业=SMM/Mysteel/生意社等公开数据，数据日逐条标注；宏观=官方发布与交易所镜像。<br>
+    证据分层：L1 官方 / L2 交易所 / L3 第三方 / ⚙️ 自建计算 / 🗣 市场叙事（不单独支撑方向）。过期数据显示数据日；缺口标灰、不重新分配权重。<br>
+    宏观只提供风险环境与表达边界，品种方向回到实物门禁。本工作台不构成投资建议。<a href="panels/owner.html" style="float:right;color:#5a6a82;text-decoration:none;font-size:11px;" title="站长入口（需站长密码）">· 站长</a>
+  </div>
+</footer>
+
+<script>
+function tick(){
+  var d=new Date();
+  var p=function(x){return String(x).padStart(2,'0')};
+  document.getElementById('clock').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())+' 本地';
+}
+tick();setInterval(tick,1000);
+/* 左侧实时消息栏已下线（2026-09-01）：新闻数据仍由云端管线每日更新，见日报页跑马灯与消息流页签 */
+</script>
+</body>
+</html>

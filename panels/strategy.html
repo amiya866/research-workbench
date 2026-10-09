@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>策略页 · 仓位与触发线（规则自动）</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1117;--card:#161b26;--line:#262d3d;--txt:#d7dde8;--dim:#8a94a6;--gold:#d4a944;--up:#e5534b;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+h1{font-family:Georgia,"Songti SC",serif;font-size:24px;}
+h1 .en{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);margin-left:10px;letter-spacing:.5px;}
+.meta{color:var(--dim);font-size:12px;margin-top:6px;line-height:1.8;}
+.meta b{color:var(--gold)}
+.meta a{color:var(--gold);text-decoration:none;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin:14px 0;}
+.card h3{font-size:15px;color:#fff;}
+.card h3 .en{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--dim);margin-left:8px;font-weight:400;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);font-size:11.5px;}
+td{padding:7px 8px;border-bottom:1px solid #1c2230;line-height:1.6;vertical-align:top;}
+.foot{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px;line-height:2;}
+.foot a{color:var(--gold);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>策略页 · 仓位与触发线<span class="en">STRATEGY · POSITIONING & TRIGGERS · ⚙️规则引擎全自动</span></h1>
+  <div class="meta">立场/仓位/加减仓条件全部由 <b>⚙️规则引擎</b> 按最新数据现场生成，数据每日 07:40/20:40（北京）随管线更新 · 框架性研究输出，非投资建议 · <a href="../reports/daily_latest.html">← 回日报</a> · <a href="../index.html">首页</a></div>
+  <div id="ceStrategy"><div class="card"><p style="color:var(--dim);font-size:13px;">数据读取中…</p></div></div>
+  <div class="foot">研究工作台 · 策略页 · <a href="../reports/daily_latest.html">日报</a> · <a href="../reports/weekly_2026-W35.html">周报</a> · <a href="macro_framework.html">宏观框架面板</a><a href="owner.html" style="float:right;color:#5a6a82;text-decoration:none;font-size:11px;" title="站长入口（需站长密码）">· 站长</a></div>
+</div>
+<script src="../data/chart_series.js"></script>
+<script src="../lib/sig.js"></script>
+<script src="../lib/owner_edit.js"></script>
+<script>
+function renderStrategy(){
+  if(!window.CHART_SERIES||!window.CE||!window.CE.strategy){setTimeout(renderStrategy,400);return;}
+  try{ document.getElementById('ceStrategy').innerHTML=window.CE.strategy(); }
+  catch(e){ document.getElementById('ceStrategy').innerHTML='<div class="card"><p style="color:var(--dim);">策略生成失败：'+e+'</p></div>'; }
+  if(window.RW_OWNER){ try{ window.RW_OWNER.applyOverrides(); if(window.RW_OWNER.isOwner())window.RW_OWNER.arm(); }catch(e){} }
+}
+renderStrategy();
+</script>
+</body>
+</html>

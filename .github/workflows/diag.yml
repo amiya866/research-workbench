@@ -1,0 +1,14 @@
+name: 网络诊断
+on: workflow_dispatch
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe
+        run: |
+          echo "--- 单条FRED"
+          time curl -sS -m 25 -A "Mozilla/5.0" "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10&cosd=2026-01-01" | head -4
+          echo "--- 批量FRED"
+          time curl -sS -m 25 -A "Mozilla/5.0" "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10,DGS2,T10Y2Y&cosd=2026-01-01" | head -4
+          echo "--- Yahoo"
+          time curl -sS -m 25 "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=5d&interval=1d" | head -c 150

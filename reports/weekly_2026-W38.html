@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宏观研究周报 · 2026年第38周</title>
+<script src="../lib/echarts.min.js"></script>
+<script src="../data/chart_series.js"></script>
+<script src="../lib/sig.js"></script>
+<script src="../lib/owner_edit.js"></script>
+<script src="../data/live_snapshot.js"></script>
+<script src="../data/mm_catalog.js" onerror="window.MM_CATALOG=null"></script>
+<script src="../data/macro_catalog.js" onerror="window.MACRO_CATALOG=null"></script>
+<script src="../data/ow_series.js" onerror="window.OW_SERIES=null"></script>
+<script src="../data/ow_catalog.js" onerror="window.OW_CATALOG=null"></script>
+<script>
+function bindTabs(){
+document.querySelectorAll('.tabbar button').forEach(function(b){ b.onclick=function(){
+  document.querySelectorAll('.tabbar button').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('p-'+b.dataset.p).classList.add('on');
+  window.dispatchEvent(new Event('resize'));
+};});}
+const CHART_DEFS = [];
+function registerChart(hostId, sel, ids){ CHART_DEFS.push({hostId:hostId, sel:sel, ids:ids, done:false}); }
+function ensureCharts(){
+  CHART_DEFS.forEach(function(d){
+    if(d.done) return;
+    var el = document.getElementById(d.hostId);
+    if(el && el.offsetParent !== null){ chartWidget(d.hostId, d.sel, d.ids); d.done=true; }
+  });
+}
+function bindEnsure(){ document.querySelectorAll('.tabbar button').forEach(function(b){ b.addEventListener('click', function(){setTimeout(ensureCharts, 30);}); }); }
+var WS = null;
+function presetWS(ids){
+  document.getElementById('cw-ws').innerHTML='';
+  chartWidget('cw-ws', ids, null);
+  WS = true;
+}
+function bindWS(){ document.querySelector('[data-p="ws"]').addEventListener('click', function(){setTimeout(function(){ if(!WS){ chartWidget('cw-ws', ['DGS10','DFII10','T5YIE'], null); WS=true; } }, 30);}); }
+document.addEventListener('DOMContentLoaded', function(){ bindTabs(); bindEnsure(); bindWS(); });</script>
+<style>
+  :root{--bg:#0e1117;--card:#161b26;--line:#262d3d;--txt:#d7dde8;--dim:#8a94a6;--up:#e5534b;--dn:#4caf7d;--gold:#d4a944;--blue:#5b9bd5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.7;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+  header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px;}
+  h1{font-family:Georgia,"Songti SC",serif;font-size:26px;letter-spacing:1px;}
+  .meta{color:var(--dim);font-size:12px;margin-top:6px;}
+  .meta b{color:var(--gold);}
+  h2{font-family:Georgia,"Songti SC",serif;font-size:17px;margin:32px 0 12px;color:#fff;border-left:3px solid var(--gold);padding-left:10px;}
+  h2 .en{color:var(--dim);font-size:11px;letter-spacing:2px;margin-left:8px;}
+  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px;}
+  th{background:#1c2333;color:#aeb8c8;font-weight:600;text-align:left;padding:7px 10px;font-size:12px;}
+  td{padding:7px 10px;border-top:1px solid var(--line);}
+  .up{color:var(--up);} .dn{color:var(--dn);} .flat{color:var(--dim);}
+  .badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;border:1px solid var(--line);color:var(--dim);margin-left:6px;}
+  .b1{color:#7ec8a9;border-color:#2d4a3f;} .b2{color:#5b9bd5;border-color:#2a3f57;}
+  .bc{color:#b08ad9;border-color:#46365c;} .bg2{color:#666;border-color:#333;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 18px;margin-bottom:12px;}
+  details{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-bottom:10px;}
+  summary{cursor:pointer;font-weight:600;}
+  .updbtn{background:var(--gold);color:#111;border:none;border-radius:4px;padding:7px 18px;font-size:13px;font-weight:600;cursor:pointer;}
+  .updbtn:active{opacity:.8;}
+  #updMsg{font-size:12px;color:var(--dim);margin-left:10px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .mini{background:#12161f;border:1px solid var(--line);border-radius:6px;padding:12px 14px;}
+  .mini h4{font-size:13px;color:var(--gold);margin-bottom:8px;}
+  .big{font-size:26px;font-weight:700;font-family:Georgia,serif;}
+  .zonebar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:8px 0 4px;}
+  .zonebar div{flex:1;}
+  .ch-tag{font-size:11px;color:var(--dim);border:1px solid var(--line);border-radius:10px;padding:2px 10px;margin-right:6px;display:inline-block;margin-bottom:4px;}
+  .roadmap{color:var(--dim);font-size:12px;margin:4px 0 10px;line-height:1.9;}
+  .roadmap b{color:#aeb8c8;}
+  @media(max-width:900px){.grid3,.grid2{grid-template-columns:1fr;}}
+
+  /* tab 导航 */
+  .tabbar{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 20px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:50;border-bottom:1px solid var(--line);}
+  .tabbar button{background:#1c2333;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:6px 13px;font-size:12px;cursor:pointer;}
+  .tabbar button.on{background:var(--gold);color:#111;font-weight:600;border-color:var(--gold);}
+  .panel{display:none;}
+  .panel.on{display:block;}
+  /* 图表控件 */
+  .cw{background:#12161f;border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:12px;}
+  .cw .ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .cw .seg2{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .cw .seg2 button{background:#1c2333;color:var(--dim);border:none;padding:4px 12px;font-size:11px;cursor:pointer;}
+  .cw .seg2 button.on{background:var(--gold);color:#111;font-weight:600;}
+  .cw details{margin-top:8px;border:none;background:transparent;padding:0;}
+  .cw details summary{font-size:11px;color:var(--dim);font-weight:400;}
+  .cw .tags{display:none;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .cw details[open] .tags{display:flex;}
+  .cw .tag2{font-size:11px;padding:2px 9px;border:1px solid var(--line);border-radius:11px;cursor:pointer;color:var(--dim);background:#161b26;}
+  .cw .tag2.on{border-color:var(--gold);color:var(--gold);background:rgba(212,169,68,.08);}
+  .cw .tag2 .u{font-size:9px;opacity:.7;}
+  .cw .chart{width:100%;height:400px;margin-top:8px;}
+  .cw .cn{font-size:10px;color:var(--dim);margin-top:4px;}
+
+  /* ===== 移动端适配（≤820px） ===== */
+  @media(max-width:820px){
+    body{font-size:13px;}
+    h1{font-size:19px !important;line-height:1.35;}
+    .wtabs, .dtabs, .tabs{overflow-x:auto;flex-wrap:nowrap !important;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .wtabs::-webkit-scrollbar,.dtabs::-webkit-scrollbar,.tabs::-webkit-scrollbar{display:none;}
+    .wtabs button,.dtabs button,.tabs button{flex:0 0 auto;white-space:nowrap;padding:6px 12px;font-size:12px;}
+    section table, .card table, .wp table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}
+    .grid2,.grid3{grid-template-columns:1fr !important;}
+    .cw .chart{height:300px !important;}
+    h2{font-size:15px !important;}
+    footer{word-break:break-all;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h1>宏观研究周报 · 2026年第38周 <span style="font-size:14px;color:var(--gold);font-weight:400;margin-left:10px;">宏观有色研究 · 沈轶天</span></h1>
+      <div class="meta">板块正文=9/14–9/21 当周存档 · W36–W37两期未出，本期一并回溯（9/4非农 / 9/11 CPI / 9/16 FOMC加息） · <b style="color:var(--gold)">本页顶部结论/资产表/证伪清单由⚙️规则引擎按最新数据自动生成</b> · <b class="snapAsof" style="color:var(--gold);"></b></div>
+    </div>
+    <div style="display:flex;align-items:center;">
+      <span id="updMsg"></span>
+    </div>
+  </div>
+  <div class="tabbar"><button data-p="ov" class="on">本周总览</button><button data-p="geo" style="border-color:var(--gold)">地缘专区</button><button data-p="emp">就业市场</button><button data-p="inf">通胀</button><button data-p="gdp">GDP与经济核算</button><button data-p="cons">消费</button><button data-p="house">房地产</button><button data-p="inv">企业投资与AI资本开支</button><button data-p="pmi">PMI</button><button data-p="fisc">财政与国债市场</button><button data-p="fed">美联储与金融条件</button><button data-p="liq" style="border-color:var(--gold)">流动性</button><button data-p="cn">中国宏观</button><button data-p="fw" style="border-color:var(--gold)">资金·仓位·估值</button><button data-p="ws" style="border-color:var(--gold)">图表工作区</button><button data-p="wall" style="border-color:var(--gold)">宏观图表墙</button></div>
+</header>
+
+<div class="panel on" id="p-ov">
+<div id="ceWeeklyOv">加载中…</div>
+<div id="ceWeeklyTable">加载中…</div>
+
+<h2>锡库存评估 · LME×SHFE<span class="en">TIN INVENTORY · 每日自动更新(iFinD EDB)</span></h2>
+<div class="card" id="snInvSum" style="font-size:13px;line-height:1.9;">锡库存评估加载中…</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:14px;">
+  <div class="card" style="margin-bottom:0;"><b style="color:var(--gold)">🥫 LME 锡库存（日频 · westmetall）</b><div id="snInvLme" style="font-size:13px;line-height:2;margin-top:6px;">—</div></div>
+  <div class="card" style="margin-bottom:0;"><b style="color:var(--gold)">🏛️ SHFE 锡期货库存（周频 · 上期所/iFinD EDB）</b><div id="snInvShfe" style="font-size:13px;line-height:2;margin-top:6px;">—</div></div>
+  <div class="card" style="margin-bottom:0;"><b style="color:var(--gold)">📈 SHFE 近 10 周走势（吨）</b><div id="snInvChart" style="height:200px;margin-top:6px;"></div></div>
+</div>
+<h2>政策定价与地缘跟踪<span class="en">POLICY PRICING & GEO</span></h2>
+<div class="grid2">
+  <div class="mini"><h4>CME FedWatch 加息预期（联邦基金期货定价）</h4><div id="fwBox"></div></div>
+  <div class="mini"><h4>特朗普 TACO 压力指数</h4><div id="tacoBox"></div></div>
+</div>
+<h2>宏观日历<span class="en">MACRO CALENDAR</span><span id="calBtnBar" class="ec-titlebtns"></span></h2>
+<div class="grid3" id="calBox"></div>
+
+<h2>下周展望与证伪清单<span class="en">NEXT WEEK</span></h2>
+<div id="ceWeeklyNext">加载中…</div>
+</div>
+<div class="panel" id="p-geo">
+<h2 style="margin-top:0">地缘专区<span class="en">GEOPOLITICS · 美伊与中东格局</span></h2>
+<div class="mini"><h4>美伊局势 · 预测市场跟踪</h4><div id="iranBox"></div>
+<div id="pmGeoChart" style="width:100%;height:250px;margin-top:6px;"></div>
+<div id="pmGeoNote" style="font-size:11px;color:var(--dim);margin-top:4px;"></div></div>
+<div class="mini" style="grid-column:1/-1;"><h4>美伊与中东格局重要事件时间线</h4>
+<div style="font-size:11px;color:var(--dim);margin-bottom:8px;">事实梳理自权威媒体公开报道（L2），管线随新闻每日更新。<span style="color:#e5534b">■</span>升级 <span style="color:#4caf7d">■</span>缓和 <span style="color:#d4a944">■</span>博弈 <span style="color:#5b9bd5">■</span>数据节点</div>
+<div id="geoBox" class="grid2"></div></div>
+</div>
+<div class="panel" id="p-emp">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">就业市场 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 美国宏观数据之王 · 双重使命的一半 · 工资通胀的源头</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>官方双调查</b>：CES企业调查(非农增量·工时·时薪，数岗位有修正) / CPS家庭调查(失业率·参与率·U1–U6，数人比率可靠) → <b>流量与周频</b>：JOLTS看V/U紧度、初请/续请(周频官方硬数据) → <b>工资三口径</b>：AHE(快)/ECI(联储首选)/Atlanta Wage Tracker → <b>四大经验框架</b>：Okun定律·失业缺口u−u*·贝弗里奇曲线·Sahm规则 → <b>第三方</b>：ADP·Challenger·Indeed·WARN</div>
+  <p style="font-size:13px;margin:8px 0 10px;">8月非农<b>+16.2万</b>（9/4公布，共识仅+6.0万，大超预期；前值上修至+2.1万），失业率<b>4.1%</b>持平；AHE时薪环比<b>+0.27%</b>（37.75美元）——工资压力温和回升。初请9/12当周<b>19.6万</b>，续请173万继续走低：<b>低流量特征未变（hiring弱、firing也弱）</b>。就业韧性+通胀黏性正是9/16 FOMC敢于重启加息的底气。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>口径/数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>新增非农</td><td>+16.2万</td><td>8月·9/4公布</td><td>10/2（9月值）★★★★★</td><td><span class="badge b1">L1</span></td></tr><tr><td>失业率</td><td>4.1%</td><td>7月</td><td>9/4</td><td><span class="badge b1">L1</span></td></tr><tr><td>初请失业金</td><td>19.6万</td><td>9/12当周</td><td>每周四</td><td><span class="badge b1">L1</span></td></tr><tr><td>JOLTS职位空缺</td><td>727.1万</td><td>7月</td><td>10/1（8月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>AHE时薪</td><td>37.75美元·环比+0.27%</td><td>8月</td><td>10/2</td><td><span class="badge b1">L1</span></td></tr><tr><td>盈亏平衡增速</td><td>3–8万/月</td><td>各联储估算区间（移民收缩后）</td><td>—</td><td><span class="badge">⚙️</span></td></tr><tr><td>ADP就业</td><td>8月值待公布</td><td>非农前周三</td><td>9/2</td><td><span class="badge bg2">灰</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：10/2的9月非农（9月值）——若明显走弱，10/28再加息的定价（当前53%）将回落；若维持韧性，紧缩交易延续</div>
+</div>
+<div class="cw" id="cw-emp"></div>
+<script>registerChart('cw-emp', ['OW_P41_非农就业月度增幅｜千人','OW_P41_平均时薪同比｜%'], ['ICSA','CCSA','UNRATE','PAYEMS','JTSJOL','CES0500000003','MANEMP','ECIALLCIV','OW_P05_非农就业月度增幅｜千人','OW_P05_ADP就业月度增幅｜千人','OW_P05_平均时薪同比｜%','OW_P05_非农就业总计｜千人','OW_P05_采矿与伐木业｜千人','OW_P05_制造业｜千人','OW_P41_非农就业月度增幅｜千人','OW_P41_ADP就业月度增幅｜千人','OW_P41_平均时薪同比｜%','OW_P41_非农就业总计｜千人','OW_P41_采矿与伐木业｜千人','OW_P41_平均时薪同比｜%_32','OW_P41_周度初请失业金人数｜千人','OW_P41_周度续请失业金人数｜千人']);</script>
+</div>
+<div class="panel" id="p-inf">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">通胀 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 新凯恩斯三方程 · 每个数据回答方程里的一个参数</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>分析框架</b>：新凯恩斯三方程(IS/PC/MP闭环)·泰勒规则·supercore三分法 → <b>CPI深讲</b>：6211结构·住房滞后12–18月·OER·1月效应 → <b>PCE与映射</b>：CPI+PPI发布日即可推算PCE → <b>PPI与底层通胀</b>：管道压力·中位/截尾/粘性家族 → <b>预期与高频</b>：调查/市场/企业三来源·5y5y·锚定=长端对短端冲击敏感度≈0</div>
+  <p style="font-size:13px;margin:8px 0 10px;">8月CPI同比<b>+3.35%</b>（9/11公布，前值+3.3%，未随油价冲高）、核心CPI同比<b>+2.45%</b>（FRED指数计算）——"通胀下行舒适期结束"被9/16加息正式确认。PCE口径（7月）：同比<b class="up">3.70%</b>、核心<b class="up">3.34%</b>仍高位，8月PCE 9/26发布。市场定价的通胀预期仍锚定：5Y盈亏平衡2.33%、10Y 2.34%——<b>若油价回落兑现为通胀环比放缓，是12月加息预期降温的第一证伪点</b>。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>CPI同比</td><td>+3.35%</td><td>8月（指数334.13）</td><td>10月中旬（9月值）★★★★★</td><td><span class="badge">⚙️</span></td></tr><tr><td>核心CPI同比</td><td>+2.45%</td><td>8月（指数337.76）</td><td>10月中旬</td><td><span class="badge">⚙️</span></td></tr><tr><td>PCE同比</td><td>+3.7%</td><td>7月</td><td>9/26（8月值）</td><td><span class="badge">⚙️</span></td></tr><tr><td>核心PCE同比</td><td>+3.34%</td><td>7月（指数130.66）</td><td>9/26</td><td><span class="badge">⚙️</span></td></tr><tr><td>5Y盈亏平衡通胀</td><td>2.33%</td><td>FRED 09-21</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>10Y盈亏平衡通胀</td><td>2.34%</td><td>FRED 09-21</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>密歇根1年通胀预期</td><td>4.2%（7月）</td><td>8/28</td><td>9月末（9月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>克利夫兰CPI Nowcast</td><td>8月实际同比3.35%，落于nowcast区间3.36–3.49%下沿</td><td>9/11已兑现</td><td>日度</td><td><span class="badge b1">L1</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：9/26的8月PCE（核心环比市场定价+0.25%附近）→ 10月中旬CPI：核心环比≤0.2%才足以让12月加息定价松动</div>
+</div>
+<div class="cw" id="cw-inf"></div>
+<script>registerChart('cw-inf', ['T5YIE','T10YIE','OW_P42_核心服务通胀｜%','OW_P42_住房项通胀｜%'], ['CPIAUCSL','CPILFESL','PCEPILFE','T5YIE','T10YIE','MICH','UMCSENT','STICKCPIM157SFRBATL','MEDCPIM158SFRBCLE','PCETRIM12M159SFRBDAL','EXPINF5YR','T5YIFR','IR14270','ZORI_US','OW_P06_美国CPI同比｜%','OW_P06_1年期美元通胀互换｜%','OW_P06_10年期盈亏平衡通胀率｜%','OW_P42_CPI同比｜%','OW_P42_食品贡献｜百分点','OW_P42_能源贡献｜百分点','OW_P42_核心商品贡献｜百分点','OW_P42_核心服务贡献｜百分点','OW_P42_Headline CPI同比｜%','OW_P42_布伦特原油｜美元/桶','OW_P42_全美平均汽油｜美元/加仑','OW_P42_Manheim二手车价格｜指数','OW_P42_核心通胀｜%','OW_P42_核心服务通胀｜%','OW_P42_住房项通胀｜%','OW_P42_标普席勒20城房价同比｜%','OW_P42_10年期Breakeven｜%','OW_P42_1年期美元通胀互换｜%']);</script>
+</div>
+<div class="panel" id="p-gdp">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">GDP与经济核算 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 先立标尺，再读数据 · 支出法Y=C+I+G+NX是章节地图</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>分析框架</b>：潜在增速≈劳动力+生产率(一切读数的标尺)·剥洋葱GDP→最终销售→PDFP(core GDP) → <b>官方数据</b>：三次估计(advance★★★★)·GDP vs GDI分歧看均值·贡献度拆分(库存与净出口是两大噪音源)·NBER六指标vs"两季法则" → <b>第三方跟踪</b>：GDPNow(会计模拟) vs NY Fed Nowcast(动态因子)·WEI周度指数 → <b>常见陷阱</b>：拐点处初值系统性高估·"进口拖累GDP"是会计错觉</div>
+  <p style="font-size:13px;margin:8px 0 10px;">Q2 GDP三轮修正<b>+1.5%</b>（季环比折年）不变，低于约1.8–2%的潜在增速标尺。Q3跟踪：GDPNow读数已升至<b>+5.08%</b>、WEI（9/12当周+3.07%）连续高于Q2实际——<b>"低于潜在"的基线判断基本被证伪</b>，增长端不再给加息提供缓冲，这本身就是A端框架的佐证。9/16 SEP同步下调失业率预测、上调通胀预测，官方与高频互相印证。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>口径</th><th>下次发布</th><th>来源</th></tr><tr><td>实际GDP（SAAR）</td><td>+1.5%</td><td>Q2三轮修正·8/27</td><td>Q3初值10月末</td><td><span class="badge b1">L1</span></td></tr><tr><td>潜在增速标尺</td><td>≈1.8–2%</td><td>CBO/联储估计</td><td>—</td><td><span class="badge">⚙️</span></td></tr><tr><td>工业产出指数</td><td>103.07·环比+0.03%</td><td>8月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>GDPNow（亚特兰大联储）</td><td>Q3 +5.08%（季环比折年）</td><td>9月中旬</td><td>随数据日更</td><td><span class="badge b1">L1</span></td></tr><tr><td>NY Fed Nowcast</td><td>接口为动态加载，自动源暂缺</td><td>—</td><td>周更</td><td><span class="badge bg2">灰</span></td></tr><tr><td>WEI周度经济指数（达拉斯联储）</td><td>+3.07%（9/12当周）</td><td>9/12当周</td><td>周四</td><td><span class="badge b1">L1</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：Q3参考期收尾（9月末），Nowcast双模型对Q3的终读；Q3初值10/29发布</div>
+</div>
+<div class="cw" id="cw-gdp"></div>
+<script>registerChart('cw-gdp', ['GDPNOW','OW_P37_美国经济惊喜指数｜指数','OW_P37_美国实际GDP季环比折年率｜%'], ['INDPRO','PCEC96','MANEMP','TCU','WEI','GDPNOW','OW_P37_美国实际GDP季环比折年率｜%','OW_P37_个人消费贡献｜百分点','OW_P37_美国经济惊喜指数｜指数','OW_P37_中国经济惊喜指数｜指数','OW_P37_美国经济惊喜指数｜指数_28']);</script>
+</div>
+<div class="panel" id="p-cons">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">消费 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 占GDP 68%的压舱石 · 衰退的确认指标</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>分析框架</b>：C=f(收入,财富,信贷,预期)×MPC·消费平滑(拐点是确认信号)·主线=双轨数据+三大背离 → <b>官方双轨</b>：零售销售(快/窄/名义,控制组直送GDP)/个人收支(慢/全/可实际化,储蓄率=残差) → <b>第三方与高频</b>：刷卡数据·TSA/OpenTable·信心调查(密歇根物价敏感 vs 谘商会就业敏感) → <b>三大背离</b>：软vs硬·名义vs实际·总量vs结构(K型分化)</div>
+  <p style="font-size:13px;margin:8px 0 10px;">8月零售销售<b>环比+1.24%</b>（7739亿美元，9/16公布）——逆转7月-0.58%的弱势，控制组强劲，"硬数据变强"取代"硬数据跟弱"成为最新边际。实际个人消费（7月）环比仍仅+0.01%，9/26的8月值是验证消费动能的关键。储蓄率3.0%低位。信心端：密歇根8月终值51.7再下台阶，<b>软vs硬背离仍在，但方向由"向下收敛"转为观察</b>。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>零售销售</td><td>7739亿·环比+1.24%</td><td>8月·9/16公布</td><td>10月中（9月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>实际个人消费PCE</td><td>环比+0.01%</td><td>7月</td><td>9/26（8月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>实际可支配收入</td><td>环比+0.37%</td><td>7月</td><td>9月末</td><td><span class="badge b1">L1</span></td></tr><tr><td>个人储蓄率</td><td>3.0%</td><td>7月</td><td>9月末</td><td><span class="badge b1">L1</span></td></tr><tr><td>密歇根信心</td><td>51.7（8月终值）</td><td>8/28</td><td>9月末（9月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>红皮书同店销售</td><td>待接入</td><td>周度·周二</td><td>周二</td><td><span class="badge bg2">灰</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：9/26个人收支（8月值）：实际PCE能否跟上名义零售的强</div>
+</div>
+<div class="cw" id="cw-cons"></div>
+<script>registerChart('cw-cons', ['OW_P43_零售销售同比｜%','OW_P43_密歇根大学消费者信心｜指数','OW_P44_时薪同比｜%'], ['RSAFS','PCEC96','UMCSENT','PSAVERT','DSPIC96','OW_P43_零售销售同比｜%','OW_P43_零售销售环比｜%','OW_P43_密歇根大学消费者信心｜指数','OW_P43_谘商会消费者信心｜指数','OW_P43_GDP个人消费｜%','OW_P43_零售销售同比｜%_16','OW_P43_住房抵押贷款购买申请｜指数','OW_P43_成屋销售｜百万套','OW_P43_新屋销售｜千套','OW_P44_个人收入同比｜%','OW_P44_时薪同比｜%','OW_P44_个人储蓄｜十亿美元','OW_P44_BLS雇佣成本-工资｜指数','OW_P44_BLS雇佣成本-福利｜指数','OW_P44_政府转移收入｜十亿美元','OW_P44_房租收入｜十亿美元','OW_P44_利息收入｜十亿美元','OW_P44_股利收入｜十亿美元','OW_P44_工资收入｜十亿美元','OW_P45_美国家庭净资产｜百万美元','OW_P45_美国家庭资产｜百万美元','OW_P45_美国家庭负债｜百万美元']);</script>
+</div>
+<div class="panel" id="p-house">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">房地产 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 周期之母 · 最长数据链条：利率→信心→销量→开工→房价→租金CPI(约19个月)</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>分析框架</b>：住宅投资仅占GDP约4%却领先衰退4–6个季度 → <b>房贷制度</b>：30年固定+可再融资(加息只冻结增量,不对称传导) → <b>官方数据</b>：许可/开工·新屋(签约)vs成屋(过户)·库存月数(6为平衡线)·CS/FHFA房价(反映约半年前)·CPI房租三重滞后 → <b>第三方高频</b>：NAHB·MBA周度申请·30年房贷利率·Zillow/Redfin新租约(领先官方约6个月)</div>
+  <p style="font-size:13px;margin:8px 0 10px;">30年房贷利率<b>6.95%</b>（9/17，Freddie Mac口径）——较两周前+29bp，<b>9/16加息已传导至房贷利率</b>。8月新屋开工127.5万户（环比-2.6%）、许可139.4万户（-2.7%）、成屋销售398万户低位——量弱价稳格局延续，锁定效应在更高利率下进一步加固。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>30年抵押贷款利率</td><td>6.95%</td><td>9/17·周度</td><td>周度</td><td><span class="badge b1">L1</span></td></tr><tr><td>新屋开工</td><td>127.5万户·环比-2.6%</td><td>8月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>建筑许可</td><td>139.4万户·环比-2.7%</td><td>8月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>成屋销售</td><td>398万户·SAAR</td><td>8月</td><td>9月下旬（9月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>成屋库存月数</td><td>4.6个月（平衡线6）</td><td>7月</td><td>9月下旬</td><td><span class="badge b1">L1</span></td></tr><tr><td>CS房价指数</td><td>331.89</td><td>6月·滞后2月</td><td>9月末</td><td><span class="badge b1">L1</span></td></tr><tr><td>NAHB建筑商信心</td><td>8月值待核</td><td>月中</td><td>9月中</td><td><span class="badge bg2">灰</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：房贷利率再上台阶后的链条反应；9月值集中在10月中下旬</div>
+</div>
+<div class="cw" id="cw-house"></div>
+<script>registerChart('cw-house', ['MORTGAGE30US','HOUST','OW_P53_成屋销售｜百万套'], ['MORTGAGE30US','HOUST','PERMIT','EXHOSLUSM495S','CSUSHPISA','HOSSUPUSM673N','OW_P53_MSCI美国房地产投资信托指数｜指数','OW_P53_住房抵押贷款申请｜指数','OW_P53_成屋销售｜百万套','OW_P53_MBS与5Y10Y利差｜bp','OW_P53_30年美债收益率｜%','OW_P53_BAA信用利差｜bp','OW_P54_KBW区域性银行指数｜指数','OW_P54_美国商业地产贷款总额｜十亿美元']);</script>
+</div>
+<div class="panel" id="p-inv">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">企业投资与AI资本开支 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 短期是需求，中期是供给（生产率）</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>分析框架</b>：三分项设备(周期)/知识产权(趋势)/厂房(政策与长波)·传统四因子(需求/利润/资金成本/不确定性)·本轮特殊性=AI相关投资对利率与不确定性钝感 → <b>官方数据</b>：核心资本品订单/出货(最佳月频代理)·建造支出·GDP投资贡献拆解(研发资本化) → <b>微观与第三方</b>：云厂商capex指引(最前瞻)·台积电月度营收/SEMI/电力落地·NFIB与地区联储调查 → <b>测算口径</b>：进口GPU不计入GDP</div>
+  <p style="font-size:13px;margin:8px 0 10px;">核心资本品订单7月<b>857.2亿美元</b>（环比基本持平，同比仍双位数）——AI资本开支的月频代理仍在高位，是B端叙事最硬的官方证据。新变量：9/16 FOMC声明首次把AI同时写入<b>长端利率解释框架与政策研究议程</b>（广发点评），AI资本开支与利率的关系进入联储官方视野。股价端：英伟达市盈率降至十多年来最低（9/22），"AI真空期"叙事延续。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>核心资本品订单</td><td>857.2亿·环比持平</td><td>7月</td><td>本周（8月值）</td><td><span class="badge b1">L1</span></td></tr><tr><td>产能利用率</td><td>76.27%</td><td>8月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>建造支出·制造/数据中心</td><td>待接入</td><td>月初</td><td>9月初</td><td><span class="badge bg2">灰</span></td></tr><tr><td>云厂商capex指引</td><td>Q2财报季已落地</td><td>季度</td><td>Q3财报季</td><td><span class="badge bc">L3</span></td></tr><tr><td>台积电月度营收</td><td>8月值待公布</td><td>每月10日</td><td>9/10</td><td><span class="badge b2">L2</span></td></tr><tr><td>英伟达估值</td><td>PE降至十多年最低</td><td>09-22</td><td>—</td><td><span class="badge b2">L2</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：本周耐用品/核心资本品订单（8月值）→ Q3财报季capex指引</div>
+</div>
+<div class="cw" id="cw-inv"></div>
+<script>registerChart('cw-inv', ['NEWORDER','TCU','OW_P46_美国领先经济指标同比｜%'], ['NEWORDER','TCU','INDPRO','BUSINV','OW_P46_美国领先经济指标同比｜%','OW_P46_S&P 500指数｜指数','OW_P46_耐用品新订单环比除运输｜%','OW_P46_费城联储制造业调查｜指数','OW_P46_纽约联储制造业调查｜指数','OW_P46_堪萨斯联储制造业调查｜指数','OW_P46_达拉斯联储制造业调查｜指数']);</script>
+</div>
+<div class="panel" id="p-pmi">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">PMI <span style="color:var(--dim);font-size:12px;font-weight:400;">· 占比约11%，贡献大部分周期波动</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>分析框架</b>：库存周期(基钦周期)牛鞭效应·PCA证据(PMI变化与全球多资产共同因子高度相关) → <b>官方硬数据</b>：工业生产与产能利用率·三级库存与库存销售比(补库/去库四象限) → <b>ISM深拆</b>：新订单−自有库存差(领先总指数约3个月)·价格分项(关税传导前哨)·就业分项与供应商交付(两个常见误读)·校准(GDP零增长≈ISM 49而非50) → <b>调查家族</b>：S&P flash(约23日)·地区联储(早约2周) → <b>全球与资产</b>：韩国出口(每月1日)·四象限</div>
+  <p style="font-size:13px;margin:8px 0 10px;">8月ISM制造业<b>54.6</b>（9/1公布，扩张放缓但物价分项<b>71.1高位</b>——通胀黏性的最硬证据，也是9月加息定价的原始推手）；服务业9/3公布。硬数据侧：8月工业产出103.07（环比+0.03%）、产能利用率76.27%、库存销售比1.30（7月）——<b>制造业不冷不热，物价分项是唯一高烧的分项</b>。中国官方制造业PMI 8月49.8，仍在荣枯线下。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>ISM制造业PMI</td><td>54.6（物价71.1高位）</td><td>8月·9/1</td><td>10/1（9月值）★★★★</td><td><span class="badge bg2">灰</span></td></tr><tr><td>ISM服务业PMI</td><td>8月值已公布</td><td>9/3</td><td>10/3（9月值）★★★</td><td><span class="badge bg2">灰</span></td></tr><tr><td>工业产出指数</td><td>103.07·环比+0.03%</td><td>8月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>产能利用率</td><td>76.27%</td><td>8月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>库存销售比</td><td>1.30</td><td>7月</td><td>10月中</td><td><span class="badge b1">L1</span></td></tr><tr><td>韩国出口</td><td>8月值9/1公布</td><td>每月1日</td><td>9/1</td><td><span class="badge b2">L2</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：10/1 ISM制造业9月值——物价分项能否从71高位回落，是油价冲击消退的第一验证点</div>
+</div>
+<div class="cw" id="cw-pmi"></div>
+<script>registerChart('cw-pmi', ['OW_P46_ISM制造业PMI｜指数','OW_P46_ISM新订单｜指数','OW_P46_ISM价格｜指数'], ['INDPRO','MANEMP','TCU','ISRATIO','BUSINV','OW_P46_ISM制造业PMI｜指数','OW_P46_ISM生产｜指数','OW_P46_ISM新订单｜指数','OW_P46_ISM库存｜指数','OW_P46_ISM价格｜指数']);</script>
+</div>
+<div class="panel" id="p-fisc">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">财政与国债市场 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 钱袋权在国会，财政部只是出纳</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>立法流程</b>：永动机(必要支出+税收=参数)/合同工(非必要支出,年度清零)/CR与关门 → <b>收支特征</b>：收入=个税半壁+payroll+企业税+关税；净利息已超国防 → <b>财政立场三看</b>：长期看"协调"·中期看"经济"(失业率+1pp≈赤字率+1pp)·短期看"拨款" → <b>国债市场</b>：发行哲学regular&predictable(久期锚约60个月)·拍卖三件套(覆盖率/间接投标/尾部)·久期供给→期限溢价 → <b>数据体系</b>：DTS(日)→MTS(月)→CBO→QRA("第五次FOMC")→拍卖检验</div>
+  <p style="font-size:13px;margin:8px 0 10px;">9/16 FOMC后长端再上一台阶：10Y盘中<b>触及5.03%（2007年以来首次）</b>、30Y <b>5.34%</b>（9/18）——"债市失序线"4.90%已上破并高位运行，0902体系A端触发确认。曲线熊平：2Y周内+11bp（4.76%）而10Y持平（4.96%），10Y-2Y收窄至20bp——典型政策驱动型平坦化。<b>10月QRA</b>（季度再融资）是下一个"第五次FOMC"。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>10Y实际利率（TIPS）</td><td>2.62%·A端确认线2.45%已上破17bp</td><td>FRED 09-21</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>美债30Y</td><td>5.34%</td><td>FRED 09-18</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>美债10Y</td><td>4.96%</td><td>FRED 09-21</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>10Y-2Y利差</td><td>20bp·周内-12bp熊平</td><td>FRED 09-21</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>TGA财政部现金余额</td><td>约9917亿美元</td><td>财政部DTS 09-16</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>财政赤字MTS</td><td>7月值待核</td><td>月中</td><td>9月中</td><td><span class="badge bg2">灰</span></td></tr><tr><td>QRA季度再融资</td><td>下期10月底</td><td>季度</td><td>10月</td><td><span class="badge b1">L1</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：9月拍卖检验（覆盖率/间接/尾部）在5%上方的承接力 → 10月QRA久期结构</div>
+  <table style="margin-top:10px;"><tr><th colspan="6">债市周度快照（9/18–9/21收盘，L1官方）</th></tr>
+  <tr><th>品种</th><th style="text-align:right">收益率</th><th style="text-align:right">周变动</th><th>品种</th><th style="text-align:right">收益率</th><th style="text-align:right">周变动</th></tr>
+  <tr><td>美债2Y</td><td style="text-align:right">4.76%</td><td style="text-align:right" class="up">+11bp</td><td>美债30Y</td><td style="text-align:right">5.34%</td><td style="text-align:right">持平</td></tr>
+  <tr><td>美债10Y</td><td style="text-align:right">4.96%</td><td style="text-align:right">-1bp</td><td>10Y TIPS</td><td style="text-align:right">2.62%</td><td style="text-align:right" class="up">+2bp</td></tr>
+  <tr><td>10Y-2Y</td><td style="text-align:right">20bp</td><td style="text-align:right" class="up">-12bp</td><td>10Y盈亏平衡</td><td style="text-align:right">2.34%</td><td style="text-align:right" class="dn">-3bp</td></tr>
+  <tr><td>日债10Y</td><td style="text-align:right">2.94%</td><td style="text-align:right" class="up">月度·近期波动加大</td><td>德债/英债/意债10Y</td><td style="text-align:right" colspan="2" style="text-align:center;color:var(--dim)">终端快照待新一期替换</td></tr></table>
+  <div style="font-size:11px;color:var(--dim);margin-top:6px;">曲线形态：2Y周+11bp、长端横盘，10Y-2Y利差收窄12bp至20bp——政策驱动型熊平，与9/16加息+"年内再加息一次"点阵图一致。10Y盘中曾触及5.03%（2007年以来首次），现回落至4.96%。</div>
+</div>
+<div class="cw" id="cw-fisc"></div>
+<script>registerChart('cw-fisc', ['DGS10','DGS30','T10Y2Y','OW_P16_美国中长期国债发行量｜十亿美元'], ['DGS10','DGS30','DGS2','T10Y2Y','DFII10','ACMTP10','WDTGAL','US_AUC_10Y_BTC','US_AUC_30Y_BTC','US_AUC_2Y_BTC','JP_UST_HOLD','CN_UST_HOLD','UK_UST_HOLD','FO_UST_HOLD','OW_P13_3个月美债收益率｜%','OW_P13_2年美债收益率｜%','OW_P13_10年美债收益率｜%','OW_P13_30年美债收益率｜%','OW_P13_10年期TIPS收益率｜%','OW_P13_10年期德债收益率｜%','OW_P13_10年期英债收益率｜%','OW_P13_10年期日债收益率｜%','OW_P13_10年期意大利债收益率｜%','OW_P13_10年期西班牙债收益率｜%','OW_P13_彭博全球国债集合指数｜指数','OW_P14_30年-5年美债利差｜bp','OW_P14_5年美债收益率｜%','OW_P14_10年期希腊债收益率｜%','OW_P15_Aaa级ETF｜价格','OW_P15_高收益ETF｜价格','OW_P15_高收益率债信用利差｜%','OW_P15_MBS与5/10年国债收益率利差｜bp','OW_P16_美国周度国库券发行量｜十亿美元','OW_P16_美国中长期国债发行量｜十亿美元','OW_P16_10年期国债投标认购比例｜倍','OW_P40_健康支出｜十亿美元','OW_P40_美国政府未偿还债务总额｜十亿美元','OW_P40_美国短期国库券净发行｜十亿美元','OW_P40_美国中期国债净发行｜十亿美元','OW_P40_美国长期国债净发行｜十亿美元']);</script>
+</div>
+<div class="panel" id="p-fed">
+<div class="card">
+  <div style="font-size:16px;font-weight:700;color:#fff;">美联储与金融条件 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 从反应函数到政策的市场落点</span></div>
+  <div class="roadmap" style="margin-top:8px;"><b>制度框架</b>：双重使命与反应函数·FOMC构成与投票轮换·决策产品时序(声明→记者会→SEP→纪要→讲话) → <b>政策工具箱</b>：利率走廊IORB/ON RRP/SRF·EFFR与SOFR位置·资产负债表QE/QT与负债端三件套(准备金/ON RRP/TGA)·准备金"充足"判别 → <b>解读文本</b>：声明逐句比较·SEP/点阵图·纪要量词体系 → <b>市场定价</b>：FF期货/OIS加降息概率(见总览FedWatch表) → <b>金融条件</b>：曲线/信用利差/美元/股权·FCI·反身性</div>
+  <p style="font-size:13px;margin:8px 0 10px;"><b>9/16 FOMC加息25bp至3.75–4.00%（12:0全票通过）——2023年7月以来首次加息</b>，沃什任内首次行动，也是2024年9月降息周期以来政策方向的首次逆转。SEP偏鹰：下调失业率、上调通胀预测；点阵图中位数4.1%（较6月+30bp），对应<b>年内再加息一次并维持至2027年</b>——19位官员中16位预计2026年至少再加息一次。沃什称加息目的是"撤除一部分宽松"而非"增强限制"。会后市场进一步定价紧缩：FedWatch 10/28再加息概率53.1%、12/9达88.1%。负债端四件套：准备金<b>3.01万亿</b>（9/16，重回3万亿上方）、ON RRP <b>5.8亿</b>（缓冲垫耗尽）、TGA约<b>9917亿</b>（9/16）、总资产6.75万亿——QT与充裕准备金框架并存，货币市场利率平静（SOFR-IORB -5bp）。金融条件：VIX 14.81、MOVE 81.2——<b>股市已收复FOMC跌幅（标普周+1.9%），紧缩仍未传导为risk-off</b>，反身性循环延续。</p>
+  <table><tr><th>数据</th><th>最新值</th><th>数据日</th><th>下次发布</th><th>来源</th></tr><tr><td>联邦基金目标区间</td><td>3.75–4.00%（9/16加息25bp）</td><td>9/16议息·12:0</td><td>10/28 ★★★★★</td><td><span class="badge b1">L1</span></td></tr><tr><td>10月再加息概率(FedWatch)</td><td>53.1%</td><td>09-22 17:19</td><td>日度</td><td><span class="badge b2">L2</span></td></tr><tr><td>EFFR</td><td>3.88%</td><td>FRED 09-18</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>SOFR</td><td>3.85%</td><td>FRED 09-18</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>ON RRP用量</td><td>5.8亿美元·缓冲垫耗尽</td><td>FRED 09-21</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>银行准备金余额</td><td>3.01万亿美元</td><td>FRED 09-16·周度</td><td>周四</td><td><span class="badge b1">L1</span></td></tr><tr><td>美联储总资产</td><td>6.75万亿美元</td><td>FRED 09-16·周度</td><td>周四</td><td><span class="badge b1">L1</span></td></tr><tr><td>TGA财政部现金</td><td>约9917亿美元</td><td>财政部DTS 09-16·日度</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>VIX</td><td>14.81</td><td>FRED 09-18</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>高收益债OAS</td><td>0.94%</td><td>日报快照 09-18</td><td>日度</td><td><span class="badge b1">L1</span></td></tr><tr><td>12月再加息概率(FedWatch)</td><td>88.1%</td><td>09-22 17:19</td><td>日度</td><td><span class="badge">L3</span></td></tr><tr><td>MM AI声明稿鹰鸽指数</td><td>9/16声明鹰派定调（"通胀仍高""撤除宽松"）</td><td>09-16声明</td><td>10/28 FOMC</td><td><span class="badge">L3</span></td></tr></table>
+  <div style="font-size:12px;color:var(--dim);margin-top:8px;">▸ 下周关注：9/26 PCE → 10/2非农 → 10/28 FOMC：点阵图"年内再加息一次"与市场定价（10月53%/12月88%）能否兑现，取决于油价回落能否兑现为通胀环比放缓。9/16后美股、黄金已收复跌幅——<b>市场在用"油价跌+增长强"对冲"利率高"，若10月真加息，二次冲击在所难免</b>。通胀扩散度参考：PCE篮子199分项中同比涨幅&gt;3%的占比54%（L3·终端快照 2026-08-30，新一期待替换）</div>
+</div>
+<div class="cw" id="cw-fed"></div>
+<script>registerChart('cw-fed', ['EFFR','SOFR'], ['EFFR','SOFR','RRPONTSYD','WTREGEN','WALCL','TGA','WDTGAL','VIXCLS','BAMLC0A4CBBB','BAMLC0A1CAAA','BAMLH0A0HYM2EY','T10Y3M','DGS2','M1SL','OBFR','MMMFFAQ027S','SPR_SOFR99_ONRRP']);</script>
+</div>
+<div class="panel" id="p-liq">
+  <div style="font-size:16px;font-weight:700;color:#fff;">流动性 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 利率管道 + 数量双维 · 压力分位与阶段判定</span></div>
+  <div class="card" id="liqSum" style="margin-top:10px;"><p style="font-size:13px;color:var(--dim)">流动性总览加载中…</p></div>
+  <div class="cw" id="cw-liq1"></div>
+  <script>registerChart('cw-liq1', ['SOFR','EFFR','RRPONTSYAWARD'], ['SOFR','SOFR99','TGCRRATE','OBFR','EFFR','IORB','RRPONTSYAWARD','DCPF1M','SPR_SOFR_IORB','SPR_TGCR_IORB','SPR_SOFR_EFFR','SPR_SOFR99','SPR_SOFR_ONRRP','SPR_CP_SOFR','SPR_SOFR99_ONRRP','SPR_TGCR_ONRRP','LIQ_SRF','OW_P39_美国政策利率｜%','OW_P39_SOFR｜%','OW_P39_有效联邦基金利率｜%','OW_P25_SOFR隔夜利率｜%']);</script>
+  <div class="cw" id="cw-liq2"></div>
+  <script>registerChart('cw-liq2', ['WALCL','WRESBAL','RRPONTSYD','OW_P39_美联储总资产｜百万美元'], ['WALCL','WRESBAL','RRPONTSYD','WDTGAL','WTREGEN','NETLIQ','WREPOFOR','SWPT','M2SL','M1SL','MMMFFAQ027S','LIQ_EZM3','LIQ_CNM2','CA_M2','ECBASSETSW','JPNASSETS','GM2_YOY','M2SL_YOY','LIQ_CNM2_YOY','OW_P38_美联储资产负债表｜百万美元','OW_P39_彭博大宗商品指数｜指数','OW_P39_美联储总资产｜百万美元']);</script>
+  <script>
+  fetch('../data/liquidity.json').then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(!j)return;
+    var st=j.stress||{}, rg=j.regime||{};
+    document.getElementById('liqSum').innerHTML='<p style="font-size:13px;"><b style="color:var(--gold)">流动性总览</b>（更新 '+j.updated+' · 数据截至 '+j.asof+'）<br>综合压力分位 <b style="color:var(--gold)">'+(st.value!=null?st.value:'—')+'/100</b>（'+(st.n_comp||0)+'项分量等权）· 缩表阶段 <b style="color:var(--gold)">'+(rg.stage!=null?rg.stage:'—')+'</b>（ON RRP '+(rg.onrrp_bn!=null?rg.onrrp_bn.toFixed(2):'—')+'十亿$）· 信号：'+((j.buy_signal||j.funding_alert)?((j.buy_signal?'广义冲击买入窗口 ':'')+(j.funding_alert?'融资压力警报':'')):'无')+'</p>';
+  }).catch(function(){});
+  </script>
+</div>
+<div class="panel" id="p-cn">
+  <div style="font-size:16px;font-weight:700;color:#fff;">中国宏观 <span style="color:var(--dim);font-size:12px;font-weight:400;">· 活动数据 + 利率曲线 + 中美利差</span></div>
+  <div class="card" style="margin-top:10px;"><p style="font-size:13px;">活动面：PMI/CPI/PPI/GDP/社零/信贷（统计局·PBOC口径，经东财中转标L3）；价格面：LPR/SHIBOR（chinamoney标L1）与国债曲线2Y-30Y（中债口径标L3）；中美10Y利差为自建衍生（⚙️）。</p></div>
+  <div class="cw" id="cw-cn1"></div>
+  <script>registerChart('cw-cn1', ['EM_PMI','EM_PMI_NM'], ['EM_PMI','EM_PMI_NM','EM_CPI_YOY','EM_PPI_YOY','EM_GDP_YOY','EM_RETAIL_YOY','EM_LOAN_NEW','EM_LOAN_ACC_YOY','LIQ_CNM2_YOY','LIQ_CNM1_YOY']);</script>
+  <div class="cw" id="cw-cn2"></div>
+  <script>registerChart('cw-cn2', ['EM_CGB10Y','SPR_USCN10Y','OW_P29_在岸人民币即期｜汇率'], ['EM_CGB2Y','EM_CGB5Y','EM_CGB10Y','EM_CGB30Y','CN_LPR1Y','CN_LPR5Y','CN_SHIBOR3M','CN_SHIBORON','DGS10','SPR_USCN10Y','DEXCHUS','OW_P27_黄金持有量｜百万盎司','OW_P27_外汇持有量｜百万美元','OW_P27_中国贸易出口总额同比｜%','OW_P27_中国贸易进口总额同比｜%','OW_P28_中国3个月国债收益率｜%','OW_P28_中国10年期国债收益率｜%','OW_P29_在岸人民币即期｜汇率','OW_P29_离岸人民币即期｜汇率','OW_P49_中国出口同比｜%']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">国内高频数据周度跟踪</b>（L3·第三方终端周报快照 2026-08-30——新一期快照待替换，数值为8月末读数）：</p>
+  <table style="font-size:12px;">
+    <tr><th>链条</th><th>指标</th><th style="text-align:right">最新读数</th><th style="text-align:right">前期/环比</th><th>方向</th></tr>
+    <tr><td style="color:var(--dim)">消费·乘联车</td><td>乘用车零售4WMA同比</td><td style="text-align:right" class="dn">-24.3%</td><td style="text-align:right">前 -22.7%</td><td class="dn">走弱</td></tr>
+    <tr><td style="color:var(--dim)">消费·乘联车</td><td>乘用车批发同比</td><td style="text-align:right" class="dn">-0.8%</td><td style="text-align:right">—</td><td class="dn">走弱</td></tr>
+    <tr><td style="color:var(--dim)">消费·纺服</td><td>轻纺城成交量同比</td><td style="text-align:right" class="up">+33.3%</td><td style="text-align:right">—</td><td class="up">改善</td></tr>
+    <tr><td style="color:var(--dim)">出行·城内</td><td>18城地铁客运量同比</td><td style="text-align:right" class="up">+3.4%</td><td style="text-align:right">—</td><td class="up">平稳</td></tr>
+    <tr><td style="color:var(--dim)">出行·跨城</td><td>百度迁徙指数环比</td><td style="text-align:right" class="dn">-4.3%</td><td style="text-align:right">—</td><td class="dn">回落</td></tr>
+    <tr><td style="color:var(--dim)">出行·航空</td><td>航班执飞同比</td><td style="text-align:right" class="up">+2.8%</td><td style="text-align:right">—</td><td class="up">平稳</td></tr>
+    <tr><td style="color:var(--dim)">服务消费</td><td>观影人次/票房同比</td><td style="text-align:right" class="dn">转负</td><td style="text-align:right">—</td><td class="dn">走弱</td></tr>
+    <tr><td style="color:var(--dim)">服务消费·乐园</td><td>环球影城客流同比 / 迪士尼</td><td style="text-align:right"><span class="up">+22.9%</span> / <span class="dn">-27.5%</span></td><td style="text-align:right">—</td><td class="flat">分化</td></tr>
+    <tr><td style="color:var(--dim)">财政·基建</td><td>专项债累计发行(截至8/29)</td><td style="text-align:right">2.93万亿</td><td style="text-align:right">—</td><td class="flat">推进</td></tr>
+    <tr><td style="color:var(--dim)">基建订单</td><td>中国建筑基建新签合同7月同比</td><td style="text-align:right" class="up">+12.2%</td><td style="text-align:right">前 -12.1%</td><td class="up">转正</td></tr>
+    <tr><td style="color:var(--dim)">地产·新房</td><td>30城商品房成交同比</td><td style="text-align:right" class="dn">-8.7%</td><td style="text-align:right">前 -5.6%</td><td class="dn">走弱</td></tr>
+    <tr><td style="color:var(--dim)">地产·二手</td><td>14城二手房成交同比</td><td style="text-align:right" class="dn">-2.7%</td><td style="text-align:right">前 +0.4%</td><td class="dn">转负</td></tr>
+    <tr><td style="color:var(--dim)">地产·土地</td><td>100城土地成交同比</td><td style="text-align:right" class="dn">-18.5%</td><td style="text-align:right">—</td><td class="dn">走弱</td></tr>
+    <tr><td style="color:var(--dim)">地产·价格</td><td>二手房挂牌价同比</td><td style="text-align:right" class="dn">-7.8%</td><td style="text-align:right">—</td><td class="dn">下行</td></tr>
+    <tr><td style="color:var(--dim)">生产·基建链</td><td>沥青开工率同比 / 水泥出货 / 建筑钢材成交</td><td style="text-align:right" class="dn">-26.3% / -5.4% / -7.9%</td><td style="text-align:right">—</td><td class="dn">偏弱</td></tr>
+    <tr><td style="color:var(--dim)">生产·景气</td><td>Markit制造业PMI</td><td style="text-align:right">53.2</td><td style="text-align:right">前 53.9</td><td class="dn">回落</td></tr>
+    <tr><td style="color:var(--dim)">外贸</td><td>港口出境船舶数量同比</td><td style="text-align:right" class="dn">-13.1%</td><td style="text-align:right">—</td><td class="dn">走弱</td></tr>
+    <tr><td style="color:var(--dim)">生产·能源</td><td>25省日耗煤</td><td style="text-align:right" class="dn">615.8万吨 · -1.8%</td><td style="text-align:right">—</td><td class="dn">偏弱</td></tr>
+    <tr><td style="color:var(--dim)">生产·开工</td><td>焦化 / 高炉 / 螺纹钢产量同比</td><td style="text-align:right"><span class="dn">-12.0%</span> / <span class="up">+2.4%</span> / <span class="dn">-17.2%</span></td><td style="text-align:right">—</td><td class="flat">分化</td></tr>
+    <tr><td style="color:var(--dim)">生产·化工</td><td>PTA / PVC / 纯碱开工同比</td><td style="text-align:right" class="dn">-13.5% / -9.3% / -2.5%</td><td style="text-align:right">—</td><td class="dn">偏弱</td></tr>
+    <tr><td style="color:var(--dim)">生产·汽车链</td><td>半钢胎开工率同比</td><td style="text-align:right" class="dn">-10.7%</td><td style="text-align:right">—</td><td class="dn">偏弱</td></tr>
+    <tr><td style="color:var(--dim)">库存</td><td>秦港煤炭库存 / 钢材社库同比</td><td style="text-align:right" class="up">+9.0% / +13.2%</td><td style="text-align:right">—</td><td class="dn">累积</td></tr>
+    <tr><td style="color:var(--dim)">价格·消费</td><td>iCPI同比 / 猪肉批发 / 鸡蛋</td><td style="text-align:right"><span class="up">+10.1%</span> / <span class="dn">-18.6%</span> / <span class="up">+42.3%</span></td><td style="text-align:right">—</td><td class="flat">分化</td></tr>
+    <tr><td style="color:var(--dim)">大宗·国内</td><td>南华综合周环比 / 贵金属 / 螺纹 / 碳酸锂</td><td style="text-align:right" class="up">+1.0% / +4.1% / +1.8% / +1.9%</td><td style="text-align:right">—</td><td class="up">回暖</td></tr>
+    <tr><td style="color:var(--dim)">大宗·海外</td><td>布油 / WTI / 铜周环比</td><td style="text-align:right"><span class="dn">-3.1%</span> / <span class="dn">-2.9%</span> / <span class="up">+0.8%</span></td><td style="text-align:right">—</td><td class="flat">油弱铜稳</td></tr>
+    <tr><td style="color:var(--dim)">货币·资金</td><td>R007 / DR007</td><td style="text-align:right">1.41% / 1.39%</td><td style="text-align:right">-3bp / -5bp</td><td class="up">宽松</td></tr>
+    <tr><td style="color:var(--dim)">货币·投放</td><td>OMO单周净投放</td><td style="text-align:right" class="up">13265亿</td><td style="text-align:right">—</td><td class="up">呵护</td></tr>
+    <tr><td style="color:var(--dim)">债券</td><td>10Y国债 / 1Y国债</td><td style="text-align:right">1.69% / 1.21%</td><td style="text-align:right">+1bp / —</td><td class="flat">窄幅</td></tr>
+  </table>
+  <div style="font-size:10.5px;color:var(--dim);margin-top:6px;">注：同比除注明外均为最新周度读数；"前"=上一周度读数。方向列为相对前期的边际变化判断，非评级。整体指向：内需（车/房/服务）仍待振，基建链开工弱、资金面对冲呵护。</div>
+  </div>
+</div>
+<div class="panel" id="p-fw">
+  <div style="font-size:16px;font-weight:700;color:#fff;">资金·仓位·估值 <span style="color:var(--dim);font-size:12px;font-weight:400;">· L3·第三方终端EDB快照(2026-08-24，新一期待替换) · 宏观因子 / 资金面 / CFTC仓位 / 波动与相关 / 股债性价比 / 相对表现</span></div>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">全球宏观因子</b>：增长、通胀、流动性、法币信用、风险偏好、AI科技六大因子水平（归一化，上行为因子走强）；同比序列与因子收益分解见选项。</p></div>
+  <div class="cw" id="cw-factors"></div>
+  <script>registerChart('cw-factors', ['HT_asset_全球宏观因子_全球宏观因子序列_增长','HT_asset_全球宏观因子_全球宏观因子序列_通胀','HT_asset_全球宏观因子_全球宏观因子序列_流动性'], ['HT_asset_全球宏观因子_全球宏观因子序列_增长','HT_asset_全球宏观因子_全球宏观因子序列_通胀','HT_asset_全球宏观因子_全球宏观因子序列_流动性','HT_asset_全球宏观因子_全球宏观因子序列_法币信用','HT_asset_全球宏观因子_全球宏观因子序列_风险偏好','HT_asset_全球宏观因子_全球宏观因子序列_AI科技','HT_asset_全球宏观因子_增长、通胀与流动性因子同比序列_增长','HT_asset_全球宏观因子_增长、通胀与流动性因子同比序列_通胀','HT_asset_全球宏观因子_增长、通胀与流动性因子同比序列_流动性']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">中美周期象限</b>：信贷脉冲（中/美）、A股与美股EPS增速、库存周期（美国实际库存/销售、中国产成品存货）。</p></div>
+  <div class="cw" id="cw-quadrant"></div>
+  <script>registerChart('cw-quadrant', ['HT_asset_中美宏观象限_中国信贷脉冲_中国信贷脉冲:同比','HT_asset_中美宏观象限_美国信贷脉冲_美国信贷脉冲'], ['HT_asset_中美宏观象限_中国信贷脉冲_中国信贷脉冲:同比','HT_asset_中美宏观象限_中国广义信贷脉冲_中国广义信贷脉冲:同比','HT_asset_中美宏观象限_美国信贷脉冲_美国信贷脉冲','HT_asset_中美宏观象限_盈利-流动性周期（中国）_A股EPS增速','HT_asset_中美宏观象限_盈利-流动性周期（美国）_美股EPS增速','HT_asset_中美宏观象限_库存周期-美国-实际_美国实际库存:同比','HT_asset_中美宏观象限_库存周期-美国-实际_美国实际销售:同比','HT_asset_中美宏观象限_库存周期-中国-PPI_中国工业企业产成品存货:同比']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">资金面</b>：海外主/被动基金流入A股、南向资金、全球资金净流（3M滚动）、A股融资余额、新成立偏股基金份额。</p></div>
+  <div class="cw" id="cw-flows"></div>
+  <script>registerChart('cw-flows', ['HT_asset_全球资金_南向资金（10D_MA）','HT_asset_国内股市资金_融资余额_融资余额'], ['HT_asset_全球资金_A股净流入_海外主动性基金流入','HT_asset_全球资金_A股净流入_海外被动型基金流入','HT_asset_全球资金_港股净流入_南向资金流入','HT_asset_全球资金_南向资金（10D_MA）','HT_asset_全球资金_南向成交额占港交所主板证券成交额比例（30D_MA）','HT_asset_全球资金_全球资金净流量（滚动3M求和，市场划分）_美国','HT_asset_全球资金_全球资金净流量（滚动3M求和，市场划分）_中国','HT_asset_国内股市资金_融资余额_融资余额','HT_asset_国内股市资金_新成立公募基金份额_中国:新成立基金份额:偏股型']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">CFTC仓位</b>：非商业多头净持仓（张）。美债空头拥挤（超长债/10Y净空头处于高位），黄金净多头高位。</p></div>
+  <div class="cw" id="cw-position"></div>
+  <script>registerChart('cw-position', ['HT_asset_仓位_超长债-非商业_非商业多头净持仓','HT_asset_仓位_COMEX黄金-非商业_非商业多头净持仓'], ['HT_asset_仓位_超长债-非商业_非商业多头净持仓','HT_asset_仓位_10Y美债-非商业_非商业多头净持仓','HT_asset_仓位_美元指数-非商业_非商业多头净持仓','HT_asset_仓位_COMEX黄金-非商业_非商业多头净持仓','HT_asset_仓位_LME铜-非商业_非商业多头净持仓','HT_asset_仓位_WTI原油-非商业_非商业多头净持仓','HT_asset_仓位_IPE原油-非商业_非商业多头净持仓']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">波动率与相关性</b>：300/50隐含波动率、原油与沪金IV、USDCNY期权IV；中美股债相关性（周度）、实际利率-黄金相关性。</p></div>
+  <div class="cw" id="cw-vol"></div>
+  <script>registerChart('cw-vol', ['HT_mktstruct_波动率_沪深300波动率_300IV','HT_mktstruct_波动率_上证50波动率_50IV'], ['HT_mktstruct_波动率_沪深300波动率_300IV','HT_mktstruct_波动率_上证50波动率_50IV','HT_mktstruct_波动率_原油主力平值IV','HT_mktstruct_波动率_黄金波动率_沪金主连平值IV','HT_mktstruct_波动率_人民币汇率波动率_USDCNY外汇期权隐含波动率','HT_mktstruct_相关性_中国股债_周度','HT_mktstruct_相关性_美国股债_周度','HT_mktstruct_相关性_美债实际利率与黄金_周度']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">股债性价比与ERP</b>：股债相对回报率对5年滚动中位数的偏离、沪深300股息率/PE倒数与国债国开利差、中美股市ERP对比。</p></div>
+  <div class="cw" id="cw-cnbond"></div>
+  <script>registerChart('cw-cnbond', ['HT_mktstruct_国内债市估值_股债性价比指标_股债相对回报率','HT_mktstruct_国内债市估值_股债性价比指标_5年滚动中位数'], ['HT_mktstruct_国内债市估值_国债期限利差_10年-1年','HT_mktstruct_国内债市估值_股债性价比指标_股债相对回报率','HT_mktstruct_国内债市估值_股债性价比指标_5年滚动中位数','HT_mktstruct_国内债市估值_国债收益率与沪深300股息率_利差','HT_mktstruct_国内债市估值_国开债收益率与沪深300PE倒数_利差','HT_mktstruct_国内债市估值_股市PE(LYR)估值_PE(全A非金融石化)','HT_mktstruct_全球股市估值_全球股市ERP_中国','HT_mktstruct_全球股市估值_全球股市ERP_美国']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">资产相对表现</b>：发达/新兴、新兴/中国、A/H、价值/成长、大小盘、金银比、铜金比、铜油比（归一化比值，下行为分子跑赢）。</p></div>
+  <div class="cw" id="cw-relperf"></div>
+  <script>registerChart('cw-relperf', ['HT_perf_资产表现-资产相对表现_金银_金银比','HT_perf_资产表现-资产相对表现_AH溢价指数_恒生AH股溢价指数'], ['HT_perf_资产表现-资产相对表现_发达VS新兴市场经济体_发达市场/新兴市场','HT_perf_资产表现-资产相对表现_新兴市场VS中国_新兴市场/中国','HT_perf_资产表现-资产相对表现_A股VS港股_A股/港股','HT_perf_资产表现-资产相对表现_AH溢价指数_恒生AH股溢价指数','HT_perf_资产表现-资产相对表现_价值VS成长_价值/成长','HT_perf_资产表现-资产相对表现_大盘VS小盘_大盘/小盘','HT_perf_资产表现-资产相对表现_金银_金银比','HT_perf_资产表现-资产相对表现_铜金_铜金比','HT_perf_资产表现-资产相对表现_铜油_铜油比']);</script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">美股ETF周度流向</b>（L3·第三方终端周报快照 2026-08-30，新一期待替换）：股票ETF周净流入 <b class="up">+138.8亿美元</b>、债券ETF <b class="up">+21.4亿美元</b>；结构：VOO +156.4亿 / IVV -104.6亿 / SPDR黄金 +27.2亿——Q3以来ETF流向从科技抱团向传统行业扩散。
+  <span style="color:var(--dim);font-size:12px;">🗣市场叙事（中性转述，不代表本框架观点）：英伟达营收增速仍超100%、利润率坚挺，但AI扩散范围有限（Token价格与B/H卡租赁价6月以来回落，产业进入"真空期"观察窗）；A股前5%个股成交集中度偏高、轮动加快，"以时间换空间"；关注恒生科技/创新药/红利/有色方向的叙事热度。</span></p></div>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">大类资产周表现快照</b>（L3·第三方终端EDB快照 2026-08-24，新一期待替换；本周L1/L2变动见总览）：</p><div id="fwSnap"></div></div>
+  <script>
+  (function(){
+    function pct(v){return v==null?'<span style="color:var(--dim)">—</span>':'<span style="color:'+(v>0?'var(--up)':v<0?'var(--dn)':'var(--dim)')+'">'+(v*100).toFixed(1)+'%</span>';}
+    function chg(v,bp){if(v==null)return '<span style="color:var(--dim)">—</span>';return '<span style="color:'+(v>0?'var(--up)':v<0?'var(--dn)':'var(--dim)')+'">'+(bp?((v>0?'+':'')+v.toFixed(1)+'bp'):((v*100).toFixed(1)+'%'))+'</span>';}
+    function num(v){return v==null?'—':(+v).toLocaleString('zh-CN',{maximumFractionDigits:2});}
+    fetch('../data/cs_snapshot.json').then(function(r){return r.ok?r.json():null;}).then(function(S){
+      if(!S)return; var ap=S.tables.asset_perf;
+      var h='<table style="width:100%;border-collapse:collapse;font-size:12px;"><tr><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">类别</th><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">名称</th><th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">最新</th><th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">上周</th><th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">本月</th><th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">YTD</th><th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line);color:var(--dim)">3年分位</th></tr>';
+      var lc='';
+      ap.items.forEach(function(it){
+        var cat=(it.cat+(it.sub?'·'+it.sub:''));
+        var bp=it.cat.indexOf('债券')===0;
+        h+='<tr><td style="padding:3px 6px;color:var(--dim)">'+(cat===lc?'':cat)+'</td><td style="padding:3px 6px">'+it.name+'</td><td style="padding:3px 6px;text-align:right">'+num(it.last)+'</td><td style="padding:3px 6px;text-align:right">'+chg(it.w1,bp)+'</td><td style="padding:3px 6px;text-align:right">'+chg(it.m1,bp)+'</td><td style="padding:3px 6px;text-align:right">'+chg(it.ytd,bp)+'</td><td style="padding:3px 6px;text-align:right;color:var(--dim)">'+(it.pct3y==null?'—':(it.pct3y*100).toFixed(0)+'%')+'</td></tr>';
+        lc=cat;
+      });
+      h+='</table><div style="color:var(--dim);font-size:10.5px;margin-top:2px">注：债券类（利率/利差）行变动单位为bp，其余为百分比</div>';
+      document.getElementById('fwSnap').innerHTML=h;
+    }).catch(function(){});
+  })();
+  </script>
+  <div class="card"><p style="font-size:13px;"><b style="color:var(--gold)">终端周报库 · 扩展图表</b>（L3·第三方终端EDB快照 2026-08-09，新一期待替换）：全球股指估值(远期PE/EPS)、美股板块估值、VIX/MOVE、大宗比价与商品高频、加密资产、日元Carry、供应链、欧元区周期。点选叠加查看。</p></div>
+  <div class="cw" id="cw-ow"></div>
+  <script>registerChart('cw-ow', ['OW_P18_标普500远期PE｜倍','OW_P18_恒生指数远期PE｜倍','OW_P18_沪深300远期PE｜倍','OW_P22_VIX｜指数'], ['OW_P07_布伦特主力合约｜美元/桶','OW_P08_ACM 10年期美债期限溢价｜%','OW_P08_10年期通胀预期｜%','OW_P08_非农就业月度增幅｜千人','OW_P08_美元指数｜指数','OW_P18_标普500远期PE｜倍','OW_P18_纳斯达克综合远期PE｜倍','OW_P18_道琼斯工业平均远期PE｜倍','OW_P18_欧洲Stoxx600远期PE｜倍','OW_P18_日经225远期PE｜倍','OW_P18_MSCI新兴市场远期PE｜倍','OW_P18_恒生指数远期PE｜倍','OW_P18_沪深300远期PE｜倍','OW_P18_MSCI全球远期PE｜倍','OW_P18_标普500 Best EPS｜指数点','OW_P18_纳斯达克综合 Best EPS｜指数点','OW_P18_恒生指数 Best EPS｜指数点','OW_P18_沪深300 Best EPS｜指数点','OW_P19_信息技术 Best PE｜倍','OW_P19_能源 Best PE｜倍','OW_P19_金融 Best PE｜倍','OW_P19_可选消费 Best PE｜倍','OW_P19_医疗保健 Best PE｜倍','OW_P20_信息技术 现价PE｜倍','OW_P20_能源 现价PE｜倍','OW_P22_VIX｜指数','OW_P22_MOVE｜指数','OW_P22_S&P 500价格｜指数','OW_P25_美元指数｜指数','OW_P25_2年美债收益率｜%','OW_P25_2年德债收益率｜%','OW_P31_伦敦金现｜美元/盎司','OW_P31_伦敦银现｜美元/盎司','OW_P31_10年期通胀预期｜%','OW_P31_LME铜｜美元/吨','OW_P31_布伦特原油｜美元/桶','OW_P31_塑料｜元/吨','OW_P32_彭博大宗商品指数｜指数','OW_P32_MSCI全球指数｜指数','OW_P32_高盛美国周期指数｜指数','OW_P32_伦敦金｜美元/盎司','OW_P32_LME铜｜美元/吨','OW_P33_OPEC+原油总产量配额｜千桶/日','OW_P33_美国能源部原油总产量｜千桶/日','OW_P33_原油库存DOE除战略储备｜千桶','OW_P33_上期所铜可交割库存｜吨','OW_P33_黄金ETF资金流量｜百万美元','OW_P33_标普ETF资金流量｜百万美元','OW_P34_比特币｜美元','OW_P34_以太坊｜美元','OW_P34_IBIT资金流｜百万美元','OW_P34_MicroStrategy｜美元','OW_P35_美元-日元Carry回报指数｜指数','OW_P35_日元｜汇率','OW_P35_日经225指数｜指数','OW_P35_日本1年期国债收益率｜%','OW_P48_标普500市盈率｜倍','OW_P48_高收益债-10年期信用利差｜%','OW_P52_波罗的海干散货指数｜指数','OW_P52_美联储全球供应链压力指数｜指数','OW_P55_欧元区基准利率｜%','OW_P55_欧元区GDP同比｜%','OW_P55_欧央行资产负债表｜十亿欧元','OW_P55_欧元｜汇率','OW_P56_欧元区制造业PMI｜指数','OW_P56_欧元区服务业PMI｜指数','OW_P56_欧元区CPI同比｜%','OW_P57_欧元｜汇率','OW_P57_花旗美国经济惊喜指数｜指数','OW_P57_花旗欧元区经济惊喜指数｜指数','OW_P57_欧元区消费者信心｜指数','OW_P57_美元指数｜指数']);</script>
+</div>
+<div class="panel" id="p-ws">
+<div class="card"><p style="font-size:13px;">自由图表工作区：<b style="color:var(--gold);">全部序列任选</b>（宏观库301条 + 终端周报库268条OW序列，含平均时薪/工资收入/ISM/估值/商品高频等）叠加最多4个，折线/季节性自由切换。高相关组合预设：
+<button class="tag2" style="margin-left:6px;" onclick="presetWS(['DGS10','DGS2','DGS30','T10Y2Y'])">美债曲线</button>
+<button class="tag2" onclick="presetWS(['DFII10','T5YIE','T10YIE'])">实际利率与通胀预期</button>
+<button class="tag2" onclick="presetWS(['EFFR','SOFR','RRPONTSYD','WTREGEN'])">流动性三件套</button>
+<button class="tag2" onclick="presetWS(['VIXCLS','BAMLC0A4CBBB'])">风险偏好</button>
+<button class="tag2" onclick="presetWS(['ICSA','UNRATE','JTSJOL'])">就业流量</button>
+<button class="tag2" onclick="presetWS(['MORTGAGE30US','HOUST','EXHOSLUSM495S'])">地产链条</button>
+<button class="tag2" onclick="presetWS(['DCOILWTICO','EIA商业原油库存'])">原油量价</button>
+<button class="tag2" onclick="presetWS(['沪金主连','沪银主连','INE原油主连'])">境内商品</button>
+</p></div>
+<div class="cw" id="cw-ws"></div>
+</div>
+<div class="panel" id="p-wall">
+<div id="macroWall"></div>
+</div>
+<div style="margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:12px;">
+宏观研究周报 · 数据皆有来源，缺口标灰 · 观点事前冻结 · 框架：九章体系 v2（0829定稿口径）<br>
+<a href="daily_2026-09-02.html">最新日报 ↗</a> · <a href="../panels/trump_zone.html">特朗普执政关注焦点 ↗</a> · 宏观有色研究 · 沈轶天
+</div>
+</div>
+<script>const CATALOG = [{id:'DGS10',name:'美债10Y',unit:'%'},{id:'DGS2',name:'美债2Y',unit:'%'},{id:'DGS30',name:'美债30Y',unit:'%'},{id:'T10Y2Y',name:'10Y-2Y利差',unit:'%'},{id:'DFII10',name:'10Y实际利率TIPS',unit:'%'},{id:'T5YIE',name:'5Y盈亏平衡通胀',unit:'%'},{id:'T10YIE',name:'10Y盈亏平衡通胀',unit:'%'},{id:'EFFR',name:'EFFR',unit:'%'},{id:'SOFR',name:'SOFR',unit:'%'},{id:'RRPONTSYD',name:'ON RRP用量',unit:'十亿美元'},{id:'WTREGEN',name:'准备金余额',unit:'十亿美元'},{id:'WALCL',name:'美联储总资产',unit:'十亿美元'},{id:'TGA',name:'TGA财政部现金',unit:'十亿美元'},{id:'WEI',name:'WEI周度经济指数',unit:'%'},{id:'GDPNOW',name:'GDPNow(Q3演进)',unit:'%'},{id:'MORTGAGE30US',name:'30年房贷利率',unit:'%'},{id:'VIXCLS',name:'VIX波动率',unit:'点'},{id:'BAMLC0A4CBBB',name:'高收益债OAS',unit:'%'},{id:'DCOILWTICO',name:'WTI原油',unit:'美元/桶'},{id:'DCOILBRENTEU',name:'布伦特原油',unit:'美元/桶'},{id:'ICSA',name:'初请失业金',unit:'千人'},{id:'PAYEMS',name:'非农就业总人数',unit:'千人'},{id:'UNRATE',name:'失业率',unit:'%'},{id:'CES0500000003',name:'平均时薪AHE',unit:'美元/时'},{id:'JTSJOL',name:'JOLTS职位空缺',unit:'千人'},{id:'MANEMP',name:'制造业就业',unit:'千人'},{id:'CPIAUCSL',name:'CPI指数',unit:'点'},{id:'CPILFESL',name:'核心CPI指数',unit:'点'},{id:'PCEPILFE',name:'核心PCE指数',unit:'点'},{id:'UMCSENT',name:'密歇根信心',unit:'点'},{id:'MICH',name:'密歇根1年通胀预期',unit:'%'},{id:'HOUST',name:'新屋开工',unit:'千户'},{id:'PERMIT',name:'建筑许可',unit:'千户'},{id:'EXHOSLUSM495S',name:'成屋销售',unit:'户'},{id:'CSUSHPISA',name:'CS房价指数',unit:'点'},{id:'HOSSUPUSM673N',name:'成屋库存月数',unit:'月'},{id:'INDPRO',name:'工业产出指数',unit:'点'},{id:'TCU',name:'产能利用率',unit:'%'},{id:'NEWORDER',name:'核心资本品订单',unit:'百万美元'},{id:'BUSINV',name:'商业库存',unit:'百万美元'},{id:'ISRATIO',name:'库存销售比',unit:'倍'},{id:'RSAFS',name:'零售销售',unit:'百万美元'},{id:'PCEC96',name:'实际个人消费',unit:'十亿美元'},{id:'PSAVERT',name:'个人储蓄率',unit:'%'},{id:'DSPIC96',name:'实际可支配收入',unit:'十亿美元'},{id:'沪金主连',name:'沪金主连',unit:'元/克'},{id:'沪银主连',name:'沪银主连',unit:'元/千克'},{id:'沪铜主连',name:'沪铜主连',unit:'元/吨'},{id:'INE原油主连',name:'INE原油主连',unit:'元/桶'},{id:'EIA商业原油库存',name:'EIA商业原油库存',unit:'百万桶'}];
+if(window.MM_CATALOG){window.MM_CATALOG.forEach(function(m){if(!CATALOG.some(function(c){return c.id===m.id;}))CATALOG.push({id:m.id,name:m.name+'·MM',unit:m.unit||''});});}
+if(window.MACRO_CATALOG){window.MACRO_CATALOG.forEach(function(m){if(!CATALOG.some(function(c){return c.id===m.id;}))CATALOG.push({id:m.id,name:m.name,unit:m.unit||''});});}
+if(window.OW_SERIES){window.CHART_SERIES=window.CHART_SERIES||{};
+  Object.keys(window.OW_SERIES).forEach(function(k){
+    var o=window.OW_SERIES[k];
+    if(!window.CHART_SERIES[k]) window.CHART_SERIES[k]=o.series;
+    if(!CATALOG.some(function(c){return c.id===k;})) CATALOG.push({id:k,name:o.name.replace(/｜[^｜]*$/,''),unit:(o.name.match(/｜([^｜]*)$/)||[,''])[1]||'',sec:o.sheet});
+  });}</script>
+<style>
+.mw-sec{margin-bottom:16px}
+.mw-h{font-size:13px;color:var(--gold);font-weight:700;margin:10px 0 8px}
+.mw-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.mw-c{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.mw-t{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.mw-n{font-size:12px;color:var(--txt)}
+.mw-v{color:var(--gold);font-weight:700;font-size:14px;white-space:nowrap}
+.mw-ch{width:100%;height:110px}
+.mw-d{color:var(--dim);font-size:10.5px;margin-top:2px}
+.mw-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:52px;background:var(--bg);padding:8px 0;z-index:40}
+.mw-btns button{background:#1c2333;color:var(--dim);border:1px solid var(--line);border-radius:11px;padding:3px 12px;font-size:11px;cursor:pointer}
+.mw-btns button.on{background:var(--gold);color:#111;font-weight:600;border-color:var(--gold)}
+</style>
+<script>
+(function(){
+var WALL_ORD=['jobs','price','rate','liq','asset','energy','cn','fiscal','trade','mfg','factors','quadrant','flows','position','vol','cnbond','relperf','poll','pm','move'];
+function fv(v){var a=Math.abs(v);if(a>=10000)return v.toLocaleString('zh-CN',{maximumFractionDigits:0});if(a>=100)return v.toFixed(1);if(a>=10)return v.toFixed(2);return v.toFixed(3);}
+var drawn=false;
+function drawWall(){
+  if(drawn)return;drawn=true;
+  fetch('../data/macro_series.json').then(function(r){return r.ok?r.json():null;}).then(function(mac){
+    if(!mac)return;
+    var H=window.CHART_SERIES||{}, host=document.getElementById('macroWall'), html='', todo=[];
+    var secs=(mac.sections||[]).map(function(s){
+      var cards=s.items.filter(function(it){return (H[it.id]||[]).length>2;});
+      return {key:s.key,name:s.name||s.key,cards:cards};
+    }).filter(function(s){return s.cards.length;});
+    secs.sort(function(a,b){var ia=WALL_ORD.indexOf(a.key),ib=WALL_ORD.indexOf(b.key);return (ia<0?99:ia)-(ib<0?99:ib);});
+    var btns='<div class="mw-btns"><button data-sec="all" class="on">全部 '+secs.reduce(function(a,s){return a+s.cards.length;},0)+'图</button>'+secs.map(function(s){return '<button data-sec="'+s.key+'">'+s.name+' '+s.cards.length+'</button>';}).join('')+'</div>';
+    secs.forEach(function(s){
+      html+='<div class="mw-sec" data-sec="'+s.key+'"><div class="mw-h">'+s.name+'</div><div class="mw-g">'+s.cards.map(function(it,i){
+        var id=s.key+'_'+i;todo.push({id:id,it:it});
+        return '<div class="mw-c"><div class="mw-t"><span class="mw-n">'+it.name+'</span><span class="mw-v" id="mwv-'+id+'"></span></div><div class="mw-ch" id="mwc-'+id+'"></div><div class="mw-d">'+it.src+(it.unit?' · '+it.unit:'')+' · <span id="mwd-'+id+'"></span></div></div>';
+      }).join('')+'</div></div>';
+    });
+    if(!html){host.innerHTML='<div style="color:var(--dim);padding:30px;text-align:center">宏观图表墙数据待生成（fetch_macro.py 每日产出）</div>';return;}
+    host.innerHTML=btns+html;
+    host.querySelectorAll('.mw-btns button').forEach(function(b){
+      b.onclick=function(){
+        host.querySelectorAll('.mw-btns button').forEach(function(x){x.classList.remove('on');});
+        b.classList.add('on');
+        var k=b.dataset.sec;
+        host.querySelectorAll('.mw-sec').forEach(function(sec){ sec.style.display=(k==='all'||sec.dataset.sec===k)?'':'none'; });
+        setTimeout(function(){(window._wallCharts||[]).forEach(function(c){if(c.getDom().offsetParent!==null)c.resize();});},30);
+      };
+    });
+    todo.forEach(function(t){
+      var ser=H[t.it.id], last=ser[ser.length-1];
+      document.getElementById('mwv-'+t.id).textContent=fv(last[1]);
+      document.getElementById('mwd-'+t.id).textContent='截至 '+last[0];
+      var c=echarts.init(document.getElementById('mwc-'+t.id));
+      (window._wallCharts=window._wallCharts||[]).push(c);
+      c.setOption({backgroundColor:'transparent',animation:false,
+        grid:{left:38,right:6,top:6,bottom:16},
+        tooltip:{trigger:'axis',backgroundColor:'#161b26',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},formatter:function(ps){var p=ps[0];return p.axisValue+'<br><b>'+fv(p.data)+'</b>';}},
+        xAxis:{type:'category',data:ser.map(function(p){return p[0];}),axisLine:{lineStyle:{color:'#262d3d'}},axisLabel:{color:'#8a94a6',fontSize:9}},
+        yAxis:{type:'value',scale:true,axisLabel:{color:'#8a94a6',fontSize:9},splitLine:{lineStyle:{color:'#1d2330'}}},
+        series:[{type:'line',symbol:'none',data:ser.map(function(p){return p[1];}),lineStyle:{color:'#d4a944',width:1.4},areaStyle:{opacity:.06,color:'#d4a944'}}]});
+    });
+  }).catch(function(){});
+}
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('[data-p="wall"]').forEach(function(b){b.addEventListener('click',function(){setTimeout(drawWall,40);});});
+});
+})();
+</script>
+<script src="../lib/chart_widget.js"></script>
+<script src="../lib/econ_calendar.js"></script>
+<script src="../lib/fresh_panels.js"></script>
+
+<script>function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function renderLive(S){
+  // FedWatch（若 fresh_panels.js 已用 fedwatch.json 渲染，则跳过快照）
+  if(!window.__fwFresh){
+  let fw = S.fedwatch;
+  let rows = fw.meetings.map(m=>`<tr><td>${m.date}</td><td>${m.hold}%</td><td class="up">${m.hike25}%</td><td>${m.hike50?m.hike50+'%':'—'}</td></tr>`).join('');
+  document.getElementById('fwBox').innerHTML =
+    `<table><tr><th>FOMC会议</th><th>维持不变</th><th>加息25bp</th><th>加息50bp</th></tr>${rows}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:6px;">${esc(fw.src)} · 截至 ${fw.asof} · ${esc(fw.note)}；JH前一日(8/27)：9月维持${fw.prev.hold}% / 加息${fw.prev.hike25}%</div>`;
+  }
+  // TACO（若 fresh_panels.js 已渲染则跳过）
+  if(!window.__tacoFresh){
+  let t = S.taco;
+  let comps = t.comps.map(c=>`<tr><td>${c[0]}</td><td class="${c[1]>=0?'up':'dn'}" style="text-align:right;">${c[1]>0?'+':''}${c[1]}%</td></tr>`).join('');
+  let evs = t.events.map(e=>`<div style="font-size:12px;padding:5px 0;border-top:1px dashed var(--line);"><span style="color:var(--dim);font-size:11px;">${e[0]}</span> ${e[1]}</div>`).join('');
+  document.getElementById('tacoBox').innerHTML =
+    `<div style="display:flex;align-items:baseline;gap:14px;"><span class="big" style="color:${t.value>0?'var(--up)':'var(--dn)'};">${t.value>0?'+':''}${t.value}%</span>
+     <span class="ch-tag" style="border-color:var(--gold);color:var(--gold);">${t.zone}区</span>
+     <span style="font-size:12px;color:var(--dim);">较20个交易日前 ${t.chg20d}%</span></div>
+     <div class="zonebar"><div style="background:#2d4a3f;"></div><div style="background:#3a4a2d;"></div><div style="background:#4a3a2d;"></div><div style="background:#4a2d2d;"></div></div>
+     <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--dim);"><span>膨胀(易GAMBLE)</span><span>低压</span><span>中压</span><span>高压(易TACO)</span></div>
+     <div style="font-size:11px;color:var(--dim);margin:8px 0;">分项贡献（20日变动标准化）：</div>
+     <table>${comps}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:10px;">近期TACO事件：</div>${evs}
+     <div style="font-size:11px;color:var(--dim);margin-top:8px;">${esc(t.src)} · 数据日 ${t.asof} · ${esc(t.method)}</div>`;
+  }
+  // 美伊（若 fresh_panels.js 已渲染则跳过）
+  if(!window.__iranFresh){
+  let ir = S.iran;
+  let mk = ir.markets.map(m=>`<tr><td>${m.q}</td><td class="up" style="text-align:right;font-weight:700;">${m.yes}%</td><td style="text-align:right;">${m.vol}</td><td style="font-size:11px;color:var(--dim);">${m.chg}</td></tr>`).join('');
+  let iev = ir.events.map(e=>`<div style="font-size:12px;padding:5px 0;border-top:1px dashed var(--line);"><span style="color:var(--dim);font-size:11px;">${e[0]}</span> ${e[1]}</div>`).join('');
+  document.getElementById('iranBox').innerHTML =
+    `<table><tr><th>预测市场（Yes=达成/恢复）</th><th style="text-align:right;">概率</th><th style="text-align:right;">成交额</th><th>变动</th></tr>${mk}</table>
+     <div style="font-size:11px;color:var(--dim);margin-top:8px;">最新进展：</div>${iev}
+     <div style="font-size:11px;color:var(--dim);margin-top:8px;">${esc(ir.src)} · 数据日 ${ir.asof}</div>`;
+  }
+  // 金十式数据日历（本周/下周/关键节点 按钮切换;每卡仅显最重要1条,其余折叠"其他+N"）
+  let cal = S.calendar;
+  function calFallback(){
+    document.getElementById('calBox').innerHTML = cal.weeks.map(w=>
+      `<div class="mini"><h4>${w.label}</h4>${w.items.map(it=>`<div style="font-size:12px;padding:5px 0;border-top:1px dashed var(--line);"><b style="color:var(--blue);">${it[0]}</b> ${it[1]}</div>`).join('')}</div>`
+    ).join('') + `<div style="font-size:11px;color:var(--dim);margin-top:8px;">${esc(cal.note)}</div>`;
+  }
+  if(window.loadEconCal){
+    window.loadEconCal('calBox','../data/econ_calendar.json',{btnHostId:'calBtnBar'},function(){
+      var cb=document.getElementById('calBox'); if(cb) cb.classList.remove('grid3');
+    }, calFallback);
+  } else { calFallback(); }
+  document.querySelectorAll('.snapAsof').forEach(e=>e.textContent='数据快照：'+S.asof);
+}
+/* 更新按钮仅在站长页展示 */
+window.addEventListener('load',function(){
+  try{ if(window.CE&&CE.renderWeekly)CE.renderWeekly(); }catch(e){}
+  try{ if(window.RW_OWNER){ window.RW_OWNER.applyOverrides(); if(window.RW_OWNER.isOwner())window.RW_OWNER.arm(); } }catch(e){}
+});
+function refreshLive(){
+  const old = document.getElementById('livejs'); if(old) old.remove();
+  const s = document.createElement('script'); s.id='livejs';
+  s.src = '../data/live_snapshot.js?t=' + Date.now();
+  s.onload = ()=>{ renderLive(window.LIVE_SNAPSHOT); const m=document.getElementById('updMsg'); if(m) m.textContent='已更新 · ' + window.LIVE_SNAPSHOT.asof; };
+  s.onerror = ()=>{ const m=document.getElementById('updMsg'); if(m) m.textContent='拉取失败，请稍后重试'; };
+  document.head.appendChild(s);
+}
+document.addEventListener('DOMContentLoaded', ()=>{ if(window.LIVE_SNAPSHOT) renderLive(window.LIVE_SNAPSHOT); });
+/* 地缘专区 · 时间线 */
+(function(){
+fetch('../data/geopolitics.json').then(function(r){return r.ok?r.json():null;}).then(function(G){
+  if(!G)return;
+  var box=document.getElementById('geoBox'); if(!box)return;
+  var TAG={esc:['#e5534b','升级'],ease:['#4caf7d','缓和'],game:['#d4a944','博弈'],data:['#5b9bd5','数据']};
+  var h='';
+  G.lines.forEach(function(L){
+    h+='<div><div style="font-weight:700;color:#fff;font-size:13px;margin-bottom:6px;">'+L.name+'</div>';
+    var evs=L.events.slice().reverse();
+    evs.forEach(function(e){
+      var t=TAG[e[2]]||TAG.data;
+      h+='<div style="display:flex;gap:8px;padding:5px 0;border-left:2px solid '+t[0]+';padding-left:10px;margin-left:4px;">'
+        +'<div style="flex:0 0 74px;color:var(--dim);font-size:11px;line-height:1.5;">'+e[0].slice(5)+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:600;color:#e8ecf4;">'+e[1]
+        +' <span style="font-size:10px;color:'+t[0]+';font-weight:400;">· '+t[1]+'</span></div>'
+        +'<div style="font-size:11.5px;color:var(--dim);line-height:1.55;margin-top:1px;">'+e[3]+'</div></div></div>';
+    });
+    h+='</div>';
+  });
+  box.innerHTML=h+'<div style="grid-column:1/-1;color:var(--dim);font-size:10.5px;margin-top:4px">'+G.src+' · 更新 '+G.updated+'</div>';
+}).catch(function(){});
+})();
+/* 地缘专区 · Polymarket 美伊/霍尔木兹市场历史折线(Yes概率) */
+(function(){
+fetch('../data/polymarket.json?v='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){
+  var el=document.getElementById('pmGeoChart'); if(!el||!d)return;
+  var RE=/hormuz|strait|iran/i;
+  var ms=(d.markets||[]).filter(function(m){return RE.test(m.question||'')&&(m.history||[]).length>=2;});
+  var note=document.getElementById('pmGeoNote');
+  if(!ms.length){
+    el.style.display='none';
+    if(note)note.textContent='历史折线累积中:云端管线已把美伊核协议/霍尔木兹市场加入每日抓取,攒够历史后自动出图 · L3·Polymarket';
+    return;
+  }
+  var COLORS=['#d4a944','#5b9bd5','#e5534b','#4caf7d','#b08ad9','#e8912d'];
+  var c=echarts.init(el);
+  c.setOption({backgroundColor:'transparent',animation:false,
+    grid:{left:40,right:14,top:30,bottom:42},
+    legend:{top:0,textStyle:{color:'#8a94a6',fontSize:10},type:'scroll'},
+    tooltip:{trigger:'axis',backgroundColor:'#161b26',borderColor:'#262d3d',textStyle:{color:'#d7dde8',fontSize:11},
+      formatter:function(ps){var s=ps[0].axisValue;ps.forEach(function(p){s+='<br>'+p.marker+p.seriesName+' <b>'+(p.data[1]*100).toFixed(1)+'%</b>';});return s;}},
+    xAxis:{type:'time',axisLine:{lineStyle:{color:'#262d3d'}},axisLabel:{color:'#8a94a6',fontSize:9}},
+    yAxis:{type:'value',min:0,max:function(v){return Math.max(0.3,Math.min(1,v.max));},axisLabel:{color:'#8a94a6',fontSize:9,formatter:function(v){return Math.round(v*100)+'%';}},splitLine:{lineStyle:{color:'#1d2330'}}},
+    dataZoom:[{type:'slider',height:14,bottom:4,backgroundColor:'#1a2130',fillerColor:'rgba(212,169,68,.15)',borderColor:'#333',textStyle:{color:'#8a94a6',fontSize:9}}],
+    series:ms.map(function(m,i){return {name:(m.question||'').slice(0,38),type:'line',symbol:'none',data:m.history,
+      lineStyle:{color:COLORS[i%COLORS.length],width:1.6},itemStyle:{color:COLORS[i%COLORS.length]}};})});
+  if(note)note.textContent=ms.length+' 个美伊/霍尔木兹相关市场 · Yes概率日线 · 抓取于 '+(d.fetched_at||'').slice(0,10)+' · L3·Polymarket(链上预测市场,非官方口径)';
+  window.addEventListener('resize',function(){c.resize();});
+}).catch(function(){});
+})();
+</script>
+<div style="margin:26px auto 0;max-width:1180px;padding:0 16px;text-align:right;">
+  <a href="../panels/owner.html" style="color:#5a6a82;text-decoration:none;font-size:11px;" title="站长入口（需站长密码）">· 站长</a>
+</div>
+<script>
+/* ============ 锡库存评估：LME(westmetall日频) + SHFE(上期所·iFinD EDB周频) 实时数据 ============ */
+(function(){
+  function fmt(v){return (v==null||isNaN(v))?'—':Number(v).toLocaleString('en-US');}
+  function sgn(v,suffix){
+    if(v==null||isNaN(v))return '—';
+    var a=Math.abs(v).toLocaleString('en-US');
+    return (v>0?'+':v<0?'-':'±')+a+(suffix||'');
+  }
+  function md(d){return d?d.slice(5).replace('-','/'):'—';}
+  function judge(dL,dS){
+    var L=dL==null?0:(dL>0?1:(dL<0?-1:0)), S=dS==null?0:(dS>0?1:(dS<0?-1:0));
+    if(L<0&&S<0)return['内外双去库','两端共同收紧，实物支撑最强，偏多'];
+    if(L<0&&S===0)return['外紧内平','海外去库、内盘平稳，外因主导'];
+    if(L<0&&S>0)return['内松外紧','国内累库 vs 海外去库——内盘压力大于外盘支撑，看进口窗口/内外比价'];
+    if(L>0&&S<0)return['内紧外松','国内去库 vs 海外累库——国内现货支撑更强，关注正套与内外比价'];
+    if(L>0&&S>0)return['内外双累库','两端共同转松，实物压制最明显，偏空'];
+    if(L>0)return['外松内平','海外累库、内盘平稳'];
+    if(S>0)return['内松外平','国内累库、外盘平稳'];
+    if(L<0)return['外紧内平','海外去库、内盘平稳'];
+    if(S<0)return['内紧外平','国内去库、外盘平稳'];
+    return['内外均平稳','库存暂无明确方向，跟随其他门禁'];
+  }
+  fetch('../data/news_latest.json?v='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    var lme=d.lme||[];
+    var lmeSn=(lme.length&&lme[0].sn_stock!=null)?{date:lme[0].date,stock:lme[0].sn_stock,
+      dDay:(lme.length>1&&lme[1].sn_stock!=null)?lme[0].sn_stock-lme[1].sn_stock:null}:null;
+    var sh=((d.shfe||{}).metals||{}).sn;
+    var shSn=null;
+    if(sh&&sh.series&&sh.series.length){
+      var ser=sh.series, a=ser[ser.length-1][1], b=ser.length>1?ser[ser.length-2][1]:null;
+      shSn={date:ser[ser.length-1][0],stock:a,wow:(a!=null&&b)?(a-b)/b*100:null};
+    }
+    var el;
+    el=document.getElementById('snInvLme');
+    if(el)el.innerHTML=lmeSn
+      ?('<div>库存 <b style="font-size:17px;">'+fmt(lmeSn.stock)+'</b> 吨</div><div>日变动 <span class="'+(lmeSn.dDay>0?'up':lmeSn.dDay<0?'dn':'')+'">'+sgn(lmeSn.dDay)+' 吨</span></div><div style="color:var(--dim);font-size:12px;">数据日 '+md(lmeSn.date)+'</div>')
+      :'<span style="color:var(--dim)">LME 数据未就绪</span>';
+    el=document.getElementById('snInvShfe');
+    if(el)el.innerHTML=shSn
+      ?('<div>期货库存 <b style="font-size:17px;">'+fmt(shSn.stock)+'</b> 吨</div><div>周变动 <span class="'+(shSn.wow>0?'up':shSn.wow<0?'dn':'')+'">'+sgn(shSn.wow,'%')+'</span></div><div style="color:var(--dim);font-size:12px;">'+md(shSn.date)+' 周报 · 上期所(iFinD EDB)</div>')
+      :'<span style="color:var(--dim)">SHFE 数据未就绪</span>';
+    el=document.getElementById('snInvSum');
+    if(el){
+      var j=judge(lmeSn?lmeSn.dDay:null,shSn?shSn.wow:null);
+      el.innerHTML='🥫 <b style="color:var(--gold)">锡库存共同评估：'+j[0]+'</b>——'+j[1]+'。<br>'+
+        '<span style="color:var(--dim);font-size:12px;">LME '+fmt(lmeSn?lmeSn.stock:null)+' 吨（'+md(lmeSn?lmeSn.date:null)+'，日 '+sgn(lmeSn?lmeSn.dDay:null)+'） · SHFE '+fmt(shSn?shSn.stock:null)+' 吨（'+md(shSn?shSn.date:null)+'，周 '+sgn(shSn?shSn.wow:null,'%')+'） · 数据源 westmetall / 上期所(iFinD EDB) · 每日 07:40/20:40 自动更新</span>';
+    }
+    var cEl=document.getElementById('snInvChart');
+    if(cEl&&window.echarts&&shSn){
+      var ch=echarts.init(cEl);
+      ch.setOption({
+        grid:{left:52,right:14,top:16,bottom:22},
+        tooltip:{trigger:'axis'},
+        xAxis:{type:'category',data:sh.series.map(function(r){return md(r[0]);}),axisLabel:{color:'#8a94a6',fontSize:9},axisLine:{lineStyle:{color:'#262d3d'}}},
+        yAxis:{type:'value',scale:true,axisLabel:{color:'#8a94a6',fontSize:9},splitLine:{lineStyle:{color:'#1d2330'}}},
+        series:[{name:'SHFE锡库存',type:'line',smooth:true,symbolSize:5,data:sh.series.map(function(r){return r[1];}),
+          itemStyle:{color:'#d4a944'},lineStyle:{color:'#d4a944',width:2},areaStyle:{color:'rgba(212,169,68,.12)'}}]
+      });
+      window.addEventListener('resize',function(){ch.resize();});
+    }
+  }).catch(function(){
+    var el=document.getElementById('snInvSum');
+    if(el)el.innerHTML='<span style="color:var(--dim)">库存数据读取失败（管线未就绪）</span>';
+  });
+})();
+</script>
+</body>
+</html>

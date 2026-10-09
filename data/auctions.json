@@ -1,0 +1,89 @@
+{
+ "updated": "2026-10-09 08:58",
+ "recent": [
+  {
+   "term": "10-Year",
+   "date": "2026-08-12",
+   "btc": 2.53,
+   "indirect_pct": 61.0,
+   "high_yield": 4.683
+  },
+  {
+   "term": "10-Year",
+   "date": "2026-07-23",
+   "btc": 2.3,
+   "indirect_pct": 58.3,
+   "high_yield": 2.438
+  },
+  {
+   "term": "10-Year",
+   "date": "2026-05-12",
+   "btc": 2.4,
+   "indirect_pct": 51.5,
+   "high_yield": 4.468
+  },
+  {
+   "term": "10-Year",
+   "date": "2026-02-11",
+   "btc": 2.39,
+   "indirect_pct": 50.1,
+   "high_yield": 4.177
+  },
+  {
+   "term": "10-Year",
+   "date": "2026-01-22",
+   "btc": 2.38,
+   "indirect_pct": 67.0,
+   "high_yield": 1.94
+  },
+  {
+   "term": "10-Year",
+   "date": "2025-11-12",
+   "btc": 2.43,
+   "indirect_pct": 57.8,
+   "high_yield": 4.074
+  },
+  {
+   "term": "10-Year",
+   "date": "2025-08-06",
+   "btc": 2.35,
+   "indirect_pct": 47.8,
+   "high_yield": 4.255
+  },
+  {
+   "term": "10-Year",
+   "date": "2025-07-24",
+   "btc": 2.41,
+   "indirect_pct": 58.5,
+   "high_yield": 1.985
+  },
+  {
+   "term": "10-Year",
+   "date": "2025-05-06",
+   "btc": 2.6,
+   "indirect_pct": 52.4,
+   "high_yield": 4.342
+  },
+  {
+   "term": "10-Year",
+   "date": "2025-02-12",
+   "btc": 2.48,
+   "indirect_pct": 55.8,
+   "high_yield": 4.632
+  },
+  {
+   "term": "10-Year",
+   "date": "2025-01-23",
+   "btc": 2.48,
+   "indirect_pct": 62.5,
+   "high_yield": 2.243
+  },
+  {
+   "term": "10-Year",
+   "date": "2024-11-05",
+   "btc": 2.58,
+   "indirect_pct": 49.4,
+   "high_yield": 4.347
+  }
+ ]
+}

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特朗普专区 · 宏观研究工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<script src="../lib/echarts.min.js"></script>
+<script src="../data/chart_series.js" onerror="window.CHART_SERIES={}"></script>
+<style>
+:root{--bg:#101216;--card:#171a20;--line:#2a2e37;--txt:#e8e6e1;--dim:#9a958c;--gold:#d4a944;--green:#4caf7d;--red:#e5534b;--blue:#5b9bd5;--orange:#e5864b;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:14px;line-height:1.7;padding:26px 20px 60px;}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-family:'Noto Serif SC',serif;font-weight:900;font-size:26px}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,rgba(212,169,68,.45) 0)}
+.sub{color:var(--dim);font-size:12.5px;margin:4px 0 18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.midgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:6px}
+.midC{background:#171a20;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.midC .mt{font-size:13px;color:var(--dim)}
+.midC .mv{font-size:30px;font-weight:700;font-family:Georgia,serif;color:#e5534b;margin:2px 0}
+.midC .md{font-size:12px;color:#5b9bd5;margin-bottom:6px}
+.midbar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:#22262e;margin:4px 0 6px}
+.midbar i{display:block;height:8px}
+.stat .k{color:var(--dim);font-size:12px}
+.stat .v{font-size:24px;font-weight:700;margin-top:2px}
+.stat .d{color:var(--dim);font-size:11px;margin-top:2px}
+.up{color:var(--red)} .down{color:var(--green)} .flat{color:var(--gold)}
+.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tabbar button{background:var(--card);color:var(--dim);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-family:inherit;font-size:13px;cursor:pointer}
+.tabbar button.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+.panel{display:none} .panel.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.card h3{font-size:14px;color:var(--gold);margin-bottom:8px}
+.chart{width:100%;height:420px}
+.chart2{width:100%;height:300px}
+.rng{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.rng button{background:transparent;color:var(--dim);border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-size:12px;font-family:inherit;cursor:pointer}
+.rng button.on{color:var(--gold);border-color:var(--gold)}
+.note{color:var(--dim);font-size:11.5px;margin-top:8px}
+/* TACO事件 */
+.ev{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px;background:var(--card)}
+.ev-hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap;cursor:pointer}
+.ev-date{color:var(--dim);font-size:12px}
+.badge{border-radius:5px;padding:1px 8px;font-size:11px;font-weight:700}
+.b-最强{background:rgba(229,83,75,.18);color:var(--red);border:1px solid var(--red)}
+.b-强{background:rgba(229,134,75,.15);color:var(--orange);border:1px solid var(--orange)}
+.b-中强{background:rgba(212,169,68,.14);color:var(--gold);border:1px solid var(--gold)}
+.b-中{background:rgba(154,149,140,.12);color:var(--dim);border:1px solid var(--dim)}
+.b-地缘,.b-财政{background:rgba(91,155,213,.13);color:var(--blue);border:1px solid var(--blue)}
+.ev-title{font-weight:700}
+.ev-body{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:13px}
+.ev.open .ev-body{display:block}
+.ev-body p{margin-bottom:8px}
+.ev-body .tag{display:inline-block;color:#111;background:var(--gold);border-radius:4px;padding:0 6px;font-size:11px;margin-right:6px}
+.ev-body .tag.t2{background:var(--blue)} .ev-body .tag.t3{background:var(--dim)} .ev-body .tag.t4{background:var(--green)}
+.filterRow{margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filterRow input{background:#0d0f13;border:1px solid var(--line);color:var(--txt);border-radius:6px;padding:7px 10px;font-family:inherit;font-size:12.5px;width:240px}
+.fbtn{background:transparent;color:var(--dim);border:1px solid var(--line);border-radius:6px;padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer}
+.fbtn.on{color:var(--gold);border-color:var(--gold)}
+/* truths */
+.post{border-bottom:1px solid #22262e;padding:10px 4px;font-size:13px}
+.post .tm{color:var(--dim);font-size:11.5px;margin-bottom:2px}
+.post a{color:var(--gold);text-decoration:none}
+.post.rt{opacity:.55}
+mark{background:rgba(212,169,68,.35);color:#ffe9a8;border-radius:3px;padding:0 2px}
+/* polymarket */
+.mk{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px;background:var(--card)}
+.mk-q{font-weight:700;margin-bottom:8px}
+.oc{display:flex;align-items:center;gap:10px;margin:5px 0}
+.oc .nm{width:130px;color:var(--dim);font-size:12.5px;flex-shrink:0}
+.oc .bar{flex:1;height:16px;background:#0d0f13;border-radius:4px;overflow:hidden}
+.oc .fill{height:100%;background:var(--gold)}
+.oc .pc{width:56px;text-align:right;font-weight:700}
+/* 宏观图表墙 */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;margin-bottom:14px}
+.mcard{margin-bottom:0}
+.mtool{display:flex;gap:4px;align-items:center;margin:2px 0 4px;flex-wrap:wrap}
+.mtool button,.mtool select{background:#1a1e26;border:1px solid #2a2e37;color:#9a958c;font-size:10px;border-radius:4px;padding:2px 6px;cursor:pointer;height:20px}
+.mtool button:hover,.mtool select:hover{color:#d4a944;border-color:#d4a944}
+.mtool select{max-width:104px}
+.mchip{display:inline-flex;align-items:center;gap:3px;background:rgba(212,169,68,.12);border:1px solid #d4a944;color:#d4a944;font-size:10px;border-radius:4px;padding:1px 5px}
+.mchip b{cursor:pointer;font-weight:700}
+.mhd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.mhd .mk-q{margin-bottom:0;font-size:13px}
+.mval{color:var(--gold);font-weight:700;font-size:15px;white-space:nowrap}
+.mchart{width:100%;height:150px}
+.gap{color:var(--dim);font-size:12px;padding:26px 8px;text-align:center;border:1px dashed var(--line);border-radius:8px;opacity:.75}
+.secnote{color:var(--dim);font-size:12px;margin:0 2px 12px}
+.tabbar button.macro{border-style:dashed}
+.src{margin-top:24px;color:var(--dim);font-size:11.5px;border-top:1px solid var(--line);padding-top:12px}
+a.lnk{color:var(--gold);text-decoration:none}
+.empty{color:var(--dim);text-align:center;padding:40px 0;font-size:13px}
+
+  /* ===== 移动端适配（≤820px） ===== */
+  @media(max-width:820px){
+    body{font-size:13px;}
+    h1{font-size:19px !important;line-height:1.35;}
+    .pnav, .nav, .tabs{overflow-x:auto;flex-wrap:nowrap !important;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .pnav::-webkit-scrollbar,.nav::-webkit-scrollbar,.tabs::-webkit-scrollbar{display:none;}
+    .pnav button,.nav button,.tabs button{flex:0 0 auto;white-space:nowrap;padding:6px 12px;font-size:12px;}
+    .grid2,.grid3,.midgrid{grid-template-columns:1fr !important;}
+    .kpi-grid, .kpis{grid-template-columns:repeat(2,1fr) !important;}
+    section table, .card table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}
+    .chart, .cw .chart{height:280px !important;}
+    h2{font-size:15px !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>特朗普执政<em>关注焦点</em></h1>
+  <div class="sub">政策压力 · 民调 · TACO回撤 · Truth Social · 政策预期 —— 数据每日管线自动更新</div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="tabbar" id="tabs">
+    <button data-p="p1" class="on">压力指数</button>
+    <button data-p="p2">民调</button>
+    <button data-p="p5">市场政策预期</button>
+    <button data-p="sec-cn" class="macro">美中竞赛</button>
+    <button data-p="sec-fiscal" class="macro">财政</button>
+    <button data-p="sec-trade" class="macro">贸易</button>
+    <button data-p="sec-price" class="macro">物价</button>
+    <button data-p="sec-rate" class="macro">利率</button>
+    <button data-p="p-liq" style="border-color:var(--gold)">流动性</button>
+    <button data-p="sec-jobs" class="macro">就业</button>
+    <button data-p="sec-energy" class="macro">能源</button>
+    <button data-p="sec-asset" class="macro">资产</button>
+    <button data-p="p-lev" style="border-color:var(--gold)">贵金属杠杆</button>
+    <button data-p="sec-mfg" class="macro">制造业</button>
+    <button data-p="sec-move" class="macro">国际移动</button>
+    <button data-p="p3">TACO事件复盘</button>
+    <button data-p="p4">Truths跟踪</button>
+    <button data-p="p-ht" style="border-color:var(--gold)">宏观库</button>
+  </div>
+
+  <div class="panel on" id="p1">
+    <div class="card">
+      <h3>川普压力指数（TACO指数）· 总指数与分项贡献</h3>
+      <div class="rng" id="rng1">
+        <button data-r="90">近3月</button><button data-r="180">近6月</button><button data-r="365" class="on">近1年</button><button data-r="0">全部</button>
+      </div>
+      <div class="chart" id="chPressure"></div>
+      <div class="note">柱=分项贡献（净支持/10Y/MOVE/S&P/VIX/CPI Nowcast，堆叠）；金线=总指数。短标=强/最强TACO回撤事件。口径：60%纯20日变化+40%第二任期绝对压力分位。</div>
+    </div>
+  </div>
+
+  <div class="panel" id="p2">
+    <div class="card">
+      <h3>川普净支持率（支持率−反对率）</h3>
+      <div class="rng" id="rng2">
+        <button data-r="180">近6月</button><button data-r="365" class="on">近1年</button><button data-r="0">全部</button>
+      </div>
+      <div class="chart" id="chApproval"></div>
+      <div class="note">短标=关键政策节点。数据源：Silver Bulletin / The Economist（经ocmacro整理）。</div>
+    </div>
+    <div class="card">
+      <h3>2026中期选举 · 国会控制权（Polymarket预测市场 · 每日管线更新）</h3>
+      <div class="midgrid" id="midGrid"><div class="note">加载中…</div></div>
+      <div class="note" id="midNote"></div>
+    </div>
+    <div id="pollExtra"></div>
+  </div>
+
+  <div class="panel" id="sec-cn"><div class="secnote">汇率 · 双边贸易 · 关税收入 · 中美股市对照</div></div>
+  <div class="panel" id="sec-fiscal"><div class="secnote">联邦债务 · 月度赤字 · 利息支出 · 财政部现金TGA</div></div>
+  <div class="panel" id="sec-trade"><div class="secnote">商品与服务贸易：出口 · 进口 · 差额</div></div>
+  <div class="panel" id="sec-price"><div class="secnote">CPI/PCE/PPI同比 · 盈亏平衡通胀 · 通胀预期</div></div>
+  <div class="panel" id="sec-rate"><div class="secnote">国债收益率曲线 · 政策利率 · 信用利差 · 房贷利率</div></div>
+  <div class="panel" id="p-liq">
+    <div class="secnote" id="liqNote">美元流动性追踪 · GMF框架(广义信号+狭义体系) · FRED/NYFed/ECB/东财 · ⚙️综合压力分位</div>
+    <div id="liqDash"></div>
+    <div class="card"><h3>缺口（标灰 · 不参与压力指数权重）</h3><div class="note" id="liqGaps" style="font-size:12px;line-height:1.9"></div></div>
+    <div class="card"><h3>方法论</h3><div class="note" id="liqMethod" style="font-size:12px;line-height:1.9"></div></div>
+    <h3 style="color:var(--gold);font-size:14px;margin:14px 0 8px">流动性图表墙（周报同口径）</h3>
+    <div id="liqWall"></div>
+  </div>
+  <div class="panel" id="sec-jobs"><div class="secnote">失业率 · 非农 · 初请 · JOLTS · 时薪</div></div>
+  <div class="panel" id="sec-energy"><div class="secnote">原油 · 天然气 · 汽油零售价 · 产量</div></div>
+  <div class="panel" id="sec-asset"><div class="secnote">股 · 债 · 汇 · 金 · 币 · 房 —— 资产价格全景</div></div>
+  <div class="panel" id="sec-mfg"><div class="secnote">工业产出 · 产能利用率 · 耐用品 · 资本品订单</div></div>
+  <div class="panel" id="sec-move"><div class="secnote">跨境与出行活跃度（TSA安检旅客量）</div></div>
+
+  <div class="panel" id="p3">
+    <div class="filterRow">
+      <input id="evQ" placeholder="筛选事件，如：关税 / 伊朗 / 鲍威尔…">
+      <span class="note" id="evCnt"></span>
+    </div>
+    <div id="evList"></div>
+  </div>
+
+  <div class="panel" id="p4">
+    <div class="filterRow">
+      <button class="fbtn on" data-f="all">全部</button>
+      <button class="fbtn" data-f="orig">仅原创</button>
+      <button class="fbtn" data-f="kw">只看市场关键词</button>
+      <input id="postQ" placeholder="自定义筛选词…">
+      <span class="note" id="postCnt"></span>
+    </div>
+    <div class="card"><div id="postList"></div></div>
+  </div>
+
+  <div class="panel" id="p5">
+    <div id="mkList"></div>
+  </div>
+
+  <div class="panel" id="p-lev">
+    <div class="secnote" id="levNote">贵金属综合杠杆指标 · ⚙️自建商品杠杆方法论 · 期货腿=CFTC非商业净持仓(周) · ETF腿=GLD/SLV份额(快照积累)</div>
+    <div class="stats" id="levCards" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"></div>
+    <div class="card">
+      <h3>非商业净持仓（手）· 近3年周频</h3>
+      <div class="rng" id="levRng"></div>
+      <div class="chart" id="levChart" style="height:400px"></div>
+      <div class="note" id="levMeta"></div>
+    </div>
+    <div class="card">
+      <h3>方法论与对标</h3>
+      <div class="note" style="font-size:12.5px;line-height:1.9" id="levMethod"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-ht">
+    <div class="secnote">终端宏观5库解析入库 · 共<b id="htCnt">…</b>条序列 · L3·第三方终端EDB快照（2026-07-05，Excel内为iFinD公式，用户刷新后可重新上传更新）· 末尾0值占位已修剪</div>
+    <div class="filterRow">
+      <input id="htQ" placeholder="搜索指标名 / 表名，如：CFTC、社融、10Y、 platinum…">
+      <span class="note" id="htHit"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:210px 1fr;gap:12px" id="htGrid">
+      <div>
+        <div class="card" style="padding:10px" id="htLibs"></div>
+        <div class="card" style="padding:10px;max-height:520px;overflow:auto" id="htSheets"></div>
+      </div>
+      <div>
+        <div class="card" style="padding:10px;max-height:300px;overflow:auto" id="htList"></div>
+        <div class="card"><h3 id="htTitle">选择左侧指标</h3><div class="chart" id="htChart" style="height:380px"></div><div class="note" id="htMeta"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="src" id="srcNote"></div>
+  <div class="src">宏观有色研究 · 数据每日管线自动更新</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let TZ=null, TR=null;
+
+/* ---------- 页签 ---------- */
+$('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));
+  if(b.dataset.p.startsWith('sec-'))renderMacro(b.dataset.p.slice(4));
+  if(b.dataset.p==='p-ht'&&!HT.lib)initHT();
+  if(b.dataset.p==='p-lev'&&!LEV){
+    fetch('../data/cftc.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(j=>{
+      if(j){LEV=j;renderLev();}else $('levNote').textContent='cftc.json未生成: 等待每日管线运行 fetch_cftc.py';
+    }).catch(()=>{$('levNote').textContent='cftc.json加载失败';});
+  }
+  if(b.dataset.p==='p-liq'&&!LIQ){
+    fetch('../data/liquidity.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(j=>{
+      if(j){LIQ=j;renderLiq();renderMacro('liq',$('liqWall'));}
+      else $('liqNote').textContent='liquidity.json未生成: 等待每日管线运行 fetch_liquidity.py';
+    }).catch(()=>{$('liqNote').textContent='liquidity.json加载失败';});
+  }
+  setTimeout(()=>{Object.values(CH).forEach(c=>c.resize&&c.resize());},30);
+});
+const CH={};
+/* 哈希直开页签: #liq / #lev / #ht / #rate… (等数据就绪后再点击, 最多等8秒) */
+function hashOpen(n){
+  if(!location.hash||n>26)return;
+  const t=document.querySelector('#tabs button[data-p="p'+location.hash.replace('#','-')+'"]')||document.querySelector('#tabs button[data-p="sec'+location.hash+'"]');
+  if(!t)return;
+  if((t.dataset.p==='p-liq'||t.dataset.p.startsWith('sec-'))&&!MACRO)return setTimeout(()=>hashOpen(n+1),300);
+  t.click();
+}
+window.addEventListener('load',()=>setTimeout(()=>hashOpen(0),200));
+
+/* ---------- 统计卡 ---------- */
+function renderStats(){
+  const p=TZ.pressure, a=TZ.approval;
+  const pc=p.value>0?'up':(p.value<0?'down':'flat');
+  const ac=a.net>0?'up':'down';
+  const lastPost=TR&&TR.posts.length?new Date(TR.posts[0].t):null;
+  $('stats').innerHTML=
+    `<div class="stat"><div class="k">川普压力指数</div><div class="v ${pc}">${p.value>0?'+':''}${p.value}%</div><div class="d">截至 ${p.asof} · L3·ocmacro</div></div>
+     <div class="stat"><div class="k">净支持率</div><div class="v ${ac}">${a.net>0?'+':''}${a.net}%</div><div class="d">支持 ${a.approve}% / 反对 ${a.disapprove}% · ${a.asof}</div></div>
+     <div class="stat"><div class="k">TACO事件复盘</div><div class="v flat">${TZ.taco_events.length}条</div><div class="d">更新至 ${TZ.taco_updated||'—'}</div></div>
+     <div class="stat"><div class="k">Truth Social存档</div><div class="v flat">${(TR.total_in_archive/10000).toFixed(1)}万条</div><div class="d">最新 ${lastPost?lastPost.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+' 北京':''}</div></div>`;
+  $('srcNote').innerHTML='数据来源：'+esc(TZ.source)+'；'+esc(TR.source)+'。抓取时间 '+(TZ.fetched_at||'').slice(0,16).replace('T',' ')+' UTC · 特朗普专区为本工作台数据镜像，标注L3·第三方。';
+}
+
+/* ---------- 压力指数图 ---------- */
+const COMP=[['approval','净支持','#e5534b'],['dgs10','10Y','#e5864b'],['move','MOVE','#d4a944'],['sp500','S&P','#5b9bd5'],['vix','VIX','#8b6fd5'],['cpinow','CPI Nowcast','#4caf7d']];
+function cutDays(arr,days){if(!days)return arr;const end=arr[arr.length-1][0];const t0=new Date(end);t0.setDate(t0.getDate()-days);const k=t0.toISOString().slice(0,10);return arr.filter(p=>p[0]>=k);}
+function renderPressure(days){
+  const H=cutDays(TZ.pressure.history,days);
+  const dates=H.map(p=>p[0]);
+  const mk=null;
+  const series=COMP.map((c,i)=>({
+    name:c[1],type:'bar',stack:'c',itemStyle:{color:c[2]},barMaxWidth:5,
+    data:H.map(p=>p[2+i])
+  }));
+  series.push({name:'总指数',type:'line',z:5,symbol:'none',lineStyle:{color:'#f2e3b6',width:2.2},itemStyle:{color:'#f2e3b6'},
+    data:H.map(p=>p[1]),
+    markLine:{symbol:'none',silent:true,label:{show:false},lineStyle:{type:'solid',width:1},
+      data:TZ.pressure.taco_marks.filter(m=>/强/.test(m.strength)).map(m=>({xAxis:(m.date.split('→').pop()||m.date).trim(),
+        lineStyle:{color:m.strength==='最强'?'#e5534b':'#e5864b',opacity:.55},
+        tooltip:{formatter:`<b>${esc(m.date)} · ${esc(m.strength)}</b><br>${esc(m.text)}`}}))}});
+  if(!CH.p)CH.p=echarts.init($('chPressure'));
+  CH.p.setOption({
+    backgroundColor:'transparent',
+    tooltip:{trigger:'axis',axisPointer:{type:'cross'},backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:12}},
+    legend:{textStyle:{color:'#9a958c',fontSize:11},top:0},
+    grid:{left:46,right:16,top:36,bottom:60},
+    xAxis:{type:'category',data:dates,axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:10}},
+    yAxis:{type:'value',name:'%',axisLabel:{color:'#9a958c'},splitLine:{lineStyle:{color:'#22262e'}}},
+    dataZoom:[{type:'slider',height:18,bottom:22,borderColor:'#2a2e37',backgroundColor:'#171a20',textStyle:{color:'#9a958c'}}],
+    series:series
+  },true);
+}
+$('rng1').onclick=e=>{const b=e.target.closest('button');if(!b)return;[...$('rng1').children].forEach(x=>x.classList.toggle('on',x===b));renderPressure(+b.dataset.r);};
+
+/* ---------- 支持率图 ---------- */
+function renderApproval(days){
+  const S=cutDays(TZ.approval.series,days);
+  const dates=S.map(p=>p[0]), vals=S.map(p=>p[1]);
+  const anns=TZ.approval.annotations.filter(a=>dates.includes(a.date)).map(a=>({
+    xAxis:a.date,label:{show:true,formatter:(a.text.split('：')[0]||a.text).slice(0,6),color:'#d4a944',fontSize:10,position:'top'},
+    lineStyle:{color:'#d4a944',opacity:.5},tooltip:{formatter:`<b>${a.date}</b><br>${esc(a.text)}`}}));
+  if(!CH.a)CH.a=echarts.init($('chApproval'));
+  CH.a.setOption({
+    backgroundColor:'transparent',
+    tooltip:{trigger:'axis',backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:12},formatter:ps=>{const p=ps[0];return p.axisValue+'<br>净支持 <b>'+p.data+'%</b>';}},
+    grid:{left:46,right:16,top:30,bottom:60},
+    xAxis:{type:'category',data:dates,axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:10}},
+    yAxis:{type:'value',name:'%',axisLabel:{color:'#9a958c'},splitLine:{lineStyle:{color:'#22262e'}}},
+    dataZoom:[{type:'slider',height:18,bottom:22,borderColor:'#2a2e37',backgroundColor:'#171a20',textStyle:{color:'#9a958c'}}],
+    series:[{type:'line',symbol:'none',lineStyle:{width:2.2,color:'#f2e3b6'},itemStyle:{color:'#f2e3b6'},areaStyle:{opacity:.07},data:vals,
+      markLine:{symbol:'none',data:[{yAxis:0,lineStyle:{color:'#9a958c',type:'dashed'},label:{show:false}}].concat(anns),
+        tooltip:{formatter:p=>p.data.tooltip?p.data.tooltip.formatter:''}}}]
+  },true);
+}
+$('rng2').onclick=e=>{const b=e.target.closest('button');if(!b)return;[...$('rng2').children].forEach(x=>x.classList.toggle('on',x===b));renderApproval(+b.dataset.r);};
+
+/* ---------- TACO事件 ---------- */
+function renderEvents(q){
+  q=(q||'').trim();
+  const list=TZ.taco_events.filter(e=>!q||(e.title+e.threat+e.retreat+e.reason+e.implication).includes(q));
+  $('evCnt').textContent=list.length+' / '+TZ.taco_events.length+' 条 · 点击展开详情';
+  $('evList').innerHTML=list.map(e=>`
+    <div class="ev" onclick="this.classList.toggle('open')">
+      <div class="ev-hd"><span class="ev-date">${esc(e.range)}</span><span class="badge b-${esc(e.strength)}">${esc(e.strength)}</span><span class="ev-title">${esc(e.title)}</span></div>
+      <div class="ev-body">
+        ${e.threat?`<p><span class="tag">威胁</span>${esc(e.threat)}</p>`:''}
+        ${e.retreat?`<p><span class="tag t2">回撤</span>${esc(e.retreat)}</p>`:''}
+        ${e.reason?`<p><span class="tag t3">研判</span>${esc(e.reason)}</p>`:''}
+        ${e.implication?`<p><span class="tag t4">含义</span>${esc(e.implication)}</p>`:''}
+      </div>
+    </div>`).join('')||'<div class="empty">没有匹配的事件</div>';
+}
+$('evQ').oninput=e=>renderEvents(e.target.value);
+
+/* ---------- Truths ---------- */
+const KWS=['关税','tariff','美联储','fed','鲍威尔','powell','降息','rate','中国','china','俄罗斯','russia','伊朗','iran','油','oil','通胀','inflation','制裁','sanction','北约','nato','乌克兰','ukraine','协议','deal'];
+let postFilter='all';
+function renderPosts(){
+  const q=($('postQ').value||'').trim().toLowerCase();
+  let list=TR.posts;
+  if(postFilter==='orig')list=list.filter(p=>!p.rt&&p.text&&!/^RT @/.test(p.text));
+  if(postFilter==='kw')list=list.filter(p=>{const t=p.text.toLowerCase();return KWS.some(k=>t.includes(k));});
+  if(q)list=list.filter(p=>p.text.toLowerCase().includes(q));
+  $('postCnt').textContent=list.length+' / '+TR.posts.length+' 条（存档共'+TR.total_in_archive+'条，此处取最新120条）';
+  $('postList').innerHTML=list.slice(0,80).map(p=>{
+    let txt=esc(p.text);
+    KWS.forEach(k=>{const re=new RegExp('('+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');txt=txt.replace(re,'<mark>$1</mark>');});
+    txt=txt||'<span style="opacity:.5">（无文字内容，可能为图片/视频/转发）</span>';
+    const tm=new Date(p.t).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    return `<div class="post ${p.rt?'rt':''}"><div class="tm">${tm} 北京 ${p.url?`· <a href="${esc(p.url)}" target="_blank" rel="noopener">原帖 ↗</a>`:''}</div><div>${txt}</div></div>`;
+  }).join('')||'<div class="empty">没有匹配的帖子</div>';
+}
+document.querySelectorAll('.fbtn[data-f]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.fbtn[data-f]').forEach(x=>x.classList.toggle('on',x===b));postFilter=b.dataset.f;renderPosts();});
+$('postQ').oninput=renderPosts;
+
+/* ---------- 政策预期（Polymarket） ---------- */
+function renderMarkets(){
+  fetch('../data/polymarket.json?v='+Date.now()).then(r=>{if(!r.ok)throw 0;return r.json();}).then(pm=>{
+    if(!pm.markets||!pm.markets.length)throw 0;
+    $('mkList').innerHTML=pm.markets.map((m,i)=>`
+      <div class="mk"><div class="mk-q">${esc(m.question)}</div>
+      ${m.outcomes.map(o=>`<div class="oc"><span class="nm">${esc(o.name)}</span><div class="bar"><div class="fill" style="width:${(o.price*100).toFixed(1)}%"></div></div><span class="pc">${(o.price*100).toFixed(0)}%</span></div>`).join('')}
+      ${(m.history&&m.history.length>1)?`<div class="mkchart" id="mkc${i}" style="width:100%;height:150px;margin-top:8px"></div>`:''}
+      <div class="note">24h成交 $${(m.vol24||0).toLocaleString()} · 截止 ${esc(m.end||'—')}${(m.history&&m.history.length>1)?' · 曲线='+esc(m.outcomes[0].name)+'概率（'+m.history.length+'个交易日）':''}</div></div>`).join('')
+      +`<div class="note">数据源：${esc(pm.source||'Polymarket')} · 更新 ${esc(pm.fetched_at||'').slice(0,16).replace('T',' ')} UTC · L2·交易所</div>`;
+    pm.markets.forEach((m,i)=>{
+      if(!(m.history&&m.history.length>1))return;
+      const c=echarts.init($('mkc'+i));
+      (CH['mk'+i]=c).setOption({
+        backgroundColor:'transparent',animation:false,
+        grid:{left:36,right:10,top:8,bottom:20},
+        tooltip:{trigger:'axis',backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:11},
+                 formatter:ps=>{const p=ps[0];return p.axisValue+'<br>'+esc(m.outcomes[0].name)+' <b>'+(p.data*100).toFixed(1)+'%</b>';}},
+        xAxis:{type:'category',data:m.history.map(p=>p[0]),axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:9}},
+        yAxis:{type:'value',min:0,max:v=>Math.max(0.1,Math.min(1,Math.ceil(v.max*10)/10)),axisLabel:{color:'#9a958c',fontSize:9,formatter:v=>(v*100).toFixed(0)+'%'},splitLine:{lineStyle:{color:'#22262e'}}},
+        series:[{type:'line',symbol:'none',data:m.history.map(p=>p[1]),lineStyle:{color:'#d4a944',width:1.6},areaStyle:{opacity:.08,color:'#d4a944'}}]
+      });
+    });
+  }).catch(()=>{
+    $('mkList').innerHTML=`<div class="card"><h3>政策预期（Polymarket 预测市场）</h3>
+      <div class="empty">Polymarket 直连抓取正在部署（GitHub Actions 每日快照众议院/参议院/衰退/Fed等关键市场赔率）。<br><br>
+      过渡方案：MM 特朗普专区的同类图表（2026众议院/参议院政党、衰退机率等，底层同为 Polymarket）<br>完整历史曲线由云端管线每日自动补齐。</div></div>`;
+  });
+}
+
+/* ---------- 宏观图表墙（免费公开API） ---------- */
+let MACRO=null;
+function fmtV(v){
+  const a=Math.abs(v);
+  if(a>=10000)return v.toLocaleString('zh-CN',{maximumFractionDigits:0});
+  if(a>=100)return v.toFixed(1);
+  if(a>=10)return v.toFixed(2);
+  return v.toFixed(3).replace(/0+$/,'').replace(/\.$/,'.0');
+}
+/* ---- 小图编辑器: 折线/柱状 + 普通/季节性 + 叠加指标 ---- */
+const MCST={}, MCPAL=['#5b9bd5','#4caf7d','#e5534b'];
+function mcat(){
+  const out=[];const H=window.CHART_SERIES||{};
+  ((MACRO&&MACRO.sections)||[]).forEach(s=>(s.items||[]).forEach(it=>{if((H[it.id]||[]).length>2)out.push({id:it.id,name:it.name,unit:it.unit});}));
+  return out;
+}
+function drawMc(sec,i,it){
+  const key='m-'+sec+'-'+i, st=MCST[key], c=CH[key];
+  if(!st||!c)return;
+  const H=window.CHART_SERIES||{}, base=H[it.id]||[];
+  const tip={trigger:'axis',backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:11},valueFormatter:v=>v==null?'—':fmtV(v)};
+  let opt;
+  if(st.view==='s'){
+    const byY={}; base.forEach(p=>{const y=p[0].slice(0,4);(byY[y]=byY[y]||{})[p[0].slice(5)]=p[1];});
+    const years=Object.keys(byY).sort(), maxY=years[years.length-1];
+    const cats=[...new Set(base.map(p=>p[0].slice(5)))].sort();
+    opt={backgroundColor:'transparent',animation:false,tooltip:tip,
+      legend:{data:years,top:0,type:'scroll',textStyle:{color:'#9a958c',fontSize:8},itemWidth:10,itemHeight:7},
+      grid:{left:42,right:8,top:22,bottom:18},
+      xAxis:{type:'category',data:cats,axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:9,interval:Math.max(1,Math.floor(cats.length/8))}},
+      yAxis:{type:'value',scale:true,axisLabel:{color:'#9a958c',fontSize:9},splitLine:{lineStyle:{color:'#22262e'}}},
+      series:years.map(y=>({name:y,type:'line',symbol:'none',connectNulls:false,
+        data:cats.map(d=>byY[y][d]??null),
+        lineStyle:{width:y===maxY?2.2:1,color:y===maxY?'#d4a944':'#3a4a65'},
+        itemStyle:{color:y===maxY?'#d4a944':'#3a4a65'}}))};
+  }else{
+    const ovs=st.ov.map(id=>mcat().find(x=>x.id===id)).filter(Boolean);
+    const right=ovs.some(c=>c.unit!==it.unit);
+    const dates=[...new Set(base.map(p=>p[0]).concat(ovs.flatMap(c=>(H[c.id]||[]).map(p=>p[0]))))].sort();
+    const toMap=s=>{const m={};(s||[]).forEach(p=>m[p[0]]=p[1]);return dates.map(d=>m[d]??null);};
+    const bs={name:it.name,type:st.type,symbol:'none',data:toMap(base),
+      lineStyle:{color:'#d4a944',width:1.5},itemStyle:{color:'#d4a944'}};
+    if(st.type==='line')bs.areaStyle={opacity:.07,color:'#d4a944'};
+    const yAx=[{type:'value',scale:true,axisLabel:{color:'#9a958c',fontSize:9},splitLine:{lineStyle:{color:'#22262e'}}}];
+    if(right)yAx.push({type:'value',scale:true,position:'right',axisLabel:{color:'#9a958c',fontSize:9},splitLine:{show:false}});
+    opt={backgroundColor:'transparent',animation:false,tooltip:tip,
+      grid:{left:42,right:right?36:8,top:ovs.length?18:8,bottom:18},
+      legend:ovs.length?{top:0,type:'scroll',textStyle:{color:'#9a958c',fontSize:8},itemWidth:10,itemHeight:7}:{show:false},
+      xAxis:{type:'category',data:dates,axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:9}},
+      yAxis:yAx,
+      series:[bs].concat(ovs.map((c,j)=>({name:c.name,type:'line',symbol:'none',
+        yAxisIndex:(right&&c.unit!==it.unit)?1:0,data:toMap(H[c.id]||[]),
+        lineStyle:{color:MCPAL[j%3],width:1.2},itemStyle:{color:MCPAL[j%3]}})))};
+  }
+  c.clear();c.setOption(opt);
+}
+function renderMacro(sec,host){
+  host=host||$('sec-'+sec);
+  if(!host||host.dataset.done)return;
+  host.dataset.done='1';
+  if(!MACRO){host.insertAdjacentHTML('beforeend','<div class="empty">宏观数据文件未生成：等待 fetch_macro.py 每日任务产出 macro_series.json</div>');return;}
+  const s=(MACRO.sections||[]).find(x=>x.key===sec);
+  if(!s||!s.items.length){host.insertAdjacentHTML('beforeend','<div class="empty">该板块暂无序列</div>');return;}
+  const H=window.CHART_SERIES||{};
+  const grid=document.createElement('div');grid.className='mgrid';
+  grid.innerHTML=s.items.map((it,i)=>{
+    const has=(H[it.id]||[]).length>2;
+    return `<div class="mk mcard"><div class="mhd"><span class="mk-q">${esc(it.name)}</span>${has?`<span class="mval" id="mv-${sec}-${i}"></span>`:''}</div>
+      ${has?`<div class="mchart" id="mc-${sec}-${i}"></div>
+      <div class="mtool" id="mt-${sec}-${i}">
+        <button data-a="t" title="切换图表类型">折线</button><button data-a="v" title="普通视图/季节性按年叠线">普通</button>
+        <select data-a="o" title="叠加其他指标(不同单位自动右轴)"><option value="">＋叠加指标</option></select>
+        <span id="mchips-${sec}-${i}" style="display:inline-flex;gap:4px;flex-wrap:wrap"></span>
+      </div>`:'<div class="gap">缺口 · 源未接通，标灰不参与判断</div>'}
+      <div class="note">${esc(it.src)}${it.unit?' · '+esc(it.unit):''}<span id="md-${sec}-${i}"></span></div></div>`;
+  }).join('');
+  host.appendChild(grid);
+  s.items.forEach((it,i)=>{
+    const ser=H[it.id]; if(!ser||ser.length<3)return;
+    const last=ser[ser.length-1], prev=ser[Math.max(0,ser.length-30)];
+    const chg=prev&&prev[1]?(last[1]-prev[1]):null;
+    const mv=$('mv-'+sec+'-'+i);
+    if(mv){mv.textContent=fmtV(last[1]);mv.title='30点变化: '+(chg===null?'—':(chg>0?'+':'')+fmtV(chg));}
+    const md=$('md-'+sec+'-'+i);
+    if(md)md.textContent=' · 截至 '+last[0]+' · '+ser.length+'点';
+    const key='m-'+sec+'-'+i;
+    MCST[key]=MCST[key]||{type:'line',view:'n',ov:[]};
+    CH[key]=echarts.init($('mc-'+sec+'-'+i));
+    const bar=$('mt-'+sec+'-'+i), chips=$('mchips-'+sec+'-'+i);
+    const renderChips=()=>{chips.innerHTML=MCST[key].ov.map(id=>{const c=mcat().find(x=>x.id===id);return c?`<span class="mchip">${esc(c.name)}<b data-rm="${id}">×</b></span>`:''}).join('');};
+    bar.querySelector('[data-a="t"]').onclick=e=>{const st=MCST[key];st.type=st.type==='line'?'bar':'line';e.target.textContent=st.type==='line'?'折线':'柱状';drawMc(sec,i,it);};
+    bar.querySelector('[data-a="v"]').onclick=e=>{const st=MCST[key];st.view=st.view==='n'?'s':'n';e.target.textContent=st.view==='n'?'普通':'季节性';drawMc(sec,i,it);};
+    const sel=bar.querySelector('[data-a="o"]');
+    sel.addEventListener('pointerdown',function(){if(this.dataset.full)return;this.dataset.full='1';
+      this.innerHTML='<option value="">＋叠加指标</option>'+mcat().filter(c=>c.id!==it.id).map(c=>`<option value="${c.id}">${esc(c.name)} ${esc(c.unit||'')}</option>`).join('');});
+    sel.onchange=function(){const id=this.value;this.value='';if(!id)return;const st=MCST[key];
+      if(st.ov.includes(id))return;if(st.ov.length>=3){alert('单图最多叠加3个指标');return;}
+      st.ov.push(id);renderChips();drawMc(sec,i,it);};
+    chips.onclick=e=>{const id=e.target.dataset&&e.target.dataset.rm;if(!id)return;
+      const st=MCST[key];st.ov=st.ov.filter(x=>x!==id);renderChips();drawMc(sec,i,it);};
+    renderChips();drawMc(sec,i,it);
+  });
+}
+
+/* ---------- 流动性看板 ---------- */
+let LIQ=null;
+const LIQ_INV={onrrp:1,reserves:1,netliq:1};  // 低=紧的卡
+function renderLiq(){
+  const j=LIQ; if(!j)return;
+  const st=j.stress||{value:null}, rg=j.regime||{};
+  $('liqNote').textContent='美元流动性追踪 · 更新 '+j.updated+' · 数据截至 '+j.asof+' · 缩表阶段'+(rg.stage||'—')+'（ON RRP '+(rg.onrrp_bn!=null?rg.onrrp_bn.toFixed(2):'—')+'十亿$）';
+  const sig=(j.signals&&j.signals.broad)||[], fund=(j.signals&&j.signals.funding)||[];
+  const lamp=(on,t1,t0)=>`<span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;border:1px solid ${on?'var(--red)':'var(--line)'};color:${on?'var(--red)':'var(--dim)'};background:${on?'rgba(229,83,75,.15)':'transparent'}">${on?t1:t0}</span>`;
+  let h='<div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">';
+  h+=`<div class="stat"><div class="k">⚙️流动性综合压力分位</div><div class="v" style="color:${pctColor(st.value||0)}">${st.value??'—'}<span style="font-size:13px;color:var(--dim)">/100</span></div><div class="d">${st.n_comp||0}项分量等权 · ≥80偏紧 ≤20宽松</div></div>`;
+  h+=`<div class="stat"><div class="k">缩表阶段判定</div><div class="v" style="color:var(--gold)">阶段${rg.stage??'—'}</div><div class="d">${esc(rg.desc||'')}</div></div>`;
+  h+=`<div class="stat"><div class="k">信号</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${lamp(j.buy_signal,'广义冲击>2σ · 买入窗口','广义信号: 无')}${lamp(j.funding_alert,'融资压力警报>2σ','融资警报: 无')}</div><div class="d" style="margin-top:6px">${sig.map(x=>`${x.name} z=${x.z}`).join(' · ')}</div></div>`;
+  h+='</div>';
+  // 分量条
+  if(st.components){
+    h+='<div class="card"><h3>压力分量（2019以来分位，越高越紧）</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 16px">'+
+      st.components.map(c=>`<div style="font-size:12px;color:var(--dim)">${esc(c.name)} <span style="float:right;color:${pctColor(c.pct)};font-weight:700">${c.pct}</span><div style="height:4px;background:#22262e;border-radius:2px;margin-top:3px"><div style="height:4px;width:${c.pct}%;background:${pctColor(c.pct)};border-radius:2px"></div></div></div>`).join('')+'</div></div>';
+  }
+  // 日度看板卡
+  h+='<div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">';
+  h+=(j.cards||[]).map(c=>{
+    const p=LIQ_INV[c.id]?100-c.pct:c.pct;
+    const chg=c.chg==null?'':((c.chg>0?'+':'')+c.chg);
+    return `<div class="stat"><div class="k">${esc(c.name)}</div><div class="v" style="font-size:20px;color:${pctColor(p)}">${c.val}<span style="font-size:12px;color:var(--dim)"> ${esc(c.unit)}</span></div><div class="d">${c.date} · Δ${chg} · 分位${c.pct}</div></div>`;
+  }).join('')+'</div>';
+  $('liqDash').innerHTML=h;
+  $('liqGaps').innerHTML=(j.gaps||[]).map(g=>'· '+esc(g)).join('<br>');
+  $('liqMethod').textContent=j.methodology||'';
+}
+
+/* ---------- 贵金属杠杆 ---------- */
+let LEV=null, LEV_CUR='gold';
+const LEV_COLORS={gold:'#d4a944',silver:'#c0c8d0',platinum:'#8fb8a8',palladium:'#b08fc5'};
+function pctColor(p){return p>=80?'var(--red)':(p>=60?'var(--orange)':(p>=40?'var(--gold)':'var(--green)'));}
+function renderLev(){
+  if(!LEV)return;
+  const L=LEV.leverage||{};
+  $('levNote').textContent='贵金属综合杠杆指标 · ⚙️自建商品杠杆方法论 · 更新 '+LEV.updated+' · '+LEV.src;
+  $('levCards').innerHTML=['gold','silver','platinum','palladium'].map(k=>{
+    const d=L[k];if(!d)return'';
+    if(d.gap)return `<div class="stat"><div class="k">${d.name}杠杆率</div><div class="v flat">缺口</div><div class="d">CFTC序列不足</div></div>`;
+    const pc=d.pct>=80?'up':(d.pct<=20?'down':'flat');
+    return `<div class="stat"><div class="k">${d.name}杠杆分位 ⚙️</div>
+      <div class="v" style="color:${pctColor(d.pct)}">${d.pct}<span style="font-size:13px;color:var(--dim)">/100</span></div>
+      <div class="d">净持仓 ${d.net_contracts.toLocaleString()}手 · 截至${d.asof}<br>13周变化分位 ${d.pct_chg??'—'} · 变化 ${d.chg_13w>0?'+':''}${(d.chg_13w||0).toLocaleString()}手</div></div>`;
+  }).join('');
+  // ETF腿状态
+  const etf=LEV.etf_leg||{};
+  const etfTxt=['GLD','SLV'].map(s=>{const e=etf[s];return e?`${s}份额已积累${e.n}点${e.ready?'(ETF腿已启用)':'(满26周启用ETF腿)'}`:'';}).filter(x=>x).join(' · ');
+  $('levMethod').innerHTML=esc(LEV.method||'')+(etfTxt?'<br><br><b>ETF腿:</b> '+esc(etfTxt):'')+
+    '<br><br><b>对标第三方贵金属杠杆信号方法论（2026-08-26）:</b> 其结论——①极端杠杆极值多源于ETF腿 ②杠杆<b>变化</b>比杠杆<b>水平</b>对价格解释力更高(ETF资金流解释度10.9% vs 杠杆变化3.0%) ③品种间杠杆差异大 ④高分位≠立即见顶(黄金48.6分位已回归中性)。'+
+    '本面板分位口径与其不同(仅用期货腿·2019以来全样本), 数值不可直接对比, 信号方向参考使用。';
+  renderLevChart();
+}
+function renderLevChart(){
+  const L=LEV.leverage||{};const d=L[LEV_CUR];
+  $('levRng').innerHTML=['gold','silver','platinum','palladium'].map(k=>
+    `<button data-k="${k}" class="${LEV_CUR===k?'on':''}" style="${LEV_CUR===k?'':''}">${(L[k]||{}).name||k}</button>`).join('');
+  if(!d||d.gap){$('levMeta').textContent='该品种数据不足';return;}
+  const ser=d.series_tail;
+  if(!CH.lev)CH.lev=echarts.init($('levChart'));
+  CH.lev.setOption({
+    backgroundColor:'transparent',animation:false,
+    tooltip:{trigger:'axis',backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:12}},
+    grid:{left:64,right:20,top:20,bottom:56},
+    xAxis:{type:'category',data:ser.map(p=>p[0]),axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:10}},
+    yAxis:{type:'value',scale:true,axisLabel:{color:'#9a958c'},splitLine:{lineStyle:{color:'#22262e'}}},
+    dataZoom:[{type:'slider',height:16,bottom:20,borderColor:'#2a2e37',backgroundColor:'#171a20',textStyle:{color:'#9a958c'}}],
+    series:[{type:'line',symbol:'none',data:ser.map(p=>p[1]),lineStyle:{color:LEV_COLORS[LEV_CUR],width:1.8},areaStyle:{opacity:.08,color:LEV_COLORS[LEV_CUR]}}]
+  },true);
+  $('levMeta').textContent=`${d.name}非商业净持仓 · L1·CFTC每周五发布(持仓日=周二) · 当前分位 ${d.pct}/100`;
+}
+$('levRng').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  LEV_CUR=b.dataset.k;renderLevChart();
+});
+
+/* ---------- 终端宏观库 ---------- */
+let HT={lib:null,sheet:null,key:null,loaded:{}};
+function htLoadLib(lib,cb){
+  if(HT.loaded[lib])return cb();
+  const s=document.createElement('script');
+  s.src='../data/ht_series_'+lib+'.js?v=20260901';
+  s.onload=()=>{HT.loaded[lib]=1;cb();};
+  s.onerror=()=>{$('htTitle').textContent='数据文件加载失败: ht_series_'+lib+'.js';};
+  document.head.appendChild(s);
+}
+function htRenderLibs(){
+  const C=window.HT_CATALOG||{},N=window.HT_LIBNAMES||{};
+  $('htLibs').innerHTML=Object.keys(C).map(l=>{
+    const n=Object.values(C[l]).reduce((a,v)=>a+v.length,0);
+    return `<div style="padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12.5px;${HT.lib===l?'background:var(--gold);color:#111;font-weight:700':'color:var(--dim)'}" data-lib="${l}">${esc(N[l]||l)} <span style="opacity:.7">${n}</span></div>`;
+  }).join('');
+}
+function htRenderSheets(){
+  const C=window.HT_CATALOG||{};
+  const sh=(C[HT.lib]||{});
+  $('htSheets').innerHTML=Object.keys(sh).map(s=>
+    `<div style="padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;${HT.sheet===s?'background:rgba(212,169,68,.25);color:var(--gold)':'color:var(--dim)'}" data-sheet="${esc(s)}">${esc(s)} <span style="opacity:.65">${sh[s].length}</span></div>`
+  ).join('');
+}
+function htRenderList(){
+  const C=window.HT_CATALOG||{},S=window.HT_SERIES||{};
+  const q=($('htQ').value||'').trim().toLowerCase();
+  let keys=(C[HT.lib]&&C[HT.lib][HT.sheet])||[];
+  if(q){
+    keys=Object.keys(S).filter(k=>S[k].name.toLowerCase().includes(q));
+    $('htHit').textContent=keys.length+' 条命中（全库）';
+  }else $('htHit').textContent='';
+  keys=keys.slice(0,400);
+  $('htList').innerHTML=keys.map(k=>
+    `<div style="padding:3px 8px;border-radius:5px;cursor:pointer;font-size:12px;${HT.key===k?'background:rgba(212,169,68,.25);color:var(--gold)':'color:var(--txt)'}" data-key="${esc(k)}">${esc(S[k]?S[k].name:k)} <span style="opacity:.5">${S[k]?esc(S[k].unit):''}</span></div>`
+  ).join('')||'<div class="empty">无数据</div>';
+}
+function htRenderChart(){
+  const d=(window.HT_SERIES||{})[HT.key];
+  if(!d)return;
+  $('htTitle').textContent=d.name;
+  const ser=d.series,last=ser[ser.length-1];
+  $('htMeta').textContent=`${d.src} · ${d.unit||''} · 截至 ${last[0]} · ${ser.length}点 · 最新值 ${fmtV(last[1])}`;
+  if(!CH.ht)CH.ht=echarts.init($('htChart'));
+  CH.ht.setOption({
+    backgroundColor:'transparent',animation:false,
+    tooltip:{trigger:'axis',backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:12}},
+    grid:{left:56,right:20,top:20,bottom:58},
+    xAxis:{type:'category',data:ser.map(p=>p[0]),axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:10}},
+    yAxis:{type:'value',scale:true,axisLabel:{color:'#9a958c'},splitLine:{lineStyle:{color:'#22262e'}}},
+    dataZoom:[{type:'slider',height:16,bottom:20,borderColor:'#2a2e37',backgroundColor:'#171a20',textStyle:{color:'#9a958c'}}],
+    series:[{type:'line',symbol:'none',data:ser.map(p=>p[1]),lineStyle:{color:'#d4a944',width:1.8},areaStyle:{opacity:.08,color:'#d4a944'}}]
+  },true);
+}
+function initHT(){
+  if(!window.HT_CATALOG){
+    const s=document.createElement('script');s.src='../data/ht_catalog.js?v=20260901';
+    s.onload=()=>{initHT2();};document.head.appendChild(s);
+  }else initHT2();
+}
+function initHT2(){
+  const C=window.HT_CATALOG||{};
+  HT.lib=HT.lib||Object.keys(C)[0];
+  HT.sheet=HT.sheet||Object.keys(C[HT.lib]||{})[0];
+  const total=Object.values(C).reduce((a,v)=>a+Object.values(v).reduce((x,y)=>x+y.length,0),0);
+  $('htCnt').textContent=total;
+  htLoadLib(HT.lib,()=>{htRenderLibs();htRenderSheets();htRenderList();
+    const first=(C[HT.lib][HT.sheet]||[])[0];
+    if(first){HT.key=first;htRenderChart();}
+  });
+}
+$('htLibs').addEventListener('click',e=>{
+  const t=e.target.closest('[data-lib]');if(!t)return;
+  HT.lib=t.dataset.lib;HT.sheet=null;HT.key=null;
+  htLoadLib(HT.lib,()=>{htRenderLibs();
+    HT.sheet=Object.keys((window.HT_CATALOG||{})[HT.lib]||{})[0];
+    htRenderSheets();htRenderList();
+    const first=((window.HT_CATALOG||{})[HT.lib][HT.sheet]||[])[0];
+    if(first){HT.key=first;htRenderChart();}
+  });
+});
+$('htSheets').addEventListener('click',e=>{
+  const t=e.target.closest('[data-sheet]');if(!t)return;
+  HT.sheet=t.dataset.sheet;HT.key=null;htRenderSheets();htRenderList();
+  const first=((window.HT_CATALOG||{})[HT.lib][HT.sheet]||[])[0];
+  if(first){HT.key=first;htRenderChart();}
+});
+$('htList').addEventListener('click',e=>{
+  const t=e.target.closest('[data-key]');if(!t)return;
+  const k=t.dataset.key;
+  // 跨库搜索命中时先加载对应库
+  const lib=Object.keys(window.HT_CATALOG||{}).find(l=>k.startsWith('HT_'+l+'_'));
+  const go=()=>{HT.key=k;htRenderList();htRenderChart();};
+  if(lib&&!HT.loaded[lib])htLoadLib(lib,go);else go();
+});
+$('htQ').addEventListener('input',()=>{
+  // 搜索需全库加载
+  const libs=Object.keys(window.HT_CATALOG||{});
+  let pend=libs.filter(l=>!HT.loaded[l]);
+  if(!pend.length)return htRenderList();
+  pend.forEach(l=>htLoadLib(l,()=>{pend=pend.filter(x=>x!==l);if(!pend.length)htRenderList();}));
+});
+
+/* ---------- 2026中期选举·参众两院控制权（Polymarket） ---------- */
+function renderMidterm(){
+  const host=$('midGrid'); if(!host)return;
+  fetch('../data/polymarket.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(pm=>{
+    if(!pm||!pm.markets){host.innerHTML='<div class="note">polymarket.json 未加载</div>';return;}
+    const bySlug={}; pm.markets.forEach(m=>{if(m.slug)bySlug[m.slug]=m;});
+    const defs=[
+      {slug:'which-party-will-win-the-senate-in-2026', title:'共和党拿下参议院', dem:'民主党控制参议院'},
+      {slug:'which-party-will-win-the-house-in-2026',  title:'共和党赢得众议院', dem:'民主党控制众议院'}
+    ];
+    host.innerHTML=defs.map((d,i)=>{
+      const m=bySlug[d.slug];
+      if(!m) return `<div class="midC"><div class="mt">${d.title}</div><div class="mv" style="color:var(--dim);font-size:18px;">—</div><div class="note">已加入每日抓取管线（09:05 BJT），明日起出数出图</div></div>`;
+      let gop=null, dem=null;
+      const rOut=m.outcomes.find(o=>/republican/i.test(o.name)), dOut=m.outcomes.find(o=>/democratic/i.test(o.name));
+      if(rOut){gop=rOut.price; dem=dOut?dOut.price:null;}
+      else{const y=m.outcomes.find(o=>o.name==='Yes'); if(y&&/democratic/i.test(m.question)){dem=y.price; gop=1-y.price;}}
+      if(gop==null) return `<div class="midC"><div class="mt">${d.title}</div><div class="note">市场口径待解析：${esc(m.question)}</div></div>`;
+      const gp=(gop*100).toFixed(1), dp=dem!=null?(dem*100).toFixed(1):null;
+      return `<div class="midC"><div class="mt">${d.title}概率</div>
+        <div class="mv">${gp}%</div>
+        ${dp?`<div class="md">${d.dem} ${dp}%</div>`:''}
+        ${dp?`<div class="midbar"><i style="width:${gp}%;background:#e5534b"></i><i style="width:${dp}%;background:#5b9bd5"></i></div>`:''}
+        ${(m.history&&m.history.length>1)?`<div id="midc_${d.slug.slice(-12)}" style="width:100%;height:140px;margin-top:6px"></div>`:''}
+        <div class="note">问法：${esc(m.question)} · 截止 ${esc(m.end||'2026-11-03')} · 24h成交 $${(m.vol24||0).toLocaleString()}</div></div>`;
+    }).join('');
+    $('midNote').innerHTML='红=共和党 · 蓝=民主党 · 曲线=共和党胜率（由市场首项推算）· 更新 '+esc(pm.fetched_at||'').slice(0,16).replace('T',' ')+' UTC · L2·交易所Polymarket';
+    defs.forEach(d=>{
+      const m=bySlug[d.slug]; if(!m||!m.history||m.history.length<2)return;
+      const el=document.getElementById('midc_'+d.slug.slice(-12)); if(!el)return;
+      const first=(m.outcomes[0]||{}).name||'';
+      const gopLine=/yes|democratic/i.test(first); /* 首项为民主党侧→取反 */
+      const data=m.history.map(p=>[p[0], gopLine?+(1-p[1]).toFixed(4):p[1]]);
+      const c=echarts.init(el); CH['mid'+d.slug]=c;
+      c.setOption({backgroundColor:'transparent',animation:false,
+        grid:{left:36,right:10,top:10,bottom:20},
+        tooltip:{trigger:'axis',backgroundColor:'#171a20',borderColor:'#2a2e37',textStyle:{color:'#e8e6e1',fontSize:11},
+          formatter:ps=>ps[0].axisValue+'<br>共和党胜率 <b>'+(ps[0].data[1]*100).toFixed(1)+'%</b>'},
+        xAxis:{type:'category',data:data.map(p=>p[0]),axisLine:{lineStyle:{color:'#2a2e37'}},axisLabel:{color:'#9a958c',fontSize:9}},
+        yAxis:{type:'value',min:0,max:v=>Math.max(0.1,Math.min(1,Math.ceil(v.max*10)/10)),axisLabel:{color:'#9a958c',fontSize:9,formatter:v=>(v*100).toFixed(0)+'%'},splitLine:{lineStyle:{color:'#22262e'}}},
+        series:[{type:'line',symbol:'none',data:data.map(p=>p[1]),lineStyle:{color:'#e5534b',width:1.6},areaStyle:{opacity:.08,color:'#e5534b'},
+          markLine:{symbol:'none',label:{color:'#9a958c',fontSize:9},lineStyle:{color:'#3a4356',type:'dashed'},data:[{yAxis:0.5}]}}]});
+    });
+  }).catch(()=>{host.innerHTML='<div class="note">Polymarket 数据拉取失败，请刷新重试</div>';});
+}
+
+/* ---------- 启动 ---------- */
+Promise.all([
+  fetch('../data/trump_zone.json?v='+Date.now()).then(r=>r.json()),
+  fetch('../data/truth_posts.json?v='+Date.now()).then(r=>r.json()),
+  fetch('../data/macro_series.json?v='+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null)
+]).then(([tz,tr,mac])=>{
+  TZ=tz;TR=tr;MACRO=mac;
+  renderStats();renderPressure(365);renderApproval(365);renderEvents('');renderPosts();renderMarkets();renderMidterm();
+  renderMacro('poll',$('pollExtra'));
+}).catch(e=>{
+  document.body.insertAdjacentHTML('beforeend','<div class="empty">数据文件缺失：请先运行 scripts/fetch_trump.py</div>');
+});
+window.addEventListener('resize',()=>Object.values(CH).forEach(c=>c.resize&&c.resize()));
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+name: 实时行情快照
+on:
+  schedule:
+    # 工作日 BJT 09:12/11:12/13:12/15:12/17:12/21:12/23:12 (UTC 01/03/05/07/09/13/15)
+    - cron: '12 1,3,5,7,9,13,15 * * 1-5'
+    # 周末加密一次(加密资产/期货夜盘参考)
+    - cron: '12 13 * * 0'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install curl_cffi
+      - name: 抓取Yahoo行情快照
+        run: python3 scripts/fetch_live.py || true
+      - name: 提交更新
+        run: |
+          git config user.name "workbench-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/live_quotes.json
+          git diff --cached --quiet || git commit -m "行情快照 $(date -u +'%m-%d %H:%M')UTC"
+          git pull --rebase origin main || true
+          git push

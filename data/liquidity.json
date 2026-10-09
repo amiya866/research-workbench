@@ -1,0 +1,177 @@
+{
+ "updated": "2026-10-09 08:38",
+ "asof": "2026-10-08",
+ "regime": {
+  "stage": 1,
+  "onrrp_bn": null,
+  "desc": "ON RRP仍有余量→货币基金边际融出, 利率传导相对平滑(缩表阶段1)"
+ },
+ "stress": {
+  "value": 56.3,
+  "n_comp": 5,
+  "components": [
+   {
+    "id": "BAMLH0A0HYM2",
+    "name": "高收益OAS",
+    "pct": 53.9
+   },
+   {
+    "id": "VIXCLS",
+    "name": "VIX(股市波动)",
+    "pct": 22.8
+   },
+   {
+    "id": "MOVE_X",
+    "name": "MOVE(债市波动)",
+    "pct": 59.5
+   },
+   {
+    "id": "DTWEXBGS",
+    "name": "美元指数63日Δ",
+    "pct": 54.5
+   },
+   {
+    "id": "DFII10",
+    "name": "10Y实际利率63日Δ",
+    "pct": 90.9
+   }
+  ]
+ },
+ "signals": {
+  "broad": [
+   {
+    "id": "DTWEXBGS",
+    "name": "美元指数",
+    "z": 0.19,
+    "chg63": 0.55,
+    "triggered": false
+   },
+   {
+    "id": "DFII10",
+    "name": "10Y实际利率",
+    "z": 1.68,
+    "chg63": 0.61,
+    "triggered": false
+   },
+   {
+    "id": "BAMLH0A0HYM2",
+    "name": "高收益OAS",
+    "z": 1.1,
+    "chg63": 0.4,
+    "triggered": false
+   },
+   {
+    "id": "VIXCLS",
+    "name": "VIX",
+    "z": 0.02,
+    "chg63": 0.05,
+    "triggered": false
+   },
+   {
+    "id": "MOVE_X",
+    "name": "MOVE",
+    "z": 2.02,
+    "chg63": 33.67,
+    "triggered": true
+   }
+  ],
+  "funding": []
+ },
+ "buy_signal": true,
+ "funding_alert": false,
+ "cards": [
+  {
+   "id": "srf",
+   "name": "SRF常备回购用量",
+   "val": 0.0,
+   "unit": "十亿$",
+   "date": "2026-10-08",
+   "chg": 0.0,
+   "pct": 57.8,
+   "key": "LIQ_SRF"
+  },
+  {
+   "id": "hy",
+   "name": "高收益债OAS",
+   "val": 3.09,
+   "unit": "%",
+   "date": "2026-10-07",
+   "chg": 0.06,
+   "pct": 53.9,
+   "key": "BAMLH0A0HYM2"
+  },
+  {
+   "id": "move",
+   "name": "MOVE美债波动率(债市)",
+   "val": 102.56,
+   "unit": "点",
+   "date": "2026-10-07",
+   "chg": -2.64,
+   "pct": 59.5,
+   "key": "MOVE_X"
+  },
+  {
+   "id": "vix",
+   "name": "VIX(股市)",
+   "val": 15.08,
+   "unit": "点",
+   "date": "2026-10-07",
+   "chg": 0.07,
+   "pct": 22.8,
+   "key": "VIXCLS"
+  },
+  {
+   "id": "real10y",
+   "name": "10Y实际利率",
+   "val": 2.92,
+   "unit": "%",
+   "date": "2026-10-07",
+   "chg": 0.01,
+   "pct": 99.8,
+   "key": "DFII10"
+  },
+  {
+   "id": "dxy",
+   "name": "广义美元指数",
+   "val": 121.38,
+   "unit": "点",
+   "date": "2026-10-02",
+   "chg": -0.4,
+   "pct": 73.1,
+   "key": "DTWEXBGS"
+  },
+  {
+   "id": "gm2",
+   "name": "全球M2同比⚙️简单平均",
+   "val": 5.79,
+   "unit": "%",
+   "date": "2026-08-01",
+   "chg": 0.07,
+   "pct": 52.5,
+   "key": "GM2_YOY"
+  }
+ ],
+ "fails": [
+  "SOFR",
+  "SOFR99",
+  "TGCRRATE",
+  "IORB",
+  "DFF",
+  "RRPONTSYAWARD",
+  "RRPONTSYD",
+  "WRESBAL",
+  "WTREGEN",
+  "WALCL",
+  "WREPOFOR"
+ ],
+ "gaps": [
+  "XCCY交叉货币互换基差(需彭博)",
+  "贴现窗口借款量(FRED无直读序列, H.4.1表2待解析)",
+  "一级交易商持仓(FR2004网页抓取待做)",
+  "高盛/彭博金融条件指数(商业数据)",
+  "日本M2现行值(FRED/OECD序列已停更, 待BOJ直抓)",
+  "英国/加拿大M2(免费序列缺失)",
+  "CP-OIS真实值(此处以1M商票-SOFR代理)"
+ ],
+ "methodology": "综合压力分位=9项分量(6项水平分位+3项63日变化分位, 2019以来全样本; MOVE分位自2020H2, Yahoo ^MOVE日度+L3·第三方终端EDB快照拼接)等权平均; 广义信号=美元指数/真实利率/HY/VIX/MOVE 63日变化z≥2(对标GMF>2σ买入窗口); 融资警报=SOFR-IORB/尾部/商票 20日变化z≥2; 阶段判定=ON RRP<1000亿$→阶段2"
+}

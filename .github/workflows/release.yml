@@ -1,0 +1,29 @@
+name: 数据发布面板
+on:
+  schedule:
+    - cron: '45 13 * * 1-5'   # 工作日 21:45北京(夏令)/发布日20:30后
+    - cron: '45 1 * * 2-6'    # 次日 09:45北京补刷(冬令发布覆盖)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install curl_cffi
+      - name: 抓取分项贡献+FedWatch
+        env:
+          BLS_KEY: ${{ secrets.BLS_KEY }}
+          BEA_KEY: ${{ secrets.BEA_KEY }}
+        run: python3 scripts/fetch_release.py
+      - name: 提交更新
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/release_panels.json
+          git diff --cached --quiet || git commit -m "数据发布面板 $(date +%F)"
+          git push
