@@ -8,3 +8,4 @@ _mm_merge.py
 *.pyc
 _local_keys.json
 _daily_report_state.json
+_variety_review_state.json
