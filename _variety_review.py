@@ -135,8 +135,9 @@ def fmt_px(v):
 
 # ---------- 各块组装 ----------
 def block_price(comm):
-    """【价格】返回 (html文本行列表, stats dict)"""
-    lines, stats = [], {}
+    """【价格】连贯段落。返回 (html文本行列表, stats dict)"""
+    stats = {}
+    segs = []
     for sym in comm[2]:
         ks = guan_kline(sym)
         if not ks or len(ks) < 25:
@@ -153,8 +154,13 @@ def block_price(comm):
         vr = ks[-1][2] / (sum(vols) / len(vols)) if vols and ks[-1][2] > 0 else None
         stats[sym] = dict(close=close, chg=chg, chg20=chg20, pos=pos, lo20=lo20, hi20=hi20,
                           vol_ratio=vr, date=ks[-1][0])
-        lines.append('%s主力 %s（%s，20 日 %s，120 日位置 %.0f%%）' % (
-            sym, fmt_px(close), fmt_pct(chg), fmt_pct(chg20), pos * 100))
+        move = '上涨' if chg > 0.0005 else ('下跌' if chg < -0.0005 else '持平于')
+        unit = {'AU': '元/克', 'AG': '元/千克'}.get(sym, '元/吨')
+        seg = '%s主力收报 %s %s，%s %.2f%%' % (sym, fmt_px(close), unit, move, abs(chg) * 100)
+        seg += '（20 日 %s，120 日位置 %.0f%%）' % (fmt_pct(chg20), pos * 100)
+        if vr:
+            seg += '，量比 %.1f（%s）' % (vr, '放量' if vr > 1.15 else ('缩量' if vr < 0.85 else '量能平稳'))
+        segs.append(seg)
     if comm[3]:
         wm = westmetall(comm[3])
         if wm:
@@ -163,14 +169,16 @@ def block_price(comm):
             cash, m3 = wm[d1]
             stale = (datetime.date.today() - datetime.date.fromisoformat(d1)).days > 14
             if stale:
-                lines.append('LME 价格源（westmetall）停在 %s，已陈旧不引用' % d1)
+                segs.append('LME 价格源（westmetall）停在 %s，已陈旧不引用' % d1)
             else:
                 chg = pct(cash, wm[d0][0])
                 stats['lme'] = dict(date=d1, cash=cash, m3=m3, chg=chg, basis=cash - m3)
-                lines.append('LME cash %s / 3M %s（cash 日 %s，0-3 %s 美元，%s）' % (
-                    format(cash, ',.0f'), format(m3, ',.0f'), fmt_pct(chg),
-                    format(cash - m3, '+,.0f'), d1))
-    return lines, stats
+                basis_w = '升水' if cash > m3 else ('贴水' if cash < m3 else '持平')
+                segs.append('LME cash 报 %s 美元/吨、3M 报 %s（%s），0-3 %s %s 美元' % (
+                    format(cash, ',.0f'), format(m3, ',.0f'), d1, basis_w,
+                    format(abs(cash - m3), ',.0f')))
+    para = '；'.join(segs) + '。' if segs else ''
+    return ([para] if para else []), stats
 
 def block_news(comm, news, disr, zsxq, today):
     """【行业新闻】有序编号列表，不带出处标签，保留日期"""
@@ -248,7 +256,8 @@ def block_fundamental(comm_code):
         lines.append('%s %s %s（%s%s）%s' % (name, format(disp_v, ',.2f').rstrip('0').rstrip('.'),
                                             disp_u, cur_d, ('，' + chg) if chg else '', unit_note))
     con.close()
-    return lines[:7]
+    lines = lines[:7]
+    return ['；'.join(lines) + '。'] if lines else []
 
 def block_view(comm, stats, fund_lines, override):
     """【观点】规则拼装 + state 覆盖"""
