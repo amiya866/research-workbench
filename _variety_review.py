@@ -35,16 +35,30 @@ COMMS = [
 
 # 供需库存块: (标签, 正则) 按序匹配 series_meta.name, 每组取最新鲜一条
 IND_GROUPS = [
-    ('LME库存', r'^LME \S{1,3}库存$'),
-    ('SHFE库存', r'^SHFE \S*库存'),
-    ('社会库存', r'社会库存'),
-    ('升贴水', r'升贴水|溢价'),
-    ('TC/加工费', r'TC|加工费'),
-    ('开工率', r'开工率|产能利用率'),
-    ('冶炼利润', r'冶炼利润|生产利润'),
-    ('持仓量', r'总持仓量'),
-    ('进口盈亏', r'进口盈亏|进口利润|沪伦比'),
+    ('LME库存', r'^LME \S{1,3}库存$', None),
+    ('SHFE库存', r'^SHFE \S*库存', None),
+    ('社会库存', r'社会库存', None),
+    ('升贴水', r'升贴水|溢价', None),
+    ('TC/加工费', r'TC|加工费', None),
+    ('开工率', r'开工率|产能利用率', None),
+    ('冶炼利润', r'冶炼利润|生产利润', None),
+    ('持仓量', r'总持仓量', None),
+    ('进口盈亏', r'进口盈亏|进口利润|沪伦比', None),
 ]
+# 品种特化组（硅系命名不通用，定制；另有多晶硅/工业硅价格与成本）
+COMM_GROUPS = {
+    'SI': [
+        ('仓单', r'仓单', None),
+        ('厂家库存', r'生产厂家库存|下游原料.*库存', None),
+        ('多晶硅库存', r'多晶硅库存', None),
+        ('产量', r'多晶硅产量|样本产量', None),
+        ('工业硅产量', r'工业硅产量', None),
+        ('成本', r'工业硅421#成本|多晶硅.*生产成本', None),
+        ('现货价', r'工业硅553#|多晶硅N型致密料市场价', None),
+    ],
+}
+# 通用组品种级排除正则（如 SI 的"开工率"会误配铝合金）
+COMM_EXCLUDE = {'SI': r'铝合金'}
 
 def load_json(p, default=None):
     try:
@@ -159,43 +173,52 @@ def block_price(comm):
     return lines, stats
 
 def block_news(comm, news, disr, zsxq, today):
-    """【行业新闻】"""
+    """【行业新闻】有序编号列表，不带出处标签，保留日期"""
     cn, key = comm[1], comm[4]
-    out = []
+    items = []  # (date, text)
     cutoff14 = (datetime.date.fromisoformat(today) - datetime.timedelta(days=14)).isoformat()
     for n in news:
         if n.get('commodity') == cn and n.get('date', '') >= cutoff14:
-            out.append('[%s·%s] %s' % (n.get('date', '')[5:], n.get('category', ''), n.get('title', '')))
+            items.append((n.get('date', ''), n.get('title', '')))
     for d in disr:
         if d.get('commodity') == cn and d.get('ongoing'):
-            out.append('[扰动·持续] %s %s（%s）：%s；恢复：%s' % (
-                d.get('company', ''), d.get('type', ''), d.get('country', ''),
-                d.get('impact', ''), d.get('recovery', '')))
+            txt = '%s（%s）%s：%s；恢复：%s' % (
+                d.get('company', ''), d.get('country', ''), d.get('type', ''),
+                d.get('impact', ''), d.get('recovery', ''))
+            items.append((d.get('date', '')[:10], txt[:90] + ('…' if len(txt) > 90 else '')))
     cutoff7 = (datetime.date.fromisoformat(today) - datetime.timedelta(days=7)).isoformat()
     seen = set()
     for it in (zsxq.get('by_comm', {}).get(key) or []):
         if it.get('date', '') >= cutoff7:
-            t = (it.get('title') or '')[:48]
-            if t in seen:
+            t = (it.get('title') or '').strip()
+            if t[:48] in seen:
                 continue
-            seen.add(t)
-            out.append('[星球·%s] %s' % (it.get('date', '')[5:], t))
-    return out[:8]
+            seen.add(t[:48])
+            if comm[0] == 'SI' and not re.search(r'硅|光伏|组件|通威|协鑫|大全|东岳|合盛|新安', t):
+                continue  # si 桶噪音多，白名单过滤
+            items.append((it.get('date', ''), t[:60]))
+    items = [x for x in items if x[1]]
+    items.sort(key=lambda x: x[0], reverse=True)  # 日期倒序
+    return ['%d. %s %s' % (i + 1, d[5:], t) for i, (d, t) in enumerate(items[:8])]
 
 def block_fundamental(comm_code):
     """【供需与库存】从缓存库按指标组取最新"""
     if not os.path.exists(CACHE_DB):
         return []
+    groups = COMM_GROUPS.get(comm_code, IND_GROUPS)
+    excl = COMM_EXCLUDE.get(comm_code)
     con = sqlite3.connect(CACHE_DB)
     metas = con.execute(
         "select ind_id,name,unit,last_date from series_meta where comm=? order by last_date desc",
         (comm_code,)).fetchall()
     lines = []
     used = set()
-    for label, pat in IND_GROUPS:
+    for label, pat, _ in groups:
         cand = None
         for ind_id, name, unit, last in metas:
             if ind_id in used:
+                continue
+            if excl and re.search(excl, name):
                 continue
             if re.search(pat, name):
                 cand = (ind_id, name, unit, last)
@@ -217,8 +240,13 @@ def block_fundamental(comm_code):
                 base_v = v
                 break
         chg = ('20 日 %s' % fmt_pct(pct(cur_v, base_v), 1)) if base_v else ''
-        lines.append('%s %s %s（%s%s）' % (name, format(cur_v, ',.2f').rstrip('0').rstrip('.'),
-                                            unit or '', cur_d, ('，' + chg) if chg else ''))
+        unit_note = ''
+        disp_v, disp_u = cur_v, unit or ''
+        if disp_u == '万吨' and abs(cur_v) > 50000:
+            disp_v, disp_u = cur_v / 10000, '万吨'
+            unit_note = '（源单位疑为吨，按吨读⚙️）'
+        lines.append('%s %s %s（%s%s）%s' % (name, format(disp_v, ',.2f').rstrip('0').rstrip('.'),
+                                            disp_u, cur_d, ('，' + chg) if chg else '', unit_note))
     con.close()
     return lines[:7]
 
