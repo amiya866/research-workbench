@@ -198,8 +198,8 @@ def block_news(comm, news, disr, zsxq, today):
                 continue  # si 桶噪音多，白名单过滤
             items.append((it.get('date', ''), t[:60]))
     items = [x for x in items if x[1]]
-    items.sort(key=lambda x: x[0], reverse=True)  # 日期倒序
-    return ['%d. %s %s' % (i + 1, d[5:], t) for i, (d, t) in enumerate(items[:8])]
+    items.sort(key=lambda x: x[0], reverse=True)  # 日期倒序（日期仅用于排序，不展示）
+    return ['%d. %s' % (i + 1, t) for i, (d, t) in enumerate(items[:8])]
 
 def block_fundamental(comm_code):
     """【供需与库存】从缓存库按指标组取最新"""
