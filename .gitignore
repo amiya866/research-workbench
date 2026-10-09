@@ -6,3 +6,5 @@ _register_tasks.ps1
 _启动本地站.bat
 _mm_merge.py
 *.pyc
+_local_keys.json
+_daily_report_state.json
