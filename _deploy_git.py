@@ -18,12 +18,17 @@ def main():
     run(['git', 'add', '-A'])
     diff = run(['git', 'diff', '--cached', '--name-only'])
     files = [x for x in (diff.stdout or '').splitlines() if x.strip()]
-    if not files:
-        print('无变更，跳过部署')
+    if files:
+        stamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+        run(['git', '-c', 'user.name=amiya866', '-c', 'user.email=amiya866@users.noreply.github.com',
+             'commit', '-m', 'auto daily %s（%d 文件）' % (stamp, len(files))])
+    # 无新变更也要检查未推送提交（上轮 push 失败的兜底）
+    ahead = run(['git', 'log', 'origin/main..HEAD', '--oneline'])
+    if not files and not (ahead.stdout or '').strip():
+        print('无变更且无未推送提交，跳过部署')
         return
-    stamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
-    run(['git', '-c', 'user.name=amiya866', '-c', 'user.email=amiya866@users.noreply.github.com',
-         'commit', '-m', 'auto daily %s（%d 文件）' % (stamp, len(files))])
+    if not files:
+        print('无新变更，但有未推送提交：\n' + ahead.stdout.strip())
     env = dict(os.environ)
     try:
         tok = open(TOKEN_PATH, encoding='utf-8').read().strip()
