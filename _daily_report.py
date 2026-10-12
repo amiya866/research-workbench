@@ -68,6 +68,13 @@ ARB_SERIES = [
 ARB_CACHE = os.path.join(DATA, 'arb_import_pnl.json')
 ARB_BOOTSTRAP_START = '2023-01-01'
 ZHIJI_SERIES = 'https://zhiji-ai.xyz/commodity/api/series'
+# 移仓+滑点假设（手改层）：费用=双边滑点+手续费+FX对冲，按 SHFE 价百分比
+ARB_COST_PCT = 0.0012
+ARB_LME_FIELDS = {'CU': 'LME_Cu_cash', 'AL': 'LME_Al_cash', 'ZN': 'LME_Zn_cash',
+                  'PB': 'LME_Pb_cash', 'NI': 'LME_Ni_cash', 'SN': 'LME_Sn_cash'}
+LME_CACHE = os.path.join(DATA, 'lme_cash3m.json')
+_WM_MONTHS = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
+              "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
 
 # 截面策略因子归类与口语化解读（z>0 / z<0 两种措辞）
 XS_FUND_FACTORS = ('注销占比', '升贴水', 'TC变化率', '进口盈亏', '库存变化')
@@ -169,6 +176,83 @@ def fw_pct(x):
     return x * 100 if abs(x) <= 1.5 else x
 
 # ---------- 内外盘套利（进口盈亏） ----------
+def westmetall_cash3m(field, year):
+    """westmetall LME 日报：返回 {iso_date: (cash, 3M)}（表行序年内倒序，取 max）"""
+    import re as _re
+    url = 'https://www.westmetall.com/en/markdaten.php?action=table&field=%s&year=%d' % (field, year)
+    try:
+        t = subprocess.run(['curl', '-sL', '--max-time', '30', '-H', 'User-Agent: Mozilla/5.0', url],
+                           capture_output=True, timeout=40).stdout.decode('utf-8', errors='replace')
+    except Exception:
+        return {}
+    out = {}
+    for row in _re.findall(r'<tr[^>]*>(.*?)</tr>', t, _re.S):
+        cells = [_re.sub(r'<[^>]+>|\s+', ' ', c).strip()
+                 for c in _re.findall(r'<td[^>]*>(.*?)</td>', row, _re.S)]
+        if len(cells) < 3:
+            continue
+        m = _re.match(r'(\d{2})\. (\w+) (\d{4})', cells[0])
+        if not m or m.group(2) not in _WM_MONTHS:
+            continue
+        day = '%s-%02d-%02d' % (m.group(3), _WM_MONTHS[m.group(2)], int(m.group(1)))
+        try:
+            out[day] = (float(cells[1].replace(',', '')), float(cells[2].replace(',', '')))
+        except ValueError:
+            continue
+    return out
+
+def lme_cash3m_latest():
+    """六品种 LME cash/3M 最新值，带缓存（westmetall 只更到上一 LME 工作日）"""
+    cache = load_json(LME_CACHE) or {}
+    try:
+        fresh = bool(cache) and all(
+            (datetime.date.today() - datetime.date.fromisoformat(v.get('date', '2000-01-01'))).days <= 3
+            for v in cache.values())
+    except Exception:
+        fresh = False
+    if not fresh:
+        for sym, field in ARB_LME_FIELDS.items():
+            pts = westmetall_cash3m(field, datetime.date.today().year)
+            if pts:
+                d = max(pts)
+                cache[sym] = {'date': d, 'cash': pts[d][0], 'm3': pts[d][1]}
+        try:
+            with open(LME_CACHE, 'w', encoding='utf-8') as f:
+                json.dump(cache, f, ensure_ascii=False)
+        except Exception:
+            pass
+    return cache
+
+def usdcny():
+    """新浪 USDCNY 即期买卖中价"""
+    try:
+        out = subprocess.run(['curl', '-s', '-H', 'Referer: https://finance.sina.com.cn',
+                              '--max-time', '10', 'https://hq.sinajs.cn/list=fx_susdcny'],
+                             capture_output=True, timeout=15).stdout.decode('gbk', errors='replace')
+        f = out.split('="', 1)[1].split(',')
+        return (float(f[1]) + float(f[2])) / 2
+    except Exception:
+        return None
+
+def shfe_month_spread(sym, asof=None):
+    """guan 逐合约：M+1 与 M+2 收盘差（近月-次月，元/吨）；asof 截断供回填；失败返回 None"""
+    ref = datetime.date.fromisoformat(asof) if asof else datetime.date.today()
+    codes = []
+    for k in (1, 2):
+        m = ref.month + k
+        y = ref.year + (m - 1) // 12
+        m = (m - 1) % 12 + 1
+        codes.append('%s%02d%02d' % (sym, y % 100, m))
+    closes = []
+    for c in codes:
+        ks = guan_kline(c, limit=10)
+        if asof:
+            ks = [k for k in (ks or []) if k[0] <= asof]
+        if not ks:
+            return None
+        closes.append(ks[-1][1])
+    return closes[0] - closes[1], codes
+
 def zhiji_series(ind_id, start, end):
     """zhiji commodity /series（curl 绕 WAF）；返回 {date: float} 或 None"""
     key = zkey()
@@ -221,6 +305,22 @@ def arb_collect(ctx):
         rows.append({'sym': sym, 'name': name, 'val': val,
                      'prev': pts[dates[-2]] if len(dates) > 1 else None,
                      'pct': pct, 'date': d_last, 'src': src, 'n': len(win_pts)})
+    # 移仓换月损益 + 滑点费用：正套(买LME空SHFE) 净移仓/月 = (SHFE次月−近月) − (LME3M−cash)/3×汇率
+    lme = lme_cash3m_latest()
+    fx = usdcny()
+    for r in rows:
+        sp = shfe_month_spread(r['sym'], asof=today)
+        lm = lme.get(r['sym']) or {}
+        shfe_gain = (-sp[0]) if sp else None            # 空头移仓收益=次月−近月
+        r['month_codes'] = sp[1] if sp else None
+        lme_cost = ((lm['m3'] - lm['cash']) / 3 * fx) if (lm.get('cash') and fx) else None
+        r['lme_date'] = lm.get('date', '')
+        r['net_roll'] = ((shfe_gain or 0) - (lme_cost or 0)) \
+            if (shfe_gain is not None and lme_cost is not None) else None
+        close = (ctx['varieties'].get(r['sym']) or {}).get('close')
+        r['fee'] = close * ARB_COST_PCT if close else None
+        r['adj'] = (r['val'] + (r['net_roll'] or 0) - (r['fee'] or 0)) \
+            if r['net_roll'] is not None and r['fee'] is not None else None
     try:
         with open(ARB_CACHE, 'w', encoding='utf-8') as f:
             json.dump(cache, f, ensure_ascii=False)
@@ -405,11 +505,13 @@ def build_content(ctx):
     arb_rows = []
     arb_notes = nar.get('arb_notes') or {}
     for r in ctx.get('arb') or []:
-        val, pct = r['val'], r['pct']
-        if val > 0 and pct >= 0.6:
-            win, cls = '正套窗口开（买LME空SHFE，锁进口利润）', 'up'
-        elif val > 0:
-            win, cls = '盈亏转正但分位尚低，观察', ''
+        val, pct, adj = r['val'], r['pct'], r.get('adj')
+        if adj is not None and adj > 0 and pct >= 0.6:
+            win, cls = '正套窗口开（扣移仓+费用后仍可锁 %s）' % format(adj, '+,.0f'), 'up'
+        elif val > 0 and adj is not None and adj <= 0:
+            win, cls = '纸面窗口被移仓/费用吃掉（调整后 %s）' % format(adj, '+,.0f'), ''
+        elif adj is not None and adj > 0:
+            win, cls = '扣费后微利（%s），观察' % format(adj, '+,.0f'), ''
         elif pct >= 0.8:
             win, cls = '盈亏逼近转正（高分位），窗口临近', 'up'
         elif pct <= 0.2:
@@ -520,18 +622,19 @@ def render_md(ctx, C):
         if sec['views_stale']:
             L += ['_点评承自 %s，超 7 天未更新，待重估_' % sec['views_since'], '']
     if C.get('arb'):
-        L += ['## 09 内外盘套利评估（进口盈亏窗口 ⚙️ + 回测结论）', '',
-              '| 品种 | 进口盈亏(元/吨) | 日变动 | 近一年分位 | 窗口判定 |', '|---|---|---|---|---|']
+        L += ['## 09 内外盘套利评估（进口盈亏 − 移仓 − 滑点 ⚙️ + 回测结论）', '',
+              '| 品种 | 进口盈亏 | 净移仓/月 | 调整后空间 | 近一年分位 | 窗口判定 |', '|---|---|---|---|---|---|']
         for r in C['arb']:
-            chg = format(r['val'] - r['prev'], '+,.0f') if r['prev'] is not None else '—'
-            L.append('| %s | %s | %s | %.0f%% | %s |' % (
-                r['name'], format(r['val'], '+,.0f'), chg, r['pct'] * 100, r['win']))
+            roll = format(r['net_roll'], '+,.0f') if r.get('net_roll') is not None else '缺'
+            adj = format(r['adj'], '+,.0f') if r.get('adj') is not None else '—'
+            L.append('| %s | %s | %s | %s | %.0f%% | %s |' % (
+                r['name'], format(r['val'], '+,.0f'), roll, adj, r['pct'] * 100, r['win']))
         L.append('')
         for r in C['arb']:
             if r['note']:
                 L.append('- **%s**（%s，至 %s%s）：%s' % (
                     r['name'], r['src'], r['date'], '，滞后' if r['stale'] else '', r['note']))
-        L += ['', '_口径：正套=买LME空SHFE；进口盈亏>0=进口有利可图=国内相对偏贵。分位为近 250 个交易点。_', '']
+        L += ['', '_口径：正套=买LME空SHFE，单位元/吨。净移仓/月=(SHFE次月−近月)−(LME3M−cash)/3×汇率，正=正套有利（SHFE contango 空头赚月差 / LME back 多头赚贴水）；调整后空间=进口盈亏+净移仓−滑点费用（双边滑点+手续费+FX 对冲按 SHFE 价 %.2f%% 估，持有 1 个月）。分位为近 250 个交易点。_' % (ARB_COST_PCT * 100), '']
     L += ['## 10 事前冻结', '| 判断 | 期限 | 成功条件 | 失败/失效条件 | 重估节点 |', '|---|---|---|---|---|']
     L += ['| %s | %s | %s | %s | %s |' % tuple(r) for r in C['freezes']] + ['']
     L += ['## 11 数据来源'] + ['- %s' % s for s in C['sources']] + ['']
@@ -665,20 +768,24 @@ def render_panel(ctx, C):
         h.append('</section>')
 
     if C.get('arb'):
-        h.append('<section><div class="sec-no">09 / ARBITRAGE</div><div class="sec-t">内外盘套利评估 · 进口盈亏窗口</div>')
-        h.append('<table><tr><th>品种</th><th>进口盈亏(元/吨)</th><th>日变动</th><th>近一年分位</th><th>窗口判定</th></tr>')
+        h.append('<section><div class="sec-no">09 / ARBITRAGE</div><div class="sec-t">内外盘套利评估 · 进口盈亏 − 移仓 − 滑点</div>')
+        h.append('<table><tr><th>品种</th><th>进口盈亏</th><th>净移仓/月</th><th>调整后空间</th><th>近一年分位</th><th>窗口判定</th></tr>')
         for r in C['arb']:
-            chg = format(r['val'] - r['prev'], '+,.0f') if r['prev'] is not None else '—'
-            vcls = 'up' if r['val'] > 0 else 'dn'
-            h.append('<tr><td>%s</td><td class="%s">%s</td><td>%s</td><td>%.0f%%</td><td class="%s">%s</td></tr>' % (
-                esc(r['name']), vcls, format(r['val'], '+,.0f'), chg, r['pct'] * 100, r['cls'], esc(r['win'])))
+            roll = format(r['net_roll'], '+,.0f') if r.get('net_roll') is not None else '缺'
+            adj = format(r['adj'], '+,.0f') if r.get('adj') is not None else '—'
+            vcls = 'up' if (r.get('adj') or r['val']) > 0 else 'dn'
+            h.append('<tr><td>%s</td><td>%s</td><td>%s</td><td class="%s">%s</td><td>%.0f%%</td><td class="%s">%s</td></tr>' % (
+                esc(r['name']), format(r['val'], '+,.0f'), roll, vcls, adj, r['pct'] * 100,
+                r['cls'], esc(r['win'])))
         h.append('</table><ul>')
         for r in C['arb']:
             if r['note']:
-                h.append('<li><b>%s</b>（%s，至 %s%s）：%s</li>' % (
+                h.append('<li><b>%s</b>（%s，至 %s%s；月差 %s，LME 结构至 %s）：%s</li>' % (
                     esc(r['name']), esc(r['src']), r['date'],
-                    '，滞后' if r['stale'] else '', esc(r['note'])))
-        h.append('</ul><p class="note">口径：正套=买LME空SHFE；进口盈亏&gt;0=进口有利可图=国内相对偏贵；分位为近 250 个交易点。窗口判定 ⚙️ 规则生成，操作结论以套利研究回测为准。</p></section>')
+                    '，滞后' if r['stale'] else '',
+                    '/'.join(r['month_codes']) if r.get('month_codes') else '缺',
+                    r.get('lme_date') or '缺', esc(r['note'])))
+        h.append('</ul><p class="note">口径：正套=买LME空SHFE，单位元/吨。净移仓/月=(SHFE次月−近月)−(LME3M−cash)/3×汇率，正=正套有利（SHFE contango 空头赚月差 / LME back 多头赚贴水）；调整后空间=进口盈亏+净移仓−滑点费用（双边滑点+手续费+FX 对冲按 SHFE 价 %.2f%% 估，持有 1 个月）；分位为近 250 个交易点。窗口判定 ⚙️ 规则生成，操作结论以套利研究回测为准。</p></section>' % (ARB_COST_PCT * 100))
 
     h.append('<section><div class="sec-no">10 / PRE-COMMITMENT</div><div class="sec-t">事前冻结</div><table><tr><th>判断</th><th>期限</th><th>成功条件</th><th>失败/失效条件</th><th>重估节点</th></tr>')
     h += ['<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % tuple(esc(x) for x in r) for r in C['freezes']]
