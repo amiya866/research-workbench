@@ -45,7 +45,29 @@ DEFAULT_NARRATIVE = {
     'freezes_since': '2026-08-28',
     'xs_views': {},          # {品种中文名: 基本面/价量点评}，手改层，承转同 freezes
     'xs_views_since': '',
+    # 内外盘套利研究结论（套利研究\内外盘 回测定论，手改层）
+    'arb_notes': {
+        '锡': '正套（买LME空SHFE）唯一有统计支撑：窗口开后 20 日均值 -0.46%、近三年胜率 68%、纯策略 Sharpe 1.21；盘面锁价套利 +3,485 元/吨可做、纸面等比价 1.174；弱形态时期望≈0',
+        '铝': '反套中等强度：进口深亏档 2024 起 +0.87%/20 日、胜率 61%；正套侧统计不支持',
+        '铜': '回测不支持，观察不操作',
+        '锌': '盈亏到 1% 分位统计也两侧塌，观察不操作',
+        '铅': '未回测，仅作窗口观察',
+        '镍': '未回测，仅作窗口观察（内外盘受印尼供给与汇率扰动大）',
+    },
 }
+
+# 内外盘套利：六品种进口盈亏日度序列（zhiji id, 口径注）
+ARB_SERIES = [
+    ('CU', '铜', 'ID01030232', 'Mysteel 铜进口盈亏'),
+    ('AL', '铝', 'a12759731', 'SMM 电解铝进口盈亏'),
+    ('ZN', '锌', 'ID01030236', 'Mysteel 锌锭进口盈亏(含税)'),
+    ('PB', '铅', 'ID01030003', 'Mysteel 铅锭进口盈亏'),
+    ('NI', '镍', 'a10125274', 'SMM 纯镍期货进口盈亏'),
+    ('SN', '锡', 'ID01590826', 'Mysteel 锡锭现货进口盈亏'),
+]
+ARB_CACHE = os.path.join(DATA, 'arb_import_pnl.json')
+ARB_BOOTSTRAP_START = '2023-01-01'
+ZHIJI_SERIES = 'https://zhiji-ai.xyz/commodity/api/series'
 
 # 截面策略因子归类与口语化解读（z>0 / z<0 两种措辞）
 XS_FUND_FACTORS = ('注销占比', '升贴水', 'TC变化率', '进口盈亏', '库存变化')
@@ -146,6 +168,66 @@ def fw_pct(x):
     x = x or 0
     return x * 100 if abs(x) <= 1.5 else x
 
+# ---------- 内外盘套利（进口盈亏） ----------
+def zhiji_series(ind_id, start, end):
+    """zhiji commodity /series（curl 绕 WAF）；返回 {date: float} 或 None"""
+    key = zkey()
+    if not key:
+        return None
+    url = '%s?id=%s&start=%s&end=%s' % (ZHIJI_SERIES, ind_id, start, end)
+    try:
+        out = subprocess.run(['curl', '-s', '--ssl-no-revoke', '-H', 'X-Data-Key: %s' % key, url],
+                             capture_output=True, text=True, timeout=40).stdout
+        d = json.loads(out)
+        pts = d.get('points')
+        if not isinstance(pts, list):
+            return None
+        res = {}
+        for p in pts:
+            try:
+                res[str(p['date'])[:10]] = float(p['value'])
+            except Exception:
+                pass
+        return res
+    except Exception:
+        return None
+
+def arb_collect(ctx):
+    """进口盈亏缓存增量更新（首跑从 2023-01 自举），产出 ctx['arb'] 评估行"""
+    import time as _time
+    cache = load_json(ARB_CACHE) or {}
+    today = ctx['today']
+    rows = []
+    for sym, name, ind_id, src in ARB_SERIES:
+        ent = cache.get(ind_id) or {'name': name, 'src': src, 'points': {}}
+        pts = ent.get('points') or {}
+        last = max(pts) if pts else None
+        start = ARB_BOOTSTRAP_START if not last else (
+            (datetime.date.fromisoformat(last) + datetime.timedelta(days=1)).isoformat())
+        if start <= today:
+            new = zhiji_series(ind_id, start, today)
+            if new:
+                pts.update(new)
+                ent['points'] = pts
+                cache[ind_id] = ent
+                _time.sleep(2.2)  # zhiji 限流 30 次/分
+        dates = [d for d in sorted(pts) if d <= today]  # 回填历史日期不混入更晚数据
+        if not dates:
+            continue
+        d_last = dates[-1]
+        val = pts[d_last]
+        win_pts = [pts[d] for d in dates[-250:]]  # 近一年分位
+        pct = sum(1 for x in win_pts if x <= val) / len(win_pts)
+        rows.append({'sym': sym, 'name': name, 'val': val,
+                     'prev': pts[dates[-2]] if len(dates) > 1 else None,
+                     'pct': pct, 'date': d_last, 'src': src, 'n': len(win_pts)})
+    try:
+        with open(ARB_CACHE, 'w', encoding='utf-8') as f:
+            json.dump(cache, f, ensure_ascii=False)
+    except Exception as e:
+        log('!! arb 缓存写失败: %s' % e)
+    ctx['arb'] = rows
+
 # ---------- 数据汇总 ----------
 def xs_factor_note(f):
     """因子行 → 口语化归因句；无法解读的因子返回 None"""
@@ -181,6 +263,7 @@ def collect(today):
     ctx['zsxq'] = zr
     xs = load_json(XS_PAYLOAD) or {}
     ctx['xs'] = xs
+    arb_collect(ctx)
     return ctx
 
 # ---------- 内容生成 ----------
@@ -318,7 +401,32 @@ def build_content(ctx):
                'views_since': views_since, 'views_stale': views_stale}
     C['xs_sec'] = sec
 
-    # 09 事前冻结（state 承转, 超 21 天标注重估）
+    # 09 内外盘套利评估（进口盈亏窗口 × 套利研究回测结论）
+    arb_rows = []
+    arb_notes = nar.get('arb_notes') or {}
+    for r in ctx.get('arb') or []:
+        val, pct = r['val'], r['pct']
+        if val > 0 and pct >= 0.6:
+            win, cls = '正套窗口开（买LME空SHFE，锁进口利润）', 'up'
+        elif val > 0:
+            win, cls = '盈亏转正但分位尚低，观察', ''
+        elif pct >= 0.8:
+            win, cls = '盈亏逼近转正（高分位），窗口临近', 'up'
+        elif pct <= 0.2:
+            win, cls = '进口深亏（反套关注：空LME多SHFE）', 'dn'
+        else:
+            win, cls = '无窗口', ''
+        stale = False
+        try:
+            stale = (datetime.date.fromisoformat(ctx['today'])
+                     - datetime.date.fromisoformat(r['date'])).days > 4
+        except Exception:
+            pass
+        arb_rows.append(dict(r, win=win, cls=cls, stale=stale,
+                             note=(arb_notes.get(r['name']) or '').strip()))
+    C['arb'] = arb_rows
+
+    # 10 事前冻结（state 承转, 超 21 天标注重估）
     fr = []
     since = nar.get('freezes_since', '')
     stale = False
@@ -333,7 +441,7 @@ def build_content(ctx):
         fr.append(row)
     C['freezes'] = fr
 
-    # 10 来源
+    # 11 来源
     C['sources'] = [
         '期货行情：知几 guan 日线（%s）' % (max((v['date'] for v in vs.values()), default='—')),
         '宏观快照：%s（%s）' % (ctx['lq_asof'], (load_json(os.path.join(DATA, 'live_quotes.json')) or {}).get('src', '')),
@@ -341,6 +449,8 @@ def build_content(ctx):
         '数据发布面板：%s' % (ctx['releases'].get('updated', '—')[:10]),
         '星球雷达：%s' % (ctx['zsxq'].get('asof', '—')),
         '截面策略：%s' % (xs.get('sig_date', '—')),
+        '内外盘套利：进口盈亏六系列（最新 %s，zhiji/Mysteel/SMM）' % (
+            max((r['date'] for r in C.get('arb') or []), default='—')),
     ]
     C['narrative_note'] = '主要矛盾/事前冻结承自 %s（state 文件可手改，次日生效）' % nar.get('contradiction_since', '—')
     return C
@@ -409,9 +519,22 @@ def render_md(ctx, C):
             L += ['⚠ 因子数据滞后：' + '、'.join(sec['stale_factors']), '']
         if sec['views_stale']:
             L += ['_点评承自 %s，超 7 天未更新，待重估_' % sec['views_since'], '']
-    L += ['## 09 事前冻结', '| 判断 | 期限 | 成功条件 | 失败/失效条件 | 重估节点 |', '|---|---|---|---|---|']
+    if C.get('arb'):
+        L += ['## 09 内外盘套利评估（进口盈亏窗口 ⚙️ + 回测结论）', '',
+              '| 品种 | 进口盈亏(元/吨) | 日变动 | 近一年分位 | 窗口判定 |', '|---|---|---|---|---|']
+        for r in C['arb']:
+            chg = format(r['val'] - r['prev'], '+,.0f') if r['prev'] is not None else '—'
+            L.append('| %s | %s | %s | %.0f%% | %s |' % (
+                r['name'], format(r['val'], '+,.0f'), chg, r['pct'] * 100, r['win']))
+        L.append('')
+        for r in C['arb']:
+            if r['note']:
+                L.append('- **%s**（%s，至 %s%s）：%s' % (
+                    r['name'], r['src'], r['date'], '，滞后' if r['stale'] else '', r['note']))
+        L += ['', '_口径：正套=买LME空SHFE；进口盈亏>0=进口有利可图=国内相对偏贵。分位为近 250 个交易点。_', '']
+    L += ['## 10 事前冻结', '| 判断 | 期限 | 成功条件 | 失败/失效条件 | 重估节点 |', '|---|---|---|---|---|']
     L += ['| %s | %s | %s | %s | %s |' % tuple(r) for r in C['freezes']] + ['']
-    L += ['## 10 数据来源'] + ['- %s' % s for s in C['sources']] + ['']
+    L += ['## 11 数据来源'] + ['- %s' % s for s in C['sources']] + ['']
     return '\n'.join(L)
 
 PANEL_CSS = """
@@ -541,11 +664,27 @@ def render_panel(ctx, C):
             h.append('<p class="note">点评承自 %s，超 7 天未更新，待重估。</p>' % esc(sec['views_since']))
         h.append('</section>')
 
-    h.append('<section><div class="sec-no">09 / PRE-COMMITMENT</div><div class="sec-t">事前冻结</div><table><tr><th>判断</th><th>期限</th><th>成功条件</th><th>失败/失效条件</th><th>重估节点</th></tr>')
+    if C.get('arb'):
+        h.append('<section><div class="sec-no">09 / ARBITRAGE</div><div class="sec-t">内外盘套利评估 · 进口盈亏窗口</div>')
+        h.append('<table><tr><th>品种</th><th>进口盈亏(元/吨)</th><th>日变动</th><th>近一年分位</th><th>窗口判定</th></tr>')
+        for r in C['arb']:
+            chg = format(r['val'] - r['prev'], '+,.0f') if r['prev'] is not None else '—'
+            vcls = 'up' if r['val'] > 0 else 'dn'
+            h.append('<tr><td>%s</td><td class="%s">%s</td><td>%s</td><td>%.0f%%</td><td class="%s">%s</td></tr>' % (
+                esc(r['name']), vcls, format(r['val'], '+,.0f'), chg, r['pct'] * 100, r['cls'], esc(r['win'])))
+        h.append('</table><ul>')
+        for r in C['arb']:
+            if r['note']:
+                h.append('<li><b>%s</b>（%s，至 %s%s）：%s</li>' % (
+                    esc(r['name']), esc(r['src']), r['date'],
+                    '，滞后' if r['stale'] else '', esc(r['note'])))
+        h.append('</ul><p class="note">口径：正套=买LME空SHFE；进口盈亏&gt;0=进口有利可图=国内相对偏贵；分位为近 250 个交易点。窗口判定 ⚙️ 规则生成，操作结论以套利研究回测为准。</p></section>')
+
+    h.append('<section><div class="sec-no">10 / PRE-COMMITMENT</div><div class="sec-t">事前冻结</div><table><tr><th>判断</th><th>期限</th><th>成功条件</th><th>失败/失效条件</th><th>重估节点</th></tr>')
     h += ['<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % tuple(esc(x) for x in r) for r in C['freezes']]
     h.append('</table></section>')
 
-    h.append('<section><div class="sec-no">10 / SOURCES</div><div class="sec-t">数据来源</div><ul>')
+    h.append('<section><div class="sec-no">11 / SOURCES</div><div class="sec-t">数据来源</div><ul>')
     h += ['<li>%s</li>' % esc(s) for s in C['sources']]
     h.append('</ul><p class="note">自动面板：数字真实来源如上；叙事行极简仅作结构承转，深度研判以人工版为准。本页手改后自动流程不再覆盖。</p></section>')
 
@@ -596,7 +735,9 @@ def main():
     force = '--force' in sys.argv
 
     state = load_json(STATE_PATH) or {}
-    nar = state.get('narrative') or DEFAULT_NARRATIVE
+    nar = state.get('narrative') or {}
+    for k, v in DEFAULT_NARRATIVE.items():  # state 缺的键回退默认（新增手改层免手动补）
+        nar.setdefault(k, v)
     hashes = state.get('hashes') or {}
 
     ctx = collect(today)
