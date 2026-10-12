@@ -43,7 +43,27 @@ DEFAULT_NARRATIVE = {
         ['锡区间思路，回调做多', '2-3 周', '区间下沿放量承接', '缅甸供给回归 + 社库加速', '海关月报、社库'],
     ],
     'freezes_since': '2026-08-28',
+    'xs_views': {},          # {品种中文名: 基本面/价量点评}，手改层，承转同 freezes
+    'xs_views_since': '',
 }
+
+# 截面策略因子归类与口语化解读（z>0 / z<0 两种措辞）
+XS_FUND_FACTORS = ('注销占比', '升贴水', 'TC变化率', '进口盈亏', '库存变化')
+XS_PV_FACTORS = ('动量', '外盘强弱', '股商背离')
+XS_MACRO_FACTORS = ('美元指数变化率', 'SOX')
+XS_PHRASE = {
+    '注销占比': ('注销仓单占比偏高，实货提货强', '注销仓单占比偏低，提货意愿弱'),
+    '升贴水': ('现货升水走强/贴水收窄', '现货升水走弱/贴水走阔'),
+    'TC变化率': ('TC 回升，矿端边际宽松', 'TC 下行，矿端趋紧'),
+    '进口盈亏': ('进口窗口改善', '进口窗口恶化'),
+    '库存变化': ('显性库存去化', '显性库存累积'),
+    '动量': ('近月动量偏强', '近月动量偏弱'),
+    '外盘强弱': ('外盘强于内盘', '外盘弱于内盘'),
+    '股商背离': ('股票强于商品，权益端先行看多', '股票弱于商品，权益端先行看空'),
+    '美元指数变化率': ('美元指数走强', '美元指数回落'),
+    'SOX': ('费城半导体走强，需求预期改善', '费城半导体走弱，需求预期转弱'),
+}
+XS_SYM2CN = {'CU': '铜', 'AL': '铝', 'ZN': '锌', 'PB': '铅', 'NI': '镍', 'SN': '锡'}
 
 def log(*a):
     print(*a, flush=True)
@@ -91,8 +111,10 @@ def guan_kline(sym, limit=130):
     except Exception:
         return None
 
-def variety_stats(sym):
+def variety_stats(sym, asof=None):
     ks = guan_kline(sym)
+    if ks and asof:
+        ks = [k for k in ks if k[0] <= asof]  # 回填历史日期时不混入更晚的行情
     if not ks or len(ks) < 25:
         return None
     ks = [k for k in ks if k[1] > 0]
@@ -125,12 +147,20 @@ def fw_pct(x):
     return x * 100 if abs(x) <= 1.5 else x
 
 # ---------- 数据汇总 ----------
+def xs_factor_note(f):
+    """因子行 → 口语化归因句；无法解读的因子返回 None"""
+    ph = XS_PHRASE.get(f.get('factor'))
+    if not ph:
+        return None
+    txt = ph[0] if (f.get('z') or 0) >= 0 else ph[1]
+    return '%s z=%+.1f：%s（贡献 %+.2f）' % (f.get('factor'), f.get('z') or 0, txt, f.get('contrib') or 0)
+
 def collect(today):
     ctx = {'today': today}
     # 品种行情
     vs = {}
     for sym, name, grp in VARIETIES:
-        st = variety_stats(sym)
+        st = variety_stats(sym, asof=today)
         if st:
             st['name'], st['grp'], st['sym'] = name, grp, sym
             vs[sym] = st
@@ -242,7 +272,53 @@ def build_content(ctx):
     C['xs_today'] = [e for e in (xs.get('events') or []) if e[0] == ctx['today']]
     C['xs'] = xs
 
-    # 08 事前冻结（state 承转, 超 21 天标注重估）
+    # 08 每日截面策略（持仓 + 因子归因[基本面/价量] + 人工点评层）
+    sec = None
+    if xs and xs.get('scores'):
+        cn2sym = {v: k for k, v in XS_SYM2CN.items()}
+        sc_map = {n: s for n, s in xs.get('scores', [])}
+        longs, shorts = xs.get('longs') or [], xs.get('shorts') or []
+        views = nar.get('xs_views') or {}
+        views_since = nar.get('xs_views_since', '')
+        views_stale = False
+        try:
+            views_stale = (datetime.date.fromisoformat(ctx['today'])
+                           - datetime.date.fromisoformat(views_since)).days > 7
+        except Exception:
+            views_stale = bool(views)
+        held = [(n, '多') for n in longs] + [(n, '空') for n in shorts]
+        # 信号日调仓涉及的品种也附点评（如平空锡）
+        sig_ev = [e for e in (xs.get('events') or []) if e[0] == xs.get('sig_date')]
+        today_names = [e[2] for e in (C['xs_today'] or sig_ev)]
+        positions = []
+        for name, side in held:
+            sym = cn2sym.get(name, '')
+            rows = (xs.get('breakdown') or {}).get(sym) or []
+            fund = [x for x in (xs_factor_note(f) for f in rows if f.get('factor') in XS_FUND_FACTORS) if x]
+            pv = [x for x in (xs_factor_note(f) for f in rows
+                              if f.get('factor') in XS_PV_FACTORS + XS_MACRO_FACTORS) if x]
+            v = vs.get(sym)
+            tape = ''
+            if v:
+                tape = '20 日 %s · 120 日位置 %.0f%%' % (fmt_pct(v['chg20']), v['pos'] * 100)
+                if v.get('vol_ratio'):
+                    tape += ' · 量比 %.1f' % v['vol_ratio']
+            positions.append({'side': side, 'name': name, 'score': sc_map.get(name),
+                              'fund': fund, 'pv': pv, 'tape': tape,
+                              'view': (views.get(name) or '').strip()})
+        exits = [{'name': n, 'view': (views.get(n) or '').strip()}
+                 for n in today_names if n not in longs + shorts and (views.get(n) or '').strip()]
+        score_rows = [(n, s, '多' if n in longs else ('空' if n in shorts else '—'))
+                      for n, s in xs.get('scores', [])]
+        sec = {'sig_date': xs.get('sig_date', ''), 'equity': xs.get('equity'),
+               'cum': xs.get('cum'), 'ann': xs.get('ann'), 'sharpe': xs.get('sharpe'),
+               'mdd': xs.get('mdd'), 'positions': positions, 'exits': exits,
+               'score_rows': score_rows, 'stale_factors': xs.get('stale') or [],
+               'today_events': C['xs_today'], 'recent_events': (xs.get('events') or [])[:3],
+               'views_since': views_since, 'views_stale': views_stale}
+    C['xs_sec'] = sec
+
+    # 09 事前冻结（state 承转, 超 21 天标注重估）
     fr = []
     since = nar.get('freezes_since', '')
     stale = False
@@ -257,7 +333,7 @@ def build_content(ctx):
         fr.append(row)
     C['freezes'] = fr
 
-    # 09 来源
+    # 10 来源
     C['sources'] = [
         '期货行情：知几 guan 日线（%s）' % (max((v['date'] for v in vs.values()), default='—')),
         '宏观快照：%s（%s）' % (ctx['lq_asof'], (load_json(os.path.join(DATA, 'live_quotes.json')) or {}).get('src', '')),
@@ -300,9 +376,42 @@ def render_md(ctx, C):
     L += ['| %s | %s | %s | %s |' % e for e in C['events']] + ['']
     if C['xs_today']:
         L += ['截面策略今日调仓：' + '；'.join('%s%s' % (e[1], e[2]) for e in C['xs_today']), '']
-    L += ['## 08 事前冻结', '| 判断 | 期限 | 成功条件 | 失败/失效条件 | 重估节点 |', '|---|---|---|---|---|']
+    sec = C.get('xs_sec')
+    if sec:
+        L += ['## 08 每日截面策略（有色截面多空 · 信号日 %s）' % sec['sig_date'], '']
+        eq = format(round(sec['equity']), ',d') if sec.get('equity') else '—'
+        L += ['净值 %s（累计 %s）· 年化 %s · Sharpe %.2f · 最大回撤 %s · [实时面板 ↗](https://amiya866.github.io/metals-framework/xs-panel/)' % (
+            eq, fmt_pct(sec['cum'] or 0), fmt_pct(sec['ann'] or 0), sec['sharpe'] or 0,
+            fmt_pct(sec['mdd'] or 0)), '']
+        L += ['| 品种 | 评分 | 方向 |', '|---|---|---|']
+        L += ['| %s | %+.2f | %s |' % r for r in sec['score_rows']] + ['']
+        for p in sec['positions']:
+            L.append('**%s·%s（评分 %s）**' % (p['side'], p['name'],
+                                               '%+.2f' % p['score'] if p['score'] is not None else '—'))
+            if p['fund']:
+                L.append('- 基本面：' + '；'.join(p['fund']))
+            pv = '；'.join(p['pv'])
+            if p['tape']:
+                pv = (pv + '｜' if pv else '') + p['tape']
+            if pv:
+                L.append('- 价量：' + pv)
+            if p['view']:
+                L.append('- 点评：' + p['view'])
+            L.append('')
+        for e in sec['exits']:
+            L.append('- 调出·%s：%s' % (e['name'], e['view']))
+        if sec['exits']:
+            L.append('')
+        evs = sec['today_events'] or sec['recent_events']
+        L += [('今日调仓：' if sec['today_events'] else '今日无调仓；最近调仓：')
+              + '；'.join('%s %s%s' % (e[0][5:], e[1], e[2]) for e in evs), '']
+        if sec['stale_factors']:
+            L += ['⚠ 因子数据滞后：' + '、'.join(sec['stale_factors']), '']
+        if sec['views_stale']:
+            L += ['_点评承自 %s，超 7 天未更新，待重估_' % sec['views_since'], '']
+    L += ['## 09 事前冻结', '| 判断 | 期限 | 成功条件 | 失败/失效条件 | 重估节点 |', '|---|---|---|---|---|']
     L += ['| %s | %s | %s | %s | %s |' % tuple(r) for r in C['freezes']] + ['']
-    L += ['## 09 数据来源'] + ['- %s' % s for s in C['sources']] + ['']
+    L += ['## 10 数据来源'] + ['- %s' % s for s in C['sources']] + ['']
     return '\n'.join(L)
 
 PANEL_CSS = """
@@ -389,11 +498,54 @@ def render_panel(ctx, C):
         h.append('<p class="note">截面策略今日调仓：%s</p>' % esc('；'.join('%s%s' % (e[1], e[2]) for e in C['xs_today'])))
     h.append('</section>')
 
-    h.append('<section><div class="sec-no">08 / PRE-COMMITMENT</div><div class="sec-t">事前冻结</div><table><tr><th>判断</th><th>期限</th><th>成功条件</th><th>失败/失效条件</th><th>重估节点</th></tr>')
+    sec = C.get('xs_sec')
+    if sec:
+        h.append('<section><div class="sec-no">08 / XS STRATEGY</div><div class="sec-t">每日截面策略 · 有色截面多空</div>')
+        eq = format(round(sec['equity']), ',d') if sec.get('equity') else '—'
+        h.append('<p class="note">信号日 %s · 净值 %s（累计 %s）· 年化 %s · Sharpe %.2f · 最大回撤 %s · <a href="https://amiya866.github.io/metals-framework/xs-panel/">实时面板 ↗</a></p>' % (
+            esc(sec['sig_date']), eq, fmt_pct(sec['cum'] or 0), fmt_pct(sec['ann'] or 0),
+            sec['sharpe'] or 0, fmt_pct(sec['mdd'] or 0)))
+        h.append('<table><tr><th>品种</th><th>评分</th><th>方向</th></tr>')
+        for n, s, d in sec['score_rows']:
+            cls = 'up' if s > 0 else 'dn'
+            dcls = 'up' if d == '多' else ('dn' if d == '空' else '')
+            h.append('<tr><td>%s</td><td class="%s">%+.2f</td><td class="%s">%s</td></tr>' % (esc(n), cls, s, dcls, d))
+        h.append('</table>')
+        cards = []
+        for p in sec['positions']:
+            side_cls = 'up' if p['side'] == '多' else 'dn'
+            sc = '%+.2f' % p['score'] if p['score'] is not None else '—'
+            body = []
+            if p['fund']:
+                body.append('<div class="sub"><b>基本面</b>：%s</div>' % esc('；'.join(p['fund'])))
+            pv = '；'.join(p['pv'])
+            if p['tape']:
+                pv = (pv + '｜' if pv else '') + p['tape']
+            if pv:
+                body.append('<div class="sub"><b>价量</b>：%s</div>' % esc(pv))
+            if p['view']:
+                body.append('<div style="font-size:13px;margin-top:4px"><b>点评</b>：%s</div>' % esc(p['view']))
+            cards.append('<div class="card"><div class="nm"><span class="%s">%s</span>·%s '
+                         '<span style="color:var(--gray);font-size:11px">评分 %s</span></div>%s</div>' % (
+                             side_cls, p['side'], esc(p['name']), sc, ''.join(body)))
+        h.append('<div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">%s</div>' % ''.join(cards))
+        for e in sec['exits']:
+            h.append('<p class="note">调出·%s：%s</p>' % (esc(e['name']), esc(e['view'])))
+        evs = sec['today_events'] or sec['recent_events']
+        h.append('<p class="note">%s%s</p>' % (
+            '今日调仓：' if sec['today_events'] else '今日无调仓；最近调仓：',
+            esc('；'.join('%s %s%s' % (e[0][5:], e[1], e[2]) for e in evs))))
+        if sec['stale_factors']:
+            h.append('<p class="note">⚠ 因子数据滞后：%s</p>' % esc('、'.join(sec['stale_factors'])))
+        if sec['views_stale']:
+            h.append('<p class="note">点评承自 %s，超 7 天未更新，待重估。</p>' % esc(sec['views_since']))
+        h.append('</section>')
+
+    h.append('<section><div class="sec-no">09 / PRE-COMMITMENT</div><div class="sec-t">事前冻结</div><table><tr><th>判断</th><th>期限</th><th>成功条件</th><th>失败/失效条件</th><th>重估节点</th></tr>')
     h += ['<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % tuple(esc(x) for x in r) for r in C['freezes']]
     h.append('</table></section>')
 
-    h.append('<section><div class="sec-no">09 / SOURCES</div><div class="sec-t">数据来源</div><ul>')
+    h.append('<section><div class="sec-no">10 / SOURCES</div><div class="sec-t">数据来源</div><ul>')
     h += ['<li>%s</li>' % esc(s) for s in C['sources']]
     h.append('</ul><p class="note">自动面板：数字真实来源如上；叙事行极简仅作结构承转，深度研判以人工版为准。本页手改后自动流程不再覆盖。</p></section>')
 
@@ -422,10 +574,10 @@ def update_archive(ctx, C):
     log('归档行已插入 index.html')
 
 # ---------- 主流程（手改保护） ----------
-def write_protected(path, content, hashes):
+def write_protected(path, content, hashes, force=False):
     """返回 'written' / 'kept_manual' / 'unchanged'"""
     h = sha(content)
-    if os.path.exists(path):
+    if os.path.exists(path) and not force:
         cur = sha(open(path, encoding='utf-8').read())
         if cur == h:
             return 'unchanged'
@@ -456,11 +608,8 @@ def main():
 
     md = render_md(ctx, C)
     html = render_panel(ctx, C)
-    if force:
-        hashes.pop('%s.md' % today, None)
-        hashes.pop('%s.html' % today, None)
-    r1 = write_protected(os.path.join(BASE, 'reports', '%s.md' % today), md, hashes)
-    r2 = write_protected(os.path.join(BASE, 'panels', '%s.html' % today), html, hashes)
+    r1 = write_protected(os.path.join(BASE, 'reports', '%s.md' % today), md, hashes, force)
+    r2 = write_protected(os.path.join(BASE, 'panels', '%s.html' % today), html, hashes, force)
     log('report: %s | panel: %s' % (r1, r2))
 
     if r2 in ('written',) or r1 in ('written',):
