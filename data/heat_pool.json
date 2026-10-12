@@ -1,0 +1,934 @@
+{
+ "date": "2026-10-12",
+ "panel_asof": "2026-10-12T13:50:28+08:00",
+ "global_share": 0.671,
+ "metals": {
+  "cu": {
+   "sym": "cu",
+   "name": "铜",
+   "n_cand": 150,
+   "n_wx": 30,
+   "n_archive": 4551,
+   "heat": 239291,
+   "comments": 0,
+   "top10_mean": 15100,
+   "span": "2026-04-15~2026-10-09",
+   "top10": [
+    {
+     "title": "紫金矿业、洛阳钼业、中国铝业、北方稀土、江西铜业、盐湖股份、中钨高新、藏格矿业、包钢股份、赣锋锂业…有色企业上半年业绩预",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA12yh72xGho49FGFSGFk4kOENr922FbWDgE04f9kL91eARv56B",
+     "reads": 26357,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-20"
+    },
+    {
+     "title": "“暴涨260%”！全球市场，“铜”时爆单",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA14BDFSS2SGFMi1WhAFT4ZEBdA4efECrG52EDqFv96Ih1K19n7",
+     "reads": 21926,
+     "src": "公众号·上海有色网",
+     "date": "2026-09-01"
+    },
+    {
+     "title": "两死三伤！40万金属吨铜矿事故停产！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA101C0mt9mV4DNCnN1TWEl35Xz2cg3v99tbCas5RH5ez0d34k8",
+     "reads": 21161,
+     "src": "公众号·上海有色网",
+     "date": "2026-08-24"
+    },
+    {
+     "title": "停产13年铜矿，年底将全部恢复产能！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA10tb2ovFWK5xa2deDLB1uV8KGEjr8iM0rEEEUFPN5CBCTk9V8",
+     "reads": 17668,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-22"
+    },
+    {
+     "title": "“订单已排到2027年下半年”！铜加工，爆单了",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA12Hs8q80kzBPO0PtFUU9iXG1X61DCN36wVEMK2jVGjp2XJ5Rp",
+     "reads": 16136,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-01"
+    },
+    {
+     "title": "铜、钴生产中断！刚果金KCC被税务总局查封停产",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA1FrF8sL19L4uP1wb3Jf9dXCkL4pN2m89320gSAghCPM1v02kv",
+     "reads": 11019,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-13"
+    },
+    {
+     "title": "铜精矿超一半运往中国，智利想换一种卖法",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA197Q9tC83SH288AJCMm4luEpeBA84n59Uq6A5C5qCxHCLM5aH",
+     "reads": 10799,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-27"
+    },
+    {
+     "title": "拟重新谈判！江铜11.6亿美元铜矿项目面临变数",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA1AOHFaRDs9CrNCCI3rPGzn1I0CNC5zd7712I71pY0g2CiaEC5",
+     "reads": 10367,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-08"
+    },
+    {
+     "title": "10万吨阴极铜电解项目投产！A级阴极铜正式产出",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA1As665l6QNC5gC7G81oDqw5mW8W2CIz1Qi9aM5HtF9KFE9GwL",
+     "reads": 7898,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-06"
+    },
+    {
+     "title": "全球最大铜产国，继续下调产量预期！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA14ey5K33W5GsRECk87p5vU1434U27rE4Yq9XFEE13dnGI32Ky",
+     "reads": 7664,
+     "src": "公众号·上海有色网",
+     "date": "2026-08-13"
+    }
+   ],
+   "viewpoints": [
+    "（09-01）“暴涨260%”！全球市场，“铜”时爆单",
+    "（08-24）两死三伤！40万金属吨铜矿事故停产！",
+    "（08-13）全球最大铜产国，继续下调产量预期！",
+    "（09-14）30万吨阴极铜项目熔炼炉点火！"
+   ],
+   "bull": 15,
+   "bear": 4,
+   "neutral": 6,
+   "rel": -5.1,
+   "heat7_avg": 0,
+   "trend": "→"
+  },
+  "al": {
+   "sym": "al",
+   "name": "铝",
+   "n_cand": 150,
+   "n_wx": 30,
+   "n_archive": 2362,
+   "heat": 70807,
+   "comments": 0,
+   "top10_mean": 3611,
+   "span": "2026-04-15~2026-10-12",
+   "top10": [
+    {
+     "title": "紫金矿业、洛阳钼业、中国铝业、北方稀土、江西铜业、盐湖股份、中钨高新、藏格矿业、包钢股份、赣锋锂业…有色企业上半年业绩预",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA12yh72xGho49FGFSGFk4kOENr922FbWDgE04f9kL91eARv56B",
+     "reads": 26357,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-20"
+    },
+    {
+     "title": "大摩预警！全球铝市 2027 年由紧转过剩，铝价或跌至 2800 美元 / 吨",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh82qI8Tc31MH2G07u4WB0F41TL0OJ9qlBTbG9PGByArZ8YU1kq",
+     "reads": 2104,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-22"
+    },
+    {
+     "title": "宏观风暴下铜铝锌的“危”与“机”，今日铜价跌390元/吨",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh8AcDBZX9hbEaSBjc0O9Fqi5sL78N3ip1dJF9YDxW3c24WoD5w",
+     "reads": 1507,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-14"
+    },
+    {
+     "title": "一家投产才两年的铝厂，凭什么把货送进了中航工业？",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh8Eoj9CC05lEMxC6jF5lDDQ8pCBY68y712BFl9GXb1cwBHSBzK",
+     "reads": 1285,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-19"
+    },
+    {
+     "title": "剥离宏观情绪溢价，铜铝锌基本面分化下的交易主线，今日铜价大跌1230元/吨",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh81x3Bxj68p27V0y43FCEwm2Wp3opB9gEB1DxG2On51x2d6Aq8",
+     "reads": 1018,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-15"
+    },
+    {
+     "title": "倒计时16天！铝铜行业这场“约见”来了，阵容抢先看",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA19Dn4WW2U69TXDVuDrc7ht1N61X8GML9PuAqJFPB1m4BkG1NC",
+     "reads": 872,
+     "src": "公众号·上海有色网",
+     "date": "2026-08-24"
+    },
+    {
+     "title": "147万吨见顶后加速回落，国内铝锭去库能走多远？",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA1EIT9e818n0171Qh5gvBNB5y35E29Kd6RbEJZ0tx3V9GSI4wO",
+     "reads": 772,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-15"
+    },
+    {
+     "title": "中东减产铝价冲高！海外电解铝新增项目提速",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA147h8Nc5yj5hH8QX1VcA0oFnb3RtAlPDzG6oh2IEFHv2ZaCYn",
+     "reads": 757,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-01"
+    },
+    {
+     "title": "国内电解铝：上半年回顾及下半年展望",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA1DLN0pp6R2CZV54Z30M9qT5D60v2548FXn1zc5c2Aej1UU4Ea",
+     "reads": 743,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-13"
+    },
+    {
+     "title": "中东部分铝厂宣布复产！海外电解铝日均产量提升",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA19PrE3l0X33ypDbG5NTA6e1OU2v21Oc3u5DaXEoW5Mw7Ps7zi",
+     "reads": 697,
+     "src": "公众号·上海有色网",
+     "date": "2026-08-03"
+    }
+   ],
+   "viewpoints": [
+    "（09-22）大摩预警！全球铝市 2027 年由紧转过剩，铝价或跌至 2800 美元 / 吨",
+    "（09-14）宏观风暴下铜铝锌的“危”与“机”，今日铜价跌390元/吨",
+    "（09-19）一家投产才两年的铝厂，凭什么把货送进了中航工业？",
+    "（09-15）剥离宏观情绪溢价，铜铝锌基本面分化下的交易主线，今日铜价大跌1230元/吨"
+   ],
+   "bull": 13,
+   "bear": 6,
+   "neutral": 2,
+   "rel": -3.5,
+   "heat7_avg": 0,
+   "trend": "→"
+  },
+  "zn": {
+   "sym": "zn",
+   "name": "锌",
+   "n_cand": 33,
+   "n_wx": 23,
+   "n_archive": 214,
+   "heat": 16376,
+   "comments": 0,
+   "top10_mean": 1007,
+   "span": "2026-04-16~2026-10-12",
+   "top10": [
+    {
+     "title": "金属\"三剑客\"齐飞！锗破2.7万、铜站11万、锌矿端告急——节后怎么走？",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh80wpEA3Fks1Bj88z3on7MWFZNCzhAat1hw3gf1wD1KJFxCFy9",
+     "reads": 2658,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-26"
+    },
+    {
+     "title": "宏观风暴下铜铝锌的“危”与“机”，今日铜价跌390元/吨",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh8AcDBZX9hbEaSBjc0O9Fqi5sL78N3ip1dJF9YDxW3c24WoD5w",
+     "reads": 1507,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-14"
+    },
+    {
+     "title": "嘉能可停产、TC倒挂10个月！镇康这家锌冶炼厂，凭什么在锌价狂飙中卡住\"矿到锭\"命门",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh834UC5BGO71R46LF8LK38s6mC8ZmApKEJB3Kk7s064xFFsGqt",
+     "reads": 1236,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-25"
+    },
+    {
+     "title": "剥离宏观情绪溢价，铜铝锌基本面分化下的交易主线，今日铜价大跌1230元/吨",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh81x3Bxj68p27V0y43FCEwm2Wp3opB9gEB1DxG2On51x2d6Aq8",
+     "reads": 1018,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-15"
+    },
+    {
+     "title": "铅锌人这一年受的委屈，10月来长沙，咱们慢慢说、细细聊",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA13VRATh6hD0pkCUB0xNBSg1xgDJ46xfAfU08w5Z7A1q7ifEXp",
+     "reads": 802,
+     "src": "公众号·上海有色网",
+     "date": "2026-09-14"
+    },
+    {
+     "title": "宏观压制与产业韧性的拉锯：铜铝锌后市怎么走？今日铜价涨240元/吨",
+     "url": "https://mp.weixin.qq.com/s/WR12rjDon4yY3KF9OfCYF90ZFh8Bg71lfD6gDzdBDQ36NANBEM3AnR0Ol4It30k6jHEsm7meCPk",
+     "reads": 635,
+     "src": "公众号·长江有色金属网",
+     "date": "2026-09-16"
+    },
+    {
+     "title": "锌锭出口风口来了？近20年罕见机会再次出现！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA11ja3pVBEPFKCDvFCG84b18lJGfF0jP4tx4g6Caw9vxCi88D1",
+     "reads": 612,
+     "src": "公众号·上海有色网",
+     "date": "2026-08-03"
+    },
+    {
+     "title": "7月氧化锌进口环比骤降65%！出口累计突破1.2万吨！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA16ZdBPVF3gGDl0thAi9AyT1DN90FEp25t15TO8q2AugGiR8wY",
+     "reads": 543,
+     "src": "公众号·上海有色网",
+     "date": "2026-08-24"
+    },
+    {
+     "title": "国产锌精矿加工费负数成交增多！整体跌势持续",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA18O1FuO9d49No2NA1j57ASGq70gl4ui8j25oz9wg5GS11X9jy",
+     "reads": 537,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-08"
+    },
+    {
+     "title": "2026 SMM锌业大会开幕倒计时10天！全时段流程公布！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA15j56o53mu7nuFahAs8G76DLGEFZ2Kh8538bA8Yx6r87zp7h7",
+     "reads": 522,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-27"
+    }
+   ],
+   "viewpoints": [
+    "（09-26）金属\"三剑客\"齐飞！锗破2.7万、铜站11万、锌矿端告急——节后怎么走？",
+    "（09-14）宏观风暴下铜铝锌的“危”与“机”，今日铜价跌390元/吨",
+    "（09-25）嘉能可停产、TC倒挂10个月！镇康这家锌冶炼厂，凭什么在锌价狂飙中卡住\"矿到锭\"命门",
+    "（09-15）剥离宏观情绪溢价，铜铝锌基本面分化下的交易主线，今日铜价大跌1230元/吨"
+   ],
+   "bull": 2,
+   "bear": 2,
+   "neutral": 1,
+   "rel": -9.0,
+   "heat7_avg": 0,
+   "trend": "→"
+  },
+  "pb": {
+   "sym": "pb",
+   "name": "铅",
+   "n_cand": 8,
+   "n_wx": 1,
+   "n_archive": 261,
+   "heat": 2457,
+   "comments": 0,
+   "top10_mean": 306,
+   "span": "2026-04-16~2026-09-14",
+   "top10": [
+    {
+     "title": "铅锌人这一年受的委屈，10月来长沙，咱们慢慢说、细细聊",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA13VRATh6hD0pkCUB0xNBSg1xgDJ46xfAfU08w5Z7A1q7ifEXp",
+     "reads": 802,
+     "src": "公众号·上海有色网",
+     "date": "2026-09-14"
+    },
+    {
+     "title": "4月22日复盘笔记：光通信/半...",
+     "url": "https://wx.zsxq.com/topic/14422555242428452",
+     "reads": 365,
+     "src": "星球·存档",
+     "date": "2026-04-22"
+    },
+    {
+     "title": "20260416今日段子汇总 ...",
+     "url": "https://wx.zsxq.com/topic/82255855424582582",
+     "reads": 318,
+     "src": "星球·存档",
+     "date": "2026-04-16"
+    },
+    {
+     "title": "看好钠电产业化趋势加速  对全...",
+     "url": "https://wx.zsxq.com/topic/45544885184111228",
+     "reads": 282,
+     "src": "星球·存档",
+     "date": "2026-04-27"
+    },
+    {
+     "title": "4月17日复盘笔记：光通信/算...",
+     "url": "https://wx.zsxq.com/topic/82255855118152212",
+     "reads": 275,
+     "src": "星球·存档",
+     "date": "2026-04-17"
+    },
+    {
+     "title": "紫金矿业&中孚实业&华锡有色1...",
+     "url": "https://wx.zsxq.com/topic/55522112444112884",
+     "reads": 157,
+     "src": "星球·存档",
+     "date": "2026-04-22"
+    },
+    {
+     "title": "骆驼股份25年业绩：业绩稳健，...",
+     "url": "https://wx.zsxq.com/topic/14422552114282182",
+     "reads": 129,
+     "src": "星球·存档",
+     "date": "2026-04-22"
+    },
+    {
+     "title": "【长江电新】雄韬股份2025Q...",
+     "url": "https://wx.zsxq.com/topic/55522111445584124",
+     "reads": 121,
+     "src": "星球·存档",
+     "date": "2026-04-24"
+    }
+   ],
+   "viewpoints": [
+    "（09-14）铅锌人这一年受的委屈，10月来长沙，咱们慢慢说、细细聊"
+   ],
+   "bull": 0,
+   "bear": 0,
+   "neutral": 1,
+   "rel": -6.1,
+   "heat7_avg": 0,
+   "trend": "→"
+  },
+  "ni": {
+   "sym": "ni",
+   "name": "镍",
+   "n_cand": 61,
+   "n_wx": 9,
+   "n_archive": 837,
+   "heat": 22586,
+   "comments": 0,
+   "top10_mean": 1276,
+   "span": "2026-04-16~2026-10-08",
+   "top10": [
+    {
+     "title": "一座矿都没有的镍王：力勤没有矿，为什么还能做到全球第一",
+     "url": "https://mp.weixin.qq.com/s/WR12cKEUTGtf42SBSG9tOAk3EQnD846qLG329sdCsk0TN0lE11DB7cBqH6nK4nN1y646qFnqAFc",
+     "reads": 5115,
+     "src": "公众号·扑克投资家",
+     "date": "2026-10-07"
+    },
+    {
+     "title": "一家温州民企，怎么把全球镍的定价权握到手里",
+     "url": "https://mp.weixin.qq.com/s/WR12cKEUTGtf42SBSG9tOAk3EQnBlv0rOGiO7Sn6H5FyR8Qn9S2CZDGblE7qD4F1me06a6Bg2PZ",
+     "reads": 4516,
+     "src": "公众号·扑克投资家",
+     "date": "2026-09-29"
+    },
+    {
+     "title": "印尼镍矿HMA大幅下调7.6%！",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA18CnEwg2W4CrM6th5DsCqS2PHByM3uW5id3fc7kO0LMEig3rn",
+     "reads": 555,
+     "src": "公众号·上海有色网",
+     "date": "2026-07-06"
+    },
+    {
+     "title": "印尼上半年镍矿消费量达全年RK...",
+     "url": "https://wx.zsxq.com/topic/45544254548884558",
+     "reads": 413,
+     "src": "星球",
+     "date": "2026-07-21"
+    },
+    {
+     "title": "【东吴电新】锂电材料每日价格2...",
+     "url": "https://wx.zsxq.com/topic/55522115244282284",
+     "reads": 377,
+     "src": "星球·存档",
+     "date": "2026-04-24"
+    },
+    {
+     "title": "印尼DSI出口监管定位持续引发...",
+     "url": "https://wx.zsxq.com/topic/14422112284282522",
+     "reads": 376,
+     "src": "星球",
+     "date": "2026-07-24"
+    },
+    {
+     "title": "4月22日复盘笔记：光通信/半...",
+     "url": "https://wx.zsxq.com/topic/14422555242428452",
+     "reads": 365,
+     "src": "星球·存档",
+     "date": "2026-04-22"
+    },
+    {
+     "title": "哈利达镍业（NCKL-IJ）1...",
+     "url": "https://wx.zsxq.com/topic/22255444228482211",
+     "reads": 356,
+     "src": "星球",
+     "date": "2026-08-03"
+    },
+    {
+     "title": "#外媒资讯 印尼供应收紧，镍价...",
+     "url": "https://wx.zsxq.com/topic/22255882412281181",
+     "reads": 355,
+     "src": "星球·存档",
+     "date": "2026-04-27"
+    },
+    {
+     "title": "【东吴电新】IGO 2026Q...",
+     "url": "https://wx.zsxq.com/topic/45544885842245888",
+     "reads": 329,
+     "src": "星球·存档",
+     "date": "2026-04-25"
+    }
+   ],
+   "viewpoints": [
+    "（10-07）一座矿都没有的镍王：力勤没有矿，为什么还能做到全球第一",
+    "（09-29）一家温州民企，怎么把全球镍的定价权握到手里",
+    "（08-13）【博迁新材】MLCC镍粉、光伏铜粉供不应求，已经迎来第三轮产能扩张",
+    "（08-13）公司发布公告称#，拟投资2.02亿元，投资新建三个项目，分别包括“纳米金属镍粉精细化分级扩产项目”、“200nm及以下镍粉精细分级扩产项目”、“年产600吨超细金属粉体材料项目”，投资金额分别为约3500万元、890"
+   ],
+   "bull": 7,
+   "bear": 0,
+   "neutral": 2,
+   "rel": 5.1,
+   "heat7_avg": 0,
+   "trend": "→"
+  },
+  "sn": {
+   "sym": "sn",
+   "name": "锡",
+   "n_cand": 58,
+   "n_wx": 5,
+   "n_archive": 721,
+   "heat": 13800,
+   "comments": 0,
+   "top10_mean": 371,
+   "span": "2026-03-27~2026-10-12",
+   "top10": [
+    {
+     "title": "三地锡锭社库大幅累库！源自“高价对需求的自我修正”",
+     "url": "https://mp.weixin.qq.com/s/WR144n0TA9TJ0401raGxJ3xRGA1Eru35sAJn0SU2VS4mr8WD84yDfrGeOBxaAOzFSFAqg8AF4ui",
+     "reads": 474,
+     "src": "公众号·上海有色网",
+     "date": "2026-06-08"
+    },
+    {
+     "title": "锡需求扩容潮起锡价再度扬帆_晨起半小时迎接金九银十260826.mp3",
+     "url": "https://wx.zsxq.com/topic/55521152441128144",
+     "reads": 413,
+     "src": "星球",
+     "date": "2026-08-26"
+    },
+    {
+     "title": "【ZX机械】锂电设备板块推荐 ...",
+     "url": "https://wx.zsxq.com/topic/22255855285412881",
+     "reads": 400,
+     "src": "星球·存档",
+     "date": "2026-04-16"
+    },
+    {
+     "title": "【点金互动易】钨+业绩高增，拥有钨锡铜丰富矿产资源，自产资源优势显著，这家公司子公司刀具量价齐升推动上半年净利润同比大增",
+     "url": "https://wx.zsxq.com/topic/55522488822411444",
+     "reads": 391,
+     "src": "星球",
+     "date": "2026-08-11"
+    },
+    {
+     "title": "#外媒资讯 交易台 – 高盛中...",
+     "url": "https://wx.zsxq.com/topic/45544884881148858",
+     "reads": 367,
+     "src": "星球·存档",
+     "date": "2026-04-21"
+    },
+    {
+     "title": "4月22日复盘笔记：光通信/半...",
+     "url": "https://wx.zsxq.com/topic/14422555242428452",
+     "reads": 365,
+     "src": "星球·存档",
+     "date": "2026-04-22"
+    },
+    {
+     "title": "宏观压力逐渐释放 锡价估值修复动能渐显",
+     "url": "https://mp.weixin.qq.com/s/WR16YFGVT1Rb3wm9C4B2G6vy2UT6l41OKCSAAVM7bQ81a2891dq7Kx4osAOg5H62eF0eH5rnBZU",
+     "reads": 327,
+     "src": "公众号·文华财经",
+     "date": "2026-03-27"
+    },
+    {
+     "title": "20260427今日段子汇总 ...",
+     "url": "https://wx.zsxq.com/topic/82255882125522452",
+     "reads": 326,
+     "src": "星球·存档",
+     "date": "2026-04-27"
+    },
+    {
+     "title": "【国投机械】华光新材策略会交流...",
+     "url": "https://wx.zsxq.com/topic/22258842244441581",
+     "reads": 325,
+     "src": "星球",
+     "date": "2026-09-03"
+    },
+    {
+     "title": "材料聚焦出海、国产替代和涨价链...",
+     "url": "https://wx.zsxq.com/topic/14422112841882482",
+     "reads": 322,
+     "src": "星球",
+     "date": "2026-07-27"
+    }
+   ],
+   "viewpoints": [
+    "（08-26）锡需求扩容潮起锡价再度扬帆_晨起半小时迎接金九银十260826.mp3",
+    "（09-03）2、#光模块锡膏： 公司锡膏业务上半年收入约2000万、全年目标5000万+，以T4为主；#同时光模块T5/T6专用锡膏在光通讯下游客户验证、T7在研",
+    "（09-03）#公司正对接国内头部光模块客户，力争2026年底前拿核心客户代码，3-5年目标国内锡膏Top3，并同步拓展3C/安防/通讯/智能家居/汽车电子等",
+    "（08-21）【长江电新】电池组件出口：7月整体表现平淡，印度放松电池进口限制 1、根据盖锡咨询，7月组件出口16.36GW，同比-15.20%，环比-13.75%；电池出口5.42GW，同比-56.34%，环比-9.77%；电池"
+   ],
+   "bull": 14,
+   "bear": 1,
+   "neutral": 0,
+   "rel": 15.7,
+   "heat7_avg": 0,
+   "trend": "→"
+  }
+ },
+ "history": {
+  "cu": [
+   {
+    "d": "2026-10-12",
+    "heat": 1300,
+    "bull": 1,
+    "bear": 2
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 12448,
+    "bull": 1,
+    "bear": 2
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 10809,
+    "bull": 1,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13008,
+    "bull": 1,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 8539,
+    "bull": 1,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13138,
+    "bull": 1,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13138,
+    "bull": 1,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13184,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 239291,
+    "bull": 15,
+    "bear": 4
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 239291,
+    "bull": 15,
+    "bear": 4
+   }
+  ],
+  "al": [
+   {
+    "d": "2026-10-12",
+    "heat": 522,
+    "bull": 0,
+    "bear": 2
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 12240,
+    "bull": 0,
+    "bear": 2
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13125,
+    "bull": 0,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 12831,
+    "bull": 0,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 8822,
+    "bull": 0,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 9567,
+    "bull": 0,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 9567,
+    "bull": 0,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 9617,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 70807,
+    "bull": 13,
+    "bear": 6
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 70807,
+    "bull": 13,
+    "bear": 6
+   }
+  ],
+  "zn": [
+   {
+    "d": "2026-10-12",
+    "heat": 0,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 6044,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 5783,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 6383,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 298,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 898,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 898,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 943,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 16376,
+    "bull": 2,
+    "bear": 2
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 16376,
+    "bull": 2,
+    "bear": 2
+   }
+  ],
+  "pb": [
+   {
+    "d": "2026-10-12",
+    "heat": 189,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 1193,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 1193,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 1193,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 0,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 0,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 0,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 0,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 2457,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 2457,
+    "bull": 0,
+    "bear": 0
+   }
+  ],
+  "ni": [
+   {
+    "d": "2026-10-12",
+    "heat": 194,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 18584,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13264,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 18587,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 3615,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 8938,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 8938,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 8938,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 22585,
+    "bull": 7,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 22586,
+    "bull": 7,
+    "bear": 0
+   }
+  ],
+  "sn": [
+   {
+    "d": "2026-10-12",
+    "heat": 619,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 11623,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 11896,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 11731,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 6832,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 6853,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 6853,
+    "bull": 3,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 6855,
+    "bull": 0,
+    "bear": 0
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13800,
+    "bull": 14,
+    "bear": 1
+   },
+   {
+    "d": "2026-10-12",
+    "heat": 13800,
+    "bull": 14,
+    "bear": 1
+   }
+  ]
+ }
+}
