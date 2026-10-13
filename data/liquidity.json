@@ -1,44 +1,29 @@
 {
- "updated": "2026-10-13 19:30",
+ "updated": "2026-10-13 08:34",
  "asof": "2026-10-13",
  "regime": {
   "stage": 2,
-  "onrrp_bn": 0.275,
+  "onrrp_bn": 0.3,
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 54.6,
-  "n_comp": 9,
+  "value": 57.5,
+  "n_comp": 6,
   "components": [
-   {
-    "id": "SPR_SOFR_IORB",
-    "name": "SOFR-IORB利差",
-    "pct": 78.1
-   },
-   {
-    "id": "SPR_SOFR99",
-    "name": "SOFR尾部99分位差",
-    "pct": 7.2
-   },
-   {
-    "id": "SPR_CP_SOFR",
-    "name": "商票-SOFR利差",
-    "pct": 59.1
-   },
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "pct": 57.1
+    "pct": 61.6
    },
    {
     "id": "VIXCLS",
     "name": "VIX(股市波动)",
-    "pct": 24.1
+    "pct": 20.6
    },
    {
     "id": "MOVE_X",
     "name": "MOVE(债市波动)",
-    "pct": 57.1
+    "pct": 54.3
    },
    {
     "id": "NETLIQ",
@@ -76,100 +61,38 @@
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "z": 1.09,
-    "chg63": 0.4,
+    "z": 1.23,
+    "chg63": 0.46,
     "triggered": false
    },
    {
     "id": "VIXCLS",
     "name": "VIX",
-    "z": -0.07,
-    "chg63": -0.46,
+    "z": -0.26,
+    "chg63": -1.66,
     "triggered": false
    },
    {
     "id": "MOVE_X",
     "name": "MOVE",
-    "z": 1.57,
-    "chg63": 25.647,
+    "z": 1.29,
+    "chg63": 20.7,
     "triggered": false
    }
   ],
-  "funding": [
-   {
-    "id": "SPR_SOFR_IORB",
-    "name": "SOFR-IORB",
-    "z": -0.01,
-    "chg20": 0.0,
-    "triggered": false
-   },
-   {
-    "id": "SPR_SOFR99",
-    "name": "SOFR尾部",
-    "z": 0.29,
-    "chg20": 1.0,
-    "triggered": false
-   },
-   {
-    "id": "SPR_CP_SOFR",
-    "name": "商票-SOFR",
-    "z": -0.0,
-    "chg20": -0.0,
-    "triggered": false
-   }
-  ]
+  "funding": []
  },
  "buy_signal": false,
  "funding_alert": false,
  "cards": [
   {
-   "id": "sofr_iorb",
-   "name": "SOFR-IORB利差",
-   "val": -3.0,
-   "unit": "bp",
-   "date": "2026-10-09",
-   "chg": 0.0,
-   "pct": 78.1,
-   "key": "SPR_SOFR_IORB"
-  },
-  {
-   "id": "sofr_tail",
-   "name": "SOFR尾部(99分位-中位)",
-   "val": 8.0,
-   "unit": "bp",
-   "date": "2026-10-09",
-   "chg": 0.0,
-   "pct": 7.2,
-   "key": "SPR_SOFR99"
-  },
-  {
-   "id": "sofr_onrrp",
-   "name": "SOFR-ONRRP利差",
-   "val": 12.0,
-   "unit": "bp",
-   "date": "2026-10-09",
-   "chg": 0.0,
-   "pct": 73.7,
-   "key": "SPR_SOFR_ONRRP"
-  },
-  {
-   "id": "cp_sofr",
-   "name": "商票-SOFR利差",
-   "val": 5.0,
-   "unit": "bp",
-   "date": "2026-10-05",
-   "chg": -4.0,
-   "pct": 59.1,
-   "key": "SPR_CP_SOFR"
-  },
-  {
    "id": "onrrp",
    "name": "ON RRP余额",
-   "val": 0.28,
+   "val": 0.3,
    "unit": "十亿$",
-   "date": "2026-10-13",
-   "chg": -0.02,
-   "pct": 12.4,
+   "date": "2026-10-09",
+   "chg": -0.04,
+   "pct": 12.7,
    "key": "RRPONTSYD"
   },
   {
@@ -197,9 +120,9 @@
    "name": "净流动性(总资产-TGA-RRP)",
    "val": 5.87,
    "unit": "万亿$",
-   "date": "2026-10-13",
+   "date": "2026-10-09",
    "chg": 0.0,
-   "pct": 41.5,
+   "pct": 41.6,
    "key": "NETLIQ"
   },
   {
@@ -207,39 +130,39 @@
    "name": "SRF常备回购用量",
    "val": 0.0,
    "unit": "十亿$",
-   "date": "2026-10-13",
+   "date": "2026-10-09",
    "chg": -0.0,
-   "pct": 0.0,
+   "pct": 34.1,
    "key": "LIQ_SRF"
   },
   {
    "id": "hy",
    "name": "高收益债OAS",
-   "val": 3.11,
+   "val": 3.15,
    "unit": "%",
-   "date": "2026-10-12",
-   "chg": 0.0,
-   "pct": 57.1,
+   "date": "2026-10-08",
+   "chg": 0.06,
+   "pct": 61.6,
    "key": "BAMLH0A0HYM2"
   },
   {
    "id": "move",
    "name": "MOVE美债波动率(债市)",
-   "val": 100.68,
+   "val": 98.47,
    "unit": "点",
-   "date": "2026-10-13",
-   "chg": 2.21,
-   "pct": 57.1,
+   "date": "2026-10-09",
+   "chg": -2.23,
+   "pct": 54.3,
    "key": "MOVE_X"
   },
   {
    "id": "vix",
    "name": "VIX(股市)",
-   "val": 15.21,
+   "val": 14.84,
    "unit": "点",
-   "date": "2026-10-12",
-   "chg": 0.37,
-   "pct": 24.1,
+   "date": "2026-10-09",
+   "chg": -0.57,
+   "pct": 20.6,
    "key": "VIXCLS"
   },
   {
@@ -273,7 +196,9 @@
    "key": "GM2_YOY"
   }
  ],
- "fails": [],
+ "fails": [
+  "SOFR"
+ ],
  "gaps": [
   "XCCY交叉货币互换基差(需彭博)",
   "贴现窗口借款量(FRED无直读序列, H.4.1表2待解析)",
