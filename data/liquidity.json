@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-14 14:37",
+ "updated": "2026-10-14 17:34",
  "asof": "2026-10-14",
  "regime": {
   "stage": 2,
@@ -7,7 +7,7 @@
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 57.1,
+  "value": 58.0,
   "n_comp": 9,
   "components": [
    {
@@ -28,7 +28,7 @@
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "pct": 57.1
+    "pct": 64.1
    },
    {
     "id": "VIXCLS",
@@ -38,7 +38,7 @@
    {
     "id": "MOVE_X",
     "name": "MOVE(债市波动)",
-    "pct": 57.9
+    "pct": 58.8
    },
    {
     "id": "NETLIQ",
@@ -76,8 +76,8 @@
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "z": 1.09,
-    "chg63": 0.4,
+    "z": 1.2,
+    "chg63": 0.45,
     "triggered": false
    },
    {
@@ -90,8 +90,8 @@
    {
     "id": "MOVE_X",
     "name": "MOVE",
-    "z": 1.59,
-    "chg63": 26.06,
+    "z": 2.0,
+    "chg63": 33.434,
     "triggered": false
    }
   ],
@@ -215,21 +215,21 @@
   {
    "id": "hy",
    "name": "高收益债OAS",
-   "val": 3.11,
+   "val": 3.16,
    "unit": "%",
-   "date": "2026-10-12",
-   "chg": 0.0,
-   "pct": 57.1,
+   "date": "2026-10-13",
+   "chg": 0.05,
+   "pct": 64.1,
    "key": "BAMLH0A0HYM2"
   },
   {
    "id": "move",
    "name": "MOVE美债波动率(债市)",
-   "val": 101.09,
+   "val": 101.91,
    "unit": "点",
-   "date": "2026-10-13",
-   "chg": 2.62,
-   "pct": 57.9,
+   "date": "2026-10-14",
+   "chg": 0.82,
+   "pct": 58.8,
    "key": "MOVE_X"
   },
   {
