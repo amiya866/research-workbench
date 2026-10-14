@@ -41,18 +41,27 @@ def run(script):
     return p.returncode
 
 def ensure_proxy():
-    """部署走 Clash 7897；不在就尝试拉起 clash-verge"""
+    """部署走 Clash 7897；不在就尝试拉起 clash-verge 并轮询等就绪（最多 150s）"""
     import socket
-    try:
-        socket.create_connection(('127.0.0.1', 7897), timeout=3).close()
-        return
-    except Exception:
-        pass
+    def alive():
+        try:
+            socket.create_connection(('127.0.0.1', 7897), timeout=3).close()
+            return True
+        except Exception:
+            return False
+    if alive():
+        return True
     clash = r'C:\Program Files\Miloucloud\clash-verge.exe'
     if os.path.exists(clash):
         log('7897 不通，拉起 clash-verge')
         subprocess.Popen([clash], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        time.sleep(12)
+        for _ in range(30):
+            time.sleep(5)
+            if alive():
+                log('代理已就绪')
+                return True
+    log('!! 代理拉起失败')
+    return False
 
 def main():
     today = datetime.date.today().isoformat()

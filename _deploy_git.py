@@ -4,11 +4,34 @@ git add -A → 有变更才 commit → push（走 Clash 代理 7897，RW_PROXY �
 token 从 ~/.kimi-work/_gh_amiya866.token 读（remote URL 里的 gho_ token 已失效则用它兜底改 URL）
 挂 _refresh_all.py 全链尾部；rc 不炸链。
 """
-import os, sys, subprocess, datetime
+import os, sys, subprocess, datetime, socket, time
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROXY = os.environ.get('RW_PROXY', 'http://127.0.0.1:7897')
 TOKEN_PATH = os.path.expanduser(r'~/.kimi-work/_gh_amiya866.token')
+CLASH_EXE = r'C:\Program Files\Miloucloud\clash-verge.exe'
+
+def ensure_proxy():
+    """push 前确保 7897 在；不在拉起 clash-verge 并轮询最多 150s（2026-10-14 加，
+    原 12s 固定等待不够 clash 起端口，曾致部署连续失败）"""
+    def alive():
+        try:
+            socket.create_connection(('127.0.0.1', 7897), timeout=3).close()
+            return True
+        except Exception:
+            return False
+    if alive():
+        return True
+    if os.path.exists(CLASH_EXE):
+        print('7897 不通，拉起 clash-verge ...')
+        subprocess.Popen([CLASH_EXE], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        for _ in range(30):
+            time.sleep(5)
+            if alive():
+                print('代理已就绪')
+                return True
+    print('!! 代理拉起失败，push 可能不通')
+    return False
 
 def run(args, **kw):
     return subprocess.run(args, cwd=BASE, capture_output=True, text=True,
@@ -39,6 +62,7 @@ def main():
             run(['git', 'remote', 'set-url', 'origin', new])
     except Exception as e:
         print('token 兜底跳过:', e)
+    ensure_proxy()
     p = run(['git', '-c', 'http.proxy=%s' % PROXY, 'push', 'origin', 'HEAD'], env=env)
     tail = '\n'.join(((p.stdout or '') + (p.stderr or '')).strip().splitlines()[-3:])
     print('push rc=%d | %s' % (p.returncode, tail))
