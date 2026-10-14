@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-14 06:11",
+ "updated": "2026-10-14 14:37",
  "asof": "2026-10-14",
  "regime": {
   "stage": 2,
@@ -7,18 +7,18 @@
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 55.4,
+  "value": 57.1,
   "n_comp": 9,
   "components": [
    {
     "id": "SPR_SOFR_IORB",
     "name": "SOFR-IORB利差",
-    "pct": 78.1
+    "pct": 84.8
    },
    {
     "id": "SPR_SOFR99",
     "name": "SOFR尾部99分位差",
-    "pct": 7.2
+    "pct": 16.2
    },
    {
     "id": "SPR_CP_SOFR",
@@ -33,7 +33,7 @@
    {
     "id": "VIXCLS",
     "name": "VIX(股市波动)",
-    "pct": 24.1
+    "pct": 24.4
    },
    {
     "id": "MOVE_X",
@@ -83,8 +83,8 @@
    {
     "id": "VIXCLS",
     "name": "VIX",
-    "z": -0.07,
-    "chg63": -0.46,
+    "z": -0.23,
+    "chg63": -1.46,
     "triggered": false
    },
    {
@@ -99,14 +99,14 @@
    {
     "id": "SPR_SOFR_IORB",
     "name": "SOFR-IORB",
-    "z": -0.01,
-    "chg20": 0.0,
+    "z": 0.34,
+    "chg20": 2.0,
     "triggered": false
    },
    {
     "id": "SPR_SOFR99",
     "name": "SOFR尾部",
-    "z": 0.29,
+    "z": 0.3,
     "chg20": 1.0,
     "triggered": false
    },
@@ -125,31 +125,31 @@
   {
    "id": "sofr_iorb",
    "name": "SOFR-IORB利差",
-   "val": -3.0,
+   "val": -1.0,
    "unit": "bp",
-   "date": "2026-10-09",
-   "chg": 0.0,
-   "pct": 78.1,
+   "date": "2026-10-13",
+   "chg": 2.0,
+   "pct": 84.8,
    "key": "SPR_SOFR_IORB"
   },
   {
    "id": "sofr_tail",
    "name": "SOFR尾部(99分位-中位)",
-   "val": 8.0,
+   "val": 9.0,
    "unit": "bp",
-   "date": "2026-10-09",
-   "chg": 0.0,
-   "pct": 7.2,
+   "date": "2026-10-13",
+   "chg": 1.0,
+   "pct": 16.2,
    "key": "SPR_SOFR99"
   },
   {
    "id": "sofr_onrrp",
    "name": "SOFR-ONRRP利差",
-   "val": 12.0,
+   "val": 14.0,
    "unit": "bp",
-   "date": "2026-10-09",
-   "chg": 0.0,
-   "pct": 73.7,
+   "date": "2026-10-13",
+   "chg": 2.0,
+   "pct": 80.7,
    "key": "SPR_SOFR_ONRRP"
   },
   {
@@ -207,8 +207,8 @@
    "name": "SRF常备回购用量",
    "val": 0.0,
    "unit": "十亿$",
-   "date": "2026-10-13",
-   "chg": -0.0,
+   "date": "2026-10-14",
+   "chg": 0.0,
    "pct": 0.0,
    "key": "LIQ_SRF"
   },
@@ -235,11 +235,11 @@
   {
    "id": "vix",
    "name": "VIX(股市)",
-   "val": 15.21,
+   "val": 15.27,
    "unit": "点",
-   "date": "2026-10-12",
-   "chg": 0.37,
-   "pct": 24.1,
+   "date": "2026-10-13",
+   "chg": 0.06,
+   "pct": 24.4,
    "key": "VIXCLS"
   },
   {
