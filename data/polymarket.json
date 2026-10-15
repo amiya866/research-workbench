@@ -1,6 +1,6 @@
 {
  "source": "Polymarket Gamma/CLOB API（GitHub Actions每日更新）",
- "fetched_at": "2026-10-15T14:17:56.791796Z",
+ "fetched_at": "2026-10-15T17:18:57.219871Z",
  "markets": [
   {
    "question": "Will the Democratic Party control the Senate after the 2026 Midterm elections?",
@@ -14,7 +14,7 @@
      "price": 0.365
     }
    ],
-   "vol24": 42808,
+   "vol24": 53396,
    "end": "2026-11-04",
    "slug": "which-party-will-win-the-senate-in-2026",
    "history": [
@@ -1632,7 +1632,7 @@
      "price": 0.095
     }
    ],
-   "vol24": 551818,
+   "vol24": 553243,
    "end": "2026-11-04",
    "slug": "which-party-will-win-the-house-in-2026",
    "history": [
@@ -5703,98 +5703,32 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.0215
+     "price": 0.0355
     },
     {
      "name": "No",
-     "price": 0.9785
+     "price": 0.9645
     }
    ],
-   "vol24": 47563,
+   "vol24": 53624,
    "end": "2026-11-04",
-   "slug": "who-wins-the-senate-pending-hormuz-agreement",
+   "slug": "who-wins-the-senate-pending-hormuz-agreement-before-the-midterms",
    "history": [
     [
      "2026-10-12",
-     0.042
+     0.074
     ],
     [
      "2026-10-13",
-     0.0525
+     0.0715
     ],
     [
      "2026-10-14",
-     0.0525
+     0.0685
     ],
     [
      "2026-10-15",
-     0.0215
-    ]
-   ]
-  },
-  {
-   "question": "US-Iran Hormuz Agreement by August 15?",
-   "outcomes": [
-    {
-     "name": "Yes",
-     "price": 0.0
-    },
-    {
-     "name": "No",
-     "price": 1.0
-    }
-   ],
-   "vol24": 127393,
-   "end": "2026-08-16",
-   "slug": "us-iran-hormuz-agreement-byptptpt-20260803235957575",
-   "history": [
-    [
-     "2026-08-05",
-     0.545
-    ],
-    [
-     "2026-08-06",
-     0.595
-    ],
-    [
-     "2026-08-07",
-     0.395
-    ],
-    [
-     "2026-08-08",
-     0.505
-    ],
-    [
-     "2026-08-09",
-     0.195
-    ],
-    [
-     "2026-08-10",
-     0.085
-    ],
-    [
-     "2026-08-11",
-     0.08
-    ],
-    [
-     "2026-08-12",
-     0.095
-    ],
-    [
-     "2026-08-13",
-     0.0415
-    ],
-    [
-     "2026-08-14",
      0.0355
-    ],
-    [
-     "2026-08-15",
-     0.0055
-    ],
-    [
-     "2026-08-16",
-     0.004
     ]
    ]
   },
@@ -5803,14 +5737,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.0095
+     "price": 0.0075
     },
     {
      "name": "No",
-     "price": 0.9905
+     "price": 0.9925
     }
    ],
-   "vol24": 112875,
+   "vol24": 255156,
    "end": "2026-11-01",
    "slug": "strait-of-hormuz-traffic-returns-to-normal-by-october-31-20260810151043583",
    "history": [
@@ -6072,7 +6006,73 @@
     ],
     [
      "2026-10-15",
-     0.0095
+     0.0075
+    ]
+   ]
+  },
+  {
+   "question": "US-Iran Hormuz Agreement by August 15?",
+   "outcomes": [
+    {
+     "name": "Yes",
+     "price": 0.0
+    },
+    {
+     "name": "No",
+     "price": 1.0
+    }
+   ],
+   "vol24": 115833,
+   "end": "2026-08-16",
+   "slug": "us-iran-hormuz-agreement-byptptpt-20260803235957575",
+   "history": [
+    [
+     "2026-08-05",
+     0.545
+    ],
+    [
+     "2026-08-06",
+     0.595
+    ],
+    [
+     "2026-08-07",
+     0.395
+    ],
+    [
+     "2026-08-08",
+     0.505
+    ],
+    [
+     "2026-08-09",
+     0.195
+    ],
+    [
+     "2026-08-10",
+     0.085
+    ],
+    [
+     "2026-08-11",
+     0.08
+    ],
+    [
+     "2026-08-12",
+     0.095
+    ],
+    [
+     "2026-08-13",
+     0.0415
+    ],
+    [
+     "2026-08-14",
+     0.0355
+    ],
+    [
+     "2026-08-15",
+     0.0055
+    ],
+    [
+     "2026-08-16",
+     0.004
     ]
    ]
   },
@@ -6088,7 +6088,7 @@
      "price": 0.0
     }
    ],
-   "vol24": 566959,
+   "vol24": 551349,
    "end": "2026-09-20",
    "slug": "us-iran-ceasefire-continues-throughptptpt",
    "history": [
@@ -6122,7 +6122,7 @@
      "price": 0.0
     }
    ],
-   "vol24": 351819,
+   "vol24": 327897,
    "end": "2026-07-18",
    "slug": "israel-x-iran-ceasefire-continues-throughptptpt-20260716224448963",
    "history": [
@@ -6153,14 +6153,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.0895
+     "price": 0.089
     },
     {
      "name": "No",
-     "price": 0.9105
+     "price": 0.911
     }
    ],
-   "vol24": 23730,
+   "vol24": 10273,
    "end": "2026-12-31",
    "slug": "who-will-attend-a-round-of-us-iran-peace-talks-by-december-31-20260812153824803",
    "history": [
@@ -6418,7 +6418,7 @@
     ],
     [
      "2026-10-15",
-     0.0845
+     0.089
     ]
    ]
   },
@@ -6434,7 +6434,7 @@
      "price": 0.875
     }
    ],
-   "vol24": 92131,
+   "vol24": 81702,
    "end": "2027-01-01",
    "slug": "strait-of-hormuz-traffic-returns-to-normal-by-december-31",
    "history": [
@@ -7069,14 +7069,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.055
+     "price": 0.045
     },
     {
      "name": "No",
-     "price": 0.945
+     "price": 0.955
     }
    ],
-   "vol24": 39728,
+   "vol24": 43135,
    "end": "2026-12-01",
    "slug": "strait-of-hormuz-traffic-returns-to-normal-by-november-30-20260810151158765",
    "history": [
@@ -7334,7 +7334,7 @@
     ],
     [
      "2026-10-15",
-     0.055
+     0.045
     ]
    ]
   },
@@ -7350,7 +7350,7 @@
      "price": 1.0
     }
    ],
-   "vol24": 524,
+   "vol24": 655,
    "end": "2026-07-31",
    "slug": "which-month-will-strait-of-hormuz-traffic-return-to-normal-20260702155718114",
    "history": [
@@ -7476,7 +7476,7 @@
      "price": 0.145
     }
    ],
-   "vol24": 62016,
+   "vol24": 46176,
    "end": "2026-12-10",
    "slug": "another-fed-rate-hike-in-2026",
    "history": [
@@ -14212,7 +14212,7 @@
      "price": 0.9985
     }
    ],
-   "vol24": 110819,
+   "vol24": 264932,
    "end": "2026-10-29",
    "slug": "fed-decision-in-october-20260617190323537",
    "history": [
@@ -14745,32 +14745,32 @@
    ]
   },
   {
-   "question": "Will Trump's approval rating be at least 36.8 on October 16, 2026?",
+   "question": "Will Trump's approval rating be less than 36.8 on October 16, 2026?",
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.9945
+     "price": 0.112
     },
     {
      "name": "No",
-     "price": 0.0055
+     "price": 0.888
     }
    ],
-   "vol24": 40,
+   "vol24": 15,
    "end": "2026-10-17",
-   "slug": "trump-approval-rating-at-least-on-october-16",
+   "slug": "trump-approval-rating-on-october-16",
    "history": [
     [
      "2026-10-13",
-     0.94
+     0.195
     ],
     [
      "2026-10-14",
-     0.991
+     0.0505
     ],
     [
      "2026-10-15",
-     0.9925
+     0.112
     ]
    ]
   },
