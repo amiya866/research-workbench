@@ -10,6 +10,16 @@
 """
 import os, sys, json, subprocess, hashlib, datetime, math
 
+# 子进程不弹控制台窗口（2026-10-16 闪窗根治）
+_NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+def _nw(fn):
+    def w(*a, **kw):
+        kw.setdefault('creationflags', _NW)
+        return fn(*a, **kw)
+    return w
+subprocess.run = _nw(subprocess.run)
+subprocess.Popen = _nw(subprocess.Popen)
+
 BASE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(BASE, 'data')
 STATE_PATH = os.path.join(BASE, '_daily_report_state.json')

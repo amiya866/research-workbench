@@ -7,6 +7,16 @@
 """
 import os, sys, json, time, subprocess, datetime
 
+# 子进程不弹控制台窗口（2026-10-16 闪窗根治）
+_NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+def _nw(fn):
+    def w(*a, **kw):
+        kw.setdefault('creationflags', _NW)
+        return fn(*a, **kw)
+    return w
+subprocess.run = _nw(subprocess.run)
+subprocess.Popen = _nw(subprocess.Popen)
+
 BASE = os.path.dirname(os.path.abspath(__file__))
 XS_PAYLOAD = r'D:\Kimi\有色截面配置_2026\_xs_live_payload.json'
 LOGDIR = os.path.join(BASE, '_logs')

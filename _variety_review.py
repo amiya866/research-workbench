@@ -9,6 +9,16 @@
 """
 import os, re, sys, json, sqlite3, subprocess, hashlib, datetime
 
+# 子进程不弹控制台窗口（2026-10-16 闪窗根治）
+_NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+def _nw(fn):
+    def w(*a, **kw):
+        kw.setdefault('creationflags', _NW)
+        return fn(*a, **kw)
+    return w
+subprocess.run = _nw(subprocess.run)
+subprocess.Popen = _nw(subprocess.Popen)
+
 BASE = os.path.dirname(os.path.abspath(__file__))
 STATE_PATH = os.path.join(BASE, '_variety_review_state.json')
 KEYS_PATH = os.path.join(BASE, '_local_keys.json')

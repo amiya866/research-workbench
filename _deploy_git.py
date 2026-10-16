@@ -6,6 +6,16 @@ token 从 ~/.kimi-work/_gh_amiya866.token 读（remote URL 里的 gho_ token 已
 """
 import os, sys, subprocess, datetime, socket, time
 
+# 子进程不弹控制台窗口（2026-10-16 闪窗根治）
+_NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+def _nw(fn):
+    def w(*a, **kw):
+        kw.setdefault('creationflags', _NW)
+        return fn(*a, **kw)
+    return w
+subprocess.run = _nw(subprocess.run)
+subprocess.Popen = _nw(subprocess.Popen)
+
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROXY = os.environ.get('RW_PROXY', 'http://127.0.0.1:7897')
 TOKEN_PATH = os.path.expanduser(r'~/.kimi-work/_gh_amiya866.token')

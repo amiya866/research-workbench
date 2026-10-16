@@ -43,7 +43,8 @@ def fetch_batch(tickers, start, end, out_csv):
     r = subprocess.run(
         ['python3', 'scripts/ifind_tool.py', 'call',
          '--api-name', 'ifind_get_price', '--params-json', params],
-        cwd=IFIND_DIR, capture_output=True, text=True, timeout=180)
+        cwd=IFIND_DIR, capture_output=True, text=True, timeout=180,
+        creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     txt = r.stdout + r.stderr
     if 'is_success' not in txt:
         print('iFinD调用失败:', txt[-400:])
