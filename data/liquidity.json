@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20 14:25",
+ "updated": "2026-10-20 17:29",
  "asof": "2026-10-20",
  "regime": {
   "stage": 2,
@@ -28,7 +28,7 @@
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "pct": 80.4
+    "pct": 79.7
    },
    {
     "id": "VIXCLS",
@@ -38,7 +38,7 @@
    {
     "id": "MOVE_X",
     "name": "MOVE(债市波动)",
-    "pct": 58.1
+    "pct": 58.6
    },
    {
     "id": "NETLIQ",
@@ -76,8 +76,8 @@
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "z": 1.56,
-    "chg63": 0.62,
+    "z": 1.53,
+    "chg63": 0.61,
     "triggered": false
    },
    {
@@ -90,8 +90,8 @@
    {
     "id": "MOVE_X",
     "name": "MOVE",
-    "z": 1.71,
-    "chg63": 28.64,
+    "z": 1.61,
+    "chg63": 26.915,
     "triggered": false
    }
   ],
@@ -205,31 +205,31 @@
   {
    "id": "srf",
    "name": "SRF常备回购用量",
-   "val": 0.0,
+   "val": 0.07,
    "unit": "十亿$",
    "date": "2026-10-20",
-   "chg": -0.01,
-   "pct": 0.0,
+   "chg": 0.06,
+   "pct": 79.5,
    "key": "LIQ_SRF"
   },
   {
    "id": "hy",
    "name": "高收益债OAS",
-   "val": 3.31,
+   "val": 3.29,
    "unit": "%",
-   "date": "2026-10-16",
-   "chg": 0.08,
-   "pct": 80.4,
+   "date": "2026-10-19",
+   "chg": -0.02,
+   "pct": 79.7,
    "key": "BAMLH0A0HYM2"
   },
   {
    "id": "move",
    "name": "MOVE美债波动率(债市)",
-   "val": 101.3,
+   "val": 101.59,
    "unit": "点",
-   "date": "2026-10-19",
-   "chg": 0.2,
-   "pct": 58.1,
+   "date": "2026-10-20",
+   "chg": 0.29,
+   "pct": 58.6,
    "key": "MOVE_X"
   },
   {
