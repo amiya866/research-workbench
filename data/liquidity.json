@@ -1,19 +1,19 @@
 {
- "updated": "2026-10-23 08:51",
- "asof": "2026-10-23",
+ "updated": "2026-10-25 11:49",
+ "asof": "2026-10-26",
  "regime": {
   "stage": 2,
-  "onrrp_bn": 0.351,
+  "onrrp_bn": 0.2,
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 60.0,
+  "value": 62.4,
   "n_comp": 9,
   "components": [
    {
     "id": "SPR_SOFR_IORB",
     "name": "SOFR-IORB利差",
-    "pct": 80.9
+    "pct": 87.0
    },
    {
     "id": "SPR_SOFR99",
@@ -28,17 +28,17 @@
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "pct": 78.1
+    "pct": 85.1
    },
    {
     "id": "VIXCLS",
     "name": "VIX(股市波动)",
-    "pct": 38.9
+    "pct": 57.6
    },
    {
     "id": "MOVE_X",
     "name": "MOVE(债市波动)",
-    "pct": 57.9
+    "pct": 60.4
    },
    {
     "id": "NETLIQ",
@@ -53,7 +53,7 @@
    {
     "id": "DFII10",
     "name": "10Y实际利率63日Δ",
-    "pct": 80.4
+    "pct": 67.5
    }
   ]
  },
@@ -69,29 +69,29 @@
    {
     "id": "DFII10",
     "name": "10Y实际利率",
-    "z": 0.96,
-    "chg63": 0.37,
+    "z": 0.48,
+    "chg63": 0.21,
     "triggered": false
    },
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "z": 1.24,
-    "chg63": 0.48,
+    "z": 1.48,
+    "chg63": 0.59,
     "triggered": false
    },
    {
     "id": "VIXCLS",
     "name": "VIX",
-    "z": -0.3,
-    "chg63": -1.9,
+    "z": 0.07,
+    "chg63": 0.36,
     "triggered": false
    },
    {
     "id": "MOVE_X",
     "name": "MOVE",
-    "z": 1.81,
-    "chg63": 30.22,
+    "z": 1.58,
+    "chg63": 26.49,
     "triggered": false
    }
   ],
@@ -99,8 +99,8 @@
    {
     "id": "SPR_SOFR_IORB",
     "name": "SOFR-IORB",
-    "z": 0.16,
-    "chg20": 1.0,
+    "z": 0.5,
+    "chg20": 3.0,
     "triggered": false
    },
    {
@@ -125,11 +125,11 @@
   {
    "id": "sofr_iorb",
    "name": "SOFR-IORB利差",
-   "val": -2.0,
+   "val": 0.0,
    "unit": "bp",
-   "date": "2026-10-21",
-   "chg": 0.0,
-   "pct": 80.9,
+   "date": "2026-10-22",
+   "chg": 2.0,
+   "pct": 87.0,
    "key": "SPR_SOFR_IORB"
   },
   {
@@ -137,7 +137,7 @@
    "name": "SOFR尾部(99分位-中位)",
    "val": 8.0,
    "unit": "bp",
-   "date": "2026-10-21",
+   "date": "2026-10-22",
    "chg": 0.0,
    "pct": 7.2,
    "key": "SPR_SOFR99"
@@ -145,11 +145,11 @@
   {
    "id": "sofr_onrrp",
    "name": "SOFR-ONRRP利差",
-   "val": 13.0,
+   "val": 15.0,
    "unit": "bp",
-   "date": "2026-10-21",
-   "chg": 0.0,
-   "pct": 76.6,
+   "date": "2026-10-22",
+   "chg": 2.0,
+   "pct": 83.3,
    "key": "SPR_SOFR_ONRRP"
   },
   {
@@ -165,11 +165,11 @@
   {
    "id": "onrrp",
    "name": "ON RRP余额",
-   "val": 0.35,
+   "val": 0.2,
    "unit": "十亿$",
-   "date": "2026-10-22",
-   "chg": 0.11,
-   "pct": 13.5,
+   "date": "2026-10-23",
+   "chg": -0.15,
+   "pct": 11.6,
    "key": "RRPONTSYD"
   },
   {
@@ -197,7 +197,7 @@
    "name": "净流动性(总资产-TGA-RRP)",
    "val": 5.8,
    "unit": "万亿$",
-   "date": "2026-10-22",
+   "date": "2026-10-23",
    "chg": 0.0,
    "pct": 35.3,
    "key": "NETLIQ"
@@ -207,49 +207,49 @@
    "name": "SRF常备回购用量",
    "val": 0.0,
    "unit": "十亿$",
-   "date": "2026-10-22",
-   "chg": 0.0,
-   "pct": 34.5,
+   "date": "2026-10-23",
+   "chg": -0.0,
+   "pct": 0.0,
    "key": "LIQ_SRF"
   },
   {
    "id": "hy",
    "name": "高收益债OAS",
-   "val": 3.27,
+   "val": 3.4,
    "unit": "%",
-   "date": "2026-10-21",
-   "chg": -0.06,
-   "pct": 78.1,
+   "date": "2026-10-22",
+   "chg": 0.13,
+   "pct": 85.1,
    "key": "BAMLH0A0HYM2"
   },
   {
    "id": "move",
    "name": "MOVE美债波动率(债市)",
-   "val": 101.1,
+   "val": 103.31,
    "unit": "点",
-   "date": "2026-10-16",
-   "chg": -1.39,
-   "pct": 57.9,
+   "date": "2026-10-23",
+   "chg": -3.53,
+   "pct": 60.4,
    "key": "MOVE_X"
   },
   {
    "id": "vix",
    "name": "VIX(股市)",
-   "val": 16.68,
+   "val": 19.03,
    "unit": "点",
-   "date": "2026-10-21",
-   "chg": -0.63,
-   "pct": 38.9,
+   "date": "2026-10-22",
+   "chg": 2.35,
+   "pct": 57.6,
    "key": "VIXCLS"
   },
   {
    "id": "real10y",
    "name": "10Y实际利率",
-   "val": 2.76,
+   "val": 2.64,
    "unit": "%",
-   "date": "2026-10-21",
-   "chg": -0.01,
-   "pct": 99.0,
+   "date": "2026-10-22",
+   "chg": -0.12,
+   "pct": 98.8,
    "key": "DFII10"
   },
   {
