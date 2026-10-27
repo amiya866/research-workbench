@@ -1,39 +1,24 @@
 {
- "updated": "2026-10-25 11:49",
- "asof": "2026-10-26",
+ "updated": "2026-10-27 09:02",
+ "asof": "2026-10-27",
  "regime": {
   "stage": 2,
   "onrrp_bn": 0.2,
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 62.4,
-  "n_comp": 9,
+  "value": 66.4,
+  "n_comp": 6,
   "components": [
-   {
-    "id": "SPR_SOFR_IORB",
-    "name": "SOFR-IORB利差",
-    "pct": 87.0
-   },
-   {
-    "id": "SPR_SOFR99",
-    "name": "SOFR尾部99分位差",
-    "pct": 7.2
-   },
-   {
-    "id": "SPR_CP_SOFR",
-    "name": "商票-SOFR利差",
-    "pct": 67.2
-   },
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "pct": 85.1
+    "pct": 84.3
    },
    {
     "id": "VIXCLS",
     "name": "VIX(股市波动)",
-    "pct": 57.6
+    "pct": 60.4
    },
    {
     "id": "MOVE_X",
@@ -43,17 +28,17 @@
    {
     "id": "NETLIQ",
     "name": "净流动性63日Δ(逆)",
-    "pct": 68.3
+    "pct": 68.2
    },
    {
     "id": "DTWEXBGS",
     "name": "美元指数63日Δ",
-    "pct": 61.2
+    "pct": 55.3
    },
    {
     "id": "DFII10",
     "name": "10Y实际利率63日Δ",
-    "pct": 67.5
+    "pct": 70.0
    }
   ]
  },
@@ -62,29 +47,29 @@
    {
     "id": "DTWEXBGS",
     "name": "美元指数",
-    "z": 0.32,
-    "chg63": 0.873,
+    "z": 0.24,
+    "chg63": 0.61,
     "triggered": false
    },
    {
     "id": "DFII10",
     "name": "10Y实际利率",
-    "z": 0.48,
-    "chg63": 0.21,
+    "z": 0.54,
+    "chg63": 0.23,
     "triggered": false
    },
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
-    "z": 1.48,
-    "chg63": 0.59,
+    "z": 1.37,
+    "chg63": 0.54,
     "triggered": false
    },
    {
     "id": "VIXCLS",
     "name": "VIX",
-    "z": 0.07,
-    "chg63": 0.36,
+    "z": 0.21,
+    "chg63": 1.24,
     "triggered": false
    },
    {
@@ -95,80 +80,18 @@
     "triggered": false
    }
   ],
-  "funding": [
-   {
-    "id": "SPR_SOFR_IORB",
-    "name": "SOFR-IORB",
-    "z": 0.5,
-    "chg20": 3.0,
-    "triggered": false
-   },
-   {
-    "id": "SPR_SOFR99",
-    "name": "SOFR尾部",
-    "z": 0.06,
-    "chg20": 0.0,
-    "triggered": false
-   },
-   {
-    "id": "SPR_CP_SOFR",
-    "name": "商票-SOFR",
-    "z": 0.36,
-    "chg20": 6.0,
-    "triggered": false
-   }
-  ]
+  "funding": []
  },
  "buy_signal": false,
  "funding_alert": false,
  "cards": [
   {
-   "id": "sofr_iorb",
-   "name": "SOFR-IORB利差",
-   "val": 0.0,
-   "unit": "bp",
-   "date": "2026-10-22",
-   "chg": 2.0,
-   "pct": 87.0,
-   "key": "SPR_SOFR_IORB"
-  },
-  {
-   "id": "sofr_tail",
-   "name": "SOFR尾部(99分位-中位)",
-   "val": 8.0,
-   "unit": "bp",
-   "date": "2026-10-22",
-   "chg": 0.0,
-   "pct": 7.2,
-   "key": "SPR_SOFR99"
-  },
-  {
-   "id": "sofr_onrrp",
-   "name": "SOFR-ONRRP利差",
-   "val": 15.0,
-   "unit": "bp",
-   "date": "2026-10-22",
-   "chg": 2.0,
-   "pct": 83.3,
-   "key": "SPR_SOFR_ONRRP"
-  },
-  {
-   "id": "cp_sofr",
-   "name": "商票-SOFR利差",
-   "val": 6.0,
-   "unit": "bp",
-   "date": "2026-10-20",
-   "chg": 1.0,
-   "pct": 67.2,
-   "key": "SPR_CP_SOFR"
-  },
-  {
    "id": "onrrp",
    "name": "ON RRP余额",
    "val": 0.2,
    "unit": "十亿$",
-   "date": "2026-10-23",
-   "chg": -0.15,
+   "date": "2026-10-26",
+   "chg": 0.0,
    "pct": 11.6,
    "key": "RRPONTSYD"
   },
@@ -197,7 +120,7 @@
    "name": "净流动性(总资产-TGA-RRP)",
    "val": 5.8,
    "unit": "万亿$",
-   "date": "2026-10-23",
+   "date": "2026-10-26",
    "chg": 0.0,
    "pct": 35.3,
    "key": "NETLIQ"
@@ -205,21 +128,21 @@
   {
    "id": "srf",
    "name": "SRF常备回购用量",
-   "val": 0.0,
+   "val": 0.01,
    "unit": "十亿$",
-   "date": "2026-10-23",
-   "chg": -0.0,
-   "pct": 0.0,
+   "date": "2026-10-26",
+   "chg": 0.01,
+   "pct": 67.4,
    "key": "LIQ_SRF"
   },
   {
    "id": "hy",
    "name": "高收益债OAS",
-   "val": 3.4,
+   "val": 3.38,
    "unit": "%",
-   "date": "2026-10-22",
-   "chg": 0.13,
-   "pct": 85.1,
+   "date": "2026-10-23",
+   "chg": -0.02,
+   "pct": 84.3,
    "key": "BAMLH0A0HYM2"
   },
   {
@@ -235,31 +158,31 @@
   {
    "id": "vix",
    "name": "VIX(股市)",
-   "val": 19.03,
+   "val": 19.45,
    "unit": "点",
-   "date": "2026-10-22",
-   "chg": 2.35,
-   "pct": 57.6,
+   "date": "2026-10-23",
+   "chg": 0.42,
+   "pct": 60.4,
    "key": "VIXCLS"
   },
   {
    "id": "real10y",
    "name": "10Y实际利率",
-   "val": 2.64,
+   "val": 2.66,
    "unit": "%",
-   "date": "2026-10-22",
-   "chg": -0.12,
+   "date": "2026-10-23",
+   "chg": 0.02,
    "pct": 98.8,
    "key": "DFII10"
   },
   {
    "id": "dxy",
    "name": "广义美元指数",
-   "val": 121.4,
+   "val": 121.32,
    "unit": "点",
-   "date": "2026-10-16",
-   "chg": -0.16,
-   "pct": 73.3,
+   "date": "2026-10-23",
+   "chg": -0.03,
+   "pct": 72.4,
    "key": "DTWEXBGS"
   },
   {
@@ -273,7 +196,10 @@
    "key": "GM2_YOY"
   }
  ],
- "fails": [],
+ "fails": [
+  "SOFR",
+  "SOFR99"
+ ],
  "gaps": [
   "XCCY交叉货币互换基差(需彭博)",
   "贴现窗口借款量(FRED无直读序列, H.4.1表2待解析)",

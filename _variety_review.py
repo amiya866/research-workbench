@@ -3,6 +3,7 @@
 四段式【价格】【行业新闻】【供需与库存】【观点】× 8 品种（铜铝锌铅镍锡锂硅）
 数据源：知几 guan 日线(SHFE 主力) + westmetall(LME cash/3M) + 金属网数据缓存库(库存/升贴水/TC/开工率/利润)
        + caibao-hub 信息速递 news.json + 供应扰动 disruptions.json + 星球小作文 zsxq_metals.json
+       + data/tin_weekly.json（锡周报摘要与全文入口）
 产出: reports/variety_latest.html(固定URL=最新) + panels/review_YYYY-MM-DD.html(归档)
 手改保护: 归档版被手改(hash 不符)则不覆盖；观点 override 写 _variety_review_state.json
 用法: python _variety_review.py [--date YYYY-MM-DD]
@@ -320,10 +321,15 @@ def colorize(s):
 def esc(s):
     return str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
-def render(today, sections, stamps):
+def render(today, sections, stamps, tin_weekly=None):
     h = ['<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
          '<title>分品种点评 %s · 整合研究站</title><style>%s</style></head><body><div class="wrap">' % (today, CSS)]
     h.append('<div class="hd"><h1>分品种每日点评 · %s</h1><div class="meta">自动生成（四段式：价格/行业新闻/供需与库存/观点）· <a href="../index.html">返回总站</a></div></div>' % today)
+    tw = tin_weekly or {}
+    if tw.get('headline'):
+        h.append('<div class="comm" style="border-left:3px solid var(--amber)"><h2>锡研究周报 · 数据截至 %s</h2>' % esc(tw.get('asof') or '—'))
+        h.append('<p>%s</p><p class="note"><a href="../tin-weekly/#sumsec">打开完整周报（目录/交互图表/供需平衡）↗</a>%s</p></div>' % (
+            esc(tw['headline']), ' · ⚠ 同步异常，当前为上次成功版本' if tw.get('last_error') else ''))
     for name, blocks in sections:
         h.append('<div class="comm"><h2>%s</h2>' % name)
         for bt, lines in blocks:
@@ -377,7 +383,8 @@ def main():
             if isinstance(s, dict) and s.get('date'):
                 stamps.add(s['date'])
 
-    html = render(today, sections, sorted(stamps))
+    tin_weekly = load_json(os.path.join(BASE, 'data', 'tin_weekly.json')) or {}
+    html = render(today, sections, sorted(stamps), tin_weekly)
     r1 = write_protected(os.path.join(BASE, 'panels', 'review_%s.html' % today), html, hashes)
     # 固定 URL 版始终 = 当日实际版（含手改版内容）
     real = open(os.path.join(BASE, 'panels', 'review_%s.html' % today), encoding='utf-8').read()

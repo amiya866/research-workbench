@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """整合研究站 自动部署（2026-10-09 建）
-git add -A → 有变更才 commit → push（走 Clash 代理 7897，RW_PROXY 可覆盖）
+git add -A → 有变更才 commit → pull --rebase origin/main → push（走 Clash 代理 7897，RW_PROXY 可覆盖）
 token 从 ~/.kimi-work/_gh_amiya866.token 读（remote URL 里的 gho_ token 已失效则用它兜底改 URL）
 挂 _refresh_all.py 全链尾部；rc 不炸链。
 """
@@ -73,6 +73,11 @@ def main():
     except Exception as e:
         print('token 兜底跳过:', e)
     ensure_proxy()
+    pull = run(['git', '-c', 'http.proxy=%s' % PROXY, 'pull', '--rebase', 'origin', 'main'], env=env)
+    if pull.returncode:
+        tail = '\n'.join(((pull.stdout or '') + (pull.stderr or '')).strip().splitlines()[-8:])
+        print('pull --rebase 失败，停止推送以免覆盖远端：\n' + tail)
+        sys.exit(2)
     p = run(['git', '-c', 'http.proxy=%s' % PROXY, 'push', 'origin', 'HEAD'], env=env)
     tail = '\n'.join(((p.stdout or '') + (p.stderr or '')).strip().splitlines()[-3:])
     print('push rc=%d | %s' % (p.returncode, tail))

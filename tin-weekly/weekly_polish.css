@@ -1,0 +1,60 @@
+/* 周报版本二 · 桌面与手机网页可读性，不涉及 PDF/PPT 分页。 */
+@media screen and (min-width:961px){
+  .wrap{max-width:1320px}
+  .echart{height:290px}
+  .charts3{gap:3px 10px}
+  .charts3 .cbox,.charts2 .cbox{padding:7px 8px}
+  .cap{font-size:13px;line-height:1.35;margin-bottom:4px}
+  .stats{font-size:11px;line-height:1.4;color:var(--faint)}
+}
+/* 周度供需表：蓝色表头、清楚分区、日度变化独立底色。 */
+#sumsec table.sum{border:1px solid var(--line);border-spacing:0;box-shadow:0 2px 10px rgba(20,35,55,.05)}
+#sumsec table.sum th{background:#1F4E79;color:#fff;border-color:#46729c;font-family:"KaiTi","楷体",serif;font-weight:400;font-size:14px;line-height:1.4;padding:8px 10px;text-align:center}
+#sumsec table.sum td{line-height:1.6;padding:8px 10px}
+#sumsec table.sum td.c{width:86px;background:var(--leadbg);color:var(--blue)}
+#sumsec table.sum td.daily{background:var(--soft);font-size:13px;line-height:1.5}
+#sumsec table.sum tbody tr:not(.final):hover td:not(.c){background:var(--leadbg)}
+#sumsec table.sum tr.final td{background:var(--soft)}
+
+/* AI 耗锡量：重点关注的二级入口，使用红色描边和小字号区分层级。 */
+.toc a.toc-sub{margin-left:1px;padding:2px 9px;border:1px solid var(--red);border-radius:10px;background:var(--soft);color:var(--red);font-size:12px;line-height:1.8}
+.toc a.toc-sub::before{content:"↳";margin-right:4px;font-family:Arial,sans-serif;font-weight:700}
+.toc a.toc-sub:hover,.toc a.toc-sub:focus-visible{background:var(--red);color:#fff}
+body.dark .toc a.toc-sub:hover,body.dark .toc a.toc-sub:focus-visible{color:#141a26}
+/* AI 耗锡量：全链路测算与产业链展示，沿用周报双配色。 */
+.ai-tin-intro{padding:12px 15px;background:var(--soft);border-top:2px solid var(--red);font-size:15px;line-height:1.75}
+.ai-tin-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:12px 0 16px;background:var(--line);border:1px solid var(--line)}
+.ai-tin-metrics>div{background:var(--cardbg);padding:12px 14px;min-width:0}
+.ai-tin-metrics span{display:block;color:var(--grey);font-size:12.5px;line-height:1.5}
+.ai-tin-metrics strong{display:block;margin-top:3px;color:var(--red);font-family:Arial,"Microsoft YaHei",sans-serif;font-size:27px;line-height:1.2;font-weight:700;font-variant-numeric:tabular-nums}
+.ai-tin-metrics small{margin-left:3px;font-size:13px;font-weight:500}
+.ai-tin-chain{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:20px;align-items:start;margin:12px 0 18px}
+.ai-tin-map{display:block;border:1px solid var(--line);background:#fff;text-decoration:none;overflow:hidden}
+.ai-tin-map img{display:block;width:100%;height:auto}
+.ai-tin-map span{display:block;padding:7px 10px;color:#1F4E79;background:#EEF3FA;font-size:12.5px;text-align:center}
+.ai-tin-map:hover span,.ai-tin-map:focus-visible span{text-decoration:underline;text-underline-offset:3px}
+.ai-tin-map:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.ai-tin-paths h3{margin:0 0 7px;color:var(--ink);font-size:17px}
+.ai-tin-paths>div{display:grid;grid-template-columns:82px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.65}
+.ai-tin-paths>div b{color:var(--blue)}
+.ai-tin-paths>div span{color:var(--grey)}
+.ai-tin-paths p{margin-top:12px;padding:10px 12px;background:var(--leadbg);font-size:14px;line-height:1.7}
+.ai-tin-compare-wrap{overflow-x:auto}
+.ai-tin-compare{margin:8px 0 12px;min-width:650px}
+.ai-tin-compare td:first-child{font-weight:700;color:var(--blue)}
+.ai-tin-compare td:nth-child(2),.ai-tin-compare td:nth-child(3){white-space:nowrap;font-variant-numeric:tabular-nums}
+.ai-tin-check{margin-bottom:16px}
+@media(max-width:900px){.ai-tin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.ai-tin-chain{grid-template-columns:minmax(0,1fr);gap:14px}.ai-tin-map{max-width:620px;margin:0 auto}}
+@media(max-width:760px){.ai-tin-intro{font-size:14px;padding:10px 12px}.ai-tin-metrics{margin:10px 0 14px}.ai-tin-metrics>div{padding:10px}.ai-tin-metrics span{font-size:11.5px}.ai-tin-metrics strong{font-size:24px}.ai-tin-paths>div{grid-template-columns:76px 1fr;font-size:13.5px}.ai-tin-compare{min-width:600px}}
+.ai-tin-h3{margin:16px 0 6px;color:var(--blue);font-size:16px;line-height:1.5}
+.ai-tin-tablewrap{width:100%;margin:8px 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ai-tin-data{min-width:680px;margin-top:0}
+.ai-tin-data td:not(:first-child),.ai-tin-data th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ai-tin-data td:first-child{font-weight:700}
+.ai-tin-data tr.final td{font-weight:700}
+.ai-tin-data.ai-tin-text{min-width:820px}
+.ai-tin-data.ai-tin-text th:not(:first-child),.ai-tin-data.ai-tin-text td:not(:first-child){text-align:left;white-space:normal;font-variant-numeric:normal}
+.ai-tin-data.ai-tin-text td{line-height:1.65;vertical-align:top}
+.ai-tin-data.ai-tin-text td:first-child{color:var(--blue);white-space:nowrap}
+@media(max-width:760px){.toc a.toc-sub{padding:1px 8px;font-size:11px}.ai-tin-h3{font-size:15px;margin-top:14px}.ai-tin-data{min-width:620px;font-size:12.5px}.ai-tin-data.ai-tin-text{min-width:720px}.ai-tin-data th,.ai-tin-data td{padding:7px 8px}}
+@media print{.ai-tin-chain{grid-template-columns:1fr 1fr}.ai-tin-map span{display:none}.ai-tin-metrics strong{font-size:22px}.ai-tin-tablewrap{overflow:visible}.ai-tin-data{min-width:0}}
