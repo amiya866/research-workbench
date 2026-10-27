@@ -97,6 +97,149 @@ def change(chart, periods=5):
     return values[-1] / values[-periods - 1] - 1
 
 
+FRESHNESS_FILE = BASE / 'data' / 'nickel_weekly_freshness.json'
+UNITS = {
+    'overview_shfe': '元/吨', 'overview_ss': '元/吨', 'overview_lme': '美元/吨',
+    'overview_global_stock': '吨', 'premium': '元/吨', 'ratio_ni_ss': '比值',
+    'lme03': '美元/吨', 'import_profit': '元/吨', 'npi_price': '元/镍点',
+    'ni_curve': '元/吨', 'ss_curve': '元/吨', 'lme_curve': '美元/吨',
+    'ratio_ni_copper': '比值', 'ratio_npi_refined': '比值',
+    'supply_refined_cn': '金属吨', 'supply_refined_id': '金属吨',
+    'supply_npi_cn': '万金属吨', 'supply_npi_id': '万金属吨', 'supply_npi_stock': '万金属吨',
+    'supply_nickel_sulfate': '金属吨', 'supply_sulfate_rate': '%',
+    'supply_matte': '吨镍', 'supply_mhp': '吨镍', 'overview_trade_net': '万金属吨',
+    'demand_ss_cn': '万吨', 'demand_ss_id': '万吨',
+    'demand_battery_ternary': 'MWh', 'demand_battery_lfp': 'MWh',
+    'demand_install_ternary': 'MWh', 'demand_install_lfp': 'MWh',
+    'demand_ss_import': '万吨', 'demand_ss_export': '万吨',
+    'inventory_shfe': '吨', 'inventory_lme': '吨', 'inventory_social': '吨',
+    'inventory_plate': '吨', 'inventory_bean': '吨', 'inventory_ss300': '吨',
+    'inventory_ss_cold': '吨', 'inventory_ss_hot': '吨', 'lme_region': '吨',
+    'cost_npi_profit': '元/镍点', 'cost_ss_profit': '%',
+    'cost_chrome': '元/干吨度', 'cost_chromium': '元/50基吨',
+    'supply_chrome': '万吨', 'supply_chrome_import': '万吨',
+    'premium_russia': '元/吨', 'premium_jinchuan': '元/吨', 'premium_bean': '元/吨',
+}
+
+
+def source_detail(source):
+    if not source:
+        return '未找到可靠同口径源'
+    kind = source.get('type', '—')
+    if kind == 'excel-native':
+        return '%s %s!%s（%s）' % (source.get('workbook'), source.get('sheet'), source.get('position'), source.get('slot'))
+    if kind == 'zhiji':
+        return 'zhiji ' + '/'.join(source.get('indicators') or [source.get('indicator', '—')])
+    if kind == 'zhiji-guan':
+        return '知几行情 ' + str(source.get('symbol', '—'))
+    if kind == 'derived':
+        return '衍生计算：' + str(source.get('formula', '—'))
+    if kind == 'financial':
+        return '全球镍企财报真源（%s）' % source.get('period', '—')
+    if kind == 'B01':
+        return 'B01 %s：%s' % (source.get('sheet', '—'), source.get('formula') or source.get('columns', '—'))
+    if kind == 'sina-contracts':
+        return '新浪期货逐合约日K'
+    if kind == 'mysteel-mirror':
+        return 'Mysteel镜像 ' + str(source.get('chart_code') or source.get('indicator') or source.get('code') or '—')
+    return kind + ' ' + str(source.get('formula') or source.get('sheet') or source.get('indicator') or '')
+
+
+def infer_frequency(chart):
+    labels = [str(x) for x in (chart.get('labels') or [])]
+    if any('Q' in x for x in labels):
+        return '季度'
+    dates = []
+    for x in labels:
+        try:
+            dates.append(datetime.date.fromisoformat(x[:10]))
+        except ValueError:
+            pass
+    if len(dates) >= 3:
+        dates = sorted(set(dates))
+        gaps = sorted((b - a).days for a, b in zip(dates, dates[1:]))
+        median = gaps[len(gaps) // 2]
+        if median <= 3:
+            return '日度'
+        if median <= 10:
+            return '周度'
+        if median <= 45:
+            return '月度'
+        return '低频'
+    if labels and all(re.fullmatch(r'\d{1,2}(?:-\d{2})?', x) for x in labels):
+        return '月度/季节图'
+    return '标签型'
+
+
+def point_date(point):
+    if not point:
+        return None
+    label = str(point[0])
+    if re.fullmatch(r'\d{4}-\d{2}-\d{2}', label):
+        return datetime.date.fromisoformat(label)
+    if re.fullmatch(r'\d{4}-\d{2}', label):
+        return datetime.date.fromisoformat(label + '-01')
+    quarter = re.fullmatch(r'(\d{4})Q([1-4])', label)
+    if quarter:
+        year, q = int(quarter.group(1)), int(quarter.group(2))
+        return datetime.date(year, q * 3, [31, 30, 30, 31][q - 1])
+    year_match = re.search(r'20\d{2}', str(point[2]))
+    year = int(year_match.group()) if year_match else datetime.date.today().year
+    if re.fullmatch(r'\d{1,2}', label) and 1 <= int(label) <= 12:
+        return datetime.date(year, int(label), 1)
+    short = re.fullmatch(r'(\d{1,2})-(\d{2})', label)
+    if short and 1 <= int(short.group(1)) <= 12:
+        return datetime.date(year, int(short.group(1)), int(short.group(2)))
+    return None
+
+
+def build_freshness(data):
+    today = datetime.date.today()
+    limits = {'日度': (7, 14), '周度': (10, 21), '月度': (45, 75), '月度/季节图': (45, 75), '季度': (150, 240), '低频': (150, 240), '标签型': (45, 75)}
+    modules = {key: title for _sid, title, _trail, keys in SECTIONS for key in keys}
+    rows = []
+    for key, chart in data['charts'].items():
+        source = data.get('sourceMeta', {}).get('charts', {}).get(key) or {}
+        point = last_point(chart)
+        frequency = infer_frequency(chart)
+        latest_date = point_date(point)
+        age = (today - latest_date).days if latest_date else None
+        if not point:
+            status, label = 'missing', '缺失'
+            action = '未找到可靠同口径源；保留空态，不补0、不用其他指标硬替。'
+            if key == 'overview_trade':
+                action = '贸易商同业/下游成交缺少可靠源；保留空缺，待人工提供周报口径数据。'
+        elif latest_date is None:
+            status, label = 'review', '待核'
+            action = '最新标签无法映射确切日期，需人工核对原表口径。'
+        elif age < 0:
+            status, label = 'review', '待核'
+            action = '最新标签晚于当前日，需核对是否为预测、排产或未来占位。'
+        else:
+            fresh, watch = limits[frequency]
+            if age <= fresh:
+                status, label = 'fresh', '正常'
+                action = '按源口径使用，随自动链更新。'
+            elif age <= watch:
+                status, label = 'watch', '关注'
+                action = '接近滞后期，保留使用并加强观察。'
+            else:
+                status, label = 'stale', '滞后'
+                action = '保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。'
+        rows.append({'key': key, 'name': NAMES.get(key, key), 'module': modules.get(key, '其他'),
+                     'source': source_detail(source), 'frequency': frequency,
+                     'unit': source.get('unit') or UNITS.get(key, '—'),
+                     'latest': str(point[0]) if point else '—', 'latest_value': fmt(point[1]) if point else '—',
+                     'latest_iso': latest_date.isoformat() if latest_date else '', 'age_days': age,
+                     'status': status, 'status_label': label, 'action': action})
+    order = {'missing': 0, 'stale': 1, 'review': 2, 'watch': 3, 'fresh': 4}
+    rows.sort(key=lambda row: (order[row['status']], row['module'], row['key']))
+    summary = {code: sum(row['status'] == code for row in rows) for code in ('fresh', 'watch', 'stale', 'missing', 'review')}
+    summary['total'] = len(rows)
+    return {'asof': today.isoformat(), 'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
+            'thresholds': limits, 'summary': summary, 'rows': rows}
+
+
 def card_html(meta):
     metrics = ''.join('<li><b>%s</b>　%s</li>' % (esc(m['name']), esc(m['value'])) for m in meta['metrics'][:4])
     return '''%s
@@ -165,6 +308,8 @@ def main():
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',
             'warnings': data.get('meta', {}).get('warnings', []), 'sync_status': 'ok'}
+    freshness = build_freshness(data)
+    FRESHNESS_FILE.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)
     for name in ('research.css', 'weekly_mobile.css', 'weekly_polish.css', 'weekly_mobile.js'):
