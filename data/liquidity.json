@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-27 09:02",
+ "updated": "2026-10-27 06:20",
  "asof": "2026-10-27",
  "regime": {
   "stage": 2,
@@ -7,9 +7,24 @@
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 66.4,
-  "n_comp": 6,
+  "value": 62.9,
+  "n_comp": 9,
   "components": [
+   {
+    "id": "SPR_SOFR_IORB",
+    "name": "SOFR-IORB利差",
+    "pct": 93.9
+   },
+   {
+    "id": "SPR_SOFR99",
+    "name": "SOFR尾部99分位差",
+    "pct": 7.2
+   },
+   {
+    "id": "SPR_CP_SOFR",
+    "name": "商票-SOFR利差",
+    "pct": 67.2
+   },
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
@@ -23,7 +38,7 @@
    {
     "id": "MOVE_X",
     "name": "MOVE(债市波动)",
-    "pct": 60.4
+    "pct": 59.2
    },
    {
     "id": "NETLIQ",
@@ -75,16 +90,78 @@
    {
     "id": "MOVE_X",
     "name": "MOVE",
-    "z": 1.58,
-    "chg63": 26.49,
+    "z": 1.5,
+    "chg63": 24.98,
     "triggered": false
    }
   ],
-  "funding": []
+  "funding": [
+   {
+    "id": "SPR_SOFR_IORB",
+    "name": "SOFR-IORB",
+    "z": 0.68,
+    "chg20": 4.0,
+    "triggered": false
+   },
+   {
+    "id": "SPR_SOFR99",
+    "name": "SOFR尾部",
+    "z": 0.06,
+    "chg20": 0.0,
+    "triggered": false
+   },
+   {
+    "id": "SPR_CP_SOFR",
+    "name": "商票-SOFR",
+    "z": 0.36,
+    "chg20": 6.0,
+    "triggered": false
+   }
+  ]
  },
  "buy_signal": false,
  "funding_alert": false,
  "cards": [
+  {
+   "id": "sofr_iorb",
+   "name": "SOFR-IORB利差",
+   "val": 2.0,
+   "unit": "bp",
+   "date": "2026-10-23",
+   "chg": 2.0,
+   "pct": 93.9,
+   "key": "SPR_SOFR_IORB"
+  },
+  {
+   "id": "sofr_tail",
+   "name": "SOFR尾部(99分位-中位)",
+   "val": 8.0,
+   "unit": "bp",
+   "date": "2026-10-23",
+   "chg": 0.0,
+   "pct": 7.2,
+   "key": "SPR_SOFR99"
+  },
+  {
+   "id": "sofr_onrrp",
+   "name": "SOFR-ONRRP利差",
+   "val": 17.0,
+   "unit": "bp",
+   "date": "2026-10-23",
+   "chg": 2.0,
+   "pct": 90.5,
+   "key": "SPR_SOFR_ONRRP"
+  },
+  {
+   "id": "cp_sofr",
+   "name": "商票-SOFR利差",
+   "val": 6.0,
+   "unit": "bp",
+   "date": "2026-10-20",
+   "chg": 1.0,
+   "pct": 67.2,
+   "key": "SPR_CP_SOFR"
+  },
   {
    "id": "onrrp",
    "name": "ON RRP余额",
@@ -148,11 +225,11 @@
   {
    "id": "move",
    "name": "MOVE美债波动率(债市)",
-   "val": 103.31,
+   "val": 102.19,
    "unit": "点",
-   "date": "2026-10-23",
-   "chg": -3.53,
-   "pct": 60.4,
+   "date": "2026-10-26",
+   "chg": -1.12,
+   "pct": 59.2,
    "key": "MOVE_X"
   },
   {
@@ -196,10 +273,7 @@
    "key": "GM2_YOY"
   }
  ],
- "fails": [
-  "SOFR",
-  "SOFR99"
- ],
+ "fails": [],
  "gaps": [
   "XCCY交叉货币互换基差(需彭博)",
   "贴现窗口借款量(FRED无直读序列, H.4.1表2待解析)",
