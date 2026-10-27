@@ -726,6 +726,7 @@ def build_content(ctx):
     # 06 品种面板
     C['panels'] = vs
     C['tin_weekly'] = load_json(os.path.join(DATA, 'tin_weekly.json')) or {}
+    C['nickel_weekly'] = load_json(os.path.join(DATA, 'nickel_weekly.json')) or {}
 
     # 07 事件轴
     C['events'] = upcoming_events(ctx, days=7)
@@ -1088,7 +1089,7 @@ def render_panel(ctx, C):
 
     tw = C.get('tin_weekly') or {}
     if tw.get('headline'):
-        h.append('<section><div class="sec-no">06B / TIN WEEKLY</div><div class="sec-t">锡研究周报 · 数据截至 %s</div>' % esc(tw.get('asof') or '—'))
+        h.append('<section><div class="sec-no">06B / TIN WEEKLY</div><div class="sec-t">研究周报 · 锡 · 数据截至 %s</div>' % esc(tw.get('asof') or '—'))
         h.append('<p style="font-size:13.5px">%s</p>' % esc(tw['headline']))
         h.append('<ul>')
         for m in (tw.get('metrics') or [])[:4]:
@@ -1096,6 +1097,15 @@ def render_panel(ctx, C):
         h.append('</ul><p class="note"><a href="../tin-weekly/#sumsec">打开完整周报（目录/交互图表/供需平衡）↗</a> · <a href="%s">上游原站</a>%s</p></section>' % (
             esc(tw.get('source_url') or 'https://gsy1005.github.io/tin-research/weekly_full.html#sumsec'),
             ' · ⚠ 同步异常，当前为上次成功版本' if tw.get('last_error') else ''))
+
+    nw = C.get('nickel_weekly') or {}
+    if nw.get('headline'):
+        h.append('<section><div class="sec-no">06C / NICKEL WEEKLY</div><div class="sec-t">研究周报 · 镍与不锈钢 · 数据截至 %s</div>' % esc(nw.get('asof') or '—'))
+        h.append('<p style="font-size:13.5px">%s</p>' % esc(nw['headline']))
+        h.append('<ul>')
+        for m in (nw.get('metrics') or [])[:4]:
+            h.append('<li><b>%s</b>：%s</li>' % (esc(m.get('name', '')), esc(m.get('value', ''))))
+        h.append('</ul><p class="note"><a href="../nickel-weekly/#sumsec">打开完整镍周报（50组图表/印尼供应/库存/平衡）↗</a> · <a href="https://amiya866.github.io/nickel-panel/">镍市瞭望</a></p></section>')
 
     h.append('<section><div class="sec-no">07 / EVENTS</div><div class="sec-t">事件轴 · 未来 7 日</div><table><tr><th>日期</th><th>时间</th><th>事件</th><th>重要性</th></tr>')
     h += ['<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % tuple(map(esc, e)) for e in C['events']]

@@ -125,7 +125,7 @@ def card_html(meta):
   <ul style="margin:8px 0 0 18px;font-size:12px;color:var(--dim);">%s</ul>
   <p style="font-size:11px;color:var(--dim);margin-top:8px;">数据截至 %s · %s · <a href="%s" target="_blank" rel="noopener">上游原站</a></p>
 </div>
-%s''' % (BEGIN, html.escape(meta.get('title', '锡研究周报')), html.escape(meta.get('headline', '')),
+%s''' % (BEGIN, html.escape(meta.get('title', '锡研究周报').replace('锡研究周报', '研究周报 · 锡')), html.escape(meta.get('headline', '')),
          metrics, html.escape(meta.get('asof') or '—'), html.escape(status),
          html.escape(meta.get('source_url', SOURCE)), END)
 
@@ -149,8 +149,14 @@ def update_daily_card(meta):
 def localize(page):
     page = page.replace('<a aria-label="返回锡研究首页" class="back-home" href="./">← 锡研究首页</a>',
                         '<a aria-label="返回整合研究站" class="back-home" href="../index.html">← 整合研究站</a>')
+    page = page.replace('<title>锡研究周报 ·', '<title>研究周报 · 锡 ·', 1)
+    page = page.replace('TIN WEEKLY RESEARCH', 'COMMODITY WEEKLY RESEARCH', 1)
+    page = page.replace('<h1>锡研究周报</h1>', '<h1>研究周报 <span class="commodity-current">锡</span></h1>', 1)
+    page = page.replace('<link href="research.css" rel="stylesheet"/></head>',
+                        '<link href="research.css" rel="stylesheet"/><link href="../weekly-light.css" rel="stylesheet"/></head>', 1)
+    switch = '<nav class="commodity-switch" aria-label="品种切换"><a class="active" href="#sumsec">锡</a><a href="../nickel-weekly/#sumsec">镍</a></nav>'
     page = page.replace('<div class="research-actions">',
-                        '<div class="research-actions"><a class="back-home" href="%s" target="_blank" rel="noopener" style="margin-right:12px">上游原站 ↗</a>' % SOURCE, 1)
+                        '<div class="research-actions">' + switch + '<a class="back-home" href="%s" target="_blank" rel="noopener" style="margin-right:12px">上游原站 ↗</a>' % SOURCE, 1)
     return page
 
 
@@ -201,7 +207,7 @@ def main():
                 if had_missing or previous.get('asset_count') != len(refs):
                     previous['asset_count'] = len(refs)
                     write_atomic(META, json.dumps(previous, ensure_ascii=False, indent=2))
-                    update_daily_card(previous)
+                update_daily_card(previous)
                 state['last_check'] = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
                 write_atomic(STATE, json.dumps(state, ensure_ascii=False, indent=2))
                 print('锡周报未变化：%s，资源 %d 个完整' % (previous.get('asof'), len(refs)))
