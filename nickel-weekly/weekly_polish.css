@@ -9,7 +9,7 @@
 }
 /* 周度供需表：蓝色表头、清楚分区、日度变化独立底色。 */
 #sumsec table.sum{border:1px solid var(--line);border-spacing:0;box-shadow:0 2px 10px rgba(20,35,55,.05)}
-#sumsec table.sum th{background:#1F4E79;color:#fff;border-color:#46729c;font-family:"KaiTi","楷体",serif;font-weight:400;font-size:14px;line-height:1.4;padding:8px 10px;text-align:center}
+#sumsec table.sum th{background:#1F4E79;color:#fff;border-color:#46729c;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-weight:400;font-size:14px;line-height:1.4;padding:8px 10px;text-align:center}
 #sumsec table.sum td{line-height:1.6;padding:8px 10px}
 #sumsec table.sum td.c{width:86px;background:var(--leadbg);color:var(--blue)}
 #sumsec table.sum td.daily{background:var(--soft);font-size:13px;line-height:1.5}

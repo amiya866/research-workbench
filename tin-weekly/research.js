@@ -165,14 +165,14 @@ id('q4outlook').open = false;
 id('framework').open = false;
 id('datagap').open = false;
 const roll = $('.roll', wrap);
-if (roll) roll.textContent = '策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。';
+if (roll) roll.textContent = '策略每日滚动更新：周报为周五存档，最新决策见日报页。使用顶部目录切换研究内容。';
 $$('summary', wrap).forEach(summary => { summary.innerHTML = summary.innerHTML.replace('表格可编辑', '数据明细'); });
 
 /* Navigation schema */
 const page = (id, label) => ({ type: 'page', id, label });
 const group = (label, children, open = false) => ({ type: 'group', label, children, open });
 const NAV = [
-  group('总览', [page('summary', '本周总结'), page('quarter', '季度展望'), page('framework', '产业框架'), page('datagap', '数据缺口')], true),
+  group('总览', [page('summary', '本周总结'), page('quarter', '季度展望'), page('framework', '产业框架')], true),
   group('重点关注', [
     group('供给', [page('supply-mine', '矿端与进口'), page('supply-smelt', '冶炼与精锡'), page('inventory', '显性库存'), page('cost', '矿山成本与边际')], true),
     group('需求', [
@@ -186,7 +186,6 @@ const NAV = [
     ], true)
   ], true),
   group('宏观与策略', [page('focus-sentiment', '锡市场情绪'), page('focus-macro', '宏观环境'), page('ai', 'AI 高频验证'), page('spot', '现货与进出口'), page('strategy', '策略与验证点')]),
-  page('technical', '技术分析'),
   page('balance', '平衡表与全年情景'),
   group('AI 耗锡专题', aiIds.filter(pid => registry.has(pid)).map(pid => page(pid, aiLabels[aiIds.indexOf(pid)]))),
   page('lab', '图表工作区'),
@@ -196,7 +195,8 @@ const NAV = [
     { type: 'tool', id: 'archive', label: '周报留档' }, { type: 'tool', id: 'news', label: '市场信息和情绪' },
     { type: 'tool', id: 'db', label: '锡研究数据库' }, { type: 'tool', id: 'metals', label: '其他有色' },
     { type: 'tool', id: 'cu', label: '铜研究' }, { type: 'tool', id: 'cudb', label: '铜数据库' }
-  ])
+  ]),
+  page('datagap', '数据缺口')
 ];
 
 const treeNav = $('#treeNav');
@@ -204,7 +204,7 @@ function buildNav(items, parent, depth = 0) {
   items.forEach(item => {
     if (item.type === 'group') {
       const details = document.createElement('details');
-      details.open = item.open;
+      details.open = depth > 0 && item.open;
       const summary = document.createElement('summary'); summary.textContent = item.label;
       const children = document.createElement('div'); children.className = 'tree-children';
       details.append(summary, children); parent.appendChild(details);
@@ -219,88 +219,176 @@ function buildNav(items, parent, depth = 0) {
 }
 buildNav(NAV, treeNav);
 
-/* Technical analysis page */
+/* Private technical analysis: original daily-report theory, external price snapshots. */
 const technicalPage = registry.get('technical') || (() => {
-  register('technical', '技术分析', ['技术分析'], []);
+  register('technical', '技术分析（私享）', ['技术分析'], []);
   const section = document.createElement('section'); section.className = 'report-page'; section.dataset.page = 'technical';
-  section.innerHTML = '<div class="page-heading"><h2>技术分析</h2><span>TECHNICAL ANALYSIS</span></div><div class="page-body"></div>';
-  const record = { id: 'technical', title: '技术分析', trail: ['技术分析'], section, body: $('.page-body', section) };
+  section.innerHTML = '<div class="page-heading"><h2>技术分析（私享）</h2><span>DAILY METHODOLOGY · 15M / 60M / DAILY</span></div><div class="page-body"></div>';
+  const record = { id: 'technical', title: '技术分析（私享）', trail: ['技术分析'], section, body: $('.page-body', section) };
   registry.set('technical', record); wrap.appendChild(section); return record;
 })();
 technicalPage.body.innerHTML = `
-  <div class="tech-intro"><p>道氏趋势 / 均线 / MACD / 缠论简化结构 / 江恩区间</p><span class="tag" id="techUpdated">读取技术快照…</span></div>
-  <div class="tech-grid" id="techGrid"></div>
-  <div class="tech-note"><b>解释边界：</b>缠论与江恩采用可复核的区间结构简化版，仅作为研究参考，不作为确定性买卖信号。</div>
-  <div class="kline-card"><h3>沪锡主连｜日 K 价格与均线</h3><div class="meta-line" id="techMeta">最近 320 个交易日 · MA5 / MA10 / MA20 / MA60 / MA288 · 红涨绿跌</div><div class="kline-chart"><canvas id="snKline" aria-label="沪锡主连日 K 图"></canvas></div></div>`;
-let technicalData = null;
-let technicalLoading = false;
+  <div class="tech-gate" id="techGate"><h3>技术分析（私享）</h3><p>采用锡研究日报原有技术理论。请输入访问密码，解锁仅在本次浏览器会话中有效。</p><form id="techForm"><input id="techPassword" type="password" inputmode="numeric" autocomplete="off" aria-label="技术分析访问密码" placeholder="访问密码" required><button type="submit">解锁技术分析</button></form><div class="tech-gate-error" id="techGateError" aria-live="polite"></div></div>
+  <div class="tech-private" id="techPrivate" hidden>
+    <button class="tech-lock" id="techLock" type="button">退出私享</button>
+    <div class="tech-intro"><p>趋势 / 动能 / 量价 · 日线原引擎 · 多周期验证</p><span class="tag" id="privateTechUpdated">等待读取数据…</span></div>
+    <div class="tech-score" id="privateTechScore"></div><div class="tech-grid" id="privateTechGrid"></div>
+    <div class="tech-brief" id="privateTechBrief"></div>
+    <div class="tech-note" id="privateTechMethod"><b>原日报指标体系：</b>趋势使用均线、MACD(12,26,9)、DMI、DMA、BOLL、缠论中枢与周线 MACD；动能使用 KDJ、RSI、WR、CCI、ROC；结构辅助使用数浪与背驰。当前快照无成交量和持仓量，量价维度不参与评分，也不补造数据。</div>
+    <div class="kline-card"><h3>沪锡主连｜日 K 价格与均线</h3><div class="meta-line" id="privateTechMeta">MA5 / MA10 / MA20 / MA60 / MA288 · 红涨绿跌</div><div class="kline-chart"><canvas id="privateSnKline" aria-label="沪锡主连日 K 图"></canvas></div></div>
+  </div>`;
+let technicalData = null, technicalLoading = false, enginePromise = null, legacyPromise = null;
+let techUnlocked = false;
+try { techUnlocked = sessionStorage.getItem('tin-weekly-tech-private') === 'unlocked'; } catch (_) {}
+const TECH_PASSWORD_HASH = '7f861bcee185de001377d79e08af62e94b1e7718e2470e08520c917f8d953602';
 const fmt = (value, digits = 0) => value == null || Number.isNaN(Number(value)) ? '—' : Number(value).toLocaleString('zh-CN', { maximumFractionDigits: digits, minimumFractionDigits: digits });
+const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const MA_COLORS = { MA5: '#a3760e', MA10: '#8b6cc1', MA20: '#1F4E79', MA60: '#188865', MA288: '#c44b5d' };
+function syncTechGate() {
+  id('techGate').hidden = techUnlocked; id('techPrivate').hidden = !techUnlocked;
+  $('#techTop').textContent = techUnlocked ? '技术分析（已解锁）' : '技术分析（私享）';
+}
+async function sha256(text) {
+  const bytes = new TextEncoder().encode(text), hash = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+id('techForm').addEventListener('submit', async event => {
+  event.preventDefault(); const button = event.target.querySelector('button'); button.disabled = true;
+  try {
+    if (await sha256(id('techPassword').value) !== TECH_PASSWORD_HASH) throw new Error('密码不正确，请重新输入。');
+    techUnlocked = true; try { sessionStorage.setItem('tin-weekly-tech-private', 'unlocked'); } catch (_) {}
+    id('techGateError').textContent = ''; id('techPassword').value = ''; syncTechGate(); initTechnical();
+  } catch (error) { id('techGateError').textContent = error.message; }
+  finally { button.disabled = false; }
+});
+id('techLock').addEventListener('click', () => {
+  techUnlocked = false; try { sessionStorage.removeItem('tin-weekly-tech-private'); } catch (_) {}
+  syncTechGate(); showPage('summary');
+});
+$('#techTop').addEventListener('click', () => showPage('technical'));
 
-function drawKline() {
-  const canvas = id('snKline');
-  if (!canvas || !technicalData?.kline || !registry.get('technical').section.classList.contains('active')) return;
-  const data = technicalData.kline, rect = canvas.getBoundingClientRect();
-  if (rect.width < 50 || rect.height < 50) return;
-  const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-  canvas.width = Math.round(rect.width * dpr); canvas.height = Math.round(rect.height * dpr);
-  const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const w = rect.width, h = rect.height, pad = { l: 66, r: 18, t: 44, b: 30 }, pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
-  const nums = [];
-  data.candles.forEach(c => { if (c) nums.push(c.h, c.l); });
-  Object.values(data.mas || {}).forEach(values => values.forEach(v => { if (v != null) nums.push(v); }));
-  let lo = Math.min(...nums), hi = Math.max(...nums); const extra = (hi - lo) * .04 || 1; lo -= extra; hi += extra;
-  const y = value => pad.t + (hi - value) / (hi - lo) * ph;
-  ctx.clearRect(0, 0, w, h); ctx.font = '10px Arial,"Microsoft YaHei",sans-serif'; ctx.lineWidth = 1;
-  for (let j = 0; j <= 6; j++) {
-    const yy = pad.t + ph * j / 6, value = hi - (hi - lo) * j / 6;
-    ctx.strokeStyle = '#e3e6e8'; ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(w - pad.r, yy); ctx.stroke();
-    ctx.fillStyle = '#777'; ctx.textAlign = 'right'; ctx.fillText(fmt(value), pad.l - 8, yy + 3);
-  }
-  const n = data.labels.length, step = pw / Math.max(n, 1), body = Math.max(1, Math.min(6, step * .66));
-  ctx.textAlign = 'center';
-  for (let j = 0; j <= 6; j++) {
-    const index = Math.min(n - 1, Math.round((n - 1) * j / 6)), xx = pad.l + step * (index + .5);
-    ctx.fillStyle = '#777'; ctx.fillText(data.labels[index].slice(2, 7), xx, h - 8);
-  }
-  data.candles.forEach((candle, index) => {
+function loadDailyEngine() {
+  if (window.TECH?.analyze) return Promise.resolve();
+  if (enginePromise) return enginePromise;
+  enginePromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script'); script.src = './daily_tech_engine.js';
+    script.onload = () => window.TECH?.analyze ? resolve() : reject(new Error('日报技术引擎不可用'));
+    script.onerror = () => reject(new Error('日报技术引擎加载失败')); document.head.appendChild(script);
+  });
+  return enginePromise;
+}
+function loadLegacyTechData() {
+  if (window.TIN_LEGACY_TECH) return Promise.resolve(window.TIN_LEGACY_TECH);
+  if (legacyPromise) return legacyPromise;
+  legacyPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script'); script.src = './daily_volume_oi.js';
+    script.onload = () => window.TIN_LEGACY_TECH ? resolve(window.TIN_LEGACY_TECH) : reject(new Error('旧日报量仓不可用'));
+    script.onerror = () => reject(new Error('旧日报量仓加载失败')); document.head.appendChild(script);
+  });
+  return legacyPromise;
+}
+function mergeTechnicalData(data, legacy) {
+  if (!legacy) return data;
+  const volume = new Map(legacy.volume || []), oi = new Map(legacy.oi || []);
+  data.kline.candles.forEach((candle, index) => {
     if (!candle) return;
-    const xx = pad.l + step * (index + .5), up = candle.c >= candle.o, color = up ? '#c44b5d' : '#188865';
-    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(xx, y(candle.h)); ctx.lineTo(xx, y(candle.l)); ctx.stroke();
-    const top = y(Math.max(candle.o, candle.c)), bottom = y(Math.min(candle.o, candle.c));
-    ctx.fillRect(xx - body / 2, top, body, Math.max(1, bottom - top));
+    const date = data.kline.labels[index];
+    if (!(Number(candle.v) > 0) && Number(volume.get(date)) > 0) candle.v = Number(volume.get(date));
+    if (!(Number(candle.oi) > 0) && Number(oi.get(date)) > 0) candle.oi = Number(oi.get(date));
   });
-  Object.entries(data.mas || {}).forEach(([name, values]) => {
-    ctx.strokeStyle = MA_COLORS[name] || '#333'; ctx.lineWidth = name === 'MA288' ? 1.8 : 1.2; ctx.beginPath();
-    let open = false;
-    values.forEach((value, index) => {
-      if (value == null) { open = false; return; }
-      const xx = pad.l + step * (index + .5), yy = y(value);
-      if (!open) { ctx.moveTo(xx, yy); open = true; } else ctx.lineTo(xx, yy);
-    }); ctx.stroke();
+  data.legacyTech = legacy;
+  return data;
+}
+async function fetchJson(url) {
+  const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 15000);
+  try { const response = await fetch(url, { cache: 'no-store', signal: controller.signal }); if (!response.ok) throw new Error(String(response.status)); return await response.json(); }
+  finally { clearTimeout(timer); }
+}
+async function fetchTechnicalSnapshot() {
+  const sources = ['https://tin-insight-api.wangziquan-tin.workers.dev/api/technical', 'https://amiya866.github.io/tin-insight/technical.json', './technical.json'];
+  let lastError;
+  for (const source of sources) {
+    try { const data = await fetchJson(source); if (Array.isArray(data.tech) && data.tech.length >= 3 && data.kline?.candles?.length) return data; }
+    catch (error) { lastError = error; }
+  }
+  throw lastError || new Error('技术数据不可用');
+}
+function scoreSnapshot(item) {
+  const text = item.detail || '';
+  const number = pattern => { const match = text.match(pattern); return match ? Number(match[1].replace(/,/g, '')) : null; };
+  const ma5 = number(/MA5\s*([\d,]+)/), ma20 = number(/MA20\s*([\d,]+)/), dif = number(/DIF\s*(-?[\d,]+)/), dea = number(/DEA\s*(-?[\d,]+)/), rsi = number(/RSI14\s*([\d.]+)/);
+  const price = Number(item.price); let trend = 0;
+  if (ma5 != null) trend += price >= ma5 ? 20 : -20;
+  if (ma20 != null) trend += price >= ma20 ? 20 : -20;
+  if (ma5 != null && ma20 != null) trend += ma5 >= ma20 ? 20 : -20;
+  if (dif != null && dea != null) trend += dif >= dea ? 20 : -20;
+  if (dif != null) trend += dif >= 0 ? 20 : -20;
+  let momentum = dif == null || dea == null ? 0 : (dif >= dea ? 35 : -35);
+  if (rsi != null) momentum += rsi >= 55 ? 35 : rsi <= 45 ? -35 : 0;
+  if (momentum > 100) momentum = 100; if (momentum < -100) momentum = -100;
+  const total = Math.round(trend * .6 + momentum * .4);
+  return { trend: Math.round(trend), momentum: Math.round(momentum), total, ma5, ma20, dif, dea, rsi };
+}
+function rating(score) { return score >= 25 ? ['多头占优', 'up'] : score <= -25 ? ['空头占优', 'down'] : ['震荡平衡', 'neutral']; }
+function renderTechnical(data) {
+  const labels = data.kline.labels, candles = data.kline.candles;
+  const series = key => labels.map((date, index) => [date, candles[index][key]]);
+  const hasVolume = candles.some(candle => Number(candle.v) > 0), hasOi = candles.some(candle => Number(candle.oi) > 0);
+  window.DB_DATA = [
+    { k: 'd719', s: series('c') }, { k: 'd726', s: series('o') }, { k: 'd727', s: series('h') },
+    { k: 'd728', s: series('l') }, { k: 'd729', s: labels.map((date, i) => [date, Number(candles[i].v) || 0]) },
+    { k: 'd725', s: labels.map((date, i) => [date, Number(candles[i].oi) || 0]) }
+  ];
+  const analysis = window.TECH.analyze(), originalScore = window.TECH.score(), last = analysis.n - 1;
+  const hasVolumeScore = hasVolume && hasOi;
+  const total = hasVolumeScore ? originalScore.total : Math.round(originalScore.t * .6 + originalScore.m * .4);
+  const [dailyRating, dailyTone] = rating(total);
+  const ma = name => analysis.MA[name][last], macd = analysis.M.dif[last] - analysis.M.dea[last];
+  const cards = data.tech.slice(0, 2).map(item => {
+    const score = scoreSnapshot(item), [status, tone] = rating(score.total);
+    return { frame: item.frame, status, tone, total: score.total, detail: `趋势 ${score.trend} / 动能 ${score.momentum}\nMA5 ${fmt(score.ma5)} · MA20 ${fmt(score.ma20)}\nMACD DIF ${fmt(score.dif)} · DEA ${fmt(score.dea)} · RSI14 ${fmt(score.rsi, 1)}\n${(item.detail.match(/缠论简化结构[^；]+/) || ['结构区间见快照'])[0]}\n量价：快照未提供，不参与评分` };
   });
-  let lx = pad.l; ctx.textAlign = 'left'; ctx.font = '11px Arial,"Microsoft YaHei",sans-serif';
-  Object.entries(data.mas || {}).forEach(([name, values]) => {
-    const last = [...values].reverse().find(value => value != null), label = `${name} ${last == null ? '—' : fmt(last)}`;
-    ctx.fillStyle = MA_COLORS[name] || '#333'; ctx.fillText(label, lx, 18); lx += ctx.measureText(label).width + 15;
-  });
-  const last = data.candles[data.candles.length - 1];
-  if (last) { ctx.fillStyle = last.c >= last.o ? '#c44b5d' : '#188865'; ctx.textAlign = 'right'; ctx.font = '600 12px Arial,"Microsoft YaHei",sans-serif'; ctx.fillText(`收盘 ${fmt(last.c)}`, w - pad.r, 18); }
+  cards.push({ frame: '大级别｜日线', status: dailyRating, tone: dailyTone, total, detail: `趋势 ${originalScore.t} / 动能 ${originalScore.m}\nMA5 ${fmt(ma('m5'))} · MA20 ${fmt(ma('m20'))} · MA60 ${fmt(ma('m60'))}\nDIF ${fmt(analysis.M.dif[last])} · DEA ${fmt(analysis.M.dea[last])} · 柱 ${fmt(macd)}\nKDJ ${fmt(analysis.KD.k[last], 1)} / ${fmt(analysis.KD.d[last], 1)} · RSI14 ${fmt(analysis.RSI14[last], 1)}\n中枢 ${analysis.zs ? `${fmt(analysis.zs.ZD)}–${fmt(analysis.zs.ZG)}` : '结构不足'}${hasVolumeScore ? `\n量价 ${originalScore.v}：旧日报成交量与持仓量补齐` : '\n量价：源数据缺失，不参与评分'}` });
+  id('privateTechGrid').innerHTML = cards.map(card => `<article class="tech-card ${card.tone}"><h3>${escapeHtml(card.frame)}<span class="score">${card.total} · ${card.status}</span></h3><p>${escapeHtml(card.detail)}</p></article>`).join('');
+  id('privateTechScore').innerHTML = `<div><span>日线综合评分</span><strong>${total}</strong><small>${dailyRating}</small></div><div><span>趋势</span><strong>${originalScore.t}</strong><small>${hasVolumeScore ? '原日报权重 45%' : '可用维度权重 60%'}</small></div><div><span>动能</span><strong>${originalScore.m}</strong><small>${hasVolumeScore ? '原日报权重 30%' : '可用维度权重 40%'}</small></div><div><span>量价</span><strong>${hasVolumeScore ? originalScore.v : '—'}</strong><small>${hasVolumeScore ? `旧日报补齐 · 原日报权重 25%` : '源数据缺失，不参与评分'}</small></div>`;
+  const recent = candles.slice(-20), support = Math.min(...recent.map(c => c.l)), resistance = Math.max(...recent.map(c => c.h));
+  let strategy;
+  if (total >= 25) strategy = `短期（2–3天）：上行方向占优，回踩不破支撑时顺势观察；中短期（2–3周）：关注 ${fmt(support)} 支撑与 ${fmt(resistance)} 前高，突破需动能同步配合；策略：多头思维，避免在动能背离时追高。`;
+  else if (total <= -25) strategy = `短期（2–3天）：下行方向未改，反抽先按修复观察；中短期（2–3周）：${fmt(resistance)} 附近构成压力，下方观察 ${fmt(support)}；策略：控制仓位，跌破支撑按纪律处理，不盲目抄底。`;
+  else strategy = `短期（2–3天）：无方向性优势，区间思维；中短期（2–3周）：${fmt(support)}～${fmt(resistance)} 区间震荡，边界附近反向观察；中期（2–3月）：等待结构突破再定方向；策略：区间高抛低吸，放量突破边界后跟随。`;
+  id('privateTechBrief').innerHTML = `<b>技术面评分 ${total}（${dailyRating}）</b>。${strategy}<br><b>结构提示：</b>${escapeHtml(analysis.wave || '结构不足，暂不数浪')} 数浪与背驰仅供结构复核，以价格、MACD 和关键区间共同验证。`;
+  id('privateTechUpdated').textContent = `快照 ${data.updated_at || '已更新'}`;
+  id('privateTechMethod').innerHTML = `<b>原日报指标体系：</b>趋势使用均线、MACD(12,26,9)、DMI、DMA、BOLL、缠论中枢与周线 MACD；动能使用 KDJ、RSI、WR、CCI、ROC；结构辅助使用数浪与背驰。${hasVolumeScore ? `新快照缺少的成交量和持仓量已按日期使用旧日报数据补齐，量价按原权重参与评分；旧源量仓分别更新至 ${escapeHtml(data.legacyTech?.volumeUpdated || '—')} / ${escapeHtml(data.legacyTech?.oiUpdated || '—')}。` : '当前量仓数据仍缺失，量价维度不参与评分，也不补造数据。'}`;
+  id('privateTechMeta').textContent = `${data.source || '外部技术快照'}${hasVolumeScore ? '＋旧日报量仓' : ''} · MA5 / MA10 / MA20 / MA60 / MA288`;
+  requestAnimationFrame(drawKline);
+}
+function initTechnical() {
+  syncTechGate(); if (!techUnlocked || technicalLoading) return;
+  if (technicalData) { renderTechnical(technicalData); return; }
+  technicalLoading = true; id('privateTechUpdated').textContent = '正在读取数据并运行日报引擎…';
+  Promise.all([fetchTechnicalSnapshot(), loadDailyEngine(), loadLegacyTechData().catch(() => null)]).then(([data, , legacy]) => { technicalData = mergeTechnicalData(data, legacy); renderTechnical(technicalData); }).catch(() => {
+    id('privateTechUpdated').textContent = '技术数据读取失败'; id('privateTechGrid').innerHTML = '<div class="tech-note">暂时无法读取技术数据或日报引擎，请稍后刷新重试。</div>';
+  }).finally(() => { technicalLoading = false; });
 }
 
-function initTechnical() {
-  if (technicalLoading || technicalData) { drawKline(); return; }
-  technicalLoading = true;
-  fetch('./technical.json').then(response => { if (!response.ok) throw new Error('technical snapshot unavailable'); return response.json(); }).then(data => {
-    technicalData = data;
-    id('techGrid').innerHTML = data.tech.map(item => `<article class="tech-card ${['up', 'down', 'neutral'].includes(item.tone) ? item.tone : 'neutral'}"><h3>${item.frame}<span class="score">${item.status}</span></h3><p>${item.detail}</p></article>`).join('');
-    id('techUpdated').textContent = `快照 ${data.updated_at || '已更新'}`;
-    id('techMeta').textContent = `${data.source || '技术快照'} · MA5 / MA10 / MA20 / MA60 / MA288`;
-    requestAnimationFrame(drawKline);
-  }).catch(() => {
-    id('techUpdated').textContent = '技术快照读取失败';
-    id('techGrid').innerHTML = '<div class="tech-note">暂时无法读取技术快照，请稍后刷新重试。</div>';
-  }).finally(() => { technicalLoading = false; });
+function drawKline() {
+  const canvas = id('privateSnKline');
+  if (!canvas || !technicalData?.kline || !techUnlocked || !technicalPage.section.classList.contains('active')) return;
+  const data = technicalData.kline, rect = canvas.getBoundingClientRect(); if (rect.width < 50 || rect.height < 50) return;
+  const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1)); canvas.width = Math.round(rect.width * dpr); canvas.height = Math.round(rect.height * dpr);
+  const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const w = rect.width, h = rect.height, pad = { l: 66, r: 18, t: 44, b: 30 }, pw = w - pad.l - pad.r, ph = h - pad.t - pad.b, nums = [];
+  data.candles.forEach(c => { if (c) nums.push(c.h, c.l); }); Object.values(data.mas || {}).forEach(values => values.forEach(v => { if (v != null) nums.push(v); }));
+  let lo = Math.min(...nums), hi = Math.max(...nums); const extra = (hi - lo) * .04 || 1; lo -= extra; hi += extra;
+  const y = value => pad.t + (hi - value) / (hi - lo) * ph;
+  ctx.clearRect(0, 0, w, h); ctx.font = '10px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'; ctx.lineWidth = 1;
+  for (let j = 0; j <= 6; j++) { const yy = pad.t + ph * j / 6, value = hi - (hi - lo) * j / 6; ctx.strokeStyle = '#e3e6e8'; ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(w - pad.r, yy); ctx.stroke(); ctx.fillStyle = '#777'; ctx.textAlign = 'right'; ctx.fillText(fmt(value), pad.l - 8, yy + 3); }
+  const n = data.labels.length, step = pw / Math.max(n, 1), body = Math.max(1, Math.min(6, step * .66)); ctx.textAlign = 'center';
+  for (let j = 0; j <= 6; j++) { const index = Math.min(n - 1, Math.round((n - 1) * j / 6)), xx = pad.l + step * (index + .5); ctx.fillStyle = '#777'; ctx.fillText(data.labels[index].slice(2, 7), xx, h - 8); }
+  data.candles.forEach((candle, index) => { if (!candle) return; const xx = pad.l + step * (index + .5), up = candle.c >= candle.o, color = up ? '#c44b5d' : '#188865'; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(xx, y(candle.h)); ctx.lineTo(xx, y(candle.l)); ctx.stroke(); const top = y(Math.max(candle.o, candle.c)), bottom = y(Math.min(candle.o, candle.c)); ctx.fillRect(xx - body / 2, top, body, Math.max(1, bottom - top)); });
+  Object.entries(data.mas || {}).forEach(([name, values]) => { ctx.strokeStyle = MA_COLORS[name] || '#333'; ctx.lineWidth = name === 'MA288' ? 1.8 : 1.2; ctx.beginPath(); let open = false; values.forEach((value, index) => { if (value == null) { open = false; return; } const xx = pad.l + step * (index + .5), yy = y(value); if (!open) { ctx.moveTo(xx, yy); open = true; } else ctx.lineTo(xx, yy); }); ctx.stroke(); });
+  let lx = pad.l; ctx.textAlign = 'left'; ctx.font = '11px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'; Object.entries(data.mas || {}).forEach(([name, values]) => { const last = [...values].reverse().find(value => value != null), label = `${name} ${last == null ? '—' : fmt(last)}`; ctx.fillStyle = MA_COLORS[name] || '#333'; ctx.fillText(label, lx, 18); lx += ctx.measureText(label).width + 15; });
+  const last = data.candles[data.candles.length - 1]; if (last) { ctx.fillStyle = last.c >= last.o ? '#c44b5d' : '#188865'; ctx.textAlign = 'right'; ctx.font = '600 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText(`收盘 ${fmt(last.c)}`, w - pad.r, 18); }
 }
 
 /* Annual balance scenario */
@@ -357,13 +445,14 @@ function showPage(pageId, updateUrl = true) {
   $$('.tree-link[data-page]', treeNav).forEach(button => {
     const active = button.dataset.page === pageId;
     button.classList.toggle('active', active); button.setAttribute('aria-current', active ? 'page' : 'false');
-    if (active) { let parent = button.parentElement; while (parent && parent !== treeNav) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; } }
   });
+  $$(':scope > details', treeNav).forEach(details => { details.open = false; });
+  $('#techTop').classList.toggle('active', pageId === 'technical');
   $('#breadcrumb').innerHTML = record.trail.map(item => `<span>${item}</span>`).join('') + `<span>${record.title}</span>`;
   document.title = `${record.title} · 锡研究周报`;
-  if (updateUrl) history.replaceState(null, '', `./?page=${encodeURIComponent(pageId)}`);
-  $('#researchSidebar').classList.remove('open'); $('#menuToggle').setAttribute('aria-expanded', 'false');
+  if (updateUrl) history.replaceState(null, '', `${location.pathname}?page=${encodeURIComponent(pageId)}`);
   window.scrollTo({ top: 0, behavior: 'instant' });
+  updateMobilePager();
   if (pageId === 'technical') initTechnical();
   resizeCharts();
 }
@@ -373,7 +462,8 @@ function showTool(toolId) {
   $('#toolTitle').textContent = tool[0]; $('#breadcrumb').innerHTML = `<span>研究工作台</span><span>${tool[0]}</span>`;
   if (toolFrame.dataset.tool !== toolId) { toolFrame.src = tool[1]; toolFrame.dataset.tool = toolId; }
   $$('.tree-link', treeNav).forEach(button => button.classList.remove('active'));
-  $('#toolMenu')?.removeAttribute('open'); $('#researchSidebar').classList.remove('open');
+  $$(':scope > details', treeNav).forEach(details => { details.open = false; });
+  $('#techTop').classList.remove('active'); $('#mobilePageTitle').textContent = tool[0];
   document.title = `${tool[0]} · 锡研究周报`; window.scrollTo({ top: 0, behavior: 'instant' });
 }
 treeNav.addEventListener('click', event => {
@@ -382,10 +472,31 @@ treeNav.addEventListener('click', event => {
   if (toolButton) showTool(toolButton.dataset.tool);
 });
 $('#closeTool').addEventListener('click', () => showPage(currentPage));
-$('#menuToggle').addEventListener('click', () => {
-  const sidebar = $('#researchSidebar'), open = sidebar.classList.toggle('open');
-  $('#menuToggle').setAttribute('aria-expanded', String(open));
-});
+
+/* Keep only one dropdown open and return focus to the top navigation on small screens. */
+treeNav.addEventListener('toggle', event => {
+  const details = event.target;
+  if (details.tagName !== 'DETAILS' || !details.open) return;
+  [...details.parentElement.children].forEach(sibling => { if (sibling !== details && sibling.tagName === 'DETAILS') sibling.open = false; });
+  if (innerWidth <= 1180 && details.parentElement === treeNav) $('#topNavigation').scrollIntoView({ block: 'start' });
+}, true);
+document.addEventListener('click', event => { if (!treeNav.contains(event.target)) $$(':scope > details', treeNav).forEach(details => { details.open = false; }); });
+
+/* Fixed mobile previous/next controls; no need to scroll back to the top. */
+const PAGE_ORDER = [];
+function collectPages(items) { items.forEach(item => { if (item.type === 'page') PAGE_ORDER.push(item.id); else if (item.type === 'group') collectPages(item.children); }); }
+collectPages(NAV); PAGE_ORDER.splice(PAGE_ORDER.indexOf('balance'), 0, 'technical');
+function updateMobilePager() {
+  const index = PAGE_ORDER.indexOf(currentPage), record = registry.get(currentPage);
+  $('#mobilePageTitle').textContent = record?.title || '锡研究周报';
+  $('#prevPage').disabled = index <= 0; $('#nextPage').disabled = index < 0 || index >= PAGE_ORDER.length - 1;
+}
+function stepPage(direction) {
+  const index = PAGE_ORDER.indexOf(currentPage), target = PAGE_ORDER[index + direction];
+  if (target) showPage(target);
+}
+$('#prevPage').addEventListener('click', () => stepPage(-1));
+$('#nextPage').addEventListener('click', () => stepPage(1));
 
 /* Legacy in-report anchors route to the corresponding independent page. */
 const anchorRoutes = { '#sumsec': 'summary', '#q4outlook': 'quarter', '#framework': 'framework', '#focus': 'focus-sentiment', '#sentiment': 'focus-sentiment', '#ai': 'ai', '#supply': 'supply-mine', '#smelt': 'supply-smelt', '#invsec': 'inventory', '#balance': 'balance', '#demand': 'demand-solder', '#spot': 'spot', '#strategy': 'strategy', '#lab': 'lab', '#ai-detail': 'ai-core', '#minecost': 'cost', '#decks': 'deck-1-1' };
