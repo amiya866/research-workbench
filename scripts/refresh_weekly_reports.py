@@ -20,6 +20,7 @@ def main():
         'scripts/build_aluminum_weekly.py',
         '_daily_report.py',
         '_variety_review.py',
+        'scripts/build_update_health.py',
         '_deploy_git.py',
     ]
     for name in steps:

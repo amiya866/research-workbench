@@ -12,12 +12,16 @@ UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3
 
 def log(*a): print(datetime.datetime.now().strftime('%H:%M:%S'), *a, flush=True)
 
+PROXY = os.environ.get('RW_PROXY') or None
+URL_OPENER = urllib.request.build_opener(
+    urllib.request.ProxyHandler({'http': PROXY, 'https': PROXY}) if PROXY else urllib.request.ProxyHandler({}))
+
 def http_get(url, headers=None, timeout=30, retries=3):
     last = None
     for i in range(retries):
         try:
             req = urllib.request.Request(url, headers=headers or UA)
-            return urllib.request.urlopen(req, timeout=timeout).read()
+            return URL_OPENER.open(req, timeout=timeout).read()
         except Exception as e:
             last = e; log('  retry', i+1, repr(e)[:90], url[:80]); time.sleep(2+i*2)
     raise last
@@ -28,7 +32,7 @@ def http_post_json(url, payload, timeout=40, retries=3):
         try:
             req = urllib.request.Request(url, data=json.dumps(payload).encode(),
                                          headers={**UA, 'Content-Type': 'application/json'})
-            return json.loads(urllib.request.urlopen(req, timeout=timeout).read())
+            return json.loads(URL_OPENER.open(req, timeout=timeout).read())
         except Exception as e:
             last = e; log('  retry', i+1, repr(e)[:90]); time.sleep(2+i*2)
     raise last

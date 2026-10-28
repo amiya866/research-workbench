@@ -97,6 +97,18 @@ def fetch_lme():
     rows.sort(key=lambda x: x['date'], reverse=True)
     return rows[:10]
 
+def sync_daily_fallback(out):
+    path = os.path.join(ROOT, 'reports', 'daily_latest.html')
+    if not os.path.exists(path):
+        return
+    page = open(path, encoding='utf-8').read()
+    fallback = {key: out.get(key, []) for key in ('jin10', 'ah', 'cs')}
+    replacement = 'const N = ' + json.dumps(fallback, ensure_ascii=False) + ';'
+    updated, count = re.subn(r'^const N = .*;$', lambda _m: replacement, page, count=1, flags=re.M)
+    if count:
+        open(path, 'w', encoding='utf-8').write(updated)
+
+
 def main():
     out = {}
     if os.path.exists(OUT):
@@ -124,6 +136,7 @@ def main():
     with open(OUT, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False)
     open(FALLBACK, 'w', encoding='utf-8').write('window.NEWS_SNAP=' + json.dumps(out, ensure_ascii=False) + ';')
+    sync_daily_fallback(out)
     print(json.dumps({'asof': now, 'sources': out['sources'],
                       'counts': {k: len(out.get(k, [])) for k in ('eastmoney', 'sina', 'lme')}},
                      ensure_ascii=False))
