@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T14:54:43+08:00",
+  "built_at": "2026-10-28T15:45:49+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,14 +32,29 @@
     ]
   },
   "summary": {
-    "fresh": 21,
+    "fresh": 22,
     "watch": 0,
-    "stale": 0,
+    "stale": 1,
     "missing": 0,
     "review": 0,
-    "total": 21
+    "total": 23
   },
   "rows": [
+    {
+      "key": "overview_domestic_premium",
+      "name": "1#铅锭升贴水（华东）",
+      "module": "价格、升贴水与进口盈亏",
+      "source": "iFinD EDB S005068211",
+      "frequency": "日度",
+      "unit": "—",
+      "latest": "2026-10-09",
+      "latest_value": "-135.0",
+      "latest_iso": "2026-10-09",
+      "age_days": 19,
+      "status": "stale",
+      "status_label": "滞后",
+      "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
+    },
     {
       "key": "overview_lme",
       "name": "LME铅",
@@ -47,8 +62,23 @@
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",
+      "latest": "2026-10-28",
+      "latest_value": "1,924",
+      "latest_iso": "2026-10-28",
+      "age_days": 0,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
+      "key": "overview_lme03",
+      "name": "LME 铅 0-3 升贴水",
+      "module": "价格、升贴水与进口盈亏",
+      "source": "westmetall cash-3M",
+      "frequency": "日度",
+      "unit": "—",
       "latest": "2026-10-27",
-      "latest_value": "1,920",
+      "latest_value": "-20",
       "latest_iso": "2026-10-27",
       "age_days": 1,
       "status": "fresh",
@@ -182,10 +212,10 @@
       "source": "衍生计算：guan+本地日K",
       "frequency": "日度",
       "unit": "元/吨",
-      "latest": "2026-10-27",
-      "latest_value": "16,260",
-      "latest_iso": "2026-10-27",
-      "age_days": 1,
+      "latest": "2026-10-28",
+      "latest_value": "16,275",
+      "latest_iso": "2026-10-28",
+      "age_days": 0,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -227,10 +257,10 @@
       "source": "zhiji a10134441",
       "frequency": "日度",
       "unit": "吨",
-      "latest": "2026-10-26",
+      "latest": "2026-10-27",
       "latest_value": "314,675",
-      "latest_iso": "2026-10-26",
-      "age_days": 2,
+      "latest_iso": "2026-10-27",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -242,10 +272,10 @@
       "source": "衍生计算：LME+SHFE合计",
       "frequency": "日度",
       "unit": "吨",
-      "latest": "2026-10-26",
+      "latest": "2026-10-27",
       "latest_value": "332,757",
-      "latest_iso": "2026-10-26",
-      "age_days": 2,
+      "latest_iso": "2026-10-27",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"

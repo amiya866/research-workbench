@@ -23,7 +23,7 @@ META = BASE / 'data' / 'aluminum_weekly_freshness.json'
 
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格、基差与氧化铝', '宏观与策略', ['overview_shfe', 'overview_lme', 'FU00024308', 'ID00188139']),
+    ('price', '价格、结构与氧化铝', '宏观与策略', ['overview_shfe', 'overview_lme', 'overview_lme03', 'FU00024308', 'ID00188139']),
     ('supply_mine', '铝土矿与氧化铝', '重点关注/供给', ['a10016324', 'a10016284', 'a10016292', 'a10016300', 'a10015944', 'a10167792', 'ID01001945', 'a10031611']),
     ('supply_smelt', '电解铝', '重点关注/供给', ['a10124317', 'ID01001838', 'ID01001837', 'a10016193', 'ID01001759', 'ID01131701']),
     ('inventory', '显性库存', '重点关注/供给', ['overview_global_stock', 'ID00188281', 'a10134438', 'a10166772', 'ID00188307', 'ID00188313']),
@@ -35,8 +35,9 @@ SECTIONS = [
 ]
 NAMES = {key: title for key, title in []}
 UNITS = {'overview_shfe': '元/吨', 'overview_lme': '美元/吨', 'overview_global_stock': '吨'}
-KPI = [('shfe', '沪铝主连', '元/吨'), ('lme', 'LME铝', '美元/吨'), ('lme03', '氧化铝价格', '元/吨'),
-       ('global_stock', 'LME+SHFE库存', '吨'), ('social_stock', '铝锭社库', '万吨'), ('tc', '电解铝利润', '元/吨')]
+KPI = [('shfe', '沪铝主连', '元/吨'), ('lme', 'LME铝', '美元/吨'), ('lme03', 'LME 0-3', '美元/吨'),
+       ('global_stock', 'LME+SHFE库存', '吨'), ('social_stock', '铝锭社库', '万吨'), ('tc', '电解铝利润', '元/吨'),
+       ('domestic', 'SHFE铝基差', '元/吨'), ('alumina', '氧化铝价格', '元/吨')]
 
 
 def series(conn, ind_id, name, unit):
@@ -55,6 +56,19 @@ def csv_chart(path, column, name):
                 values.append(float(value))
     return {'labels': labels, 'datasets': [{'label': name, 'data': values, 'borderColor': '#1F4E79',
             'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}
+
+
+def cached_lme03_chart():
+    path = BASE / 'data' / 'lme_cash3m.json'
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text(encoding='utf-8')).get('AL', {})
+    hist = data.get('hist') or {}
+    rows = sorted((date, values[0] - values[1]) for date, values in hist.items() if isinstance(values, list) and len(values) >= 2)
+    if not rows:
+        return None
+    return {'labels': [row[0] for row in rows], 'datasets': [{'label': 'LME铝 0-3 升贴水', 'data': [row[1] for row in rows],
+            'borderColor': '#1F4E79', 'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}
 
 
 def last(chart):
@@ -132,6 +146,12 @@ def main():
     conn.close()
     charts['overview_shfe'] = csv_chart(SHFE_CSV, 'AL', '沪铝主连')
     charts['overview_lme'] = csv_chart(LME_CSV, 'AL', 'LME铝')
+    basis_chart = cached_lme03_chart()
+    if basis_chart:
+        charts['overview_lme03'] = basis_chart
+        units['overview_lme03'] = '美元/吨'
+        source_meta['overview_lme03'] = {'type': 'derived', 'formula': 'westmetall cash-3M'}
+        names['overview_lme03'] = 'LME铝 0-3 升贴水'
     charts['overview_global_stock'] = global_stock(charts['a10134438'], charts['ID00188281'])
     for key, label in [('overview_shfe', 'guan+本地日K'), ('overview_lme', '新浪外盘+本地缓存'), ('overview_global_stock', 'LME+SHFE合计')]:
         source_meta[key] = {'type': 'derived', 'formula': label}
@@ -144,8 +164,10 @@ def main():
     META.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
     latest = {
         'shfe': last(charts['overview_shfe']), 'lme': last(charts['overview_lme']),
-        'lme03': last(charts['ID00188139']), 'global_stock': last(charts['overview_global_stock']),
+        'lme03': last(charts['overview_lme03']), 'domestic': last(charts['FU00024308']),
+        'global_stock': last(charts['overview_global_stock']),
         'social_stock': last(charts['a10166772']), 'tc': last(charts['a10016216']),
+        'alumina': last(charts['ID00188139']),
     }
     asof = max(value[0] for value in latest.values() if value[0])
     shfe_values = [v for v in charts['overview_shfe']['datasets'][0]['data'] if v is not None]
@@ -159,11 +181,16 @@ def main():
     signal = ema(macd, 9)
     price_word = '偏强' if (chg5 or 0) > 0.01 else ('偏弱' if (chg5 or 0) < -0.01 else '震荡')
     stock_word = '累库' if (stock_chg or 0) > 0 else '去库'
-    headline = ('本周定调：沪铝%s与LME%s并存 —— 沪铝近5个交易日 %s，LME库存近5个交易日 %s；'
-                '铝锭社库 %s 万吨（%s），氧化铝价格 %s 元/吨（%s）。'
-                '近端重点跟踪LME仓单、国内社库、氧化铝与电解铝利润能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-        price_word, stock_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
-        shared.fmt(latest['lme03'][1]), latest['lme03'][0])
+    lme_structure = 'Back' if (latest['lme03'][1] or 0) > 0 else ('Contango' if (latest['lme03'][1] or 0) < 0 else '持平')
+    domestic_structure = '升水' if (latest['domestic'][1] or 0) > 0 else ('贴水' if (latest['domestic'][1] or 0) < 0 else '持平')
+    structure_desc = 'LME 0-3 %s 美元/吨（%s），SHFE铝基差%s %s 元/吨（%s）' % (
+        shared.fmt(latest['lme03'][1]), latest['lme03'][0], domestic_structure,
+        shared.fmt(latest['domestic'][1]), latest['domestic'][0])
+    headline = ('本周定调：沪铝%s与LME%s并存，结构%s —— 沪铝近5个交易日 %s，LME库存近5个交易日 %s；'
+                '铝锭社库 %s 万吨（%s），氧化铝价格 %s 元/吨（%s）；结构：%s。'
+                '近端重点跟踪价格、结构、库存、氧化铝与电解铝利润能否同向验证；⚙️规则摘要，不构成投资建议。') % (
+        price_word, stock_word, lme_structure, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+        shared.fmt(latest['alumina'][1]), latest['alumina'][0], structure_desc)
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])} for key, name, unit in KPI]
     q3 = shared.period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
     q4 = shared.period_return(charts['overview_shfe'], '2026-10-01', asof)
@@ -173,6 +200,7 @@ def main():
 <div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
 <li>Q3沪铝价格变动 %s，氧化铝与电解铝供应恢复、利润高企和库存偏低共同塑造价格弹性，成本高利润与弱宏观之间的分歧加大。</li>
 <li>Q4迄今价格变动 %s。当前LME与SHFE合计库存 %s 吨、国内社库 %s 万吨，低库存仍支撑近月，但氧化铝价格 %s 元/吨与电解铝利润 %s 元/吨说明供应端利润已较充裕。</li>
+<li>结构定位：LME 0-3 %s 美元/吨（%s），SHFE铝基差 %s 元/吨（%s）；期现结构必须与复产和库存方向一致才有效。</li>
 <li>基准判断是“低库存支撑近月，高利润刺激供应恢复”。Q4重点不是单看铝价强弱，而是核查氧化铝、电解铝复产能否改变库存和现货结构。</li></ul>
 <div class="lead">二、供应：三层产量与利润恢复</div><ul class="sq">
 <li>铝土矿、氧化铝和电解铝不能混为一层：进口矿和氧化铝恢复决定成本端，运行产能和铝水比例决定锭端实际供应。</li>
@@ -183,11 +211,13 @@ def main():
 <li>若社库继续下降且下游开工稳定，近月结构仍有支撑；若复产叠加出口走弱，库存拐点将首先削弱远月估值。</li>
 <li>氧化铝与电解铝利润需要分开跟踪，避免把上游价格回落简单理解为全行业利空。</li></ul>
 <div class="lead">四、策略与验证点</div><ul class="sq">
-<li>近月看库存和基差，远月看复产与利润回归，避免在高利润阶段仅凭低库存追涨。</li>
-<li>上修条件：持续去库＋铝加工开工稳定＋氧化铝供应扰动；下修条件：复产超预期＋出口转弱＋社库回升。</li>
+<li>近月看库存、基差和LME 0-3，远月看复产与利润回归，避免在高利润阶段仅凭低库存追涨。</li>
+<li>上修条件：持续去库＋结构走强＋铝加工开工稳定＋氧化铝供应扰动；下修条件：复产超预期＋结构走弱＋出口转弱＋社库回升。</li>
 <li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
         shared.pct(q3), shared.pct(q4), shared.fmt(latest['global_stock'][1]), shared.fmt(latest['social_stock'][1]),
-        shared.fmt(latest['lme03'][1]), shared.fmt(latest['tc'][1]), shared.fmt(output[1]) if output else '—', output[0] if output else '—',
+        shared.fmt(latest['alumina'][1]), shared.fmt(latest['tc'][1]),
+        shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.fmt(latest['domestic'][1]), latest['domestic'][0],
+        shared.fmt(output[1]) if output else '—', output[0] if output else '—',
         shared.fmt(downstream[1]) if downstream else '—', downstream[0] if downstream else '—')
     q4_html = shared.quarterly_html(OUT / 'index.html', q4_html)
     charts = shared.seasonalize_charts(charts)
@@ -209,6 +239,7 @@ def main():
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             rows = [
                 ('价格', '沪铝 %s 元/吨（%s）｜LME铝 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),
+                ('结构', structure_desc, '%s；近月结构以LME 0-3、SHFE基差和库存共同判断' % lme_structure, '重点', 'nt'),
                 ('海外库存', 'LME铝库存 %s 吨（%s）' % (shared.fmt(last(charts['a10134438'])[1]), last(charts['a10134438'])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '铝锭社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), '与LME、SHFE仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
                 ('供应·氧化铝', '氧化铝价格 %s 元/吨（%s）' % (shared.fmt(last(charts['ID00188139'])[1]), last(charts['ID00188139'])[0]), '铝土矿、氧化铝与电解铝产量共同判断供应松紧', '重点', 'nt'),

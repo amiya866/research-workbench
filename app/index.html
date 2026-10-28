@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f2efeb">
+<meta name="description" content="宏观有色研究台：日报、六品种周报与自动更新健康检查">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>研究台</title>
+<style>
+:root{--bg:#f2efeb;--card:#fff;--ink:#25282d;--muted:#777a80;--line:#ded8d0;--gold:#9b6a24;--blue:#245e91;--green:#267343}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding-bottom:32px}.top{position:sticky;top:0;z-index:5;background:rgba(242,239,235,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.topin{max-width:880px;margin:auto;padding:18px 18px 12px;display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px}.top h1{font-size:23px;margin:0}.top p{margin:1px 0 0;color:var(--muted);font-size:11px;letter-spacing:1px}.install{margin-left:auto;border:0;border-radius:8px;background:var(--ink);color:#fff;padding:9px 13px;font-weight:700;cursor:pointer}.install[hidden]{display:none}main{max-width:880px;margin:auto;padding:16px}.search{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:13px 15px;font:inherit;font-size:16px;outline:none}.search:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(155,106,36,.08)}.health{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:12px 0 20px;padding:11px 13px;border-radius:10px;background:#e8e3dc;color:var(--muted);font-size:12px}.health b{color:var(--green)}.health a{color:var(--blue);text-decoration:none;white-space:nowrap}.hero{display:block;text-decoration:none;background:#24262b;color:#fff;border-radius:16px;padding:21px 20px;margin-bottom:22px;box-shadow:0 7px 20px rgba(30,30,30,.09)}.hero small{color:#c9c3b9}.hero h2{margin:5px 0;font-size:24px}.hero p{margin:5px 0 0;color:#d5d1ca;font-size:13px}.hero .go{float:right;color:#e8b93c;font-size:24px}h3{font-size:14px;margin:20px 2px 10px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.card{position:relative;display:block;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 14px;text-decoration:none;color:var(--ink);min-height:102px}.card:hover{border-color:var(--gold)}.card .metal{display:inline-grid;place-items:center;width:33px;height:33px;border-radius:9px;background:#ece5da;color:var(--gold);font-weight:800;font-size:17px;margin-bottom:8px}.card b{display:block;font-size:15px}.card small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.card .arrow{position:absolute;right:13px;top:14px;color:#a9a39a}.card[hidden]{display:none}.empty{display:none;text-align:center;color:var(--muted);padding:30px}.empty.show{display:block}.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}.foot a{color:var(--blue);text-decoration:none}@media(max-width:620px){.grid{grid-template-columns:repeat(2,1fr)}main{padding:13px}.topin{padding:14px 13px 10px}.install{padding:8px 10px;font-size:12px}.hero{padding:18px}.hero h2{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><div class="logo">研</div><div><h1>研究台</h1><p>MACRO & METALS</p></div><button class="install" id="installBtn" hidden>安装 App</button></div></header>
+<main>
+<input class="search" id="search" type="search" placeholder="查找：日报、铜、铅、健康检查…" aria-label="查找研究模块">
+<div class="health"><span>自动更新健康检查：<b id="healthText">读取中…</b></span><a href="../reports/update_health.html" data-name="健康检查 更新状态 自动更新">查看状态 ↗</a></div>
+<a class="hero" href="../daily/" data-name="宏观研究日报 日报 宏观 每日"><span class="go">↗</span><small>每日自动更新 · 宏观与有色</small><h2>宏观研究日报</h2><p>行情、快讯、宏观数据、地缘事件与品种观点</p></a>
+<h3>研究周报 · 周五至周日自动更新</h3>
+<div class="grid" id="grid">
+<a class="card" href="../tin-weekly/#sumsec" data-name="锡 周报 tin"><span class="arrow">↗</span><span class="metal">锡</span><b>锡研究周报</b><small>矿端、精锡、库存与消费</small></a>
+<a class="card" href="../nickel-weekly/#sumsec" data-name="镍 周报 nickel 不锈钢"><span class="arrow">↗</span><span class="metal">镍</span><b>镍研究周报</b><small>印尼供应、不锈钢与库存</small></a>
+<a class="card" href="../zinc-weekly/#sumsec" data-name="锌 周报 zinc"><span class="arrow">↗</span><span class="metal">锌</span><b>锌研究周报</b><small>TC、精炼锌与镀锌需求</small></a>
+<a class="card" href="../aluminum-weekly/#sumsec" data-name="铝 周报 aluminum 氧化铝"><span class="arrow">↗</span><span class="metal">铝</span><b>铝研究周报</b><small>铝土矿、氧化铝与电解铝</small></a>
+<a class="card" href="../copper-weekly/#sumsec" data-name="铜 周报 copper"><span class="arrow">↗</span><span class="metal">铜</span><b>铜研究周报</b><small>TC、冶炼、库存与电网</small></a>
+<a class="card" href="../lead-weekly/#sumsec" data-name="铅 周报 lead"><span class="arrow">↗</span><span class="metal">铅</span><b>铅研究周报</b><small>原生/再生铅与铅酸电池</small></a>
+</div>
+<div class="empty" id="empty">没有匹配的研究模块</div>
+<div class="foot"><a href="../index.html">整合研究站首页</a> · 数据在线时保持最新<br>安装后可从桌面独立窗口打开</div>
+</main>
+<script>
+const search=document.getElementById('search'),empty=document.getElementById('empty');
+search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();let shown=0;document.querySelectorAll('[data-name]').forEach(el=>{const hit=!q||el.dataset.name.toLowerCase().includes(q);el.hidden=!hit;if(hit)shown++});empty.classList.toggle('show',shown===0)});
+fetch('../data/update_health.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(d)document.getElementById('healthText').textContent=d.overall+' · '+d.rows.length+'类数据源'}).catch(()=>{document.getElementById('healthText').textContent='在线时显示最新状态'});
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredPrompt=event;document.getElementById('installBtn').hidden=false});
+document.getElementById('installBtn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('installBtn').hidden=true});
+if('serviceWorker' in navigator && (location.protocol==='https:' || ['localhost','127.0.0.1'].includes(location.hostname)))navigator.serviceWorker.register('../sw.js',{scope:'../'}).catch(()=>{});
+</script>
+</body>
+</html>

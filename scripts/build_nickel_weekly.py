@@ -120,7 +120,17 @@ def quarterly_html(path, new_html):
     return new_html
 
 
-SEASON_COLORS = ['#1F4E79', '#C00000', '#8FAADC', '#C9A869', '#67B8A6', '#7F7F7F', '#5B9BD5', '#B07AA1']
+SEASON_COLORS = ['#1F4E79', '#C00000', '#2E7D32', '#7B1FA2', '#E65100', '#00838F', '#8C564B', '#C2185B', '#546E7A', '#7A8800']
+
+
+def tint(color, factor):
+    color = color.lstrip('#')
+    parts = [int(color[i:i + 2], 16) for i in (0, 2, 4)]
+    if factor >= 1:
+        parts = [min(255, round(v + (255 - v) * (factor - 1))) for v in parts]
+    else:
+        parts = [round(v * factor) for v in parts]
+    return '#%02X%02X%02X' % tuple(parts)
 
 
 def seasonalize_charts(charts):
@@ -132,11 +142,17 @@ def seasonalize_charts(charts):
             continue
         years = sorted({str(x)[:4] for x in labels})
         month_days = sorted({str(x)[5:] for x in labels})
+        sources = chart.get('datasets') or []
         datasets = []
-        for source in chart.get('datasets') or []:
-            for year in years:
+        for source_index, source in enumerate(sources):
+            base = SEASON_COLORS[source_index % len(SEASON_COLORS)]
+            for year_index, year in enumerate(years):
                 lookup = {str(label)[5:]: value for label, value in zip(labels, source.get('data') or []) if str(label).startswith(year)}
-                color = SEASON_COLORS[(years.index(year)) % len(SEASON_COLORS)]
+                if len(sources) > 1:
+                    depth = 0.45 + 0.55 * (year_index / max(1, len(years) - 1))
+                    color = tint(base, depth)
+                else:
+                    color = SEASON_COLORS[year_index % len(SEASON_COLORS)]
                 datasets.append(dict(source, label='%s年｜%s' % (year, source.get('label', key)),
                                      data=[lookup.get(md) for md in month_days],
                                      borderColor=color, backgroundColor=color))
@@ -343,13 +359,20 @@ def main():
     lme_chg = change(charts['inventory_lme'])
     npi = last_point(charts['supply_npi_id'])
     ss300 = last_point(charts['demand_ss_cn'])
+    lme03 = last_point(charts['lme03'])
+    jinchuan = last_point(charts['premium_jinchuan'])
     price_word = '走强' if (shfe_chg or 0) > 0.01 else ('走弱' if (shfe_chg or 0) < -0.01 else '震荡')
     stock_word = '累库' if (lme_chg or 0) > 0 else '去库'
-    headline = ('本周定调：价格%s与海外%s并存，边际仍看印尼 —— 沪镍近5个交易日%s，LME镍库存近5个交易日%s；'
-                '印尼NPI最新读数 %s 万金属吨（标签%s），中国300系不锈钢产量最新读数 %s 万吨（标签%s）。'
-                '近端重点跟踪印尼供应兑现、300系排产和库存变化能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-        price_word, stock_word, pct(shfe_chg), pct(lme_chg), fmt(npi[1]) if npi else '—', npi[0] if npi else '—',
-        fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—')
+    lme_structure = 'Back' if lme03 and lme03[1] > 0 else ('Contango' if lme03 and lme03[1] < 0 else '持平')
+    domestic_structure = '升水' if jinchuan and jinchuan[1] > 0 else ('贴水' if jinchuan and jinchuan[1] < 0 else '持平')
+    structure_desc = 'LME镍0-3 %s 美元/吨（%s），金川镍升贴水%s %s 元/吨（%s）' % (
+        fmt(lme03[1]) if lme03 else '—', lme03[0] if lme03 else '—', domestic_structure,
+        fmt(jinchuan[1]) if jinchuan else '—', jinchuan[0] if jinchuan else '—')
+    headline = ('本周定调：价格%s与海外%s并存，结构%s，边际仍看印尼 —— 沪镍近5个交易日%s，LME镍库存近5个交易日%s；'
+                '印尼NPI最新读数 %s 万金属吨（标签%s），中国300系不锈钢产量最新读数 %s 万吨（标签%s）；结构：%s。'
+                '近端重点跟踪价格、结构、印尼供应兑现、300系排产和库存变化能否同向验证；⚙️规则摘要，不构成投资建议。') % (
+        price_word, stock_word, lme_structure, pct(shfe_chg), pct(lme_chg), fmt(npi[1]) if npi else '—', npi[0] if npi else '—',
+        fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—', structure_desc)
     metrics = []
     for key, name, unit in KPI:
         date, value = latest.get(key) or [None, None]
@@ -362,6 +385,7 @@ def main():
 <div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
 <li>Q3沪镍价格变动 %s。供应端印尼中间品和精炼镍继续放量，需求端不锈钢与新能源未能完全消化增量，LME及国内库存高位，价格主要受现实供应压力约束。</li>
 <li>进入Q4，核心不是单纯判断印尼增产还是减产，而是验证新增供应能否被不锈钢和三元需求吸收。当前LME镍库存 %s 吨、国内社库 %s 吨，库存仍是判断价格弹性的第一约束。</li>
+<li>结构定位：LME镍0-3 %s 美元/吨（%s），金川镍升贴水 %s 元/吨（%s）；期现结构必须与库存去化方向一致才有效。</li>
 <li>基准判断维持“高库存压制与印尼政策/成本支撑并存”。若库存不能连续下降，反弹不宜直接理解为趋势反转；若印尼供应扰动与去库共振，再上调近月弹性。</li></ul>
 <div class="lead">二、供应：印尼增量仍是主线</div><ul class="sq">
 <li>印尼NPI最新 %s 万金属吨（标签%s），NPI、MHP、高冰镍和精炼镍多条产品线共同决定边际供应，不能只看单一项目或单一政策。</li>
@@ -376,6 +400,8 @@ def main():
 <li>上修条件：印尼供应扰动兑现＋连续去库＋不锈钢排产稳定；下修条件：印尼增量超预期＋终端排产走弱＋仓单继续增加。</li>
 <li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
         pct(q3), fmt(latest.get('lme_stock')[1]), fmt(latest.get('social_stock')[1]),
+        fmt(lme03[1]) if lme03 else '—', lme03[0] if lme03 else '—',
+        fmt(jinchuan[1]) if jinchuan else '—', jinchuan[0] if jinchuan else '—',
         fmt(npi[1]) if npi else '—', npi[0] if npi else '—',
         fmt(refined[1]) if refined else '—', refined[0] if refined else '—',
         fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—',
@@ -412,6 +438,7 @@ def main():
             social = latest.get('social_stock') or [None, None]
             rows = [
                 ('价格', '沪镍 %s 元/吨（%s）｜不锈钢 %s 元/吨（%s）' % (fmt(shfe[1]), shfe[0], fmt(ss[1]), ss[0]), '沪镍近5个交易日 %s，价格%s' % (pct(shfe_chg), price_word), price_word, 'nt'),
+                ('结构', structure_desc, '%s；近月结构以LME 0-3、金川镍升贴水和库存共同判断' % lme_structure, '重点', 'nt'),
                 ('海外库存', 'LME镍库存 %s 吨（%s）' % (fmt(lm[1]), lm[0]), '近5个交易日 %s，海外%s' % (pct(lme_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '镍社会库存 %s 吨（%s）' % (fmt(social[1]), social[0]), '与海外仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
                 ('供应·印尼', 'NPI %s 万金属吨（标签%s）' % (fmt(npi[1]) if npi else '—', npi[0] if npi else '—'), '边际供应核心在印尼，跟踪NPI/MHP/高冰镍/精炼镍四条线', '重点', 'nt'),

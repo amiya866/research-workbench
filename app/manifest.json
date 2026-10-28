@@ -1,0 +1,16 @@
+{
+  "name": "研究台 · 宏观与有色",
+  "short_name": "研究台",
+  "description": "宏观研究日报、六品种研究周报与自动更新健康检查",
+  "id": "./",
+  "start_url": "./",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#f2efeb",
+  "theme_color": "#f2efeb",
+  "lang": "zh-CN",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

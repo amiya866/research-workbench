@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T14:52:05+08:00",
+  "built_at": "2026-10-28T15:45:34+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -36,8 +36,8 @@
     "watch": 16,
     "stale": 16,
     "missing": 0,
-    "review": 215,
-    "total": 315
+    "review": 214,
+    "total": 314
   },
   "rows": [
     {
@@ -844,21 +844,6 @@
       "unit": "—",
       "latest": "9.71",
       "latest_value": "2,136",
-      "latest_iso": "",
-      "age_days": null,
-      "status": "review",
-      "status_label": "待核",
-      "action": "最新标签无法映射确切日期，需人工核对原表口径。"
-    },
-    {
-      "key": "i_shfew.png",
-      "name": "SHFE锡仓单（吨，周）",
-      "module": "其他",
-      "source": "原版锡周报 库存",
-      "frequency": "标签型",
-      "unit": "—",
-      "latest": "9.258",
-      "latest_value": "3,994",
       "latest_iso": "",
       "age_days": null,
       "status": "review",

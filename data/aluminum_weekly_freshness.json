@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T14:52:09+08:00",
+  "built_at": "2026-10-28T15:45:37+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,12 +32,12 @@
     ]
   },
   "summary": {
-    "fresh": 34,
+    "fresh": 35,
     "watch": 0,
     "stale": 2,
     "missing": 0,
     "review": 0,
-    "total": 36
+    "total": 37
   },
   "rows": [
     {
@@ -73,7 +73,7 @@
     {
       "key": "FU00024308",
       "name": "SHFE 铝基差",
-      "module": "价格、基差与氧化铝",
+      "module": "价格、结构与氧化铝",
       "source": "zhiji FU00024308",
       "frequency": "日度",
       "unit": "元/吨",
@@ -88,7 +88,7 @@
     {
       "key": "ID00188139",
       "name": "氧化铝汇总价格（中国）",
-      "module": "价格、基差与氧化铝",
+      "module": "价格、结构与氧化铝",
       "source": "zhiji ID00188139",
       "frequency": "日度",
       "unit": "元/吨",
@@ -103,14 +103,29 @@
     {
       "key": "overview_lme",
       "name": "LME铝",
-      "module": "价格、基差与氧化铝",
+      "module": "价格、结构与氧化铝",
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",
-      "latest": "2026-10-27",
-      "latest_value": "3,034",
-      "latest_iso": "2026-10-27",
-      "age_days": 1,
+      "latest": "2026-10-28",
+      "latest_value": "3,105",
+      "latest_iso": "2026-10-28",
+      "age_days": 0,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
+      "key": "overview_lme03",
+      "name": "LME铝 0-3 升贴水",
+      "module": "价格、结构与氧化铝",
+      "source": "衍生计算：westmetall cash-3M",
+      "frequency": "日度",
+      "unit": "—",
+      "latest": "2026-10-26",
+      "latest_value": "20.5",
+      "latest_iso": "2026-10-26",
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -212,10 +227,10 @@
       "source": "衍生计算：guan+本地日K",
       "frequency": "日度",
       "unit": "元/吨",
-      "latest": "2026-10-27",
-      "latest_value": "23,405",
-      "latest_iso": "2026-10-27",
-      "age_days": 1,
+      "latest": "2026-10-28",
+      "latest_value": "23,540",
+      "latest_iso": "2026-10-28",
+      "age_days": 0,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -272,10 +287,10 @@
       "source": "zhiji a10134438",
       "frequency": "日度",
       "unit": "吨",
-      "latest": "2026-10-26",
+      "latest": "2026-10-27",
       "latest_value": "232,100",
-      "latest_iso": "2026-10-26",
-      "age_days": 2,
+      "latest_iso": "2026-10-27",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"

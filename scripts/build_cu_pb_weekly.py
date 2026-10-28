@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import sqlite3
+import subprocess
 from pathlib import Path
 
 from openpyxl import load_workbook
@@ -17,6 +18,10 @@ BASE = Path(__file__).resolve().parents[1]
 CACHE = Path(r'D:/Kimi/金属总网/网站构建/db/数据缓存_v1.db')
 SHFE_CSV = Path(r'D:/Kimi/有色截面配置_2026/_价格缓存.csv')
 LME_CSV = Path(r'D:/Kimi/有色截面配置_2026/_LME价格缓存.csv')
+IFIND_DB = Path(r'D:/Kimi/ifind_mirror/ifind_mirror.db')
+NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+MONTHS = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
+          'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
 
 COMMON_SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
@@ -35,17 +40,21 @@ CONFIG = {
     'CU': {
         'cn': '铜', 'en': 'COPPER', 'out': 'copper-weekly', 'prefix': 'copper',
         'subtitle': '铜精矿TC · 冶炼利润 · 全球库存 · 电线电缆 · 成本平衡',
+        'lme_field': 'LME_Cu_cash',
+        'domestic': ('cache', 'ID01677008', 'SMM电解铜升贴水', '元/吨'),
         'financial': Path(r'D:/Kimi/金属总网/网站构建/财报汇总/铜/全球铜企季度产量梳理.xlsx'),
         'sheets': [('铜矿·季度产量', 12), ('国内铜企·季度产量', 10)],
-        'price': ['overview_shfe', 'overview_lme', 'ID01677008', 's20015675', 'ID01030232', 'ID01154994', 'GM0000032808', 'g02801716', 'FU00017551', 'CM0000013255'],
+        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium', 's20015675', 'ID01030232', 'ID01154994', 'GM0000032808', 'g02801716', 'FU00017551', 'CM0000013255'],
         'supply_mine': ['ID01154994', 'a10015145', 'a10015126', 'a10015120', 'a10015111', 'a10015108', 'ID01002000'],
         'supply_smelt': ['j02870870', 'a12855621', 'ID01137328', 'ID01137352'],
         'inventory': ['overview_global_stock', 'FU00015680', 'a10134435', 'a10083949', 'ID00188319', 'FU00015497', 'FU00015498', 'ID00188286'],
         'demand': ['ID01067717', 'a10015025', 'a10015276', 'a10014968', 'CM0000753806', 'a10015356'],
         'cost': ['ID01241097', 'ID01723352'],
         'kpi': [('shfe', '沪铜主连', '元/吨'), ('lme', 'LME铜', '美元/吨'), ('global_stock', 'LME+SHFE库存', '吨'),
-                ('social_stock', '电解铜社库', '万吨'), ('tc', '铜精矿TC', '美元/吨'), ('import_pnl', '电解铜进口盈亏', '元/吨')],
-        'latest': {'social_stock': 'a10083949', 'tc': 'ID01154994', 'import_pnl': 'ID01030232'},
+                ('social_stock', '电解铜社库', '万吨'), ('tc', '铜精矿TC', '美元/吨'), ('import_pnl', '电解铜进口盈亏', '元/吨'),
+                ('lme03', 'LME 0-3', '美元/吨'), ('domestic', '国内现货升贴水', '元/吨')],
+        'latest': {'social_stock': 'a10083949', 'tc': 'ID01154994', 'import_pnl': 'ID01030232',
+                   'lme03': 'overview_lme03', 'domestic': 'overview_domestic_premium'},
         'demand_key': 'ID01067717', 'output_key': 'j02870870',
         'js_supply': ['铜矿与进口', '冶炼与精炼', '显性库存', '成本与平衡'],
         'js_demand': '铜杆/铜管/电线电缆',
@@ -53,17 +62,21 @@ CONFIG = {
     'PB': {
         'cn': '铅', 'en': 'LEAD', 'out': 'lead-weekly', 'prefix': 'lead',
         'subtitle': '铅精矿TC · 原生/再生铅 · 全球库存 · 铅酸电池 · 成本平衡',
+        'lme_field': 'LME_Pb_cash',
+        'domestic': ('ifind', 'S005068211', '1#铅锭升贴水（华东）', '元/吨'),
         'financial': Path(r'D:/Kimi/金属总网/网站构建/财报汇总/铅/全球铅企季度产量梳理.xlsx'),
         'sheets': [('铅精矿·季度产量', 12), ('精炼铅·季度产量', 10)],
-        'price': ['overview_shfe', 'overview_lme', 'a10127385'],
+        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium', 'a10127385'],
         'supply_mine': ['a10127385', 'a10017055', 'a10021529', 'a10021532', 'a10021534', 'a10021525'],
         'supply_smelt': ['ID01001562', 'a10016988', 'a10017062', 'a10017000', 'a10017037', 'a10017091'],
         'inventory': ['overview_global_stock', 'FU00015325', 'a10134441', 'ID00188315'],
         'demand': ['ID01030005'],
         'cost': ['a10127388', 'ID01245255'],
         'kpi': [('shfe', '沪铅主连', '元/吨'), ('lme', 'LME铅', '美元/吨'), ('global_stock', 'LME+SHFE库存', '吨'),
-                ('social_stock', '铅锭社库', '万吨'), ('tc', '铅精矿TC', '元/金属吨'), ('output', '原生铅产量', '万吨')],
-        'latest': {'social_stock': 'ID00188315', 'tc': 'a10127385', 'output': 'ID01001562'},
+                ('social_stock', '铅锭社库', '万吨'), ('tc', '铅精矿TC', '元/金属吨'), ('output', '原生铅产量', '万吨'),
+                ('lme03', 'LME 0-3', '美元/吨'), ('domestic', '国内现货升贴水', '元/吨')],
+        'latest': {'social_stock': 'ID00188315', 'tc': 'a10127385', 'output': 'ID01001562',
+                   'lme03': 'overview_lme03', 'domestic': 'overview_domestic_premium'},
         'demand_key': 'ID01030005', 'output_key': 'ID01001562',
         'js_supply': ['铅矿与进口', '原生/再生铅', '显性库存', '成本与平衡'],
         'js_demand': '铅酸蓄电池',
@@ -87,6 +100,53 @@ def csv_chart(path, column, name):
                 values.append(float(value))
     return {'labels': labels, 'datasets': [{'label': name, 'data': values, 'borderColor': '#1F4E79',
             'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}
+
+
+def lme03_chart(field, name):
+    labels, values = [], []
+    today = datetime.date.today()
+    for year in (today.year - 1, today.year):
+        url = 'https://www.westmetall.com/en/markdaten.php?action=table&field=%s&year=%d' % (field, year)
+        try:
+            text = subprocess.run(['curl', '-sL', '--max-time', '30', '-H', 'User-Agent: Mozilla/5.0', url],
+                                  capture_output=True, timeout=45, creationflags=NW).stdout.decode('utf-8', 'replace')
+        except Exception:
+            continue
+        for row in re.findall(r'<tr[^>]*>(.*?)</tr>', text, re.S):
+            cells = [re.sub(r'<[^>]+>|\s+', ' ', c).strip() for c in re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)]
+            if len(cells) < 3:
+                continue
+            match = re.match(r'(\d{2})\. (\w+) (\d{4})', cells[0])
+            if not match or match.group(2) not in MONTHS:
+                continue
+            try:
+                basis = float(cells[1].replace(',', '')) - float(cells[2].replace(',', ''))
+            except ValueError:
+                continue
+            day = '%s-%02d-%02d' % (match.group(3), MONTHS[match.group(2)], int(match.group(1)))
+            if day not in dict(zip(labels, values)):
+                labels.append(day); values.append(basis)
+    data = sorted(zip(labels, values))
+    return {'labels': [x[0] for x in data], 'datasets': [{'label': name, 'data': [x[1] for x in data],
+            'borderColor': '#1F4E79', 'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}
+
+
+def ifind_series(code, name, unit):
+    if not IFIND_DB.exists():
+        return None
+    conn = sqlite3.connect(f'file:{IFIND_DB.as_posix()}?mode=ro', uri=True)
+    rows = conn.execute('select date,value from series_points where code=? order by date', (code,)).fetchall()
+    conn.close()
+    points = []
+    for date, value in rows:
+        try:
+            points.append((date, float(value)))
+        except (TypeError, ValueError):
+            continue
+    if not points:
+        return None
+    return {'labels': [r[0] for r in points], 'datasets': [{'label': name, 'data': [r[1] for r in points],
+            'borderColor': '#1F4E79', 'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}, unit
 
 
 def last(chart):
@@ -161,6 +221,7 @@ def make_outlook(metal, q3, q4, latest, demand, output):
 <div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
 <li>Q3沪铜价格变动 %s，矿端TC低位、宏观利率与库存共同定价，铜价对供应扰动和美元变化保持较高敏感度。</li>
 <li>Q4迄今价格变动 %s。当前LME与SHFE合计库存 %s 吨、国内社库 %s 万吨，库存仍是判断近月结构的第一约束。</li>
+<li>结构定位：LME 0-3 %s 美元/吨（%s），国内现货升贴水 %s 元/吨（%s）；期现结构必须与库存方向一致才有效。</li>
 <li>基准判断是“矿端偏紧提供底部支撑，宏观与需求决定上方弹性”。不能把低TC直接等同于精炼铜即时短缺，需等待产量、库存和现货共同验证。</li></ul>
 <div class="lead">二、供应：TC与冶炼利润共同判断</div><ul class="sq">
 <li>铜精矿TC最新 %s 美元/吨（%s），低TC反映矿端议价偏紧，但冶炼厂还受硫酸收益、检修和原料库存影响。</li>
@@ -175,12 +236,14 @@ def make_outlook(metal, q3, q4, latest, demand, output):
 <li>上修条件：TC继续低位＋持续去库＋加工开工改善；下修条件：冶炼恢复＋仓单回升＋终端补库走弱。</li>
 <li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
             shared.pct(q3), shared.pct(q4), shared.fmt(latest['global_stock'][1]), shared.fmt(latest['social_stock'][1]),
+            shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.fmt(latest['domestic'][1]), latest['domestic'][0],
             shared.fmt(latest['tc'][1]), latest['tc'][0], shared.fmt(output[1]) if output else '—', output[0] if output else '—',
             shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—')
     return '''<details class="fold" id="q4outlook"><summary>季度展望：Q3复盘与Q4展望（点击展开/折叠）</summary><div class="foldbody">
 <div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
 <li>Q3沪铅价格变动 %s，原生铅、再生铅和铅精矿TC共同塑造供应弹性，铅酸电池需求决定价格上方空间。</li>
 <li>Q4迄今价格变动 %s。当前LME与SHFE合计库存 %s 吨、国内社库 %s 万吨，库存与再生铅利润是判断近月压力的重要证据。</li>
+<li>结构定位：LME 0-3 %s 美元/吨（%s），国内现货升贴水 %s 元/吨（%s）；期现结构必须与再生供应和库存方向一致才有效。</li>
 <li>基准判断是“矿端与再生成本提供支撑，供应恢复约束趋势高度”。铅不能只看原生矿TC，还需同时跟踪废电瓶和再生产量。</li></ul>
 <div class="lead">二、供应：原生与再生两条线</div><ul class="sq">
 <li>国产铅精矿TC最新 %s 元/金属吨（%s），需结合进口矿、原生铅开工和精炼产量判断矿端松紧。</li>
@@ -195,6 +258,7 @@ def make_outlook(metal, q3, q4, latest, demand, output):
 <li>上修条件：持续去库＋电池开工稳定＋原生/再生供应扰动；下修条件：再生恢复超预期＋仓单回升＋电池开工走弱。</li>
 <li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
         shared.pct(q3), shared.pct(q4), shared.fmt(latest['global_stock'][1]), shared.fmt(latest['social_stock'][1]),
+        shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.fmt(latest['domestic'][1]), latest['domestic'][0],
         shared.fmt(latest['tc'][1]), latest['tc'][0], shared.fmt(output[1]) if output else '—', output[0] if output else '—',
         shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—')
 
@@ -215,6 +279,22 @@ def main(metal):
     cn = cfg['cn']
     charts['overview_shfe'] = csv_chart(SHFE_CSV, metal, '沪%s主连' % cn)
     charts['overview_lme'] = csv_chart(LME_CSV, metal, 'LME%s' % cn)
+    if cfg.get('lme_field'):
+        charts['overview_lme03'] = lme03_chart(cfg['lme_field'], 'LME %s 0-3 升贴水' % cn)
+        source_meta['overview_lme03'] = {'type': 'westmetall', 'formula': 'cash-3M'}
+        names['overview_lme03'] = 'LME %s 0-3 升贴水' % cn
+        units['overview_lme03'] = '美元/吨'
+    domestic_kind, domestic_id, domestic_name, domestic_unit = cfg['domestic']
+    if domestic_kind == 'ifind':
+        domestic_result = ifind_series(domestic_id, domestic_name, domestic_unit)
+        if domestic_result:
+            charts['overview_domestic_premium'], units['overview_domestic_premium'] = domestic_result
+            source_meta['overview_domestic_premium'] = {'type': 'iFinD EDB', 'indicator': domestic_id}
+    else:
+        charts['overview_domestic_premium'] = json.loads(json.dumps(charts[domestic_id]))
+        units['overview_domestic_premium'] = domestic_unit
+        source_meta['overview_domestic_premium'] = {'type': 'zhiji', 'indicator': domestic_id}
+    names['overview_domestic_premium'] = domestic_name
     lme_key = 'a10134435' if metal == 'CU' else 'a10134441'
     shfe_key = 'FU00015680' if metal == 'CU' else 'FU00015325'
     charts['overview_global_stock'] = global_stock(charts[lme_key], charts[shfe_key])
@@ -243,18 +323,26 @@ def main(metal):
     signal = ema(macd, 9)
     price_word = '偏强' if (chg5 or 0) > 0.01 else ('偏弱' if (chg5 or 0) < -0.01 else '震荡')
     stock_word = '累库' if (stock_chg or 0) > 0 else '去库'
+    lme_basis = latest['lme03'][1] or 0
+    domestic_premium = latest['domestic'][1] or 0
+    lme_structure = 'Back' if lme_basis > 0 else ('Contango' if lme_basis < 0 else '持平')
+    domestic_structure = '升水' if domestic_premium > 0 else ('贴水' if domestic_premium < 0 else '持平')
+    structure_word = '结构偏Back' if lme_basis > 0 else ('结构偏Contango' if lme_basis < 0 else '结构中性')
+    structure_desc = 'LME 0-3 %s 美元/吨（%s），国内现货%s %s 元/吨（%s）' % (
+        shared.fmt(latest['lme03'][1]), latest['lme03'][0], domestic_structure,
+        shared.fmt(latest['domestic'][1]), latest['domestic'][0])
     if metal == 'CU':
-        headline = ('本周定调：沪铜%s与LME%s并存 —— 沪铜近5个交易日 %s，LME库存近5个交易日 %s；'
-                    '电解铜社库 %s 万吨（%s），铜精矿TC %s 美元/吨（%s）。'
-                    '近端重点跟踪TC、冶炼利润、加工开工和库存能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-            price_word, stock_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
-            shared.fmt(latest['tc'][1]), latest['tc'][0])
+        headline = ('本周定调：沪铜%s与LME%s并存，%s —— 沪铜近5个交易日 %s，LME库存近5个交易日 %s；'
+                    '电解铜社库 %s 万吨（%s），铜精矿TC %s 美元/吨（%s）；结构：%s。'
+                    '近端重点跟踪价格、结构、库存和供应能否同向验证；⚙️规则摘要，不构成投资建议。') % (
+            price_word, stock_word, structure_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+            shared.fmt(latest['tc'][1]), latest['tc'][0], structure_desc)
     else:
-        headline = ('本周定调：沪铅%s与LME%s并存 —— 沪铅近5个交易日 %s，LME库存近5个交易日 %s；'
-                    '铅锭社库 %s 万吨（%s），国产铅精矿TC %s 元/金属吨（%s）。'
-                    '近端重点跟踪原生/再生供应、铅酸电池开工和库存能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-            price_word, stock_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
-            shared.fmt(latest['tc'][1]), latest['tc'][0])
+        headline = ('本周定调：沪铅%s与LME%s并存，%s —— 沪铅近5个交易日 %s，LME库存近5个交易日 %s；'
+                    '铅锭社库 %s 万吨（%s），国产铅精矿TC %s 元/金属吨（%s）；结构：%s。'
+                    '近端重点跟踪价格、结构、库存和供应能否同向验证；⚙️规则摘要，不构成投资建议。') % (
+            price_word, stock_word, structure_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+            shared.fmt(latest['tc'][1]), latest['tc'][0], structure_desc)
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])}
                for key, name, unit in cfg['kpi']]
     q3 = shared.period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
@@ -282,20 +370,22 @@ def main(metal):
             if metal == 'CU':
                 rows = [
                     ('价格', '沪铜 %s 元/吨（%s）｜LME铜 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),
+                    ('结构', structure_desc, '%s；近月结构以LME 0-3、国内升贴水和库存共同判断' % lme_structure, '重点', 'nt'),
                     ('海外库存', 'LME铜库存 %s 吨（%s）' % (shared.fmt(last(charts[lme_key])[1]), last(charts[lme_key])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
                     ('国内库存', '电解铜社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), '与LME、SHFE仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
                     ('供应·矿端', '铜精矿TC %s 美元/吨（%s）' % (shared.fmt(latest['tc'][1]), latest['tc'][0]), 'TC、冶炼利润与实际产量共同判断矿端传导', '重点', 'nt'),
                     ('需求·加工', '精铜制杆产能利用率 %s%%（%s）' % (shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—'), '铜杆、铜管、铜板带、电线电缆和电网共同验证', '跟踪', 'nt'),
-                    ('策略观察', '价格、库存、TC、进口盈亏交叉验证', '信号未同向前不作单边外推；优先看库存趋势与现货结构是否持续', '观望', 'nt'),
+                    ('策略观察', '价格、结构、库存、TC、进口盈亏交叉验证', '信号未同向前不作单边外推；优先看库存趋势与现货结构是否持续', '观望', 'nt'),
                 ]
             else:
                 rows = [
                     ('价格', '沪铅 %s 元/吨（%s）｜LME铅 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),
+                    ('结构', structure_desc, '%s；近月结构以LME 0-3、国内升贴水和库存共同判断' % lme_structure, '重点', 'nt'),
                     ('海外库存', 'LME铅库存 %s 吨（%s）' % (shared.fmt(last(charts[lme_key])[1]), last(charts[lme_key])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
                     ('国内库存', '铅锭社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), '与LME、SHFE仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
                     ('供应·原生', '原生铅产量 %s 万吨（%s）｜TC %s 元/金属吨' % (shared.fmt(output[1]) if output else '—', output[0] if output else '—', shared.fmt(latest['tc'][1])), '原生、再生和废电瓶共同判断供应弹性', '重点', 'nt'),
                     ('需求·电池', '铅酸蓄电池开工率 %s%%（%s）' % (shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—'), '汽车启动、储能和替换电池共同验证', '跟踪', 'nt'),
-                    ('策略观察', '价格、库存、原生/再生供应交叉验证', '信号未同向前不作单边外推；优先看库存趋势与电池开工是否持续', '观望', 'nt'),
+                    ('策略观察', '价格、结构、库存、原生/再生供应交叉验证', '信号未同向前不作单边外推；优先看库存趋势与现货结构是否持续', '观望', 'nt'),
                 ]
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (

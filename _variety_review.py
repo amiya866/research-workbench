@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """分品种每日点评生成器（2026-10-09 建）
-四段式【价格】【行业新闻】【供需与库存】【观点】× 8 品种（铜铝锌铅镍锡锂硅）
+五段式【价格】【结构】【行业新闻】【供需与库存】【观点】× 8 品种（铜铝锌铅镍锡锂硅）；结构=LME 0-3＋国内现货升贴水
 数据源：知几 guan 日线(SHFE 主力) + westmetall(LME cash/3M) + 金属网数据缓存库(库存/升贴水/TC/开工率/利润)
        + caibao-hub 信息速递 news.json + 供应扰动 disruptions.json + 星球小作文 zsxq_metals.json
        + data/tin_weekly.json + data/nickel_weekly.json（研究周报摘要与全文入口）
@@ -43,6 +43,15 @@ COMMS = [
     ('LC', '锂', ['LC'], None, 'li'),
     ('SI', '硅', ['SI', 'PS'], None, 'si'),
 ]
+IFIND_DB = r'D:\Kimi\ifind_mirror\ifind_mirror.db'
+# 国内现货升贴水同口径源：cache=金属总网缓存，ifind=iFinD EDB
+DOMESTIC_PREMIUM = {
+    'CU': ('cache', 'ID01677008', 'SMM电解铜升贴水'),
+    'ZN': ('cache', 'FU00024317', 'SHFE锌基差'),
+    'AL': ('cache', 'FU00024308', 'SHFE铝基差'),
+    'PB': ('ifind', 'S005068211', '1#铅锭升贴水（华东）'),
+    'NI': ('cache', 's20019092', '1#金川镍升贴水'),
+}
 
 # 供需库存块: (标签, 正则) 按序匹配 series_meta.name, 每组取最新鲜一条
 IND_GROUPS = [
@@ -191,6 +200,97 @@ def block_price(comm):
     para = '；'.join(segs) + '。' if segs else ''
     return ([para] if para else []), stats
 
+
+def latest_cache_series(ind_id):
+    if not os.path.exists(CACHE_DB):
+        return None
+    con = sqlite3.connect(CACHE_DB)
+    meta = con.execute('select name,unit from series_meta where ind_id=?', (ind_id,)).fetchone()
+    rows = con.execute('select date,value from series_points where ind_id=? order by date desc limit 40', (ind_id,)).fetchall()
+    con.close()
+    if not meta or not rows:
+        return None
+    base = None
+    cutoff = (datetime.date.fromisoformat(rows[0][0]) - datetime.timedelta(days=20)).isoformat()
+    try:
+        current = float(rows[0][1])
+    except (TypeError, ValueError):
+        return None
+    for date, value in rows:
+        if date <= cutoff:
+            try:
+                base = float(value)
+            except (TypeError, ValueError):
+                base = None
+            break
+    return dict(name=meta[0], unit=meta[1], date=rows[0][0], value=current, chg=pct(current, base) if base else None)
+
+
+def latest_ifind_series(code):
+    if not os.path.exists(IFIND_DB):
+        return None
+    con = sqlite3.connect(IFIND_DB)
+    meta = con.execute('select name,unit from indicator_registry where code=?', (code,)).fetchone()
+    rows = con.execute('select date,value from series_points where code=? order by date desc limit 40', (code,)).fetchall()
+    con.close()
+    if not meta or not rows:
+        return None
+    base = None
+    cutoff = (datetime.date.fromisoformat(rows[0][0]) - datetime.timedelta(days=20)).isoformat()
+    try:
+        current = float(rows[0][1])
+    except (TypeError, ValueError):
+        return None
+    for date, value in rows:
+        if date <= cutoff:
+            try:
+                base = float(value)
+            except (TypeError, ValueError):
+                base = None
+            break
+    return dict(name=meta[0], unit=meta[1], date=rows[0][0], value=current, chg=pct(current, base) if base else None)
+
+
+def block_structure(comm, stats):
+    code = comm[0]
+    lines = []
+    lme = stats.get('lme')
+    lme_basis = lme.get('basis') if lme else None
+    domestic = None
+    source = DOMESTIC_PREMIUM.get(code)
+    if source:
+        if source[0] == 'ifind':
+            domestic = latest_ifind_series(source[1])
+        else:
+            domestic = latest_cache_series(source[1])
+        if domestic:
+            domestic['name'] = source[2]
+            stats['domestic'] = dict(date=domestic['date'], value=domestic['value'])
+    if lme_basis is not None:
+        lines.append('LME 0-3 %s 美元/吨（%s），现金端%s。' % (
+            format(lme_basis, '+,.0f') if abs(lme_basis) < 1000 else format(lme_basis, '+,.2f'),
+            lme['date'], '偏Back' if lme_basis > 0 else ('偏Contango' if lme_basis < 0 else '持平')))
+    if domestic:
+        lines.append('%s %s %s（%s，20 日 %s）。' % (
+            domestic['name'], format(domestic['value'], '+,.0f'), domestic['unit'] or '元/吨',
+            domestic['date'], fmt_pct(domestic['chg'], 1)))
+    if not lines:
+        return ['缓存库暂无该品种同口径 LME/现货结构序列，结构判断降级为观望。']
+    if lme_basis is not None and domestic:
+        if lme_basis > 0 and domestic['value'] > 0:
+            judge = '内外结构同向偏强，近月支撑优先'
+        elif lme_basis < 0 and domestic['value'] < 0:
+            judge = '内外结构同向偏弱，远月压力优先'
+        else:
+            judge = '内外结构分化，以库存和仓单确认方向'
+    elif lme_basis is not None:
+        judge = '仅有LME结构，结合国内库存验证'
+    else:
+        judge = '仅有国内现货结构，结合海外库存验证'
+    lines.append('结构定性：%s。' % judge)
+    return lines
+
+
 def block_news(comm, news, disr, zsxq, today):
     """【行业新闻】有序编号列表，不带出处标签，保留日期"""
     cn, key = comm[1], comm[4]
@@ -290,10 +390,18 @@ def block_view(comm, stats, fund_lines, override):
     combo = {'上行库存去化': '价涨量缩共振，顺势', '上行库存累积': '涨势与库存背离，谨慎追高',
              '下行库存去化': '回调中库存仍紧，关注承接', '下行库存累积': '弱势共振，回避左侧',
              '震荡库存去化': '区间偏强，等方向', '震荡库存累积': '区间偏弱，等方向'}
-    view = '主力 20 日 %s，处 120 日 %.0f%% 分位（%s）；%s。组合定性：%s（⚙️规则）。' % (
-        fmt_pct(st['chg20']), st['pos'] * 100, pos_w, inv_w or '库存方向无数据',
-        combo.get(trend_w + inv_w, '趋势与库存信号不全，观望'))
-    watch = '短盯：①关键位 %s / %s；②库存与升贴水最新读数；③供应扰动恢复进展；④宏观（FedWatch/美元）。' % (
+    lme = stats.get('lme')
+    domestic = stats.get('domestic')
+    structure_bits = []
+    if lme:
+        structure_bits.append('LME 0-3 %s美元' % format(lme['basis'], '+,.0f'))
+    if domestic:
+        structure_bits.append('国内升贴水 %s元/吨' % format(domestic['value'], '+,.0f'))
+    structure_w = '结构：%s。' % ('、'.join(structure_bits) if structure_bits else '结构数据不足，观望')
+    view = '主力 20 日 %s，处 120 日 %.0f%% 分位（%s）；%s%s。组合定性：%s（⚙️规则）。' % (
+        fmt_pct(st['chg20']), st['pos'] * 100, pos_w, structure_w, inv_w or '库存方向无数据',
+        combo.get(trend_w + inv_w, '趋势、库存与结构信号不全，观望'))
+    watch = '短盯：①关键位 %s / %s；②LME 0-3 与国内现货升贴水；③库存与仓单；④供应扰动恢复进展；⑤宏观（FedWatch/美元）。' % (
         fmt_px(st['lo20']), fmt_px(st['hi20']))
     return [view, watch]
 
@@ -324,7 +432,7 @@ def esc(s):
 def render(today, sections, stamps, tin_weekly=None, nickel_weekly=None):
     h = ['<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
          '<title>分品种点评 %s · 整合研究站</title><style>%s</style></head><body><div class="wrap">' % (today, CSS)]
-    h.append('<div class="hd"><h1>分品种每日点评 · %s</h1><div class="meta">自动生成（四段式：价格/行业新闻/供需与库存/观点）· <a href="../index.html">返回总站</a></div></div>' % today)
+    h.append('<div class="hd"><h1>分品种每日点评 · %s</h1><div class="meta">自动生成（五段式：价格/结构/行业新闻/供需与库存/观点；结构=LME 0-3＋国内升贴水）· <a href="../index.html">返回总站</a></div></div>' % today)
     tw = tin_weekly or {}
     if tw.get('headline'):
         h.append('<div class="comm" style="border-left:3px solid var(--amber)"><h2>研究周报 · 锡 · 数据截至 %s</h2>' % esc(tw.get('asof') or '—'))
@@ -375,12 +483,14 @@ def main():
     sections, stamps = [], set()
     for comm in COMMS:
         price_lines, stats = block_price(comm)
+        structure_lines = block_structure(comm, stats)
         news_lines = block_news(comm, news, disr, zsxq, today)
         fund_lines = block_fundamental(comm[0])
         view_lines = block_view(comm, stats, fund_lines, overrides.get(comm[0]))
         if not price_lines:
             continue
-        sections.append((comm[1], [('价格', price_lines), ('行业新闻', news_lines or ['近 14 天无该品种速递/扰动/小作文条目。']),
+        sections.append((comm[1], [('价格', price_lines), ('结构', structure_lines),
+                                   ('行业新闻', news_lines or ['近 14 天无该品种速递/扰动/小作文条目。']),
                                    ('供需与库存', fund_lines or ['缓存库无该品种指标。']),
                                    ('观点', view_lines)]))
         for s in stats.values():

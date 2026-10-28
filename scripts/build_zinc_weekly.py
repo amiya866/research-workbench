@@ -144,7 +144,8 @@ def main():
     META.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
     latest = {
         'shfe': last(charts['overview_shfe']), 'lme': last(charts['overview_lme']),
-        'lme03': last(charts['a10097491']), 'global_stock': last(charts['overview_global_stock']),
+        'lme03': last(charts['a10097491']), 'domestic': last(charts['FU00024317']),
+        'global_stock': last(charts['overview_global_stock']),
         'social_stock': last(charts['ID00188329']), 'tc': last(charts['ID01320080']),
     }
     asof = max(value[0] for value in latest.values() if value[0])
@@ -159,11 +160,16 @@ def main():
     signal = ema(macd, 9)
     price_word = '偏强' if (chg5 or 0) > 0.01 else ('偏弱' if (chg5 or 0) < -0.01 else '震荡')
     stock_word = '累库' if (stock_chg or 0) > 0 else '去库'
-    headline = ('本周定调：沪锌%s与LME%s并存 —— 沪锌近5个交易日 %s，LME库存近5个交易日 %s；'
-                '锌锭社库 %s 万吨（%s），昆明50%% TC %s 元/吨（%s）。'
-                '近端重点跟踪LME仓单、国内社库、TC与进口盈亏能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-        price_word, stock_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
-        shared.fmt(latest['tc'][1]), latest['tc'][0])
+    lme_structure = 'Back' if (latest['lme03'][1] or 0) > 0 else ('Contango' if (latest['lme03'][1] or 0) < 0 else '持平')
+    domestic_structure = '升水' if (latest['domestic'][1] or 0) > 0 else ('贴水' if (latest['domestic'][1] or 0) < 0 else '持平')
+    structure_desc = 'LME 0-3 %s 美元/吨（%s），SHFE锌基差%s %s 元/吨（%s）' % (
+        shared.fmt(latest['lme03'][1]), latest['lme03'][0], domestic_structure,
+        shared.fmt(latest['domestic'][1]), latest['domestic'][0])
+    headline = ('本周定调：沪锌%s与LME%s并存，结构%s —— 沪锌近5个交易日 %s，LME库存近5个交易日 %s；'
+                '锌锭社库 %s 万吨（%s），昆明50%% TC %s 元/吨（%s）；结构：%s。'
+                '近端重点跟踪价格、结构、LME仓单、国内社库与TC能否同向验证；⚙️规则摘要，不构成投资建议。') % (
+        price_word, stock_word, lme_structure, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+        shared.fmt(latest['tc'][1]), latest['tc'][0], structure_desc)
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])} for key, name, unit in KPI]
     q3 = shared.period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
     q4 = shared.period_return(charts['overview_shfe'], '2026-10-01', asof)
@@ -209,6 +215,7 @@ def main():
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             rows = [
                 ('价格', '沪锌 %s 元/吨（%s）｜LME锌 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),
+                ('结构', structure_desc, '%s；近月结构以LME 0-3、SHFE基差和库存共同判断' % lme_structure, '重点', 'nt'),
                 ('海外库存', 'LME锌库存 %s 吨（%s）' % (shared.fmt(last(charts['a10134450'])[1]), last(charts['a10134450'])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '锌锭社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), '与LME、SHFE仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
                 ('供应·矿端', '昆明50%% TC %s 元/吨（%s）' % (shared.fmt(latest['tc'][1]), latest['tc'][0]), 'TC、进口矿与精炼锌产量共同判断矿端松紧', '重点', 'nt'),

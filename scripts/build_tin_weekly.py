@@ -128,6 +128,7 @@ def main():
     source = UPSTREAM.read_text(encoding='utf-8')
     chart_script = CHART_JS.read_text(encoding='utf-8')
     raw_charts = json.loads(chart_script[chart_script.index('=') + 1:].rstrip().rstrip(';'))
+    raw_charts = {key: value for key, value in raw_charts.items() if key != 'i_shfew.png'}
     charts = shared.seasonalize_charts({key: convert_chart(key, value) for key, value in raw_charts.items()})
     names = {key: value.get('title', key) for key, value in raw_charts.items()}
     shared.NAMES = names
