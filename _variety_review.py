@@ -275,7 +275,7 @@ def block_structure(comm, stats):
             domestic['name'], format(domestic['value'], '+,.0f'), domestic['unit'] or '元/吨',
             domestic['date'], fmt_pct(domestic['chg'], 1)))
     if not lines:
-        return ['缓存库暂无该品种同口径 LME/现货结构序列，结构判断降级为观望。']
+        lines.append('缓存库暂无该品种同口径 LME/现货结构序列。')
     if lme_basis is not None and domestic:
         if lme_basis > 0 and domestic['value'] > 0:
             judge = '内外结构同向偏强，近月支撑优先'
@@ -285,8 +285,10 @@ def block_structure(comm, stats):
             judge = '内外结构分化，以库存和仓单确认方向'
     elif lme_basis is not None:
         judge = '仅有LME结构，结合国内库存验证'
-    else:
+    elif domestic:
         judge = '仅有国内现货结构，结合海外库存验证'
+    else:
+        judge = '结构数据不足，观望'
     lines.append('结构定性：%s。' % judge)
     return lines
 
