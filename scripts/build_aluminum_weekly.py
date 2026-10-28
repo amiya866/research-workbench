@@ -23,7 +23,7 @@ META = BASE / 'data' / 'aluminum_weekly_freshness.json'
 
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格、结构与氧化铝', '宏观与策略', ['overview_shfe', 'overview_lme', 'overview_lme03', 'FU00024308', 'ID00188139']),
+    ('price', '价格与结构', '宏观与策略', ['overview_shfe', 'overview_lme', 'overview_lme03', 'FU00024308', 'ID00188139']),
     ('supply_mine', '铝土矿与氧化铝', '重点关注/供给', ['a10016324', 'a10016284', 'a10016292', 'a10016300', 'a10015944', 'a10167792', 'ID01001945', 'a10031611']),
     ('supply_smelt', '电解铝', '重点关注/供给', ['a10124317', 'ID01001838', 'ID01001837', 'a10016193', 'ID01001759', 'ID01131701']),
     ('inventory', '显性库存', '重点关注/供给', ['overview_global_stock', 'ID00188281', 'a10134438', 'a10166772', 'ID00188307', 'ID00188313']),
@@ -220,6 +220,35 @@ def main():
         shared.fmt(output[1]) if output else '—', output[0] if output else '—',
         shared.fmt(downstream[1]) if downstream else '—', downstream[0] if downstream else '—')
     q4_html = shared.quarterly_html(OUT / 'index.html', q4_html)
+
+    def _sign(x):
+        return 1 if (x or 0) > 0 else (-1 if (x or 0) < 0 else 0)
+    global20 = shared.change(charts['overview_global_stock'], 20)
+    social20 = shared.change(charts['a10166772'], 20)
+    output_chg = shared.change(charts['a10124317'], 20)
+    downstream_chg = shared.change(charts['a10031808'], 20)
+    lme_s = _sign(latest['lme03'][1]); dom_s = _sign(latest['domestic'][1])
+    if lme_s and dom_s and lme_s == dom_s:
+        structure_score = lme_s * 2; structure_judge = '内外结构同向支撑（方向较明确）' if structure_score > 0 else '内外结构同向偏弱（方向较明确）'
+    elif lme_s or dom_s:
+        structure_score = lme_s or dom_s; structure_judge = '单边结构成立，仍需另一边确认'
+    else:
+        structure_score = 0; structure_judge = '结构数据不足，跟踪'
+    if global20 is not None and social20 is not None and _sign(global20) == _sign(social20):
+        inventory_score = -_sign(global20); inventory_judge = '内外库存同向去化，近月有支撑' if inventory_score > 0 else '内外库存同向累积，近月承压'
+    else:
+        inventory_score = 0; inventory_judge = '库存信号分化，跟踪'
+    supply_score = -_sign(output_chg)
+    supply_judge = '电解铝产量回落，供应端有支撑' if supply_score > 0 else ('电解铝产量恢复，供应端施压' if supply_score < 0 else '产量变化不显著，跟踪复产')
+    demand_score = 1 if (downstream_chg or 0) > 0.02 else (-1 if (downstream_chg or 0) < -0.02 else 0)
+    demand_judge = '铝加工开工改善，偏多证据' if demand_score > 0 else ('铝加工开工走弱，偏空证据' if demand_score < 0 else '需求变化不足，跟踪')
+    marginal_html = shared.marginal_block([
+        ('价格', '近5个交易日 %s' % shared.pct(chg5), '价格上行，偏多证据' if chg5 > 0 else ('价格下行，偏空证据' if chg5 < 0 else '价格震荡，等待方向'), _sign(chg5)),
+        ('结构', structure_desc, structure_judge, structure_score),
+        ('库存', '全球显性库存20日 %s，社库20日 %s' % (shared.pct(global20), shared.pct(social20)), inventory_judge, inventory_score),
+        ('供应', '电解铝产量近20日 %s，电解铝利润 %s 元/吨' % (shared.pct(output_chg), shared.fmt(latest['tc'][1])), supply_judge, supply_score),
+        ('需求', '铝型材龙头开工率近20日 %s' % shared.pct(downstream_chg), demand_judge, demand_score),
+    ])
     charts = shared.seasonalize_charts(charts)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)
@@ -249,7 +278,9 @@ def main():
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (
                     shared.esc(label), shared.esc(datum), shared.esc(conclusion), cls, shared.esc(status)))
-            parts.append('</table></div><footer>数据更新至 %s ｜ 铝研究周报 ｜ ⚙️自动构建，仅供研究参考。</footer>' % shared.esc(asof))
+            parts.append('</table></div>')
+            parts.append(marginal_html)
+            parts.append('<footer>数据更新至 %s ｜ 铝研究周报 ｜ ⚙️自动构建，仅供研究参考。</footer>' % shared.esc(asof))
         elif sid == 'framework':
             parts.append('''<details class="fold" id="framework" open><summary>铝产业研究框架（三条线）</summary><div class="foldbody"><div class="lead">矿端线：铝土矿 → 氧化铝 → 电解铝</div><p>跟踪几内亚等进口矿、氧化铝产量与运行产能、电解铝产量和产能利用率，区分三层供应。</p><div class="lead">锭端线：电解铝 → LME/SHFE/社库 → 基差与月差</div><p>跟踪全球仓单、国内社库、SHFE基差与进出口，区分近月结构与单边方向。</p><div class="lead">需求线：铝型材/板带 → 地产、家电、汽车与出口</div><p>跟踪铝型材和板带开工、地产竣工、空调和铝材出口，避免只用价格反推需求。</p><p><a href="https://amiya866.github.io/metals-framework/">打开金属研究框架 ↗</a> · <a href="https://amiya866.github.io/caibao-hub/">打开铝企财报 ↗</a></p></div></details>''')
         elif sid == 'cost':

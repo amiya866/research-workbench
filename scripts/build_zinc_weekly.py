@@ -23,7 +23,7 @@ META = BASE / 'data' / 'zinc_weekly_freshness.json'
 
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格、升贴水与进口盈亏', '宏观与策略', ['overview_shfe', 'overview_lme', 'ID02038785', 'a10097491', 'FU00024317', 'ID01030236']),
+    ('price', '价格与结构', '宏观与策略', ['overview_shfe', 'overview_lme', 'ID02038785', 'a10097491', 'FU00024317', 'ID01030236']),
     ('supply_mine', '锌矿与进口', '重点关注/供给', ['ID01320080', 'ID01320188', 'ID00188330', 'a10001843', 'a10020591', 'a10020592', 'a10020599', 'a10020600']),
     ('supply_smelt', '精炼锌', '重点关注/供给', ['ID01510883', 'a10018029', 'a10018062']),
     ('inventory', '显性库存', '重点关注/供给', ['overview_global_stock', 'FU00016165', 'ID00188293', 'a10134450', 'ID00188329']),
@@ -196,6 +196,36 @@ def main():
         shared.fmt(latest['tc'][1]), latest['tc'][0], shared.fmt(refined[1]) if refined else '—', refined[0] if refined else '—',
         shared.fmt(galv[1]) if galv else '—', galv[0] if galv else '—')
     q4_html = shared.quarterly_html(OUT / 'index.html', q4_html)
+
+    def _sign(x):
+        return 1 if (x or 0) > 0 else (-1 if (x or 0) < 0 else 0)
+    global20 = shared.change(charts['overview_global_stock'], 20)
+    social20 = shared.change(charts['ID00188329'], 20)
+    tc_chg = shared.change(charts['ID01320080'], 5)
+    refined_chg = shared.change(charts['ID01510883'], 20)
+    galv_chg = shared.change(charts['ID00187499'], 20)
+    lme_s = _sign(latest['lme03'][1]); dom_s = _sign(latest['domestic'][1])
+    if lme_s and dom_s and lme_s == dom_s:
+        structure_score = lme_s * 2; structure_judge = '内外结构同向支撑（方向较明确）' if structure_score > 0 else '内外结构同向偏弱（方向较明确）'
+    elif lme_s or dom_s:
+        structure_score = lme_s or dom_s; structure_judge = '单边结构成立，仍需另一边确认'
+    else:
+        structure_score = 0; structure_judge = '结构数据不足，跟踪'
+    if global20 is not None and social20 is not None and _sign(global20) == _sign(social20):
+        inventory_score = -_sign(global20); inventory_judge = '内外库存同向去化，近月有支撑' if inventory_score > 0 else '内外库存同向累积，近月承压'
+    else:
+        inventory_score = 0; inventory_judge = '库存信号分化，跟踪'
+    supply_score = 1 if latest['tc'][1] < 0 and (tc_chg or 0) < 0 else (-1 if (tc_chg or 0) > 0.1 else 0)
+    supply_judge = 'TC为负且继续恶化，矿锭偏紧（方向明确）' if supply_score > 0 else ('TC低位回升，供应边际转松' if supply_score < 0 else '矿端仍紧但边际未继续恶化，跟踪')
+    demand_score = 1 if (galv_chg or 0) > 0.02 else (-1 if (galv_chg or 0) < -0.02 else 0)
+    demand_judge = '镀锌需求改善，偏多证据' if demand_score > 0 else ('镀锌需求走弱，偏空证据' if demand_score < 0 else '需求变化不足，跟踪')
+    marginal_html = shared.marginal_block([
+        ('价格', '近5个交易日 %s' % shared.pct(chg5), '价格上行，偏多证据' if chg5 > 0 else ('价格下行，偏空证据' if chg5 < 0 else '价格震荡，等待方向'), _sign(chg5)),
+        ('结构', structure_desc, structure_judge, structure_score),
+        ('库存', '全球显性库存20日 %s，社库20日 %s' % (shared.pct(global20), shared.pct(social20)), inventory_judge, inventory_score),
+        ('供应', '昆明TC %s 元/吨（近5日 %s），精炼锌近20日 %s' % (shared.fmt(latest['tc'][1]), shared.pct(tc_chg), shared.pct(refined_chg)), supply_judge, supply_score),
+        ('需求', '镀锌板卷近20日 %s' % shared.pct(galv_chg), demand_judge, demand_score),
+    ])
     charts = shared.seasonalize_charts(charts)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)
@@ -225,7 +255,9 @@ def main():
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (
                     shared.esc(label), shared.esc(datum), shared.esc(conclusion), cls, shared.esc(status)))
-            parts.append('</table></div><footer>数据更新至 %s ｜ 锌研究周报 ｜ ⚙️自动构建，仅供研究参考。</footer>' % shared.esc(asof))
+            parts.append('</table></div>')
+            parts.append(marginal_html)
+            parts.append('<footer>数据更新至 %s ｜ 锌研究周报 ｜ ⚙️自动构建，仅供研究参考。</footer>' % shared.esc(asof))
         elif sid == 'framework':
             parts.append('''<details class="fold" id="framework" open><summary>锌产业研究框架（三条线）</summary><div class="foldbody"><div class="lead">矿端线：锌精矿 → TC/进口 → 冶炼</div><p>跟踪国产与进口TC、港口矿库存、进口矿来源和精炼锌产量，判断矿端议价与冶炼开工。</p><div class="lead">锭端线：精炼锌 → LME/SHFE/社库 → 现货升贴水与月差</div><p>跟踪全球仓单、国内社库、0#锌升贴水、LME 0-3和进口盈亏，区分近月结构与单边方向。</p><div class="lead">需求线：镀锌/压铸/氧化锌 → 地产、汽车、家电与出口</div><p>跟踪镀锌板卷、压铸锌合金、氧化锌开工、地产与出口，避免只用价格反推需求。</p><p><a href="https://amiya866.github.io/metals-framework/">打开金属研究框架 ↗</a> · <a href="https://amiya866.github.io/caibao-hub/">打开锌企财报 ↗</a></p></div></details>''')
         elif sid == 'cost':

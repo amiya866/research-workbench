@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T15:45:37+08:00",
+  "built_at": "2026-10-28T16:14:45+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -73,7 +73,7 @@
     {
       "key": "FU00024308",
       "name": "SHFE 铝基差",
-      "module": "价格、结构与氧化铝",
+      "module": "价格与结构",
       "source": "zhiji FU00024308",
       "frequency": "日度",
       "unit": "元/吨",
@@ -88,7 +88,7 @@
     {
       "key": "ID00188139",
       "name": "氧化铝汇总价格（中国）",
-      "module": "价格、结构与氧化铝",
+      "module": "价格与结构",
       "source": "zhiji ID00188139",
       "frequency": "日度",
       "unit": "元/吨",
@@ -103,7 +103,7 @@
     {
       "key": "overview_lme",
       "name": "LME铝",
-      "module": "价格、结构与氧化铝",
+      "module": "价格与结构",
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",
@@ -118,7 +118,7 @@
     {
       "key": "overview_lme03",
       "name": "LME铝 0-3 升贴水",
-      "module": "价格、结构与氧化铝",
+      "module": "价格与结构",
       "source": "衍生计算：westmetall cash-3M",
       "frequency": "日度",
       "unit": "—",

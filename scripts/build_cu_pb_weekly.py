@@ -25,7 +25,7 @@ MONTHS = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June':
 
 COMMON_SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格、升贴水与进口盈亏', '宏观与策略', []),
+    ('price', '价格与结构', '宏观与策略', []),
     ('supply_mine', '矿端与进口', '重点关注/供给', []),
     ('supply_smelt', '冶炼与精炼', '重点关注/供给', []),
     ('inventory', '显性库存', '重点关注/供给', []),
@@ -263,6 +263,76 @@ def make_outlook(metal, q3, q4, latest, demand, output):
         shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—')
 
 
+def sign(value):
+    return 1 if (value or 0) > 0 else (-1 if (value or 0) < 0 else 0)
+
+
+def marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output):
+    price_score = sign(chg5)
+    price_judge = '价格上行，偏多证据' if price_score > 0 else ('价格下行，偏空证据' if price_score < 0 else '价格震荡，等待方向')
+    lme_score = sign(latest['lme03'][1])
+    domestic_score = sign(latest['domestic'][1])
+    if lme_score and domestic_score and lme_score == domestic_score:
+        structure_score = lme_score * 2
+        structure_judge = '内外结构同向支撑（方向较明确）' if structure_score > 0 else '内外结构同向偏弱（方向较明确）'
+    elif lme_score or domestic_score:
+        structure_score = lme_score or domestic_score
+        structure_judge = '单边结构改善，仍需另一边确认' if structure_score > 0 else '单边结构转弱，仍需另一边确认'
+    else:
+        structure_score = 0
+        structure_judge = '结构数据不足，跟踪'
+    global_chg = shared.change(charts['overview_global_stock'], 20)
+    social_key = 'a10083949' if metal == 'CU' else 'ID00188315'
+    social_chg = shared.change(charts[social_key], 20)
+    if global_chg is not None and social_chg is not None and sign(global_chg) == sign(social_chg):
+        inventory_score = -sign(global_chg)
+        inventory_judge = '内外库存同向去化，近月有支撑' if inventory_score > 0 else '内外库存同向累积，近月承压'
+    elif global_chg is not None or social_chg is not None:
+        inventory_score = -sign(global_chg if global_chg is not None else social_chg)
+        inventory_judge = '单边库存方向成立，仍需另一边确认' if inventory_score > 0 else '单边库存方向偏弱，仍需另一边确认'
+    else:
+        inventory_score = 0
+        inventory_judge = '库存变化不可得，跟踪'
+    if metal == 'CU':
+        tc_chg = shared.change(charts['ID01154994'], 5)
+        profit_chg = shared.change(charts['j02870870'], 20)
+        supply_evidence = '铜精矿TC %s 美元/吨（近5日 %s），冶炼现货利润近20日 %s' % (
+            shared.fmt(latest['tc'][1]), shared.pct(tc_chg), shared.pct(profit_chg))
+        if latest['tc'][1] < -50 and (tc_chg or 0) < 0:
+            supply_score, supply_judge = 1, 'TC低位且继续恶化，矿端偏紧（方向明确）'
+        elif (tc_chg or 0) > 0.1:
+            supply_score, supply_judge = -1, 'TC低位回升，矿端边际转松'
+        else:
+            supply_score, supply_judge = 0, '矿端仍紧但边际未继续恶化，跟踪'
+    else:
+        output_chg = shared.change(charts['ID01001562'], 20)
+        supply_evidence = '原生铅产量 %s 万吨（%s，近月变动 %s）' % (
+            shared.fmt(output[1]) if output else '—', output[0] if output else '—', shared.pct(output_chg))
+        if (output_chg or 0) < -0.02:
+            supply_score, supply_judge = 1, '原生供应收缩，供给端有支撑'
+        elif (output_chg or 0) > 0.02:
+            supply_score, supply_judge = -1, '原生供应恢复，供给端施压'
+        else:
+            supply_score, supply_judge = 0, '原生供应变化不显著，跟踪再生线'
+    demand_chg = shared.change(charts['ID01067717' if metal == 'CU' else 'ID01030005'], 20)
+    demand_evidence = '%s %s（20日变动 %s）' % (
+        '精铜制杆产能利用率' if metal == 'CU' else '铅酸蓄电池开工率',
+        shared.fmt(demand[1]) if demand else '—', shared.pct(demand_chg))
+    if (demand_chg or 0) > 0.02:
+        demand_score, demand_judge = 1, '需求读数改善，偏多证据'
+    elif (demand_chg or 0) < -0.02:
+        demand_score, demand_judge = -1, '需求读数走弱，偏空证据'
+    else:
+        demand_score, demand_judge = 0, '需求变化不足，跟踪'
+    return [
+        ('价格', '近5个交易日 %s' % shared.pct(chg5), price_judge, price_score),
+        ('结构', structure_desc, structure_judge, structure_score),
+        ('库存', '全球显性库存20日 %s，国内社库20日 %s' % (shared.pct(global_chg), shared.pct(social_chg)), inventory_judge, inventory_score),
+        ('供应', supply_evidence, supply_judge, supply_score),
+        ('需求', demand_evidence, demand_judge, demand_score),
+    ]
+
+
 def main(metal):
     cfg = CONFIG[metal]
     out = BASE / cfg['out']
@@ -350,6 +420,7 @@ def main(metal):
     demand = shared.last_point(charts[cfg['demand_key']])
     output = shared.last_point(charts[cfg['output_key']])
     q4_html = shared.quarterly_html(out / 'index.html', make_outlook(metal, q3, q4, latest, demand, output))
+    marginal_html = shared.marginal_block(marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output))
     charts = shared.seasonalize_charts(charts)
     out.mkdir(parents=True, exist_ok=True)
     (out / 'lib').mkdir(exist_ok=True)
@@ -390,7 +461,9 @@ def main(metal):
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (
                     shared.esc(label), shared.esc(datum), shared.esc(conclusion), cls, shared.esc(status)))
-            parts.append('</table></div><footer>数据更新至 %s ｜ %s研究周报 ｜ ⚙️自动构建，仅供研究参考。</footer>' % (shared.esc(asof), cn))
+            parts.append('</table></div>')
+            parts.append(marginal_html)
+            parts.append('<footer>数据更新至 %s ｜ %s研究周报 ｜ ⚙️自动构建，仅供研究参考。</footer>' % (shared.esc(asof), cn))
         elif sid == 'framework':
             if metal == 'CU':
                 text = '矿端线：铜精矿 → TC/进口 → 冶炼与硫酸收益|锭端线：精炼铜 → LME/SHFE/社库 → 升贴水与进口盈亏|需求线：铜杆/铜管/铜板带 → 电线电缆、电网、家电与新能源'

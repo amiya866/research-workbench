@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T15:45:36+08:00",
+  "built_at": "2026-10-28T16:14:44+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -43,7 +43,7 @@
     {
       "key": "FU00024317",
       "name": "SHFE 锌基差",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji FU00024317",
       "frequency": "日度",
       "unit": "元/吨",
@@ -58,7 +58,7 @@
     {
       "key": "ID01030236",
       "name": "锌锭进口盈亏（含税）",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji ID01030236",
       "frequency": "日度",
       "unit": "元/吨",
@@ -73,7 +73,7 @@
     {
       "key": "ID02038785",
       "name": "0#锌锭升贴水（上海）",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji ID02038785",
       "frequency": "日度",
       "unit": "元/吨",
@@ -88,7 +88,7 @@
     {
       "key": "a10097491",
       "name": "LME 锌 0-3 升贴水",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji a10097491",
       "frequency": "日度",
       "unit": "美元/吨",
@@ -103,7 +103,7 @@
     {
       "key": "overview_lme",
       "name": "LME锌",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",

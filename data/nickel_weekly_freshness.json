@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T15:45:36+08:00",
+  "built_at": "2026-10-28T16:14:44+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -193,7 +193,7 @@
     {
       "key": "lme_curve",
       "name": "伦镍月间结构",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji FU00014810/a10018357/j02797786/j02797787",
       "frequency": "标签型",
       "unit": "美元/吨",
@@ -208,7 +208,7 @@
     {
       "key": "ni_curve",
       "name": "沪镍月间结构",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "新浪期货逐合约日K",
       "frequency": "标签型",
       "unit": "元/吨",
@@ -223,7 +223,7 @@
     {
       "key": "ss_curve",
       "name": "不锈钢月间结构",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "新浪期货逐合约日K",
       "frequency": "标签型",
       "unit": "元/吨",
@@ -343,7 +343,7 @@
     {
       "key": "import_profit",
       "name": "精炼镍进口盈亏",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "Mysteel镜像 —",
       "frequency": "日度",
       "unit": "元/吨",
@@ -358,7 +358,7 @@
     {
       "key": "lme03",
       "name": "LME镍0-3升贴水",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji a10018357",
       "frequency": "日度",
       "unit": "美元/吨",
@@ -373,7 +373,7 @@
     {
       "key": "npi_price",
       "name": "镍铁价格",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji ID00188192",
       "frequency": "月度/季节图",
       "unit": "元/镍点",
@@ -388,7 +388,7 @@
     {
       "key": "overview_lme",
       "name": "LME镍3M",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji FU00014810",
       "frequency": "日度",
       "unit": "美元/吨",
@@ -403,7 +403,7 @@
     {
       "key": "overview_shfe",
       "name": "沪镍主连",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "知几行情 NI",
       "frequency": "日度",
       "unit": "元/吨",
@@ -418,7 +418,7 @@
     {
       "key": "overview_ss",
       "name": "不锈钢主连",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "知几行情 SS",
       "frequency": "日度",
       "unit": "元/吨",
@@ -433,7 +433,7 @@
     {
       "key": "premium",
       "name": "不同镍产品折镍价",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji ID00302596/s20019092/ID00302595",
       "frequency": "日度",
       "unit": "元/吨",
@@ -448,7 +448,7 @@
     {
       "key": "premium_bean",
       "name": "镍豆升贴水",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji ID00302595",
       "frequency": "日度",
       "unit": "元/吨",
@@ -463,7 +463,7 @@
     {
       "key": "premium_jinchuan",
       "name": "金川镍升贴水",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji s20019092",
       "frequency": "日度",
       "unit": "元/吨",
@@ -478,7 +478,7 @@
     {
       "key": "premium_russia",
       "name": "俄镍升贴水",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "zhiji ID00302596",
       "frequency": "日度",
       "unit": "元/吨",
@@ -493,7 +493,7 @@
     {
       "key": "ratio_ni_copper",
       "name": "镍/铜比价",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "衍生计算：SHFE NI / SHFE CU",
       "frequency": "日度",
       "unit": "比值",
@@ -508,7 +508,7 @@
     {
       "key": "ratio_ni_ss",
       "name": "镍/不锈钢比价",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "衍生计算：SHFE NI / SHFE SS",
       "frequency": "日度",
       "unit": "比值",
@@ -523,7 +523,7 @@
     {
       "key": "ratio_npi_refined",
       "name": "镍铁/纯镍比价",
-      "module": "价格、升贴水与结构",
+      "module": "价格与结构",
       "source": "衍生计算：Mysteel江苏NPI元/镍点*100 / SHFE NI",
       "frequency": "日度",
       "unit": "比值",

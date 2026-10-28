@@ -16,7 +16,7 @@ const NAV = [
     group('供给', [page('supply_mine', CFG.supply[0]), page('supply_smelt', CFG.supply[1]), page('inventory', CFG.supply[2]), page('cost', CFG.supply[3])], true),
     group('需求', [page('demand', CFG.demand)], true)
   ], true),
-  group('宏观与策略', [page('price', '价格、升贴水与进口盈亏')]),
+  group('宏观与策略', [page('price', '价格与结构')]),
   page('technical', '技术分析'),
   group('研究工作台', [
     {type: 'tool', id: 'caibao', label: `${CFG.cn}企财报`},

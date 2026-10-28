@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T15:45:49+08:00",
+  "built_at": "2026-10-28T16:14:58+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -43,7 +43,7 @@
     {
       "key": "overview_domestic_premium",
       "name": "1#铅锭升贴水（华东）",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "iFinD EDB S005068211",
       "frequency": "日度",
       "unit": "—",
@@ -58,7 +58,7 @@
     {
       "key": "overview_lme",
       "name": "LME铅",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",
@@ -73,7 +73,7 @@
     {
       "key": "overview_lme03",
       "name": "LME 铅 0-3 升贴水",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "westmetall cash-3M",
       "frequency": "日度",
       "unit": "—",

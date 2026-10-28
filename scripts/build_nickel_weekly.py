@@ -18,7 +18,7 @@ END = '<!-- NICKEL_WEEKLY_CARD_END -->'
 
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格、升贴水与结构', '宏观与策略', ['overview_shfe', 'overview_ss', 'overview_lme', 'premium', 'ratio_ni_ss', 'lme03', 'import_profit', 'npi_price', 'ni_curve', 'ss_curve', 'lme_curve', 'ratio_ni_copper', 'ratio_npi_refined', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
+    ('price', '价格与结构', '宏观与策略', ['overview_shfe', 'overview_ss', 'overview_lme', 'premium', 'ratio_ni_ss', 'lme03', 'import_profit', 'npi_price', 'ni_curve', 'ss_curve', 'lme_curve', 'ratio_ni_copper', 'ratio_npi_refined', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
     ('supply', '纯镍与印尼供应', '重点关注/供给', ['supply_refined_cn', 'supply_refined_id', 'supply_npi_cn', 'supply_npi_id', 'supply_npi_stock', 'supply_nickel_sulfate', 'supply_sulfate_rate', 'supply_matte', 'supply_mhp', 'overview_trade_net']),
     ('demand', '不锈钢与新能源需求', '重点关注/需求', ['demand_ss_cn', 'demand_ss_id', 'demand_battery_ternary', 'demand_battery_lfp', 'demand_install_ternary', 'demand_install_lfp', 'demand_ss_import', 'demand_ss_export']),
     ('inventory', '库存与仓单', '重点关注/供给', ['overview_global_stock', 'inventory_shfe', 'inventory_lme', 'inventory_social', 'inventory_plate', 'inventory_bean', 'inventory_ss300', 'inventory_ss_cold', 'inventory_ss_hot', 'lme_region']),
@@ -158,6 +158,29 @@ def seasonalize_charts(charts):
                                      borderColor=color, backgroundColor=color))
         converted[key] = dict(chart, labels=month_days, datasets=datasets, _seasonal=True)
     return converted
+
+
+def marginal_block(items):
+    """items=(标签, 证据, 判断, 分数)；输出“相关边际”，证据同向才给明确方向。"""
+    bull = sum(1 for item in items if (item[3] or 0) > 0)
+    bear = sum(1 for item in items if (item[3] or 0) < 0)
+    net = sum(item[3] or 0 for item in items)
+    if bull >= 3 and bull - bear >= 2:
+        direction = '基准方向：偏多（价格、结构、库存/供需中多项同向，方向相对明确）'
+    elif bear >= 3 and bear - bull >= 2:
+        direction = '基准方向：偏空（价格、结构、库存/供需中多项同向，方向相对明确）'
+    elif net > 0 and bull > bear:
+        direction = '基准方向：偏多但证据不够齐，作为偏强观察而非单边确认'
+    elif net < 0 and bear > bull:
+        direction = '基准方向：偏空但证据不够齐，作为偏弱观察而非单边确认'
+    else:
+        direction = '基准方向：震荡/分化，暂不作单边外推，继续跟踪'
+    parts = ['<div class="lead">相关边际</div><ul class="sq">']
+    for label, evidence, judgment, _score in items:
+        parts.append('<li><b>%s</b>：%s → %s</li>' % (esc(label), esc(evidence), esc(judgment)))
+    parts.append('<li><b>%s</b>；⚙️规则摘要，不构成投资建议。</li>' % esc(direction))
+    parts.append('</ul>')
+    return ''.join(parts)
 
 
 FRESHNESS_FILE = BASE / 'data' / 'nickel_weekly_freshness.json'
@@ -407,6 +430,38 @@ def main():
         fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—',
         fmt(lfp[1]) if lfp else '—', lfp[0] if lfp else '—')
     q4_html = quarterly_html(OUT / 'index.html', q4_html)
+
+    def _sign(x):
+        return 1 if (x or 0) > 0 else (-1 if (x or 0) < 0 else 0)
+    global20 = change(charts['overview_global_stock'], 20)
+    social20 = change(charts['inventory_social'], 20)
+    npi_chg = change(charts['supply_npi_id'], 20)
+    refined_chg = change(charts['supply_refined_cn'], 20)
+    ss_chg = change(charts['demand_ss_cn'], 20)
+    lme_s = _sign(lme03[1] if lme03 else 0); dom_s = _sign(jinchuan[1] if jinchuan else 0)
+    if lme_s and dom_s and lme_s == dom_s:
+        structure_score = lme_s * 2; structure_judge = '内外结构同向支撑（方向较明确）' if structure_score > 0 else '内外结构同向偏弱（方向较明确）'
+    elif lme_s or dom_s:
+        structure_score = lme_s or dom_s; structure_judge = '单边结构成立，仍需另一边确认'
+    else:
+        structure_score = 0; structure_judge = '结构数据不足，跟踪'
+    if global20 is not None and social20 is not None and _sign(global20) == _sign(social20):
+        inventory_score = -_sign(global20); inventory_judge = '内外库存同向去化，近月有支撑' if inventory_score > 0 else '内外库存同向累积，近月承压'
+    else:
+        inventory_score = 0; inventory_judge = '库存信号分化，跟踪'
+    if npi_chg is not None and refined_chg is not None and _sign(npi_chg) == _sign(refined_chg):
+        supply_score = -_sign(npi_chg); supply_judge = '印尼与国内供应同向收缩，供应端有支撑' if supply_score > 0 else '印尼与国内供应同向增加，供应端施压'
+    else:
+        supply_score = 0; supply_judge = '供应线信号分化，跟踪印尼兑现'
+    demand_score = 1 if (ss_chg or 0) > 0.02 else (-1 if (ss_chg or 0) < -0.02 else 0)
+    demand_judge = '300系排产改善，需求端有支撑' if demand_score > 0 else ('300系排产走弱，需求端承压' if demand_score < 0 else '需求变化不足，跟踪')
+    marginal_html = marginal_block([
+        ('价格', '沪镍近5个交易日 %s' % pct(shfe_chg), '价格上行，偏多证据' if (shfe_chg or 0) > 0 else ('价格下行，偏空证据' if (shfe_chg or 0) < 0 else '价格震荡，等待方向'), _sign(shfe_chg)),
+        ('结构', structure_desc, structure_judge, structure_score),
+        ('库存', '全球显性库存20日 %s，镍社库20日 %s' % (pct(global20), pct(social20)), inventory_judge, inventory_score),
+        ('供应', '印尼NPI近20日 %s，中国精炼镍近20日 %s' % (pct(npi_chg), pct(refined_chg)), supply_judge, supply_score),
+        ('需求', '中国300系不锈钢近20日 %s' % pct(ss_chg), demand_judge, demand_score),
+    ])
     meta = {'title': '研究周报 · 镍与不锈钢', 'asof': asof, 'headline': headline, 'metrics': metrics,
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',
@@ -449,6 +504,7 @@ def main():
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (
                     esc(label), esc(datum), esc(conclusion), cls, esc(status)))
             parts.append('</table></div>')
+            parts.append(marginal_html)
         if sid == 'framework':
             parts.append('''<details class="fold" id="framework" open><summary>镍与不锈钢产业研究框架（三条产品线）</summary><div class="foldbody"><div class="lead">不锈钢线：红土镍矿 → NPI/镍铁 → 300系不锈钢</div><p>镍需求基本盘。跟踪印尼NPI、钢厂排产、镍铁利润与300系库存，避免把镍价与不锈钢需求简单一一对应。</p><div class="lead">新能源线：HPAL/RKEF → MHP/高冰镍 → 硫酸镍 → 三元电池</div><p>重点看印尼中间品投产、折扣系数和三元相对磷酸铁锂的份额。</p><div class="lead">精炼镍线：硫化矿/镍锍 → 一级镍 → 电镀/合金/特钢</div><p>重点看纯镍产量、进口盈亏、LME/SHFE仓单与镍板库存。</p><p><a href="https://amiya866.github.io/nickel-panel/framework.html">打开原13模块研究框架 ↗</a> · <a href="https://amiya866.github.io/nickel-panel/sources.html">68个图表槽位溯源 ↗</a></p></div></details>''')
         if sid == 'balance':

@@ -15,7 +15,7 @@ const NAV = [
     group('供给', [page('supply', '纯镍与印尼供应'), page('inventory', '库存与仓单'), page('cost', '成本与利润')], true),
     group('需求', [page('demand', '不锈钢与新能源')], true)
   ], true),
-  group('宏观与策略', [page('price', '价格、升贴水与结构')]),
+  group('宏观与策略', [page('price', '价格与结构')]),
   page('balance', '平衡表与财报项目'),
   group('研究工作台', [
     {type: 'tool', id: 'panel', label: '镍市瞭望'},

@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T15:45:45+08:00",
+  "built_at": "2026-10-28T16:16:18+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -58,7 +58,7 @@
     {
       "key": "CM0000013255",
       "name": "中国制造业PMI",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji CM0000013255",
       "frequency": "月度",
       "unit": "点",
@@ -73,7 +73,7 @@
     {
       "key": "FU00017551",
       "name": "沪铜总持仓量",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji FU00017551",
       "frequency": "日度",
       "unit": "手",
@@ -88,7 +88,7 @@
     {
       "key": "GM0000032808",
       "name": "美国10年期国债收益率",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji GM0000032808",
       "frequency": "日度",
       "unit": "%",
@@ -103,7 +103,7 @@
     {
       "key": "ID01030232",
       "name": "电解铜进口盈亏",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji ID01030232",
       "frequency": "日度",
       "unit": "元/吨",
@@ -118,7 +118,7 @@
     {
       "key": "g02801716",
       "name": "美元指数",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji g02801716",
       "frequency": "日度",
       "unit": "点",
@@ -133,7 +133,7 @@
     {
       "key": "overview_domestic_premium",
       "name": "SMM电解铜升贴水",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji ID01677008",
       "frequency": "日度",
       "unit": "—",
@@ -148,7 +148,7 @@
     {
       "key": "overview_lme",
       "name": "LME铜",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",
@@ -163,7 +163,7 @@
     {
       "key": "overview_lme03",
       "name": "LME 铜 0-3 升贴水",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "westmetall cash-3M",
       "frequency": "日度",
       "unit": "—",
@@ -178,7 +178,7 @@
     {
       "key": "s20015675",
       "name": "洋山铜溢价",
-      "module": "价格、升贴水与进口盈亏",
+      "module": "价格与结构",
       "source": "zhiji s20015675",
       "frequency": "日度",
       "unit": "美元/吨",

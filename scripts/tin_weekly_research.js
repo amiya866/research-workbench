@@ -15,7 +15,7 @@ const NAV = [
     group('供给', [page('supply_mine', '矿端与进口'), page('supply_smelt', '冶炼与精锡'), page('inventory', '显性库存'), page('cost', '成本与平衡')], true),
     group('需求', [page('demand_solder', '焊料/电子/新能源'), page('demand_chemical', '锡化工/镀锡板/铅酸')], true)
   ], true),
-  group('宏观与策略', [page('price', '价格与现货'), page('macro', '宏观环境')]),
+  group('宏观与策略', [page('price', '价格与结构'), page('macro', '宏观环境')]),
   page('technical', '技术分析'),
   page('detailed', '详细周报'),
   group('研究工作台', [

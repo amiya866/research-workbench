@@ -15,7 +15,7 @@ const NAV = [
     group('供给', [page('supply_mine', '锌矿与进口'), page('supply_smelt', '精炼锌'), page('inventory', '显性库存'), page('cost', '成本与平衡')], true),
     group('需求', [page('demand', '镀锌/压铸/终端')], true)
   ], true),
-  group('宏观与策略', [page('price', '价格、升贴水与进口盈亏')]),
+  group('宏观与策略', [page('price', '价格与结构')]),
   page('technical', '技术分析'),
   group('研究工作台', [
     {type: 'tool', id: 'caibao', label: '锌企财报'},
