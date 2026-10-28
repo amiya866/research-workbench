@@ -19,13 +19,14 @@ LINE_RULES = {
     'gulf': re.compile(r'胡塞|曼德海峡|红海.{0,10}(袭|船|港口)|也门.{0,10}(政府军|沙特|联军)|沙特.{0,10}(胡塞|也门|空袭)'),
 }
 ESC_KW = re.compile(r'袭击|打击|击中|击沉|封锁|关闭|扣押|登船|导弹|无人机|空袭|攻占|沦陷')
-EASE_KW = re.compile(r'停火|协议|谈判|重开|复航|恢复通航|解除|缓和|停攻|夺回|收复|反攻')
+EASE_KW = re.compile(r'停火|协议|谈判|重开|复航|恢复通航|解除|缓和|停攻|夺回|收复|反攻|回升')
+DIGEST_KW = re.compile(r'新闻精选|早间|午间|晚间|早报|晚报|日报|汇编|要闻')
 MAX_ADD_PER_LINE = 2
 KEEP_EVENTS = 40
 
 
 def title_of(content):
-    m = re.match(r'\s*【(.{4,60}?)】', content or '')
+    m = re.search(r'【(.{4,60}?)】', content or '')
     if m:
         return m.group(1)
     return re.sub(r'\s+', '', (content or ''))[:24]
@@ -51,8 +52,8 @@ def main():
                 break
             c = it['content']
             t = title_of(c)
-            # 关键词必须命中标题本身——命中正文会误收"早间新闻精选"类汇编（2026-10-14 教训）
-            if not rule.search(t):
+            # 标题优先；具体单条允许正文命中，但新闻精选/早报等汇编仍排除
+            if not (rule.search(t) or (rule.search(c) and not DIGEST_KW.search(t))):
                 continue
             date = (it.get('time') or '')[:10]
             if not re.match(r'\d{4}-\d{2}-\d{2}$', date):
@@ -63,7 +64,8 @@ def main():
             if any(key[1] and key[1] in re.sub(r'\s+', '', e[1]) for e in line['events']):
                 continue
             tag = 'esc' if ESC_KW.search(c) else ('ease' if EASE_KW.search(c) else 'game')
-            body = re.sub(r'\s+', '', re.sub(r'^\s*【.{4,60}?】', '', c))[:60]
+            body_source = re.sub(r'【.{4,60}?】', '', c).replace(t, '', 1)
+            body = re.sub(r'\s+', '', re.sub(r'^\s*[｜|]\s*', '', body_source))[:90]
             line['events'].append([date, t[:30], tag, body + '（⚙️' + it.get('src', '') + '快讯）'])
             existing_keys.add(key)
             n += 1
