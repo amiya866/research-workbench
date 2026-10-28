@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""独立研究周报更新链：锡同步 → 镍重建 → 日报/点评 → 部署。失败保留上一版并记录非零状态。"""
+"""独立研究周报更新链：锡/镍/锌/铝/铜/铅 → 日报/点评 → 健康检查 → 部署。失败保留上一版。"""
 import datetime
 import os
 import subprocess
@@ -18,6 +18,8 @@ def main():
         'scripts/refresh_nickel_weekly.py',
         'scripts/build_zinc_weekly.py',
         'scripts/build_aluminum_weekly.py',
+        'scripts/build_copper_weekly.py',
+        'scripts/build_lead_weekly.py',
         '_daily_report.py',
         '_variety_review.py',
         'scripts/build_update_health.py',

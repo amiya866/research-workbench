@@ -1,0 +1,61 @@
+/* 周报版本二 · 原生手机网页：不经过 A4/PPT 分页，不横向缩放整页。 */
+.mobilepdf-open{display:none!important}
+html,body{max-width:100%;overflow-x:hidden}
+html.pgxmobileweb body{background:var(--bg)}
+@media(max-width:760px){
+  body{padding:14px 10px 30px;font-size:15.5px;line-height:1.72}
+  .wrap{width:100%;max-width:none;margin:0}
+  h1{font-size:26px;line-height:1.35;padding-left:10px;border-left-width:4px}
+  h2{font-size:20px;line-height:1.4;margin:26px 0 12px;padding-left:9px;border-left-width:4px}
+  h2 .en{display:block;margin:3px 0 0;font-size:9px;letter-spacing:1.4px}
+  .meta{margin:9px 0 0;gap:7px 12px;font-size:12.5px}
+  .meta .thbtn{margin-left:0}
+  .tone{margin-top:12px;padding:10px 12px;font-size:14.5px;line-height:1.75}
+  .roll{font-size:12px;padding:8px 10px;line-height:1.6}
+  .toc{position:static;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding:7px 0;margin:8px 0 12px;scrollbar-width:thin}
+  .toc a{font-size:12px;padding:4px 10px}
+  .lead{font-size:15px;line-height:1.5;margin:14px 0 9px;padding:7px 10px}
+  ul.sq li{padding-left:21px;margin:6px 0}
+  ul.sq li::before{left:1px;font-size:13px}
+  .verdict{grid-template-columns:1fr;gap:9px}
+  .verdict .v{padding:10px 12px;border:1px solid var(--line);border-top:3px solid var(--red)}
+  .verdict .d{font-size:17px}.verdict p{font-size:14px;line-height:1.65}
+  .cols2,.charts2,.charts3,.charts3.fix2,.charts3.fix3{grid-template-columns:minmax(0,1fr)!important;gap:10px}
+  .charts3,.charts2{margin-top:10px}
+  .charts3 .cbox,.charts2 .cbox{min-width:0;padding:7px 6px;border:1px solid var(--line)}
+  .echart{height:285px}
+  .cap{font-size:14px;line-height:1.35;margin:0 2px 4px}
+  .stats{font-size:10.5px;line-height:1.35;margin-top:3px;color:var(--faint)}
+  .note{font-size:12px;line-height:1.55}
+  details.fold{margin:12px 0}
+  details.fold>summary{font-size:15px;line-height:1.5;padding:9px 10px}
+  details.fold .foldbody{padding:8px 0}
+  .mcgrid{grid-template-columns:1fr;gap:10px}
+  .tablewrap{margin-bottom:14px;border:1px solid var(--line);-webkit-overflow-scrolling:touch}
+  .tablewrap table.bal{min-width:760px}
+  table.bal{font-size:12.5px}
+  /* 周度供需表：只保留周度数据与结论，日度变化仅在日报展示。 */
+  #sumsec table.sum{display:block;margin-top:10px;font-size:12.5px;background:transparent}
+  #sumsec table.sum thead{display:none}
+  #sumsec table.sum tbody{display:block}
+  #sumsec table.sum tr{position:relative;display:block;margin:0 0 9px;border:1px solid var(--line);background:var(--cardbg);box-shadow:0 1px 4px rgba(20,35,55,.05);overflow:hidden}
+  #sumsec table.sum td{display:block;width:auto!important;padding:7px 10px;border:0;border-bottom:1px solid var(--line);font-size:12.5px;line-height:1.55;white-space:normal}
+  html.pgxmobileweb #sumsec table.sum td.c{background:var(--blue);color:#fff;font-size:13.5px;line-height:1.4;text-align:left;padding:6px 76px 6px 10px}
+  #sumsec table.sum td::before{display:block;margin-bottom:2px;color:var(--faint);font-size:9.5px;font-weight:400;letter-spacing:.8px}
+  #sumsec table.sum td:nth-child(2)::before{content:"相关数据"}
+  #sumsec table.sum td:nth-child(3)::before{content:"周度结论"}
+  #sumsec table.sum td[colspan]::before{content:"本周结论"}
+  #sumsec table.sum td:last-child{position:absolute;top:0;right:0;border:0;padding:6px 9px;text-align:right;line-height:1.4}
+  #sumsec table.sum td:last-child::before{content:none}
+  #sumsec table.sum td:last-child .dir{background:#fff;font-size:10.5px;padding:1px 7px;white-space:nowrap}
+  #sumsec table.sum tr.final{border:1.5px solid var(--red)}
+  #sumsec table.sum tr.final td{border:0;border-bottom:1px solid var(--line)}
+  #sumsec table.sum tr.final td:last-child{border-bottom:0}
+  .dir{font-size:11px;padding:1px 8px}
+  .labwrap{grid-template-columns:minmax(0,1fr);width:100%;min-width:0}
+  .labside{max-height:240px;min-width:0;max-width:100%}
+  .labchart{height:320px;min-width:0;max-width:100%;overflow:hidden}
+  footer{font-size:12px}
+}
+@media(max-width:380px){.echart{height:255px}.cap{font-size:13px}.stats{font-size:10px}}
+@media print{.mobilepdf-open{display:none!important}}
