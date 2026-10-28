@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-28",
-  "built_at": "2026-10-28T08:54:04+08:00",
+  "built_at": "2026-10-28T08:58:06+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,11 +32,11 @@
     ]
   },
   "summary": {
-    "fresh": 32,
+    "fresh": 33,
     "watch": 4,
     "stale": 9,
     "missing": 1,
-    "review": 5,
+    "review": 4,
     "total": 51
   },
   "rows": [
@@ -236,21 +236,6 @@
       "action": "最新标签无法映射确切日期，需人工核对原表口径。"
     },
     {
-      "key": "inventory_ss300",
-      "name": "300系不锈钢库存",
-      "module": "库存与仓单",
-      "source": "B01 SS库存!R16（P30-TL）",
-      "frequency": "标签型",
-      "unit": "吨",
-      "latest": "第41周",
-      "latest_value": "638,632",
-      "latest_iso": "",
-      "age_days": null,
-      "status": "review",
-      "status_label": "待核",
-      "action": "最新标签无法映射确切日期，需人工核对原表口径。"
-    },
-    {
       "key": "supply_refined_id",
       "name": "印尼精炼镍产量",
       "module": "纯镍与印尼供应",
@@ -374,13 +359,13 @@
       "key": "lme03",
       "name": "LME镍0-3升贴水",
       "module": "价格、升贴水与结构",
-      "source": "zhiji a10018357（失败刷新保留自 2026-10-28T08:39:29）",
+      "source": "zhiji a10018357",
       "frequency": "日度",
       "unit": "美元/吨",
-      "latest": "2026-10-26",
-      "latest_value": "-188.4",
-      "latest_iso": "2026-10-26",
-      "age_days": 2,
+      "latest": "2026-10-27",
+      "latest_value": "-189.7",
+      "latest_iso": "2026-10-27",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -626,6 +611,21 @@
       "action": "按源口径使用，随自动链更新。"
     },
     {
+      "key": "inventory_ss300",
+      "name": "300系不锈钢库存",
+      "module": "库存与仓单",
+      "source": "衍生计算：ID01706925+ID01706924",
+      "frequency": "周度",
+      "unit": "吨",
+      "latest": "2026-10-23",
+      "latest_value": "647,070",
+      "latest_iso": "2026-10-23",
+      "age_days": 5,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
       "key": "inventory_ss_cold",
       "name": "300系冷轧库存",
       "module": "库存与仓单",
@@ -674,11 +674,11 @@
       "key": "overview_global_stock",
       "name": "全球显性库存",
       "module": "库存与仓单",
-      "source": "衍生计算：LME日度 + 最新SHFE仓单 + 最新社库",
+      "source": "衍生计算：2022年以来LME+SHFE仓单+SMM社库（周度值平推）",
       "frequency": "日度",
       "unit": "吨",
       "latest": "2026-10-26",
-      "latest_value": "492,202",
+      "latest_value": "492,615",
       "latest_iso": "2026-10-26",
       "age_days": 2,
       "status": "fresh",

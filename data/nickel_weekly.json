@@ -28,13 +28,12 @@
       "value": "1,020 元/镍点（2026-10-27）"
     }
   ],
-  "built_at": "2026-10-28T08:54:04+08:00",
+  "built_at": "2026-10-28T08:58:06+08:00",
   "local_url": "nickel-weekly/#sumsec",
   "source_url": "https://amiya866.github.io/nickel-panel/",
   "warnings": [
-    "LME月间结构: zhiji a10018357 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
-    "进出口与库存补充: zhiji ID01706925 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
-    "源端本次空值，保留上一成功版本：lme03,lme_curve"
+    "LME月间结构: zhiji j02797786 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "源端本次空值，保留上一成功版本：lme_curve"
   ],
   "sync_status": "ok"
 }

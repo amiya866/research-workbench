@@ -219,12 +219,18 @@ def main():
             raise RuntimeError('周报日期或定调提取失败')
         if failures:
             meta['asset_warnings'] = failures
-        write_atomic(OUT / 'index.html', localize(page))
+        write_atomic(OUT / 'upstream.html', page)
         write_atomic(META, json.dumps(meta, ensure_ascii=False, indent=2))
         update_daily_card(meta)
         state.update({'last_check': meta['synced_at'], 'last_success': meta['synced_at'],
                       'source_sha256': source_hash, 'asset_count': len(refs), 'last_error': ''})
         write_atomic(STATE, json.dumps(state, ensure_ascii=False, indent=2))
+        build = subprocess.run([sys.executable, str(BASE / 'scripts' / 'build_tin_weekly.py')],
+                               cwd=BASE, capture_output=True, text=True, encoding='utf-8', errors='replace',
+                               timeout=180, creationflags=NW)
+        print(build.stdout, flush=True)
+        if build.returncode:
+            raise RuntimeError('锡周报结构化构建失败：%s' % build.stderr[-500:])
         print('锡周报已同步：%s，%d 个资源，%d 个非致命警告' % (meta['asof'], len(refs), len(failures)))
     except Exception as exc:
         error = str(exc)
