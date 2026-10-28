@@ -154,7 +154,7 @@ def localize(page):
     page = page.replace('<h1>锡研究周报</h1>', '<h1>研究周报 <span class="commodity-current">锡</span></h1>', 1)
     page = page.replace('<link href="research.css" rel="stylesheet"/></head>',
                         '<link href="research.css" rel="stylesheet"/><link href="../weekly-light.css" rel="stylesheet"/></head>', 1)
-    switch = '<nav class="commodity-switch" aria-label="品种切换"><a class="active" href="#sumsec">锡</a><a href="../nickel-weekly/#sumsec">镍</a></nav>'
+    switch = '<nav class="commodity-switch" aria-label="品种切换"><a class="active" href="#sumsec">锡</a><a href="../nickel-weekly/#sumsec">镍</a><a href="../zinc-weekly/#sumsec">锌</a></nav>'
     page = page.replace('<div class="research-actions">',
                         '<div class="research-actions">' + switch + '<a class="back-home" href="%s" target="_blank" rel="noopener" style="margin-right:12px">上游原站 ↗</a>' % SOURCE, 1)
     return page
