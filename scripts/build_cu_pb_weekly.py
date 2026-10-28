@@ -420,7 +420,12 @@ def main(metal):
     demand = shared.last_point(charts[cfg['demand_key']])
     output = shared.last_point(charts[cfg['output_key']])
     q4_html = shared.quarterly_html(out / 'index.html', make_outlook(metal, q3, q4, latest, demand, output))
-    marginal_html = shared.marginal_block(marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output))
+    marginal_items = marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output)
+    marginal_html = shared.marginal_block(marginal_items)
+    marginal_scores = {item[0]: item[3] for item in marginal_items}
+    lme03_trend = shared.change(charts['overview_lme03'], 20)
+    domestic_trend = shared.change(charts['overview_domestic_premium'], 20)
+    social_trend = shared.change(charts[cfg['latest']['social_stock']], 20)
     charts = shared.seasonalize_charts(charts)
     out.mkdir(parents=True, exist_ok=True)
     (out / 'lib').mkdir(exist_ok=True)
@@ -438,26 +443,56 @@ def main(metal):
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
             parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
-            if metal == 'CU':
-                rows = [
-                    ('价格', '沪铜 %s 元/吨（%s）｜LME铜 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),
-                    ('结构', structure_desc, '%s；近月结构以LME 0-3、国内升贴水和库存共同判断' % lme_structure, '重点', 'nt'),
-                    ('海外库存', 'LME铜库存 %s 吨（%s）' % (shared.fmt(last(charts[lme_key])[1]), last(charts[lme_key])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
-                    ('国内库存', '电解铜社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), '与LME、SHFE仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
-                    ('供应·矿端', '铜精矿TC %s 美元/吨（%s）' % (shared.fmt(latest['tc'][1]), latest['tc'][0]), 'TC、冶炼利润与实际产量共同判断矿端传导', '重点', 'nt'),
-                    ('需求·加工', '精铜制杆产能利用率 %s%%（%s）' % (shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—'), '铜杆、铜管、铜板带、电线电缆和电网共同验证', '跟踪', 'nt'),
-                    ('策略观察', '价格、结构、库存、TC、进口盈亏交叉验证', '信号未同向前不作单边外推；优先看库存趋势与现货结构是否持续', '观望', 'nt'),
-                ]
+            def _cls(score):
+                return 'up' if (score or 0) > 0 else ('down' if (score or 0) < 0 else 'nt')
+            lme_conclusion = lme_structure
+            lme_status = 'Back偏多' if lme_basis > 0 else ('Contango偏空' if lme_basis < 0 else '中性')
+            lme_cls = 'up' if lme_basis > 0 else ('down' if lme_basis < 0 else 'nt')
+            if lme_basis > 0 and lme03_trend is not None and lme03_trend < 0:
+                lme_conclusion = 'Back仍在但20日走弱，继续跟踪是否转Contango'; lme_status = '关注'; lme_cls = 'nt'
+            elif lme_basis < 0 and lme03_trend is not None and lme03_trend < 0:
+                lme_conclusion = 'Contango扩大，海外结构继续走弱'; lme_status = '偏空'; lme_cls = 'down'
+            elif lme_basis < 0 and lme03_trend is not None and lme03_trend > 0:
+                lme_conclusion = 'Contango收窄，海外结构边际改善，仍需确认'; lme_status = '关注'; lme_cls = 'nt'
+            if domestic_premium < 0 and domestic_trend is not None and domestic_trend < 0:
+                domestic_conclusion = '贴水扩大，国内结构正在走弱'
+                domestic_status, domestic_cls = '偏空', 'down'
+            elif domestic_premium < 0 and domestic_trend is not None and domestic_trend > 0:
+                domestic_conclusion = '贴水收窄，国内结构边际改善，仍需确认'
+                domestic_status, domestic_cls = '关注', 'nt'
+            elif domestic_premium < 0:
+                domestic_conclusion = '现货贴水，国内结构偏弱'
+                domestic_status, domestic_cls = '偏空', 'down'
+            elif domestic_premium > 0 and domestic_trend is not None and domestic_trend < 0:
+                domestic_conclusion = '升水走弱，国内结构边际转弱，跟踪是否转贴水'
+                domestic_status, domestic_cls = '关注', 'nt'
+            elif domestic_premium > 0:
+                domestic_conclusion = '现货升水，国内结构仍有支撑'
+                domestic_status, domestic_cls = '偏多', 'up'
             else:
-                rows = [
-                    ('价格', '沪铅 %s 元/吨（%s）｜LME铅 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),
-                    ('结构', structure_desc, '%s；近月结构以LME 0-3、国内升贴水和库存共同判断' % lme_structure, '重点', 'nt'),
-                    ('海外库存', 'LME铅库存 %s 吨（%s）' % (shared.fmt(last(charts[lme_key])[1]), last(charts[lme_key])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), stock_word, 'up' if stock_word == '去库' else 'dn'),
-                    ('国内库存', '铅锭社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), '与LME、SHFE仓单共同验证，不用单一口库存代全部供需', '跟踪', 'nt'),
-                    ('供应·原生', '原生铅产量 %s 万吨（%s）｜TC %s 元/金属吨' % (shared.fmt(output[1]) if output else '—', output[0] if output else '—', shared.fmt(latest['tc'][1])), '原生、再生和废电瓶共同判断供应弹性', '重点', 'nt'),
-                    ('需求·电池', '铅酸蓄电池开工率 %s%%（%s）' % (shared.fmt(demand[1]) if demand else '—', demand[0] if demand else '—'), '汽车启动、储能和替换电池共同验证', '跟踪', 'nt'),
-                    ('策略观察', '价格、结构、库存、原生/再生供应交叉验证', '信号未同向前不作单边外推；优先看库存趋势与现货结构是否持续', '观望', 'nt'),
-                ]
+                domestic_conclusion = '国内现货结构持平'
+                domestic_status, domestic_cls = '中性', 'nt'
+            if social_trend is not None:
+                social_conclusion = '国内社库20日 %s，%s' % (shared.pct(social_trend), '去库支撑近月' if social_trend < 0 else '累库压制近月')
+                social_status = '去库偏多' if social_trend < 0 else '累库偏空'
+                social_cls = 'up' if social_trend < 0 else 'down'
+            else:
+                social_conclusion = '国内社库趋势暂不可得，与海外仓单共同验证'
+                social_status, social_cls = '跟踪', 'nt'
+            supply_label = '供应·矿端' if metal == 'CU' else '供应·原生'
+            demand_label = '需求·加工' if metal == 'CU' else '需求·电池'
+            supply_status = '偏多' if marginal_scores['供应'] > 0 else ('偏空' if marginal_scores['供应'] < 0 else '跟踪')
+            demand_status = '偏多' if marginal_scores['需求'] > 0 else ('偏空' if marginal_scores['需求'] < 0 else '跟踪')
+            rows = [
+                ('价格', '沪%s %s 元/吨（%s）｜LME%s %s 美元/吨（%s）' % (cn, shared.fmt(latest['shfe'][1]), latest['shfe'][0], cn, shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, _cls(chg5)),
+                ('结构·LME', 'LME 0-3 %s 美元/吨（%s，20日 %s）' % (shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.pct(lme03_trend)), lme_conclusion, lme_status, lme_cls),
+                ('结构·国内', '国内现货%s %s 元/吨（%s，20日 %s）' % (domestic_structure, shared.fmt(latest['domestic'][1]), latest['domestic'][0], shared.pct(domestic_trend)), domestic_conclusion, domestic_status, domestic_cls),
+                ('海外库存', 'LME%s库存 %s 吨（%s）' % (cn, shared.fmt(last(charts[lme_key])[1]), last(charts[lme_key])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), '%s%s' % (stock_word, '偏多' if stock_word == '去库' else '偏空'), 'up' if stock_word == '去库' else 'dn'),
+                ('国内库存', '%s社库 %s 万吨（%s）' % (cn, shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), social_conclusion, social_status, social_cls),
+                (supply_label, '%s %s %s（%s）' % ('铜精矿TC' if metal == 'CU' else '原生铅产量', shared.fmt(latest['tc'][1]) if metal == 'CU' else shared.fmt(output[1] if output else None), '美元/吨' if metal == 'CU' else '万吨', latest['tc'][0] if metal == 'CU' else (output[0] if output else '—')), '供应方向按边际块证据确认，不单独外推', supply_status, _cls(marginal_scores['供应'])),
+                (demand_label, '%s %s%s（%s）' % ('精铜制杆产能利用率' if metal == 'CU' else '铅酸蓄电池开工率', shared.fmt(demand[1]) if demand else '—', '%' if demand else '', demand[0] if demand else '—'), '需求方向按开工/利用率边际变化确认，不单独外推', demand_status, _cls(marginal_scores['需求'])),
+                ('策略观察', '价格、LME结构、国内结构、库存、供应和需求交叉验证', '信号未同向前不作单边外推；铅重点盯国内升贴水是否转弱，铜重点盯TC与库存', '跟踪', 'nt'),
+            ]
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (
                     shared.esc(label), shared.esc(datum), shared.esc(conclusion), cls, shared.esc(status)))
