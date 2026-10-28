@@ -1,15 +1,30 @@
 {
- "updated": "2026-10-28 08:34",
- "asof": "2026-10-27",
+ "updated": "2026-10-28 02:34",
+ "asof": "2026-10-28",
  "regime": {
   "stage": 2,
   "onrrp_bn": 0.226,
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 64.3,
-  "n_comp": 6,
+  "value": 61.4,
+  "n_comp": 9,
   "components": [
+   {
+    "id": "SPR_SOFR_IORB",
+    "name": "SOFR-IORB利差",
+    "pct": 94.8
+   },
+   {
+    "id": "SPR_SOFR99",
+    "name": "SOFR尾部99分位差",
+    "pct": 4.4
+   },
+   {
+    "id": "SPR_CP_SOFR",
+    "name": "商票-SOFR利差",
+    "pct": 67.2
+   },
    {
     "id": "BAMLH0A0HYM2",
     "name": "高收益OAS",
@@ -80,11 +95,73 @@
     "triggered": false
    }
   ],
-  "funding": []
+  "funding": [
+   {
+    "id": "SPR_SOFR_IORB",
+    "name": "SOFR-IORB",
+    "z": 0.5,
+    "chg20": 3.0,
+    "triggered": false
+   },
+   {
+    "id": "SPR_SOFR99",
+    "name": "SOFR尾部",
+    "z": -0.17,
+    "chg20": -1.0,
+    "triggered": false
+   },
+   {
+    "id": "SPR_CP_SOFR",
+    "name": "商票-SOFR",
+    "z": 0.36,
+    "chg20": 6.0,
+    "triggered": false
+   }
+  ]
  },
  "buy_signal": false,
  "funding_alert": false,
  "cards": [
+  {
+   "id": "sofr_iorb",
+   "name": "SOFR-IORB利差",
+   "val": 3.0,
+   "unit": "bp",
+   "date": "2026-10-26",
+   "chg": 1.0,
+   "pct": 94.8,
+   "key": "SPR_SOFR_IORB"
+  },
+  {
+   "id": "sofr_tail",
+   "name": "SOFR尾部(99分位-中位)",
+   "val": 8.0,
+   "unit": "bp",
+   "date": "2026-10-26",
+   "chg": -0.0,
+   "pct": 4.4,
+   "key": "SPR_SOFR99"
+  },
+  {
+   "id": "sofr_onrrp",
+   "name": "SOFR-ONRRP利差",
+   "val": 18.0,
+   "unit": "bp",
+   "date": "2026-10-26",
+   "chg": 1.0,
+   "pct": 92.2,
+   "key": "SPR_SOFR_ONRRP"
+  },
+  {
+   "id": "cp_sofr",
+   "name": "商票-SOFR利差",
+   "val": 6.0,
+   "unit": "bp",
+   "date": "2026-10-20",
+   "chg": 1.0,
+   "pct": 67.2,
+   "key": "SPR_CP_SOFR"
+  },
   {
    "id": "onrrp",
    "name": "ON RRP余额",
@@ -196,14 +273,7 @@
    "key": "GM2_YOY"
   }
  ],
- "fails": [
-  "SOFR",
-  "SOFR99",
-  "TGCRRATE",
-  "IORB",
-  "DFF",
-  "RRPONTSYAWARD"
- ],
+ "fails": [],
  "gaps": [
   "XCCY交叉货币互换基差(需彭博)",
   "贴现窗口借款量(FRED无直读序列, H.4.1表2待解析)",
