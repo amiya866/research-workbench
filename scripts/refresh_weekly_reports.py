@@ -17,6 +17,7 @@ def main():
         'scripts/fetch_tin_weekly.py',
         'scripts/refresh_nickel_weekly.py',
         'scripts/build_zinc_weekly.py',
+        'scripts/build_aluminum_weekly.py',
         '_daily_report.py',
         '_variety_review.py',
         '_deploy_git.py',
