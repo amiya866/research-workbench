@@ -11,10 +11,10 @@
 :root{--red:#C00000;--blue:#1F4E79;--ink:#1a1a1a;--grey:#555;--faint:#777;--line:#D9D9D9;--bg:#fff;--soft:#FDF6F6;--cardbg:#fff;--thbg:#F2F2F2;--leadbg:#EEF3FA;--rollbg:#FFFAFA;--rollline:#E3C9C9;--foot:#777}
 body.dark{--ink:#dfe5ee;--grey:#9aa5b5;--faint:#8a94a6;--line:#2a3448;--bg:#141a26;--soft:rgba(212,169,68,.08);--cardbg:#1c2434;--thbg:#232c40;--leadbg:rgba(31,78,121,.25);--rollbg:rgba(212,169,68,.06);--rollline:#3a3f2a;--foot:#8a94a6;--red:#d4a944;--blue:#7ea8d0}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:"KaiTi","楷体","STKaiti","Microsoft YaHei","微软雅黑",serif;font-size:16px;font-weight:500;line-height:1.8;padding:26px 20px 40px;transition:background .25s,color .25s}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;font-weight:500;line-height:1.8;padding:26px 20px 40px;transition:background .25s,color .25s}
 .wrap{max-width:1180px;margin:0 auto}
-h1{font-family:"KaiTi","楷体",serif;font-size:32px;color:var(--ink);border-left:6px solid var(--red);padding-left:14px;line-height:1.4}
-h2{font-family:"KaiTi","楷体",serif;font-size:23.5px;color:var(--ink);border-left:5px solid var(--red);padding-left:12px;margin:34px 0 14px}
+h1{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:32px;color:var(--ink);border-left:6px solid var(--red);padding-left:14px;line-height:1.4}
+h2{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:23.5px;color:var(--ink);border-left:5px solid var(--red);padding-left:12px;margin:34px 0 14px}
 h2 .en{font-family:Arial,sans-serif;font-size:12px;color:var(--faint);letter-spacing:2px;margin-left:10px}
 .meta{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;font-size:14.5px;color:var(--grey);margin:10px 0 0 20px}
 .meta b{color:var(--ink)}
@@ -144,8 +144,8 @@ body.editmode .tbar{display:flex}
 .fwscale{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#fff;margin-bottom:10px;container-type:inline-size}
 .fwslide{position:absolute;left:0;top:0;width:100%;height:100%}
 .fwshape{position:absolute;box-sizing:border-box}
-.fwtxt{display:flex;flex-direction:column;height:100%;width:100%;text-align:center;overflow:hidden;font-family:"KaiTi","楷体","STKaiti",serif}
-.fwtxt span{font-family:"KaiTi","楷体","STKaiti",serif}
+.fwtxt{display:flex;flex-direction:column;height:100%;width:100%;text-align:center;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+.fwtxt span{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
 .printcover{display:none}
 @media print{
   .printcover{display:none!important}
@@ -158,7 +158,7 @@ body.editmode .tbar{display:flex}
   .pptzone .fwscale{width:94%;margin:0 auto}
 }
 body.my{--blue:#000000;--leadbg:#E8F0F8;--soft:#F7F7F7;--rollbg:#FAFAFA;--rollline:#D9D9D9}
-body.my h1,body.my h2{font-family:"KaiTi","楷体","STKaiti",serif;font-weight:700}
+body.my h1,body.my h2{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-weight:700}
 body.my .tone{border-color:#BFBFBF}
 body.my .lead{border-left:none}
 body.my .bl{color:#000}
@@ -221,12 +221,9 @@ html.pgxa4 .charts2,html.pgxppt .charts2,html.pgxa4 .cols2,html.pgxppt .cols2{gr
 <link href="weekly_polish.css?v=20261027-ai-tin-v4" rel="stylesheet"/>
 <link href="research.css" rel="stylesheet"/><link href="../weekly-light.css" rel="stylesheet"/></head>
 <body><header class="research-topbar">
-<div class="research-brand"><a class="back-home" href="https://amiya866.github.io/">← 研究总台</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · 2026 W43</p><h1>研究周报 <span class="commodity-current">锡</span></h1><p>周度研究 · 技术分析 · 供需平衡 · 全年情景</p></div></div>
+<div class="research-brand"><a class="back-home" href="https://gsy1005.github.io/research-hub/">← 研究总台</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · 2026 W43</p><h1>研究周报 <span class="commodity-current">锡</span></h1><p>周度研究 · 技术分析 · 供需平衡 · 全年情景</p></div></div>
 <div class="research-actions"><nav class="commodity-switch" aria-label="品种切换"><a class="active" href="#sumsec">锡</a><a href="../nickel-weekly/#sumsec">镍</a></nav><a class="back-home" href="https://gsy1005.github.io/tin-research/weekly_full.html" target="_blank" rel="noopener" style="margin-right:12px">上游原站 ↗</a><span class="research-stamp">数据截至 <b>2026-10-23</b></span><button class="tech-top" data-page="technical" id="techTop" type="button">技术分析（私享）</button><button aria-pressed="false" class="view-toggle" id="viewToggle" type="button">切换手机版</button></div>
 </header><nav aria-label="锡研究分层目录" class="top-navigation" id="topNavigation"><div class="top-nav-inner tree-nav" id="treeNav"></div></nav><div class="research-workspace"><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">
-
-
-
 <details class="fold" id="framework">
 <summary>📖 锡产业研究框架（基础认知 · 供给×需求×工艺×单耗，点击展开/折叠）</summary>
 <div class="foldbody pptzone">
@@ -1509,8 +1506,6 @@ html.pgxa4 .charts2,html.pgxppt .charts2,html.pgxa4 .cols2,html.pgxppt .cols2{gr
   内部研究材料，仅供参考，不构成投资建议。
 </footer>
 </div><section aria-live="polite" class="tool-page" hidden="" id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden="" id="toolFrame" title="锡研究工作台"></iframe></section></div></div>
-
-
 <script src="lib/chart.min.js"></script>
 <script src="charts_full/weekly_inter.js?v=1793020312"></script>
 <script>
@@ -1771,9 +1766,6 @@ html.pgxa4 .charts2,html.pgxppt .charts2,html.pgxa4 .cols2,html.pgxppt .cols2{gr
   render();
 })();
 </script>
-
-
 <script src="weekly_mobile.js?v=202610270235"></script>
-
 <nav aria-label="移动端翻页" class="mobile-pager" id="mobilePager"><button id="prevPage" type="button">← 上一页</button><span id="mobilePageTitle">本周总结</span><button id="nextPage" type="button">下一页 →</button></nav><script src="research.js"></script></body>
 </html>

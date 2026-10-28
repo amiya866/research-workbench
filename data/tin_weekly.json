@@ -30,9 +30,955 @@
   ],
   "source_url": "https://gsy1005.github.io/tin-research/weekly_full.html#sumsec",
   "local_url": "tin-weekly/#sumsec",
-  "source_sha256": "df3e35e6f91fc3a00b2b1adbf79de4e4592a11d276b92885a1af738af652105e",
+  "source_sha256": "1881cbe0e180b57e42067c7f3e47293bcb81ec9d2a11e4f35e2ccd685090c312",
   "asset_count": 298,
-  "synced_at": "2026-10-27T15:07:54+08:00",
+  "synced_at": "2026-10-28T08:33:19+08:00",
   "sync_status": "ok",
-  "last_error": ""
+  "last_error": "",
+  "asset_warnings": [
+    [
+      "charts_full/fwicons/s2_dt2ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt3ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt4ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 curl: (28) Resolving timed out after 10015 milliseconds\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt5ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 curl: (28) Resolving timed out after 10006 milliseconds\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt6ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 curl: (28) Resolving timed out after 10006 milliseconds\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt7ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 curl: (28) Resolving timed out after 10011 milliseconds\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt8ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_dt9ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_sp0ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_sp1ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_sp2ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/fwicons/s2_sp3ic.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/i_global.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/i_hidden.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/i_lme.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/i_my.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/i_shfed.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/i_smm.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/m_wbms.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_fut.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_lme03.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_lme_oi.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_prem.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_spread.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_struct.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/p_vol.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/pcb_capacity_timeline.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/pcb_ramp_tin_bottomup.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/pcb_tin_demand.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/pcb_tin_frontload.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/pcb_tin_scenarios.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_africa.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_cn_prov.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_latam.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_peru_q.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_prod.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_prod_line.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_prod_pie.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_reserve.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_reserve_pie.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/d_smm_mine.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s1c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s1c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s1c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s1c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s1c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s1c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s2c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s2c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s3c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s3c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s3c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s3c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s3c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s3c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s4c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s4c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s4c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s4c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s4c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s4c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s5c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s5c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p1s5c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s2c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s2c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s2c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s2c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s2c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s2c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s5c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s5c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s5c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s6c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s6c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s6c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s6c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s6c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p2s6c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s1c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s1c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s1c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s1c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s1c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s1c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s3c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s3c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s3c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s3c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s3c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s4c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s4c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s4c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s4c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s4c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s4c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s6c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s6c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s6c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s6c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s6c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s7c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s7c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s7c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s7c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s7c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p3s7c7.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s1c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s1c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s1c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s1c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s1c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s2c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s2c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s2c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s2c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s2c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s2c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s3c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s3c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s3c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s3c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s3c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s3c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s4c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s4c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s4c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s5c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s6c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s6c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；TimeoutExpired"
+    ],
+    [
+      "charts_full/px/p4s6c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s6c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；TimeoutExpired；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s6c5.png",
+      "rc=35 ion timed out after 39307666 milliseconds\r\ncurl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s6c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p4s6c7.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c7.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s1c8.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s2c7.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c7.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c8.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s3c9.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s4c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s4c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s4c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s4c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s4c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s4c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s5c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s5c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s5c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s6c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s6c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s6c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s6c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p5s6c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s1c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s1c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s1c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s4c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s4c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s4c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s4c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s4c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s5c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s5c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s5c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s7c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s7c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s7c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s7c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s7c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p6s7c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s1c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s1c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s1c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s1c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s1c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；TimeoutExpired；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s1c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；TimeoutExpired；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s2c1.png",
+      "TimeoutExpired；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s2c2.png",
+      "TimeoutExpired；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s2c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s2c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s2c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s2c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s4c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s4c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s4c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s4c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s4c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s4c6.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s5c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s5c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s5c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s5c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s5c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s6c1.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s6c2.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s6c3.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s6c4.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ],
+    [
+      "charts_full/px/p7s6c5.png",
+      "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
+    ]
+  ]
 }

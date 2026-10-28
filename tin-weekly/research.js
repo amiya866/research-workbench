@@ -52,9 +52,9 @@ register('datagap', '数据缺口', ['总览'], [id('datagap')]);
 
 /* Focus: sentiment and macro */
 const focusGroups = splitOnMarkers(takeUntil(id('focus'), id('ai')), node => node.nodeType === 1 && node.classList.contains('lead'));
-register('focus-sentiment', '锡市场情绪', ['宏观与策略'], focusGroups[0] || []);
-register('focus-macro', '宏观环境', ['宏观与策略'], focusGroups[1] || []);
-register('ai', 'AI 高频验证', ['宏观与策略'], takeUntil(id('ai'), id('supply')));
+register('focus-sentiment', '锡市场情绪', ['重点关注'], focusGroups[0] || []);
+register('focus-macro', '宏观环境', ['重点关注'], focusGroups[1] || []);
+register('ai', 'AI 高频验证', ['重点关注'], takeUntil(id('ai'), id('supply')));
 
 /* Supply and inventory */
 const supplyGroups = splitOnMarkers(takeUntil(id('supply'), id('invsec')), node => node.nodeType === 1 && node.classList.contains('lead'));
@@ -99,8 +99,8 @@ register('demand-newenergy', '新能源汽车', solderTrail, [...withoutHeading(
 register('demand-solar', '光伏', solderTrail, [lead('光伏：组件产量 · 光伏耗锡量'), splitChartGroup(demandGroups[4], [1, 2])]);
 
 /* Other weekly pages */
-register('spot', '现货与进出口', ['宏观与策略'], takeUntil(id('spot'), id('strategy')));
-register('strategy', '策略与验证点', ['宏观与策略'], takeUntil(id('strategy'), id('lab')));
+register('spot', '现货与进出口', ['重点关注'], takeUntil(id('spot'), id('strategy')));
+register('strategy', '策略与验证点', ['重点关注'], takeUntil(id('strategy'), id('lab')));
 register('lab', '图表工作区', ['图表工作区'], takeUntil(id('lab'), id('ai-detail')));
 register('cost', '矿山成本与边际', ['重点关注', '供给'], takeUntil(id('minecost'), id('decks')));
 
@@ -183,9 +183,10 @@ const NAV = [
       group('锡化工', [page('demand-pvc', 'PVC'), page('demand-float', '浮法玻璃')], true),
       page('demand-tinplate', '马口铁'),
       page('demand-battery', '铅蓄电池')
-    ], true)
+    ], true),
+    page('focus-sentiment', '锡市场情绪'), page('focus-macro', '宏观环境'), page('ai', 'AI 高频验证'),
+    page('spot', '现货与进出口'), page('strategy', '策略与验证点')
   ], true),
-  group('宏观与策略', [page('focus-sentiment', '锡市场情绪'), page('focus-macro', '宏观环境'), page('ai', 'AI 高频验证'), page('spot', '现货与进出口'), page('strategy', '策略与验证点')]),
   page('balance', '平衡表与全年情景'),
   group('AI 耗锡专题', aiIds.filter(pid => registry.has(pid)).map(pid => page(pid, aiLabels[aiIds.indexOf(pid)]))),
   page('lab', '图表工作区'),
@@ -200,24 +201,53 @@ const NAV = [
 ];
 
 const treeNav = $('#treeNav');
-function buildNav(items, parent, depth = 0) {
-  items.forEach(item => {
+let navPath = [];
+function findNavPath(targetId, targetType = 'page', items = NAV, trail = []) {
+  for (const item of items) {
+    const path = [...trail, item];
+    if (item.type === targetType && item.id === targetId) return path;
     if (item.type === 'group') {
-      const details = document.createElement('details');
-      details.open = depth > 0 && item.open;
-      const summary = document.createElement('summary'); summary.textContent = item.label;
-      const children = document.createElement('div'); children.className = 'tree-children';
-      details.append(summary, children); parent.appendChild(details);
-      buildNav(item.children, children, depth + 1);
-    } else {
-      const button = document.createElement('button');
-      button.type = 'button'; button.className = 'tree-link'; button.textContent = item.label;
-      button.dataset[item.type === 'tool' ? 'tool' : 'page'] = item.id;
-      parent.appendChild(button);
+      const match = findNavPath(targetId, targetType, item.children, path);
+      if (match) return match;
     }
-  });
+  }
+  return null;
 }
-buildNav(NAV, treeNav);
+function renderNav(path = navPath) {
+  navPath = path;
+  treeNav.replaceChildren();
+  let items = NAV;
+  let depth = 0;
+  while (items?.length) {
+    const row = document.createElement('div');
+    row.className = `nav-row nav-row-depth-${depth}`;
+    const label = document.createElement('span');
+    label.className = 'nav-row-label';
+    label.textContent = depth === 0 ? '研究模块' : navPath[depth - 1]?.label || '';
+    row.appendChild(label);
+    items.forEach((item, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'tree-link nav-choice';
+      button.textContent = item.label;
+      button.dataset.navDepth = depth;
+      button.dataset.navIndex = index;
+      if (item.type === 'group') button.dataset.navGroup = 'true';
+      else button.dataset[item.type === 'tool' ? 'tool' : 'page'] = item.id;
+      const selected = navPath[depth] === item;
+      button.classList.toggle('active', selected);
+      button.classList.toggle('is-parent', item.type === 'group');
+      button.setAttribute('aria-current', selected && item.type !== 'group' ? 'page' : 'false');
+      if (item.type === 'group') button.setAttribute('aria-expanded', String(selected));
+      row.appendChild(button);
+    });
+    treeNav.appendChild(row);
+    const selectedGroup = navPath[depth];
+    if (!selectedGroup || selectedGroup.type !== 'group') break;
+    items = selectedGroup.children;
+    depth += 1;
+  }
+}
 
 /* Private technical analysis: original daily-report theory, external price snapshots. */
 const technicalPage = registry.get('technical') || (() => {
@@ -233,7 +263,7 @@ technicalPage.body.innerHTML = `
     <button class="tech-lock" id="techLock" type="button">退出私享</button>
     <div class="tech-intro"><p>趋势 / 动能 / 量价 · 日线原引擎 · 多周期验证</p><span class="tag" id="privateTechUpdated">等待读取数据…</span></div>
     <div class="tech-score" id="privateTechScore"></div><div class="tech-grid" id="privateTechGrid"></div>
-    <div class="tech-brief" id="privateTechBrief"></div>
+    <div class="tech-brief" id="privateTechBrief"></div><div id="privateTechDetails"></div>
     <div class="tech-note" id="privateTechMethod"><b>原日报指标体系：</b>趋势使用均线、MACD(12,26,9)、DMI、DMA、BOLL、缠论中枢与周线 MACD；动能使用 KDJ、RSI、WR、CCI、ROC；结构辅助使用数浪与背驰。当前快照无成交量和持仓量，量价维度不参与评分，也不补造数据。</div>
     <div class="kline-card"><h3>沪锡主连｜日 K 价格与均线</h3><div class="meta-line" id="privateTechMeta">MA5 / MA10 / MA20 / MA60 / MA288 · 红涨绿跌</div><div class="kline-chart"><canvas id="privateSnKline" aria-label="沪锡主连日 K 图"></canvas></div></div>
   </div>`;
@@ -330,6 +360,66 @@ function scoreSnapshot(item) {
   return { trend: Math.round(trend), momentum: Math.round(momentum), total, ma5, ma20, dif, dea, rsi };
 }
 function rating(score) { return score >= 25 ? ['多头占优', 'up'] : score <= -25 ? ['空头占优', 'down'] : ['震荡平衡', 'neutral']; }
+function buildTechnicalDetails(analysis, data, originalScore, hasVolumeScore) {
+  const i = analysis.n - 1, d = analysis.d, close = d.c[i];
+  const ma = analysis.MA, macd = analysis.M, di = analysis.DI, boll = analysis.BO;
+  const dif = macd.dif[i], dea = macd.dea[i], hist = macd.hist[i];
+  const dma = analysis.DM, kd = analysis.KD;
+  const yn = value => value ? '成立' : '未成立';
+  const row = (name, value, reading) => `<tr><td>${name}</td><td class="num">${value}</td><td>${reading}</td></tr>`;
+  const framework = `
+    <ol class="tech-framework">
+      <li><b>道氏趋势与均线系统</b><span>先用高低点、MA5／10／20／60 判断方向与位置，再看价格是否站上关键均线；不以单根 K 线替代趋势确认。</span></li>
+      <li><b>趋势层（原权重 45%）</b><span>MACD(12,26,9)、DMI(14)、DMA(10,50)、BOLL(20,2)、缠论中枢与周线 MACD，分别判断方向、趋势强度、波动边界和大周期约束。</span></li>
+      <li><b>动能层（原权重 30%）</b><span>KDJ(9,3,3)、RSI(6／14／24)、WR(14)、CCI(14)、ROC(12)，识别超买超卖、动能修复与衰减。</span></li>
+      <li><b>量价层（原权重 25%）</b><span>OBV、VR(26)、成交量与持仓量共同验证价格；新快照缺失字段由旧日报按日期补齐，旧源之后不虚构边际量仓。</span></li>
+      <li><b>结构复核</b><span>缠论转折与中枢用于定位，数浪用于提出路径假设，日线／周线背驰用于验证；江恩区间只作为支撑压力参考，最终仍以价格、MACD 和关键区间共同确认。</span></li>
+    </ol>`;
+  const trendRows = [
+    row('收盘与均线', `${fmt(close)}<br><small>MA5 ${fmt(ma.m5[i])}｜MA10 ${fmt(ma.m10[i])}<br>MA20 ${fmt(ma.m20[i])}｜MA60 ${fmt(ma.m60[i])}</small>`, `${close >= ma.m5[i] ? '站上 MA5' : '位于 MA5 下'}，${close >= ma.m20[i] ? '站上 MA20' : '仍受 MA20 压制'}；${ma.m5[i] >= ma.m10[i] ? '短均线修复' : '短均线仍弱'}，${close >= ma.m60[i] ? '中期价格偏强' : 'MA60 仍构成中期约束'}。`),
+    row('MACD(12,26,9)', `DIF ${fmt(dif)}<br>DEA ${fmt(dea)}<br>柱 ${fmt(hist)}`, `${dif >= dea ? 'DIF 位于 DEA 上方，动能处修复状态' : 'DIF 位于 DEA 下方，下行动能尚未解除'}；${dif >= 0 ? '位于零轴上' : '仍位于零轴下'}，因此不能只凭柱体改善认定中期反转。`),
+    row('DMI(14)', `+DI ${fmt(di.pdi[i], 1)}<br>-DI ${fmt(di.ndi[i], 1)}<br>ADX ${fmt(di.adx[i], 1)}`, `${di.pdi[i] >= di.ndi[i] ? '多方方向指标占优' : '空方方向指标仍占优'}；ADX ${di.adx[i] >= 25 ? '高于 25，趋势强度不可忽视' : '低于 25，趋势强度有限'}。`),
+    row('DMA(10,50)', `DDD ${fmt(dma.ddd[i])}<br>AMA ${fmt(dma.ama[i])}`, `${dma.ddd[i] >= dma.ama[i] ? 'DDD 在 AMA 上方，中期差离改善' : 'DDD 低于 AMA，中期差离仍偏弱'}。`),
+    row('BOLL(20,2)', `上轨 ${fmt(boll.up[i])}<br>中轨 ${fmt(boll.mid[i])}<br>下轨 ${fmt(boll.dn[i])}`, `价格位于${close > boll.up[i] ? '上轨之外' : close < boll.dn[i] ? '下轨之外' : close >= boll.mid[i] ? '中轨与上轨之间' : '下轨与中轨之间'}；区间边界用于观察突破与回归，不单独作为追单依据。`),
+    row('周线 MACD', `DIF ${fmt(analysis.WM.dif.at(-1))}<br>DEA ${fmt(analysis.WM.dea.at(-1))}<br>柱 ${fmt(analysis.WM.hist.at(-1))}`, `${analysis.WM.dif.at(-1) >= analysis.WM.dea.at(-1) ? '周线 DIF 在 DEA 上方' : '周线 DIF 尚未站上 DEA'}，大周期仍是对日线反弹的重要约束。`)
+  ].join('');
+  const momentumRows = [
+    row('KDJ(9,3,3)', `K ${fmt(kd.k[i], 1)}｜D ${fmt(kd.d[i], 1)}<br>J ${fmt(kd.j[i], 1)}`, `${kd.k[i] >= kd.d[i] ? 'K 在 D 上方，短线动能修复' : 'K 在 D 下方，短线动能偏弱'}；J 值用于提示短线弹性，不独立判断顶底。`),
+    row('RSI(6／14／24)', `${fmt(analysis.RSI6[i], 1)}｜${fmt(analysis.RSI14[i], 1)}｜${fmt(analysis.RSI24[i], 1)}`, `短、中周期相对强弱并列观察；50 附近为强弱分界，当前并未形成所有周期同步强势。`),
+    row('WR(14)', fmt(analysis.WR[i], 1), `结合 WR 与价格位置观察超买超卖，避免在区间中部单独使用极值信号。`),
+    row('CCI(14)', fmt(analysis.CCI[i], 1), `CCI 用于衡量价格偏离程度；零轴附近更偏震荡，突破需趋势指标配合。`),
+    row('ROC(12)', `${fmt(analysis.ROC[i], 2)}%`, `${analysis.ROC[i] >= 0 ? '12 日变动率为正' : '12 日变动率仍为负'}，说明当前修复尚需更长时间框架确认。`)
+  ].join('');
+  let lastVr = -1;
+  for (let j = 0; j < analysis.VR.length; j++) if (Number(analysis.VR[j]) > 0) lastVr = j;
+  const lastVolume = data.legacyTech?.volume?.at(-1), lastOi = data.legacyTech?.oi?.at(-1);
+  const volumeRows = hasVolumeScore ? [
+    row('旧源最近成交量', `${fmt(lastVolume?.[1])} 手<br><small>${lastVolume?.[0] || '—'}</small>`, '用于衔接新快照缺失字段；该日期之后不补造成交量。'),
+    row('旧源最近持仓量', `${fmt(lastOi?.[1])} 手<br><small>${lastOi?.[0] || '—'}</small>`, '持仓量只按旧源实际日期参与序列计算，不将后续空值解释为减仓。'),
+    row('OBV', fmt(analysis.OBV[i]), 'OBV 为旧源有效量仓序列的累计结果；近期量仓未更新时，不新增 OBV 边际判断。'),
+    row('VR(26)', `${lastVr >= 0 ? fmt(analysis.VR[lastVr], 1) : '—'}<br><small>最后有效值 ${lastVr >= 0 ? d.dt[lastVr] : '—'}</small>`, `旧源有效区间内量能强弱的参考值；后续 VR 显示为零属于数据未续接，不解释为市场成交量归零。`),
+    row('量价评分', `${originalScore.v}<br><small>原日报权重 25%</small>`, '沿用原日报量价框架计算，但必须与上述数据日期一并阅读。')
+  ].join('') : row('量价', '—', '新旧数据源均未提供有效量仓，不参与评分。');
+  const divergenceRow = (name, node) => node ? `<tr><td>${name}</td><td>${yn(node.priceNew)}</td><td>${yn(node.priceDiv)}</td><td>${yn(node.areaDiv)}</td><td>${yn(node.difDiv)}</td><td>${node.live ? '当前段未完结' : '历史段'}</td></tr>` : '';
+  const pivots = analysis.zz.slice(-6).reverse().map(point => `<li><span>${d.dt[point.i]}</span><b>${point.t === 'H' ? '高点' : '低点'} ${fmt(point.p)}</b>${point.open ? '<small>当前未完结</small>' : ''}</li>`).join('');
+  const structureText = analysis.zs ? `当前中枢下沿 ZD ${fmt(analysis.zs.ZD)}、上沿 ZG ${fmt(analysis.zs.ZG)}、中枢中值 ${fmt(analysis.zs.mid)}。现价 ${fmt(close)} 位于${close > analysis.zs.ZG ? '中枢上方' : close < analysis.zs.ZD ? '中枢下方' : close >= analysis.zs.mid ? '中枢内部中值上方' : '中枢内部中值下方'}；未有效脱离前，仍按中枢震荡与边界验证处理。` : '当前缠论样本不足，不强行绘制中枢。';
+  const recent = d.c.slice(-20), support = Math.min(...d.l.slice(-20)), resistance = Math.max(...d.h.slice(-20));
+  const levels = [
+    ['第一支撑', `${fmt(analysis.zs?.ZD)}／${fmt(support)}`, '中枢下沿与近 20 日低位；跌破后观察下跌段是否延伸。'],
+    ['中枢中值', fmt(analysis.zs?.mid), '中枢内部强弱分界，只作位置参考。'],
+    ['第一压力', `${fmt(analysis.zs?.ZG)}／${fmt(ma.m20[i])}`, '中枢上沿与 MA20、BOLL 中轨接近，需收盘站稳并由动能配合。'],
+    ['中期压力', `${fmt(ma.m60[i])}／${fmt(resistance)}`, 'MA60 与近 20 日高位区域，是中期趋势能否扭转的进一步验证。'],
+    ['多周期配合', '15 分钟／60 分钟／日线', '小级别负责入场节奏，60 分钟负责修复确认，日线决定主要风险边界；周期冲突时不强行得出单边结论。']
+  ].map(([name, level, text]) => row(name, level, text)).join('');
+  return `
+    <section class="tech-detail-section"><h3>一、原日报技术框架</h3>${framework}</section>
+    <section class="tech-detail-section"><h3>二、趋势层明细</h3><div class="tech-table-wrap"><table class="tech-detail-table"><thead><tr><th>指标</th><th>当前读数</th><th>按原框架解读</th></tr></thead><tbody>${trendRows}</tbody></table></div></section>
+    <section class="tech-detail-section"><h3>三、动能层明细</h3><div class="tech-table-wrap"><table class="tech-detail-table"><thead><tr><th>指标</th><th>当前读数</th><th>按原框架解读</th></tr></thead><tbody>${momentumRows}</tbody></table></div></section>
+    <section class="tech-detail-section"><h3>四、量价与持仓验证</h3><div class="tech-table-wrap"><table class="tech-detail-table"><thead><tr><th>指标</th><th>当前读数</th><th>数据边界与解读</th></tr></thead><tbody>${volumeRows}</tbody></table></div></section>
+    <section class="tech-detail-section"><h3>五、缠论中枢、数浪与背驰</h3><div class="tech-structure"><div><h4>缠论中枢</h4><p>${structureText}</p><h4>近期转折点</h4><ul class="tech-pivots">${pivots}</ul></div><div><h4>数浪假设</h4><p>${escapeHtml(analysis.wave || '结构不足，暂不数浪')}</p><p class="tech-caution">数浪是路径假设，不是确定结论；若价格与 MACD 不配合，应放弃原浪型并重新划分。</p></div></div><div class="tech-table-wrap"><table class="tech-detail-table divergence-table"><thead><tr><th>背驰检查</th><th>价格新极值</th><th>价格背驰</th><th>面积背驰</th><th>DIF 背驰</th><th>段落状态</th></tr></thead><tbody>${divergenceRow('日线顶背驰', analysis.dvT)}${divergenceRow('日线底背驰', analysis.dvB)}${divergenceRow('周线顶背驰', analysis.wdvT)}${divergenceRow('周线底背驰', analysis.wdvB)}</tbody></table></div><p class="tech-caution">背驰必须结合价格极值、MACD 面积和 DIF 共同判断；单项成立不等于完整背驰确认，未完结段落仍可能随新 K 线改变。</p></section>
+    <section class="tech-detail-section"><h3>六、关键价位与多周期验证</h3><div class="tech-table-wrap"><table class="tech-detail-table"><thead><tr><th>观察项</th><th>位置</th><th>验证方法</th></tr></thead><tbody>${levels}</tbody></table></div></section>`;
+}
+
 function renderTechnical(data) {
   const labels = data.kline.labels, candles = data.kline.candles;
   const series = key => labels.map((date, index) => [date, candles[index][key]]);
@@ -346,7 +436,7 @@ function renderTechnical(data) {
   const ma = name => analysis.MA[name][last], macd = analysis.M.dif[last] - analysis.M.dea[last];
   const cards = data.tech.slice(0, 2).map(item => {
     const score = scoreSnapshot(item), [status, tone] = rating(score.total);
-    return { frame: item.frame, status, tone, total: score.total, detail: `趋势 ${score.trend} / 动能 ${score.momentum}\nMA5 ${fmt(score.ma5)} · MA20 ${fmt(score.ma20)}\nMACD DIF ${fmt(score.dif)} · DEA ${fmt(score.dea)} · RSI14 ${fmt(score.rsi, 1)}\n${(item.detail.match(/缠论简化结构[^；]+/) || ['结构区间见快照'])[0]}\n量价：快照未提供，不参与评分` };
+    return { frame: item.frame, status, tone, total: score.total, detail: `趋势 ${score.trend} / 动能 ${score.momentum}\nMA5 ${fmt(score.ma5)} · MA20 ${fmt(score.ma20)}\nMACD DIF ${fmt(score.dif)} · DEA ${fmt(score.dea)} · RSI14 ${fmt(score.rsi, 1)}\n${(item.detail.match(/缠论简化结构[^；]+/) || ['结构区间见快照'])[0]}\n${(item.detail.match(/江恩区间[^；]+/) || ['江恩区间见快照'])[0]}\n量价：快照未提供，不参与评分` };
   });
   cards.push({ frame: '大级别｜日线', status: dailyRating, tone: dailyTone, total, detail: `趋势 ${originalScore.t} / 动能 ${originalScore.m}\nMA5 ${fmt(ma('m5'))} · MA20 ${fmt(ma('m20'))} · MA60 ${fmt(ma('m60'))}\nDIF ${fmt(analysis.M.dif[last])} · DEA ${fmt(analysis.M.dea[last])} · 柱 ${fmt(macd)}\nKDJ ${fmt(analysis.KD.k[last], 1)} / ${fmt(analysis.KD.d[last], 1)} · RSI14 ${fmt(analysis.RSI14[last], 1)}\n中枢 ${analysis.zs ? `${fmt(analysis.zs.ZD)}–${fmt(analysis.zs.ZG)}` : '结构不足'}${hasVolumeScore ? `\n量价 ${originalScore.v}：旧日报成交量与持仓量补齐` : '\n量价：源数据缺失，不参与评分'}` });
   id('privateTechGrid').innerHTML = cards.map(card => `<article class="tech-card ${card.tone}"><h3>${escapeHtml(card.frame)}<span class="score">${card.total} · ${card.status}</span></h3><p>${escapeHtml(card.detail)}</p></article>`).join('');
@@ -357,6 +447,7 @@ function renderTechnical(data) {
   else if (total <= -25) strategy = `短期（2–3天）：下行方向未改，反抽先按修复观察；中短期（2–3周）：${fmt(resistance)} 附近构成压力，下方观察 ${fmt(support)}；策略：控制仓位，跌破支撑按纪律处理，不盲目抄底。`;
   else strategy = `短期（2–3天）：无方向性优势，区间思维；中短期（2–3周）：${fmt(support)}～${fmt(resistance)} 区间震荡，边界附近反向观察；中期（2–3月）：等待结构突破再定方向；策略：区间高抛低吸，放量突破边界后跟随。`;
   id('privateTechBrief').innerHTML = `<b>技术面评分 ${total}（${dailyRating}）</b>。${strategy}<br><b>结构提示：</b>${escapeHtml(analysis.wave || '结构不足，暂不数浪')} 数浪与背驰仅供结构复核，以价格、MACD 和关键区间共同验证。`;
+  id('privateTechDetails').innerHTML = buildTechnicalDetails(analysis, data, originalScore, hasVolumeScore);
   id('privateTechUpdated').textContent = `快照 ${data.updated_at || '已更新'}`;
   id('privateTechMethod').innerHTML = `<b>原日报指标体系：</b>趋势使用均线、MACD(12,26,9)、DMI、DMA、BOLL、缠论中枢与周线 MACD；动能使用 KDJ、RSI、WR、CCI、ROC；结构辅助使用数浪与背驰。${hasVolumeScore ? `新快照缺少的成交量和持仓量已按日期使用旧日报数据补齐，量价按原权重参与评分；旧源量仓分别更新至 ${escapeHtml(data.legacyTech?.volumeUpdated || '—')} / ${escapeHtml(data.legacyTech?.oiUpdated || '—')}。` : '当前量仓数据仍缺失，量价维度不参与评分，也不补造数据。'}`;
   id('privateTechMeta').textContent = `${data.source || '外部技术快照'}${hasVolumeScore ? '＋旧日报量仓' : ''} · MA5 / MA10 / MA20 / MA60 / MA288`;
@@ -381,14 +472,14 @@ function drawKline() {
   data.candles.forEach(c => { if (c) nums.push(c.h, c.l); }); Object.values(data.mas || {}).forEach(values => values.forEach(v => { if (v != null) nums.push(v); }));
   let lo = Math.min(...nums), hi = Math.max(...nums); const extra = (hi - lo) * .04 || 1; lo -= extra; hi += extra;
   const y = value => pad.t + (hi - value) / (hi - lo) * ph;
-  ctx.clearRect(0, 0, w, h); ctx.font = '10px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'; ctx.lineWidth = 1;
+  ctx.clearRect(0, 0, w, h); ctx.font = '10px "KaiTi","楷体",STKaiti,serif'; ctx.lineWidth = 1;
   for (let j = 0; j <= 6; j++) { const yy = pad.t + ph * j / 6, value = hi - (hi - lo) * j / 6; ctx.strokeStyle = '#e3e6e8'; ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(w - pad.r, yy); ctx.stroke(); ctx.fillStyle = '#777'; ctx.textAlign = 'right'; ctx.fillText(fmt(value), pad.l - 8, yy + 3); }
   const n = data.labels.length, step = pw / Math.max(n, 1), body = Math.max(1, Math.min(6, step * .66)); ctx.textAlign = 'center';
   for (let j = 0; j <= 6; j++) { const index = Math.min(n - 1, Math.round((n - 1) * j / 6)), xx = pad.l + step * (index + .5); ctx.fillStyle = '#777'; ctx.fillText(data.labels[index].slice(2, 7), xx, h - 8); }
   data.candles.forEach((candle, index) => { if (!candle) return; const xx = pad.l + step * (index + .5), up = candle.c >= candle.o, color = up ? '#c44b5d' : '#188865'; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(xx, y(candle.h)); ctx.lineTo(xx, y(candle.l)); ctx.stroke(); const top = y(Math.max(candle.o, candle.c)), bottom = y(Math.min(candle.o, candle.c)); ctx.fillRect(xx - body / 2, top, body, Math.max(1, bottom - top)); });
   Object.entries(data.mas || {}).forEach(([name, values]) => { ctx.strokeStyle = MA_COLORS[name] || '#333'; ctx.lineWidth = name === 'MA288' ? 1.8 : 1.2; ctx.beginPath(); let open = false; values.forEach((value, index) => { if (value == null) { open = false; return; } const xx = pad.l + step * (index + .5), yy = y(value); if (!open) { ctx.moveTo(xx, yy); open = true; } else ctx.lineTo(xx, yy); }); ctx.stroke(); });
-  let lx = pad.l; ctx.textAlign = 'left'; ctx.font = '11px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'; Object.entries(data.mas || {}).forEach(([name, values]) => { const last = [...values].reverse().find(value => value != null), label = `${name} ${last == null ? '—' : fmt(last)}`; ctx.fillStyle = MA_COLORS[name] || '#333'; ctx.fillText(label, lx, 18); lx += ctx.measureText(label).width + 15; });
-  const last = data.candles[data.candles.length - 1]; if (last) { ctx.fillStyle = last.c >= last.o ? '#c44b5d' : '#188865'; ctx.textAlign = 'right'; ctx.font = '600 12px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText(`收盘 ${fmt(last.c)}`, w - pad.r, 18); }
+  let lx = pad.l; ctx.textAlign = 'left'; ctx.font = '11px "KaiTi","楷体",STKaiti,serif'; Object.entries(data.mas || {}).forEach(([name, values]) => { const last = [...values].reverse().find(value => value != null), label = `${name} ${last == null ? '—' : fmt(last)}`; ctx.fillStyle = MA_COLORS[name] || '#333'; ctx.fillText(label, lx, 18); lx += ctx.measureText(label).width + 15; });
+  const last = data.candles[data.candles.length - 1]; if (last) { ctx.fillStyle = last.c >= last.o ? '#c44b5d' : '#188865'; ctx.textAlign = 'right'; ctx.font = '600 12px "KaiTi","楷体",STKaiti,serif'; ctx.fillText(`收盘 ${fmt(last.c)}`, w - pad.r, 18); }
 }
 
 /* Annual balance scenario */
@@ -442,11 +533,7 @@ function showPage(pageId, updateUrl = true) {
   currentPage = pageId;
   toolPage.hidden = true; toolFrame.hidden = true; wrap.hidden = false;
   registry.forEach(page => page.section.classList.toggle('active', page.id === pageId));
-  $$('.tree-link[data-page]', treeNav).forEach(button => {
-    const active = button.dataset.page === pageId;
-    button.classList.toggle('active', active); button.setAttribute('aria-current', active ? 'page' : 'false');
-  });
-  $$(':scope > details', treeNav).forEach(details => { details.open = false; });
+  renderNav(findNavPath(pageId) || []);
   $('#techTop').classList.toggle('active', pageId === 'technical');
   $('#breadcrumb').innerHTML = record.trail.map(item => `<span>${item}</span>`).join('') + `<span>${record.title}</span>`;
   document.title = `${record.title} · 锡研究周报`;
@@ -461,26 +548,26 @@ function showTool(toolId) {
   wrap.hidden = true; toolPage.hidden = false; toolFrame.hidden = false;
   $('#toolTitle').textContent = tool[0]; $('#breadcrumb').innerHTML = `<span>研究工作台</span><span>${tool[0]}</span>`;
   if (toolFrame.dataset.tool !== toolId) { toolFrame.src = tool[1]; toolFrame.dataset.tool = toolId; }
-  $$('.tree-link', treeNav).forEach(button => button.classList.remove('active'));
-  $$(':scope > details', treeNav).forEach(details => { details.open = false; });
+  renderNav(findNavPath(toolId, 'tool') || []);
   $('#techTop').classList.remove('active'); $('#mobilePageTitle').textContent = tool[0];
   document.title = `${tool[0]} · 锡研究周报`; window.scrollTo({ top: 0, behavior: 'instant' });
 }
 treeNav.addEventListener('click', event => {
-  const pageButton = event.target.closest('[data-page]'), toolButton = event.target.closest('[data-tool]');
-  if (pageButton) showPage(pageButton.dataset.page);
-  if (toolButton) showTool(toolButton.dataset.tool);
+  const button = event.target.closest('.nav-choice');
+  if (!button) return;
+  const depth = Number(button.dataset.navDepth), index = Number(button.dataset.navIndex);
+  let items = NAV;
+  for (let level = 0; level < depth; level += 1) items = navPath[level].children;
+  const item = items[index];
+  if (!item) return;
+  if (item.type === 'group') {
+    renderNav([...navPath.slice(0, depth), item]);
+    return;
+  }
+  if (item.type === 'tool') showTool(item.id);
+  else showPage(item.id);
 });
 $('#closeTool').addEventListener('click', () => showPage(currentPage));
-
-/* Keep only one dropdown open and return focus to the top navigation on small screens. */
-treeNav.addEventListener('toggle', event => {
-  const details = event.target;
-  if (details.tagName !== 'DETAILS' || !details.open) return;
-  [...details.parentElement.children].forEach(sibling => { if (sibling !== details && sibling.tagName === 'DETAILS') sibling.open = false; });
-  if (innerWidth <= 1180 && details.parentElement === treeNav) $('#topNavigation').scrollIntoView({ block: 'start' });
-}, true);
-document.addEventListener('click', event => { if (!treeNav.contains(event.target)) $$(':scope > details', treeNav).forEach(details => { details.open = false; }); });
 
 /* Fixed mobile previous/next controls; no need to scroll back to the top. */
 const PAGE_ORDER = [];
