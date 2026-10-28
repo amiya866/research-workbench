@@ -107,6 +107,19 @@ def period_return(chart, start, end):
     return points[-1][1] / points[0][1] - 1
 
 
+def quarterly_html(path, new_html):
+    today = datetime.date.today()
+    end_month = ((today.month - 1) // 3 + 1) * 3
+    next_quarter = datetime.date(today.year + (end_month == 12), end_month % 12 + 1, 1)
+    if (next_quarter - today).days <= 7:
+        return new_html
+    if path.exists():
+        match = re.search(r'<details class="fold" id="q4outlook">.*?</details>', path.read_text(encoding='utf-8'), re.S)
+        if match:
+            return match.group(0)
+    return new_html
+
+
 SEASON_COLORS = ['#1F4E79', '#C00000', '#8FAADC', '#C9A869', '#67B8A6', '#7F7F7F', '#5B9BD5', '#B07AA1']
 
 
@@ -367,6 +380,7 @@ def main():
         fmt(refined[1]) if refined else '—', refined[0] if refined else '—',
         fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—',
         fmt(lfp[1]) if lfp else '—', lfp[0] if lfp else '—')
+    q4_html = quarterly_html(OUT / 'index.html', q4_html)
     meta = {'title': '研究周报 · 镍与不锈钢', 'asof': asof, 'headline': headline, 'metrics': metrics,
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',

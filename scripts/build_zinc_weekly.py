@@ -189,6 +189,7 @@ def main():
         shared.pct(q3), shared.pct(q4), shared.fmt(latest['global_stock'][1]), shared.fmt(latest['social_stock'][1]),
         shared.fmt(latest['tc'][1]), latest['tc'][0], shared.fmt(refined[1]) if refined else '—', refined[0] if refined else '—',
         shared.fmt(galv[1]) if galv else '—', galv[0] if galv else '—')
+    q4_html = shared.quarterly_html(OUT / 'index.html', q4_html)
     charts = shared.seasonalize_charts(charts)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)

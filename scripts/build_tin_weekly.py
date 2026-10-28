@@ -142,7 +142,7 @@ def main():
     headline = text(one(r'<div class="tone">(.*?)</div>', source))
     asof = one(r'数据截至\s*<b>(\d{4}-\d{2}-\d{2})</b>', source, datetime.date.today().isoformat())
     summary = summary_table(source)
-    quarter = one(r'(<details class="fold" id="q4outlook">.*?</details>)', source)
+    quarter = shared.quarterly_html(OUT / 'index.html', one(r'(<details class="fold" id="q4outlook">.*?</details>)', source))
     framework = one(r'(<details class="fold" id="framework">.*?</details>)', source)
     balance = one(r'(<details class="fold" id="balance">.*?</details>)', source)
     OUT.mkdir(parents=True, exist_ok=True)
