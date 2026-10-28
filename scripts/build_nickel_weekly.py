@@ -226,8 +226,11 @@ def build_freshness(data):
             else:
                 status, label = 'stale', '滞后'
                 action = '保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。'
+        source_text = source_detail(source)
+        if source.get('recoveredFrom'):
+            source_text += '（失败刷新保留自 %s）' % source['recoveredFrom']
         rows.append({'key': key, 'name': NAMES.get(key, key), 'module': modules.get(key, '其他'),
-                     'source': source_detail(source), 'frequency': frequency,
+                     'source': source_text, 'frequency': frequency,
                      'unit': source.get('unit') or UNITS.get(key, '—'),
                      'latest': str(point[0]) if point else '—', 'latest_value': fmt(point[1]) if point else '—',
                      'latest_iso': latest_date.isoformat() if latest_date else '', 'age_days': age,
