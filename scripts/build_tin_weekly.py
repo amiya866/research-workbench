@@ -50,7 +50,9 @@ def one(pattern, source, fallback=''):
 
 
 def ordinal(value):
-    if 1900 <= value <= 2100:
+    if value < 1900:
+        return str(value)
+    if value <= 2100:
         return str(int(value))
     return (datetime.date(1970, 1, 1) + datetime.timedelta(days=int(value))).isoformat()
 
@@ -126,7 +128,7 @@ def main():
     source = UPSTREAM.read_text(encoding='utf-8')
     chart_script = CHART_JS.read_text(encoding='utf-8')
     raw_charts = json.loads(chart_script[chart_script.index('=') + 1:].rstrip().rstrip(';'))
-    charts = {key: convert_chart(key, value) for key, value in raw_charts.items()}
+    charts = shared.seasonalize_charts({key: convert_chart(key, value) for key, value in raw_charts.items()})
     names = {key: value.get('title', key) for key, value in raw_charts.items()}
     shared.NAMES = names
     source_meta = {key: {'type': '原版锡周报', 'formula': value.get('sec', '详细周报')}

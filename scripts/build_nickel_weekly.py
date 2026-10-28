@@ -97,6 +97,30 @@ def change(chart, periods=5):
     return values[-1] / values[-periods - 1] - 1
 
 
+SEASON_COLORS = ['#1F4E79', '#C00000', '#8FAADC', '#C9A869', '#67B8A6', '#7F7F7F', '#5B9BD5', '#B07AA1']
+
+
+def seasonalize_charts(charts):
+    converted = {}
+    for key, chart in charts.items():
+        labels = chart.get('labels') or []
+        if len(labels) < 40 or not all(re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(x)) for x in labels):
+            converted[key] = chart
+            continue
+        years = sorted({str(x)[:4] for x in labels})
+        month_days = sorted({str(x)[5:] for x in labels})
+        datasets = []
+        for source in chart.get('datasets') or []:
+            for year in years:
+                lookup = {str(label)[5:]: value for label, value in zip(labels, source.get('data') or []) if str(label).startswith(year)}
+                color = SEASON_COLORS[(years.index(year)) % len(SEASON_COLORS)]
+                datasets.append(dict(source, label='%s年｜%s' % (year, source.get('label', key)),
+                                     data=[lookup.get(md) for md in month_days],
+                                     borderColor=color, backgroundColor=color))
+        converted[key] = dict(chart, labels=month_days, datasets=datasets, _seasonal=True)
+    return converted
+
+
 FRESHNESS_FILE = BASE / 'data' / 'nickel_weekly_freshness.json'
 UNITS = {
     'overview_shfe': '元/吨', 'overview_ss': '元/吨', 'overview_lme': '美元/吨',
@@ -311,6 +335,7 @@ def main():
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',
             'warnings': data.get('meta', {}).get('warnings', []), 'sync_status': 'ok'}
+    charts = seasonalize_charts(charts)
     freshness = build_freshness(data)
     FRESHNESS_FILE.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
     OUT.mkdir(parents=True, exist_ok=True)
@@ -390,7 +415,7 @@ def main():
             parts.append('<footer>数据更新至 %s ｜ 镍与不锈钢研究周报 ｜ ⚙️自动构建，仅供研究参考，不构成投资建议。</footer>' % esc(asof))
         parts.append('</div></section>')
 
-    payload = json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+    payload = json.dumps({'charts': charts}, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     doc = '''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><link href="data:," rel="icon">
 <title>研究周报 · 镍与不锈钢</title><style>__BASE_CSS__</style><link href="weekly_mobile.css" rel="stylesheet"><link href="weekly_polish.css" rel="stylesheet"><link href="research.css" rel="stylesheet"><link href="../weekly-light.css" rel="stylesheet"><style>.chart-box{height:240px;position:relative}.chart-box canvas{display:block;width:100%;height:100%}.tablewrap{overflow-x:auto}.page-body p{font-size:14.5px}.cbox .stats{line-height:1.55}.fresh-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:12px 0}.fresh-kpi{border:1px solid var(--line);background:var(--cardbg);padding:10px;text-align:left;cursor:pointer}.fresh-kpi span,.fresh-kpi small{display:block;color:var(--faint);font-size:11px}.fresh-kpi strong{display:block;font-size:25px}.fresh-kpi.fresh strong{color:#188865}.fresh-kpi.watch strong{color:#a3760e}.fresh-kpi.stale strong,.fresh-kpi.missing strong{color:#c44b5d}.fresh-kpi.review strong{color:#7c4dff}.fresh-kpi.active{outline:2px solid var(--blue);outline-offset:1px}.fresh-legend{margin:12px 0;color:var(--grey);font-size:13px}.fresh-badge{display:inline-block;padding:1px 7px;border:1px solid var(--line);white-space:nowrap}.fresh-badge.fresh{color:#188865}.fresh-badge.watch{color:#a3760e}.fresh-badge.stale,.fresh-badge.missing{color:#c44b5d}.fresh-badge.review{color:#7c4dff}.src-note{color:var(--faint);font-size:11px}.fresh-table{min-width:1080px}.fresh-table td{vertical-align:top}@media(max-width:900px){.fresh-grid{grid-template-columns:repeat(3,1fr)}}</style></head>
 <body><header class="research-topbar"><div class="research-brand"><a aria-label="返回整合研究站" class="back-home" href="../index.html">← 整合研究站</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · NICKEL</p><h1>研究周报 <span class="commodity-current">镍</span></h1><p>镍 × 不锈钢 · 周度研究 · 印尼供应 · 库存 · 成本平衡</p></div></div><div class="research-actions"><nav class="commodity-switch" aria-label="品种切换"><a href="../tin-weekly/#sumsec">锡</a><a class="active" href="#sumsec">镍</a><a href="../zinc-weekly/#sumsec">锌</a></nav><a class="back-home" href="https://amiya866.github.io/nickel-panel/" target="_blank" rel="noopener">镍市瞭望 ↗</a><span class="research-stamp">数据截至 <b>__ASOF__</b></span><button aria-pressed="false" class="view-toggle" id="viewToggle" type="button">切换手机版</button></div></header>
