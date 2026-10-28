@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-10-28T14:26:22+08:00",
+  "built_at": "2026-10-28T14:27:34+08:00",
   "overall": "正常",
   "rows": [
     {
@@ -114,10 +114,10 @@
   "tasks": [
     {
       "name": "RwBenchDaily",
-      "state": "Running",
+      "state": "Ready",
       "last": "2026-10-28 14:08:30",
       "next": "2026-10-28 20:40:00",
-      "result": 267009
+      "result": 0
     },
     {
       "name": "RwBenchQuick",
