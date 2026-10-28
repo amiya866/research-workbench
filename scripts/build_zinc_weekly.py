@@ -165,6 +165,30 @@ def main():
         price_word, stock_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
         shared.fmt(latest['tc'][1]), latest['tc'][0])
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])} for key, name, unit in KPI]
+    q3 = shared.period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
+    q4 = shared.period_return(charts['overview_shfe'], '2026-10-01', asof)
+    refined = shared.last_point(charts['ID01510883'])
+    galv = shared.last_point(charts['ID00187499'])
+    q4_html = '''<details class="fold" id="q4outlook"><summary>季度展望：Q3复盘与Q4展望（点击展开/折叠）</summary><div class="foldbody">
+<div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
+<li>Q3沪锌价格变动 %s，矿端TC持续下行与库存下降共同支撑近月结构，但价格高位后需求承接和宏观估值约束增强，近月与远月需要分开判断。</li>
+<li>Q4迄今价格变动 %s。当前LME与SHFE合计库存 %s 吨、国内社库 %s 万吨，低库存继续支撑近月Back，但TC负值与冶炼恢复预期也提高了远月供应改善的可能。</li>
+<li>基准判断是“近端矿锭偏紧，远端等待供应恢复验证”。不能把低库存直接外推为全年趋势利多，也不能在仓单偏低时简单追空。</li></ul>
+<div class="lead">二、供应：TC负值与冶炼恢复并行</div><ul class="sq">
+<li>昆明50%% TC最新 %s 元/吨（%s），负值反映矿端加工费承压，需结合进口矿、港口库存和实际精炼锌产量验证，而不是只看报价。</li>
+<li>中国精炼锌最新 %s 万吨（%s），Q4重点看冶炼利润、检修和复产能否转化为连续增量。</li>
+<li>海外矿山与冶炼企业Q3财报提供部分恢复性增量，后续仍需核查爬产、运输和仓单交付节奏。</li></ul>
+<div class="lead">三、需求与库存：镀锌托底，终端分化</div><ul class="sq">
+<li>镀锌板卷最新 %s 万吨（%s），镀锌、压铸和氧化锌共同构成需求底座，地产新开工与家电、汽车排产决定后续斜率。</li>
+<li>若库存继续下降且现货升水、Back同步走强，近月结构仍占优；若冶炼恢复带动仓单回升，远月压力会先体现。</li>
+<li>需求端不能只凭价格反推，必须观察镀锌开工、出口订单和终端补库是否连续。</li></ul>
+<div class="lead">四、策略与验证点</div><ul class="sq">
+<li>结构上优先看近月强弱与月差，单边不追低库存环境下的极端行情，等待库存与现货结构确认。</li>
+<li>上修条件：TC继续下行＋仓单下降＋镀锌排产稳定；下修条件：冶炼恢复超预期＋仓单回升＋终端补库走弱。</li>
+<li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
+        shared.pct(q3), shared.pct(q4), shared.fmt(latest['global_stock'][1]), shared.fmt(latest['social_stock'][1]),
+        shared.fmt(latest['tc'][1]), latest['tc'][0], shared.fmt(refined[1]) if refined else '—', refined[0] if refined else '—',
+        shared.fmt(galv[1]) if galv else '—', galv[0] if galv else '—')
     charts = shared.seasonalize_charts(charts)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)
@@ -180,7 +204,7 @@ def main():
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
-            parts.append('<details class="fold" id="q4outlook"><summary>后续观察与证伪条件（点击展开/折叠）</summary><div class="foldbody"><ul class="sq"><li>LME与SHFE库存：仓单下降需连续验证，不以单日变化外推趋势。</li><li>矿端与冶炼：TC、进口矿、精炼锌产量共同判断供应，不将单一减产传闻直接当成平衡缺口。</li><li>需求：镀锌、压铸、地产与出口共同验证，避免仅以价格判断终端。</li><li>观点边界：⚙️规则摘要只整理当前数据，不沿用旧周报方向。</li></ul></div></details>')
+            parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             rows = [
                 ('价格', '沪锌 %s 元/吨（%s）｜LME锌 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),

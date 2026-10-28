@@ -165,6 +165,30 @@ def main():
         price_word, stock_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
         shared.fmt(latest['lme03'][1]), latest['lme03'][0])
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])} for key, name, unit in KPI]
+    q3 = shared.period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
+    q4 = shared.period_return(charts['overview_shfe'], '2026-10-01', asof)
+    output = shared.last_point(charts['a10124317'])
+    downstream = shared.last_point(charts['a10031808'])
+    q4_html = '''<details class="fold" id="q4outlook"><summary>季度展望：Q3复盘与Q4展望（点击展开/折叠）</summary><div class="foldbody">
+<div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
+<li>Q3沪铝价格变动 %s，氧化铝与电解铝供应恢复、利润高企和库存偏低共同塑造价格弹性，成本高利润与弱宏观之间的分歧加大。</li>
+<li>Q4迄今价格变动 %s。当前LME与SHFE合计库存 %s 吨、国内社库 %s 万吨，低库存仍支撑近月，但氧化铝价格 %s 元/吨与电解铝利润 %s 元/吨说明供应端利润已较充裕。</li>
+<li>基准判断是“低库存支撑近月，高利润刺激供应恢复”。Q4重点不是单看铝价强弱，而是核查氧化铝、电解铝复产能否改变库存和现货结构。</li></ul>
+<div class="lead">二、供应：三层产量与利润恢复</div><ul class="sq">
+<li>铝土矿、氧化铝和电解铝不能混为一层：进口矿和氧化铝恢复决定成本端，运行产能和铝水比例决定锭端实际供应。</li>
+<li>中国电解铝最新 %s 万吨（%s）；美铝与Vedanta披露的26Q3原铝产量均为64.9万吨，海外复产也在贡献增量。</li>
+<li>高利润有利于复产和爬产，但若氧化铝价格下跌快于铝价，成本支撑会同步弱化，需防止利润高位后的供应回归。</li></ul>
+<div class="lead">三、需求与库存：铝加工托底，出口验证</div><ul class="sq">
+<li>铝型材龙头开工率最新 %s%%（%s），板带、地产竣工、家电和铝材出口共同决定真实订单，不宜只用价格判断消费。</li>
+<li>若社库继续下降且下游开工稳定，近月结构仍有支撑；若复产叠加出口走弱，库存拐点将首先削弱远月估值。</li>
+<li>氧化铝与电解铝利润需要分开跟踪，避免把上游价格回落简单理解为全行业利空。</li></ul>
+<div class="lead">四、策略与验证点</div><ul class="sq">
+<li>近月看库存和基差，远月看复产与利润回归，避免在高利润阶段仅凭低库存追涨。</li>
+<li>上修条件：持续去库＋铝加工开工稳定＋氧化铝供应扰动；下修条件：复产超预期＋出口转弱＋社库回升。</li>
+<li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
+        shared.pct(q3), shared.pct(q4), shared.fmt(latest['global_stock'][1]), shared.fmt(latest['social_stock'][1]),
+        shared.fmt(latest['lme03'][1]), shared.fmt(latest['tc'][1]), shared.fmt(output[1]) if output else '—', output[0] if output else '—',
+        shared.fmt(downstream[1]) if downstream else '—', downstream[0] if downstream else '—')
     charts = shared.seasonalize_charts(charts)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)
@@ -180,7 +204,7 @@ def main():
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
-            parts.append('<details class="fold" id="q4outlook"><summary>后续观察与证伪条件（点击展开/折叠）</summary><div class="foldbody"><ul class="sq"><li>LME与SHFE库存：仓单下降需连续验证，不以单日变化外推趋势。</li><li>矿端与冶炼：铝土矿、氧化铝、电解铝产量共同判断供应，不将单一减产传闻直接当成平衡缺口。</li><li>需求：铝型材、板带、地产、家电与出口共同验证，避免仅以价格判断终端。</li><li>观点边界：⚙️规则摘要只整理当前数据，不沿用旧周报方向。</li></ul></div></details>')
+            parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             rows = [
                 ('价格', '沪铝 %s 元/吨（%s）｜LME铝 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, 'nt'),

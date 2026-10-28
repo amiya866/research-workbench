@@ -97,6 +97,16 @@ def change(chart, periods=5):
     return values[-1] / values[-periods - 1] - 1
 
 
+def period_return(chart, start, end):
+    labels = chart.get('labels') or []
+    values = (chart.get('datasets') or [{}])[0].get('data') or []
+    points = [(str(label)[:10], value) for label, value in zip(labels, values)
+              if start <= str(label)[:10] <= end and value is not None]
+    if len(points) < 2 or not points[0][1]:
+        return None
+    return points[-1][1] / points[0][1] - 1
+
+
 SEASON_COLORS = ['#1F4E79', '#C00000', '#8FAADC', '#C9A869', '#67B8A6', '#7F7F7F', '#5B9BD5', '#B07AA1']
 
 
@@ -331,6 +341,32 @@ def main():
     for key, name, unit in KPI:
         date, value = latest.get(key) or [None, None]
         metrics.append({'name': name, 'value': '%s %s（%s）' % (fmt(value), unit, date or '—')})
+    q3 = period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
+    q4 = period_return(charts['overview_shfe'], '2026-10-01', asof)
+    refined = last_point(charts['supply_refined_cn'])
+    lfp = last_point(charts['demand_battery_lfp'])
+    q4_html = '''<details class="fold" id="q4outlook"><summary>季度展望：Q3复盘与Q4展望（点击展开/折叠）</summary><div class="foldbody">
+<div class="lead">一、三季度复盘与四季度展望</div><ul class="sq">
+<li>Q3沪镍价格变动 %s。供应端印尼中间品和精炼镍继续放量，需求端不锈钢与新能源未能完全消化增量，LME及国内库存高位，价格主要受现实供应压力约束。</li>
+<li>进入Q4，核心不是单纯判断印尼增产还是减产，而是验证新增供应能否被不锈钢和三元需求吸收。当前LME镍库存 %s 吨、国内社库 %s 吨，库存仍是判断价格弹性的第一约束。</li>
+<li>基准判断维持“高库存压制与印尼政策/成本支撑并存”。若库存不能连续下降，反弹不宜直接理解为趋势反转；若印尼供应扰动与去库共振，再上调近月弹性。</li></ul>
+<div class="lead">二、供应：印尼增量仍是主线</div><ul class="sq">
+<li>印尼NPI最新 %s 万金属吨（标签%s），NPI、MHP、高冰镍和精炼镍多条产品线共同决定边际供应，不能只看单一项目或单一政策。</li>
+<li>中国精炼镍最新 %s（%s）。国内高产量与印尼增量叠加，Q4需重点核查实际开工、出口和仓单交付，而非只看规划产能。</li>
+<li>印尼RKAB、园区检修和天气是潜在扰动项，但只有转化为产量、出口或库存变化，才作为方向性证据。</li></ul>
+<div class="lead">三、需求与库存：不锈钢托底，新能源分化</div><ul class="sq">
+<li>中国300系不锈钢最新 %s 万吨（标签%s），排产和镍铁采购决定NPI需求底座，需同时观察钢厂利润与300系库存。</li>
+<li>新能源内部三元与磷酸铁锂继续分化，磷酸铁锂最新产量 %s MWh（标签%s），三元需求不能简单用动力电池总量替代。</li>
+<li>若LME、SHFE和社库不能同向去化，高库存将继续压制反弹高度；若仓单持续下降且不锈钢排产稳定，才支持近月结构改善。</li></ul>
+<div class="lead">四、策略与验证点</div><ul class="sq">
+<li>不追高库存环境下的单边反弹，优先观察库存、升贴水和近月结构是否同步改善。</li>
+<li>上修条件：印尼供应扰动兑现＋连续去库＋不锈钢排产稳定；下修条件：印尼增量超预期＋终端排产走弱＋仓单继续增加。</li>
+<li>本段为数据驱动的研究框架，不构成投资建议。</li></ul></div></details>''' % (
+        pct(q3), fmt(latest.get('lme_stock')[1]), fmt(latest.get('social_stock')[1]),
+        fmt(npi[1]) if npi else '—', npi[0] if npi else '—',
+        fmt(refined[1]) if refined else '—', refined[0] if refined else '—',
+        fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—',
+        fmt(lfp[1]) if lfp else '—', lfp[0] if lfp else '—')
     meta = {'title': '研究周报 · 镍与不锈钢', 'asof': asof, 'headline': headline, 'metrics': metrics,
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',
@@ -354,7 +390,7 @@ def main():
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div>' % esc(headline))
             parts.append('<div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>')
-            parts.append('''<details class="fold" id="q4outlook"><summary>后续观察与证伪条件（点击展开/折叠）</summary><div class="foldbody"><ul class="sq"><li>印尼供应：跟踪NPI、MHP、高冰镍和精炼镍产量兑现，不将项目规划直接当作当期供应。</li><li>库存验证：LME、SHFE、社库需同向变化，单一日度去库不直接外推趋势。</li><li>需求验证：300系排产、三元电池装车与硫酸镍开工需共同确认。</li><li>观点边界：⚙️规则摘要只整理当前数据，不沿用旧周报方向，不构成投资建议。</li></ul></div></details>''')
+            parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             shfe = latest.get('shfe') or [None, None]
             ss = latest.get('ss') or [None, None]
