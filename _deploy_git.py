@@ -73,12 +73,12 @@ def main():
     except Exception as e:
         print('token 兜底跳过:', e)
     ensure_proxy()
-    pull = run(['git', '-c', 'http.proxy=%s' % PROXY, '-c', 'http.schannelCheckRevoke=false', 'pull', '--rebase', 'origin', 'main'], env=env)
+    pull = run(['git', '-c', 'http.proxy=%s' % PROXY, '-c', 'http.schannelCheckRevoke=false', '-c', 'http.sslBackend=openssl', 'pull', '--rebase', 'origin', 'main'], env=env)
     if pull.returncode:
         tail = '\n'.join(((pull.stdout or '') + (pull.stderr or '')).strip().splitlines()[-8:])
         print('pull --rebase 失败，停止推送以免覆盖远端：\n' + tail)
         sys.exit(2)
-    p = run(['git', '-c', 'http.proxy=%s' % PROXY, '-c', 'http.schannelCheckRevoke=false', 'push', 'origin', 'HEAD'], env=env)
+    p = run(['git', '-c', 'http.proxy=%s' % PROXY, '-c', 'http.schannelCheckRevoke=false', '-c', 'http.sslBackend=openssl', 'push', 'origin', 'HEAD'], env=env)
     tail = '\n'.join(((p.stdout or '') + (p.stderr or '')).strip().splitlines()[-3:])
     print('push rc=%d | %s' % (p.returncode, tail))
     sys.exit(0 if p.returncode == 0 else 1)
