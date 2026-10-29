@@ -10,12 +10,11 @@ $$('.report-page[data-page]', wrap).forEach(section => {
 const page = (id, label) => ({type: 'page', id, label});
 const group = (label, children, open = false) => ({type: 'group', label, children, open});
 const NAV = [
-  group('总览', [page('sumsec', '本周总结'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
+  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
   group('重点关注', [
     group('供给', [page('supply', '纯镍与印尼供应'), page('inventory', '库存与仓单'), page('cost', '成本与利润')], true),
     group('需求', [page('demand', '不锈钢与新能源')], true)
   ], true),
-  group('宏观与策略', [page('price', '价格与结构')]),
   page('balance', '平衡表与财报项目'),
   group('研究工作台', [
     {type: 'tool', id: 'panel', label: '镍市瞭望'},
@@ -24,17 +23,23 @@ const NAV = [
   ])
 ];
 const treeNav = $('#treeNav');
-function buildNav(items, parent) {
+function buildNav(items, parent, depth = 0, label = '研究目录') {
+  const row = document.createElement('div'); row.className = `nav-row nav-row-depth-${depth}`;
+  const caption = document.createElement('span'); caption.className = 'nav-row-label'; caption.textContent = label;
+  row.appendChild(caption); parent.appendChild(row);
   items.forEach(item => {
+    const button = document.createElement('button'); button.type = 'button';
+    button.className = 'tree-link nav-choice' + (item.type === 'group' ? ' is-parent' : '');
+    button.textContent = item.label; row.appendChild(button);
     if (item.type === 'group') {
-      const details = document.createElement('details'); details.open = item.open;
-      const summary = document.createElement('summary'); summary.textContent = item.label;
-      const children = document.createElement('div'); children.className = 'tree-children';
-      details.append(summary, children); parent.appendChild(details); buildNav(item.children, children);
+      button.addEventListener('click', () => {
+        let target = item;
+        while (target.type === 'group') target = target.children[0];
+        if (target.type === 'tool') showTool(target.id); else showPage(target.id);
+      });
+      buildNav(item.children, parent, depth + 1, item.label);
     } else {
-      const button = document.createElement('button'); button.type = 'button';
-      button.className = 'tree-link'; button.textContent = item.label;
-      button.dataset[item.type === 'tool' ? 'tool' : 'page'] = item.id; parent.appendChild(button);
+      button.dataset[item.type === 'tool' ? 'tool' : 'page'] = item.id;
     }
   });
 }

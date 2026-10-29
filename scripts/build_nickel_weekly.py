@@ -18,7 +18,7 @@ END = '<!-- NICKEL_WEEKLY_CARD_END -->'
 
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格与结构', '宏观与策略', ['overview_shfe', 'overview_ss', 'overview_lme', 'premium', 'ratio_ni_ss', 'lme03', 'import_profit', 'npi_price', 'ni_curve', 'ss_curve', 'lme_curve', 'ratio_ni_copper', 'ratio_npi_refined', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
+    ('price', '价格与结构', '总览', ['overview_shfe', 'overview_ss', 'overview_lme', 'premium', 'ratio_ni_ss', 'lme03', 'import_profit', 'npi_price', 'ni_curve', 'ss_curve', 'lme_curve', 'ratio_ni_copper', 'ratio_npi_refined', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
     ('supply', '纯镍与印尼供应', '重点关注/供给', ['supply_refined_cn', 'supply_refined_id', 'supply_npi_cn', 'supply_npi_id', 'supply_npi_stock', 'supply_nickel_sulfate', 'supply_sulfate_rate', 'supply_matte', 'supply_mhp', 'overview_trade_net']),
     ('demand', '不锈钢与新能源需求', '重点关注/需求', ['demand_ss_cn', 'demand_ss_id', 'demand_battery_ternary', 'demand_battery_lfp', 'demand_install_ternary', 'demand_install_lfp', 'demand_ss_import', 'demand_ss_export']),
     ('inventory', '库存与仓单', '重点关注/供给', ['overview_global_stock', 'inventory_shfe', 'inventory_lme', 'inventory_social', 'inventory_plate', 'inventory_bean', 'inventory_ss300', 'inventory_ss_cold', 'inventory_ss_hot', 'lme_region']),
@@ -181,6 +181,16 @@ def marginal_block(items):
     parts.append('<li><b>%s</b>；⚙️规则摘要，不构成投资建议。</li>' % esc(direction))
     parts.append('</ul>')
     return ''.join(parts)
+
+
+def weekly_outlook_html(near, medium, strategy, invalidation):
+    rows = [('近端 · 1—4周', near), ('中长期 · 季度至明年', medium),
+            ('策略建议', strategy), ('验证与失效', invalidation)]
+    body = ''.join('<li><b>%s</b>：%s</li>' % (esc(label), esc(value)) for label, value in rows)
+    return ('<details class="fold" id="weeklyoutlook" open><summary>本周展望与策略（近端 × 中长期）</summary>'
+            '<div class="foldbody"><ul class="sq">%s</ul>'
+            '<p class="src-note">近端由最新价格、结构和库存驱动；中长期为产业格局基准，须由后续数据持续验证，不构成投资建议。</p>'
+            '</div></details>' % body)
 
 
 FRESHNESS_FILE = BASE / 'data' / 'nickel_weekly_freshness.json'
@@ -465,6 +475,11 @@ def main():
         ('需求', '中国300系不锈钢近20日 %s' % pct(ss_chg), demand_judge, demand_score),
     ]
     marginal_html = marginal_block(marginal_items)
+    weekly_html = weekly_outlook_html(
+        '沪镍近5个交易日%s，%s；全球显性库存20日%s、国内社库20日%s。近端仍以库存和升贴水确认反弹持续性，不把单日上涨当反转。' % (pct(shfe_chg), structure_desc, pct(global20), pct(social20)),
+        '2027年基准格局仍是印尼NPI、MHP、高冰镍与精炼镍多线供给具备增长潜力，不锈钢和三元需求能否吸收增量是平衡关键；高库存与Contango未根本改变前，中期估值上方受约束。',
+        '近端不追反弹，优先等去库、现货升水和Contango收窄共振；中期以反弹后的风险对冲/偏空观察为主。若印尼政策或减产兑现并带来连续去库，再转为回调做多，而非提前押注。',
+        '上修：印尼实际产量/出口下降＋国内外连续去库＋300系排产稳定。下修：印尼增量兑现＋社库与仓单上升＋不锈钢或三元需求走弱。')
     meta = {'title': '研究周报 · 镍与不锈钢', 'asof': asof, 'headline': headline, 'metrics': metrics,
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',
@@ -488,6 +503,7 @@ def main():
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div>' % esc(headline))
             parts.append('<div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>')
+            parts.append(weekly_html)
             parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             shfe = latest.get('shfe') or [None, None]
@@ -582,7 +598,7 @@ def main():
     doc = '''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><link href="data:," rel="icon">
 <title>研究周报 · 镍与不锈钢</title><style>__BASE_CSS__</style><link href="weekly_mobile.css" rel="stylesheet"><link href="weekly_polish.css" rel="stylesheet"><link href="research.css" rel="stylesheet"><link href="../weekly-light.css" rel="stylesheet"><style>.chart-box{height:240px;position:relative}.chart-box canvas{display:block;width:100%;height:100%}.tablewrap{overflow-x:auto}.page-body p{font-size:14.5px}.cbox .stats{line-height:1.55}.fresh-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:12px 0}.fresh-kpi{border:1px solid var(--line);background:var(--cardbg);padding:10px;text-align:left;cursor:pointer}.fresh-kpi span,.fresh-kpi small{display:block;color:var(--faint);font-size:11px}.fresh-kpi strong{display:block;font-size:25px}.fresh-kpi.fresh strong{color:#188865}.fresh-kpi.watch strong{color:#a3760e}.fresh-kpi.stale strong,.fresh-kpi.missing strong{color:#c44b5d}.fresh-kpi.review strong{color:#7c4dff}.fresh-kpi.active{outline:2px solid var(--blue);outline-offset:1px}.fresh-legend{margin:12px 0;color:var(--grey);font-size:13px}.fresh-badge{display:inline-block;padding:1px 7px;border:1px solid var(--line);white-space:nowrap}.fresh-badge.fresh{color:#188865}.fresh-badge.watch{color:#a3760e}.fresh-badge.stale,.fresh-badge.missing{color:#c44b5d}.fresh-badge.review{color:#7c4dff}.src-note{color:var(--faint);font-size:11px}.fresh-table{min-width:1080px}.fresh-table td{vertical-align:top}@media(max-width:900px){.fresh-grid{grid-template-columns:repeat(3,1fr)}}</style></head>
 <body><header class="research-topbar"><div class="research-brand"><a aria-label="返回整合研究站" class="back-home" href="../index.html">← 整合研究站</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · NICKEL</p><h1>研究周报 <span class="commodity-current">镍</span></h1><p>镍 × 不锈钢 · 周度研究 · 印尼供应 · 库存 · 成本平衡</p></div></div><div class="research-actions"><nav class="commodity-switch" aria-label="品种切换"><a href="../tin-weekly/#sumsec">锡</a><a class="active" href="#sumsec">镍</a><a href="../zinc-weekly/#sumsec">锌</a><a href="../aluminum-weekly/#sumsec">铝</a><a href="../copper-weekly/#sumsec">铜</a><a href="../lead-weekly/#sumsec">铅</a></nav><a class="back-home" href="https://amiya866.github.io/nickel-panel/" target="_blank" rel="noopener">镍市瞭望 ↗</a><span class="research-stamp">数据截至 <b>__ASOF__</b></span><button aria-pressed="false" class="view-toggle" id="viewToggle" type="button">切换手机版</button></div></header>
-<div class="research-workspace"><aside class="research-sidebar" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="镍研究分层目录" class="tree-nav" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="镍研究工作台"></iframe></section></div></div>
+<div class="research-workspace"><aside class="research-sidebar top-navigation" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="镍研究分层目录" class="tree-nav top-nav-inner" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="镍研究工作台"></iframe></section></div></div>
 <script src="lib/chart.min.js"></script><script>const DATA=__PAYLOAD__;const charts=DATA.charts;document.querySelectorAll('canvas[data-chart]').forEach(function(canvas){const c=charts[canvas.dataset.chart];if(!c)return;const ds=(c.datasets||[]).map(function(d){return Object.assign({borderWidth:1.5,pointRadius:0,spanGaps:true},d);});new Chart(canvas,{type:'line',data:{labels:c.labels||[],datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{family:'KaiTi,"楷体",serif',size:10}}}},scales:{x:{ticks:{maxTicksLimit:8,font:{family:'KaiTi,"楷体",serif',size:10}},grid:{color:'#e3e3e3'}},y:{ticks:{font:{family:'KaiTi,"楷体",serif',size:10}},grid:{color:'#e3e3e3'}}}}});});</script><script src="weekly_mobile.js"></script><script src="research.js"></script><script>document.querySelectorAll('.fresh-kpi').forEach(function(btn){btn.addEventListener('click',function(){const code=btn.dataset.filter;let shown=0;document.querySelectorAll('.fresh-kpi').forEach(function(x){x.classList.toggle('active',x===btn)});document.querySelectorAll('tr[data-fresh]').forEach(function(row){const visible=code==='all'||row.dataset.fresh===code;row.hidden=!visible;if(visible)shown++});document.getElementById('freshCount').textContent=shown})});</script></body></html>'''
     doc = doc.replace('__BASE_CSS__', base_css).replace('__ASOF__', esc(asof)).replace('__SECTIONS__', ''.join(parts)).replace('__PAYLOAD__', payload)
     tmp = OUT / 'index.html.tmp'

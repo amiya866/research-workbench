@@ -25,7 +25,7 @@ MONTHS = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June':
 
 COMMON_SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格与结构', '宏观与策略', []),
+    ('price', '价格与结构', '总览', []),
     ('supply_mine', '矿端与进口', '重点关注/供给', []),
     ('supply_smelt', '冶炼与精炼', '重点关注/供给', []),
     ('inventory', '显性库存', '重点关注/供给', []),
@@ -44,7 +44,7 @@ CONFIG = {
         'domestic': ('cache', 'ID01677008', 'SMM电解铜升贴水', '元/吨'),
         'financial': Path(r'D:/Kimi/金属总网/网站构建/财报汇总/铜/全球铜企季度产量梳理.xlsx'),
         'sheets': [('铜矿·季度产量', 12), ('国内铜企·季度产量', 10)],
-        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium', 's20015675', 'ID01030232', 'ID01154994', 'GM0000032808', 'g02801716', 'FU00017551', 'CM0000013255'],
+        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium', 's20015675', 'ID01030232', 'FU00017551'],
         'supply_mine': ['ID01154994', 'a10015145', 'a10015126', 'a10015120', 'a10015111', 'a10015108', 'ID01002000'],
         'supply_smelt': ['j02870870', 'a12855621', 'ID01137328', 'ID01137352'],
         'inventory': ['overview_global_stock', 'FU00015680', 'a10134435', 'a10083949', 'ID00188319', 'FU00015497', 'FU00015498', 'ID00188286'],
@@ -66,7 +66,7 @@ CONFIG = {
         'domestic': ('ifind', 'S005068211', '1#铅锭升贴水（华东）', '元/吨'),
         'financial': Path(r'D:/Kimi/金属总网/网站构建/财报汇总/铅/全球铅企季度产量梳理.xlsx'),
         'sheets': [('铅精矿·季度产量', 12), ('精炼铅·季度产量', 10)],
-        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium', 'a10127385'],
+        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium'],
         'supply_mine': ['a10127385', 'a10017055', 'a10021529', 'a10021532', 'a10021534', 'a10021525'],
         'supply_smelt': ['ID01001562', 'a10016988', 'a10017062', 'a10017000', 'a10017037', 'a10017091'],
         'inventory': ['overview_global_stock', 'FU00015325', 'a10134441', 'ID00188315'],
@@ -422,6 +422,19 @@ def main(metal):
     q4_html = shared.quarterly_html(out / 'index.html', make_outlook(metal, q3, q4, latest, demand, output))
     marginal_items = marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output)
     marginal_html = shared.marginal_block(marginal_items)
+    social_trend = shared.change(charts[cfg['latest']['social_stock']], 20)
+    if metal == 'CU':
+        weekly_html = shared.weekly_outlook_html(
+            '沪铜近5个交易日%s，%s；LME库存近5日%s、国内社库20日%s。近端Back与国内升水有支撑，但海外累库要求保留验证。' % (shared.pct(chg5), structure_desc, shared.pct(stock_chg), shared.pct(social_trend)),
+            '中期至2027年，矿端偏紧与低TC仍是底部支撑，电网、能源转型和AI电力投资提供需求韧性；但矿山爬产、再生铜和冶炼产量可缓冲精炼端短缺，不能把低TC直接等同为铜锭立即短缺。',
+            '中期保持回调偏多研究思路，近端不追高升水与Back；优先等海外库存止升、国内升水稳定和加工开工改善共同确认。若库存持续累积且结构转弱，先降低单边敞口。',
+            '上修：矿山扰动/低TC持续＋全球库存下降＋加工开工改善。下修：矿山爬产和冶炼恢复＋LME与国内同步累库＋现货升水回落＋终端订单走弱。')
+    else:
+        weekly_html = shared.weekly_outlook_html(
+            '沪铅近5个交易日%s，%s；LME库存近5日%s、国内社库20日%s。近端去库有支撑，但国内外现货结构仍偏弱。' % (shared.pct(chg5), structure_desc, shared.pct(stock_chg), shared.pct(social_trend)),
+            '中期至2027年，铅酸电池需求成熟，再生铅供应对利润和废电瓶价格反应较快，决定铅的供应弹性通常高于铜锡；原生矿TC只能解释一部分供给，趋势性短缺需要原生与再生同时受限。',
+            '以区间和结构策略优先，近端去库时不追空，反弹后重点观察再生利润、开工和电池排产；若再生恢复并重新累库，逐步提高偏空或卖出套保权重。',
+            '上修：原生与再生同时受限＋电池开工稳定＋持续去库。下修：再生利润和产量恢复＋社库/仓单回升＋电池开工及替换需求走弱。')
     marginal_scores = {item[0]: item[3] for item in marginal_items}
     lme03_trend = shared.change(charts['overview_lme03'], 20)
     domestic_trend = shared.change(charts['overview_domestic_premium'], 20)
@@ -441,6 +454,7 @@ def main(metal):
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
+            parts.append(weekly_html)
             parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
             def _cls(score):
@@ -572,7 +586,7 @@ def main(metal):
     doc = '''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><link href="data:," rel="icon">
 <title>研究周报 · __CN__</title><style>__BASE_CSS__</style><link href="weekly_mobile.css" rel="stylesheet"><link href="weekly_polish.css" rel="stylesheet"><link href="research.css" rel="stylesheet"><link href="../weekly-light.css" rel="stylesheet"><style>.chart-box{height:240px;position:relative}.chart-box canvas{display:block;width:100%;height:100%}.tablewrap{overflow-x:auto}.page-body p{font-size:14.5px}.cbox .stats{line-height:1.55}.fresh-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:12px 0}.fresh-kpi{border:1px solid var(--line);background:var(--cardbg);padding:10px;text-align:left;cursor:pointer}.fresh-kpi span,.fresh-kpi small{display:block;color:var(--faint);font-size:11px}.fresh-kpi strong{display:block;font-size:25px}.fresh-kpi.fresh strong{color:#188865}.fresh-kpi.watch strong{color:#a3760e}.fresh-kpi.stale strong,.fresh-kpi.missing strong{color:#c44b5d}.fresh-kpi.review strong{color:#7c4dff}.fresh-kpi.active{outline:2px solid var(--blue);outline-offset:1px}.fresh-legend{margin:12px 0;color:var(--grey);font-size:13px}.fresh-badge{display:inline-block;padding:1px 7px;border:1px solid var(--line);white-space:nowrap}.fresh-badge.fresh{color:#188865}.fresh-badge.watch{color:#a3760e}.fresh-badge.stale,.fresh-badge.missing{color:#c44b5d}.fresh-badge.review{color:#7c4dff}.src-note{color:var(--faint);font-size:11px}.fresh-table{min-width:1080px}.fresh-table td{vertical-align:top}@media(max-width:900px){.fresh-grid{grid-template-columns:repeat(3,1fr)}}</style></head>
 <body><header class="research-topbar"><div class="research-brand"><a aria-label="返回整合研究站" class="back-home" href="../index.html">← 整合研究站</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · __EN__</p><h1>研究周报 <span class="commodity-current">__CN__</span></h1><p>__SUBTITLE__</p></div></div><div class="research-actions"><nav class="commodity-switch" aria-label="品种切换">__SWITCHES__</nav><a class="back-home" href="https://amiya866.github.io/caibao-hub/" target="_blank" rel="noopener">__CN__企财报 ↗</a><span class="research-stamp">数据截至 <b>__ASOF__</b></span><button aria-pressed="false" class="view-toggle" id="viewToggle" type="button">切换手机版</button></div></header>
-<div class="research-workspace"><aside class="research-sidebar" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="__CN__研究分层目录" class="tree-nav" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="__CN__研究工作台"></iframe></section></div></div>
+<div class="research-workspace"><aside class="research-sidebar top-navigation" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="__CN__研究分层目录" class="tree-nav top-nav-inner" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="__CN__研究工作台"></iframe></section></div></div>
 <script src="lib/chart.min.js"></script><script>const charts=__PAYLOAD__;document.querySelectorAll('canvas[data-chart]').forEach(function(canvas){const c=charts[canvas.dataset.chart];if(!c)return;const ds=(c.datasets||[]).map(function(d){return Object.assign({borderWidth:1.5,pointRadius:0,spanGaps:true},d);});const cfg={type:'line',data:{labels:c.labels||[],datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{family:'KaiTi,"楷体",serif',size:10}}}},scales:{x:{ticks:{maxTicksLimit:8,font:{family:'KaiTi,"楷体",serif',size:10}},grid:{color:'#e3e3e3'}},y:{ticks:{font:{family:'KaiTi,"楷体",serif',size:10}},grid:{color:'#e3e3e3'}}}}};new Chart(canvas,cfg);});</script><script src="weekly_mobile.js"></script><script>window.WEEKLY_CONFIG=__JS_CONFIG__;</script><script src="research.js"></script><script>document.querySelectorAll('.fresh-kpi').forEach(function(btn){btn.addEventListener('click',function(){const code=btn.dataset.filter;let shown=0;document.querySelectorAll('.fresh-kpi').forEach(function(x){x.classList.toggle('active',x===btn)});document.querySelectorAll('tr[data-fresh]').forEach(function(row){const visible=code==='all'||row.dataset.fresh===code;row.hidden=!visible;if(visible)shown++});document.getElementById('freshCount').textContent=shown})});</script></body></html>'''
     doc = (doc.replace('__BASE_CSS__', base_css).replace('__ASOF__', shared.esc(asof))
            .replace('__SECTIONS__', ''.join(parts)).replace('__PAYLOAD__', payload)

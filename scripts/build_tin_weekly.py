@@ -19,13 +19,12 @@ NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 
 MODULES = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格与结构', '宏观与策略', ['价格与现货', '宏观与外盘']),
+    ('price', '价格与结构', '总览', ['价格与现货']),
     ('supply_mine', '矿端与进口', '重点关注/供给', ['供给 · 矿端', '进出口']),
     ('supply_smelt', '冶炼与精锡', '重点关注/供给', ['供给 · 冶炼']),
     ('inventory', '显性库存', '重点关注/供给', ['库存']),
     ('demand_solder', '焊料/电子/新能源', '重点关注/需求', ['需求 · 焊料', '需求 · 终端耗锡', '终端 · 电子', '终端 · 白电', '需求 · 光伏/家电/汽车/电子', '终端 · 光伏', 'AI · 半导体', '终端 · 半导体']),
     ('demand_chemical', '锡化工/镀锡板/铅酸', '重点关注/需求', ['需求 · 锡化工', '需求 · 其他下游', '终端 · 锡化工/玻璃', '终端 · 镀锡板', '需求 · 铅蓄电池', '终端 · 铅蓄电池']),
-    ('macro', '宏观环境', '宏观与策略', ['宏观 · 利率美元商品']),
     ('cost', '成本与平衡', '平衡表', ['平衡']),
     ('detailed', '详细周报', '详细周报', ['详细周报']),
     ('framework', '产业框架', '总览', []),
@@ -85,12 +84,22 @@ def convert_chart(key, chart):
     return {'labels': labels, 'datasets': datasets, '_type': kind}
 
 
+def common_summary(source):
+    table = one(r'(<table class="sum">.*?</table>)', source)
+    result = {}
+    for row in re.findall(r'<tr[^>]*>(.*?)</tr>', table, re.S):
+        cells = re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)
+        if len(cells) >= 5 and text(cells[0]) in ('宏观', '美股·半导体 AI'):
+            result[text(cells[0])] = {'datum': text(cells[1]) + ' ' + text(cells[2]), 'conclusion': text(cells[3])}
+    return result
+
+
 def summary_table(source):
     table = one(r'(<table class="sum">.*?</table>)', source)
     rows = ['<table class="sum"><tr><th>环节</th><th>相关数据与边际</th><th>周度结论</th><th>跟踪</th></tr>']
     for row in re.findall(r'<tr[^>]*>(.*?)</tr>', table, re.S):
         cells = re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)
-        if len(cells) < 5:
+        if len(cells) < 5 or text(cells[0]) in ('宏观', '美股·半导体 AI'):
             continue
         label, datum, daily, conclusion, direction = cells[:5]
         direction_text = text(direction)
@@ -99,6 +108,57 @@ def summary_table(source):
             label, datum, daily, conclusion, cls, direction))
     rows.append('</table>')
     return ''.join(rows)
+
+
+def update_nonferrous_daily(common_charts, common_rows, names, asof):
+    path = BASE / 'reports' / 'daily_latest.html'
+    if not path.exists():
+        return
+    begin, end = '<!-- NONFERROUS_COMMON_BEGIN -->', '<!-- NONFERROUS_COMMON_END -->'
+    sections = [
+        ('宏观与跨资产', '宏观', ['c_cpi.png', 'c_us10y.png', 'c_dxy.png', 'c_wti.png', 'c_cusn.png', 'c_agsn.png'],
+         '利率、美元、油价与地缘是全部有色共同的风险预算和估值约束；方向仍须回到各品种库存、升贴水和供需验证。'),
+        ('美股与半导体 AI', '美股·半导体 AI', ['m_sox.png'],
+         'SOX与AI财报影响电子需求预期及风险偏好：对锡焊料传导更直接，对铜铝等其他有色主要通过宏观情绪与资本开支预期传导，不等同于实际订单。'),
+    ]
+    payload = {}
+    parts = [begin, '<div class="card" id="nonferrousCommon" style="border-left:3px solid var(--blue);margin:14px 0;">',
+             '<h3 style="color:var(--blue);margin-bottom:6px;">有色共性前瞻 · 宏观与美股</h3>',
+             '<p style="font-size:12px;color:var(--dim);">由锡周报迁入，作为铜/铝/锌/镍/锡/铅共用宏观层；不再占用单品种周报目录。数据截至 %s。</p>' % shared.esc(asof)]
+    for title, row_key, keys, implication in sections:
+        row = common_rows.get(row_key) or {}
+        parts.append('<h4 style="color:var(--gold);margin:14px 0 5px;">%s</h4>' % shared.esc(title))
+        if row.get('datum'):
+            parts.append('<p style="font-size:12.5px;line-height:1.8;"><b>前瞻事件与事实：</b>%s</p>' % shared.esc(row['datum']))
+        parts.append('<p style="font-size:12.5px;line-height:1.8;"><b>共性策略含义：</b>%s</p>' % shared.esc(implication))
+        parts.append('<div class="grid2">')
+        for key in keys:
+            chart = common_charts.get(key)
+            if not chart:
+                continue
+            payload[key] = chart
+            point = shared.last_point(chart)
+            chart_id = 'nfCommon' + str(len(payload))
+            parts.append('<div class="mini"><h4>%s</h4><div id="%s" data-nf-chart="%s" style="height:220px;"></div><div style="font-size:11px;color:var(--dim);">最新 %s ｜ %s</div></div>' % (
+                shared.esc(names.get(key, key)), chart_id, shared.esc(key),
+                shared.esc(point[0] if point else '—'), shared.fmt(point[1]) if point else '—'))
+        parts.append('</div>')
+    parts.append('</div>')
+    parts.append('<script>window.NF_COMMON_CHARTS=%s;(function(){const charts={};function draw(){document.querySelectorAll("[data-nf-chart]").forEach(function(el){if(!el.offsetParent)return;const c=window.NF_COMMON_CHARTS[el.dataset.nfChart];if(!c)return;const chart=charts[el.id]||(charts[el.id]=echarts.init(el));chart.setOption({animation:false,grid:{left:55,right:16,top:20,bottom:42},tooltip:{trigger:"axis"},xAxis:{type:"category",data:c.labels||[],axisLabel:{fontSize:10}},yAxis:{type:"value",scale:true},series:(c.datasets||[]).map(function(d){return{name:d.label,type:"line",data:d.data||[],showSymbol:false,connectNulls:true,lineStyle:{width:1.5}}})},true);chart.resize();});}window.addEventListener("resize",draw);document.querySelectorAll(".dtabs button").forEach(function(btn){btn.addEventListener("click",function(){setTimeout(draw,50);});});draw();})();</script>' % json.dumps(payload, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
+    parts.append(end)
+    block = '\n'.join(parts)
+    page = path.read_text(encoding='utf-8')
+    pattern = re.escape(begin) + r'.*?' + re.escape(end)
+    if re.search(pattern, page, re.S):
+        page = re.sub(pattern, lambda _m: block, page, count=1, flags=re.S)
+    else:
+        anchor = '<section class="dp on" id="dp1">'
+        if anchor not in page:
+            raise RuntimeError('daily_latest.html 缺少总览页锚点')
+        page = page.replace(anchor, anchor + '\n' + block, 1)
+    tmp = path.with_name(path.name + '.tmp')
+    tmp.write_text(page, encoding='utf-8')
+    os.replace(tmp, path)
 
 
 def sync_technical():
@@ -129,11 +189,15 @@ def main():
     chart_script = CHART_JS.read_text(encoding='utf-8')
     raw_charts = json.loads(chart_script[chart_script.index('=') + 1:].rstrip().rstrip(';'))
     raw_charts = {key: value for key, value in raw_charts.items() if key != 'i_shfew.png'}
-    charts = shared.seasonalize_charts({key: convert_chart(key, value) for key, value in raw_charts.items()})
+    converted = {key: convert_chart(key, value) for key, value in raw_charts.items()}
+    common_keys = {key for key, value in raw_charts.items()
+                   if value.get('sec') == '宏观 · 利率美元商品' or key == 'm_sox.png'}
+    common_charts = {key: converted[key] for key in common_keys}
+    charts = shared.seasonalize_charts({key: value for key, value in converted.items() if key not in common_keys})
     names = {key: value.get('title', key) for key, value in raw_charts.items()}
     shared.NAMES = names
     source_meta = {key: {'type': '原版锡周报', 'formula': value.get('sec', '详细周报')}
-                   for key, value in raw_charts.items()}
+                   for key, value in raw_charts.items() if key not in common_keys}
     built = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
     shared.SECTIONS = MODULES
     data = {'charts': charts, 'sourceMeta': {'charts': source_meta}, 'meta': {'builtAt': built, 'warnings': [], 'emptyCharts': []}}
@@ -142,6 +206,7 @@ def main():
     technical = sync_technical()
     headline = text(one(r'<div class="tone">(.*?)</div>', source))
     asof = one(r'数据截至\s*<b>(\d{4}-\d{2}-\d{2})</b>', source, datetime.date.today().isoformat())
+    update_nonferrous_daily(common_charts, common_summary(source), names, asof)
     summary = summary_table(source)
     quarter = shared.quarterly_html(OUT / 'index.html', one(r'(<details class="fold" id="q4outlook">.*?</details>)', source))
     framework = one(r'(<details class="fold" id="framework">.*?</details>)', source)
@@ -192,6 +257,8 @@ def main():
             parts.append('</table></div>')
         else:
             keys = [key for key, value in raw_charts.items() if value.get('sec') in secs]
+            if sid == 'price' and 'm_lme3m.png' in charts:
+                keys.append('m_lme3m.png')
             parts.append('<div class="lead">%s · 最新读数逐项标注日期</div>' % shared.esc(title))
             parts.append(shared.chart_group(charts, keys))
         parts.append('</div></section>')
@@ -200,7 +267,7 @@ def main():
     doc = '''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><link href="data:," rel="icon">
 <title>研究周报 · 锡</title><style>__BASE_CSS__</style><link href="weekly_mobile.css" rel="stylesheet"><link href="weekly_polish.css" rel="stylesheet"><link href="research.css" rel="stylesheet"><link href="../weekly-light.css" rel="stylesheet"><style>.chart-box{height:240px;position:relative}.chart-box canvas{display:block;width:100%;height:100%}.tablewrap{overflow-x:auto}.page-body p{font-size:14.5px}.cbox .stats{line-height:1.55}.fresh-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:12px 0}.fresh-kpi{border:1px solid var(--line);background:var(--cardbg);padding:10px;text-align:left;cursor:pointer}.fresh-kpi span,.fresh-kpi small{display:block;color:var(--faint);font-size:11px}.fresh-kpi strong{display:block;font-size:25px}.fresh-kpi.fresh strong{color:#188865}.fresh-kpi.watch strong{color:#a3760e}.fresh-kpi.stale strong,.fresh-kpi.missing strong{color:#c44b5d}.fresh-kpi.review strong{color:#7c4dff}.fresh-kpi.active{outline:2px solid var(--blue);outline-offset:1px}.fresh-legend{margin:12px 0;color:var(--grey);font-size:13px}.fresh-badge{display:inline-block;padding:1px 7px;border:1px solid var(--line);white-space:nowrap}.fresh-badge.fresh{color:#188865}.fresh-badge.watch{color:#a3760e}.fresh-badge.stale,.fresh-badge.missing{color:#c44b5d}.fresh-badge.review{color:#7c4dff}.src-note{color:var(--faint);font-size:11px}.fresh-table{min-width:1080px}.fresh-table td{vertical-align:top}@media(max-width:900px){.fresh-grid{grid-template-columns:repeat(3,1fr)}}</style></head>
 <body><header class="research-topbar"><div class="research-brand"><a aria-label="返回整合研究站" class="back-home" href="../index.html">← 整合研究站</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · TIN</p><h1>研究周报 <span class="commodity-current">锡</span></h1><p>原版周报 × 锡息相关 · 供需平衡 · 技术分析 · 数据治理</p></div></div><div class="research-actions"><nav class="commodity-switch" aria-label="品种切换"><a class="active" href="#sumsec">锡</a><a href="../nickel-weekly/#sumsec">镍</a><a href="../zinc-weekly/#sumsec">锌</a><a href="../aluminum-weekly/#sumsec">铝</a><a href="../copper-weekly/#sumsec">铜</a><a href="../lead-weekly/#sumsec">铅</a></nav><a class="back-home" href="https://amiya866.github.io/tin-insight/" target="_blank" rel="noopener">锡息相关 ↗</a><span class="research-stamp">数据截至 <b>__ASOF__</b></span><button aria-pressed="false" class="view-toggle" id="viewToggle" type="button">切换手机版</button></div></header>
-<div class="research-workspace"><aside class="research-sidebar" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="锡研究分层目录" class="tree-nav" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="锡研究工作台"></iframe></section></div></div>
+<div class="research-workspace"><aside class="research-sidebar top-navigation" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="锡研究分层目录" class="tree-nav top-nav-inner" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="锡研究工作台"></iframe></section></div></div>
 <script src="lib/chart.min.js"></script><script>const charts=__PAYLOAD__;document.querySelectorAll('canvas[data-chart]').forEach(function(canvas){
   const c=charts[canvas.dataset.chart];if(!c)return;
   const ds=(c.datasets||[]).map(function(d){return Object.assign({borderWidth:1.5,pointRadius:0,spanGaps:true},d);});

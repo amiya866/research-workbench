@@ -67,6 +67,7 @@ body.view-desktop .report-page{min-width:960px}body.view-desktop #reportWrap{ove
 @media(max-width:820px){.tech-detail-section{padding:14px 12px;margin:14px 0}.tech-framework,.tech-structure{grid-template-columns:1fr}.tech-detail-table{min-width:680px}.tech-detail-section>h3{font-size:18px}.tech-pivots li{gap:7px}}
 
 /* Layered flat navigation: every level has its own visible row, with no floating menus. */
+.research-sidebar .menu-toggle,.research-sidebar .sidebar-heading{display:none}
 .top-nav-inner.tree-nav{display:block;width:100%;padding:7px 18px 9px;overflow:visible}
 .nav-row{display:flex;align-items:center;align-content:center;flex-wrap:wrap;gap:5px;min-height:39px;padding:4px 0}
 .nav-row+.nav-row{border-top:1px solid #1b2d3a}

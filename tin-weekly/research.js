@@ -10,12 +10,11 @@ $$('.report-page[data-page]', wrap).forEach(section => {
 const page = (id, label) => ({type: 'page', id, label});
 const group = (label, children, open = false) => ({type: 'group', label, children, open});
 const NAV = [
-  group('总览', [page('sumsec', '本周总结'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
+  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
   group('重点关注', [
     group('供给', [page('supply_mine', '矿端与进口'), page('supply_smelt', '冶炼与精锡'), page('inventory', '显性库存'), page('cost', '成本与平衡')], true),
     group('需求', [page('demand_solder', '焊料/电子/新能源'), page('demand_chemical', '锡化工/镀锡板/铅酸')], true)
   ], true),
-  group('宏观与策略', [page('price', '价格与结构'), page('macro', '宏观环境')]),
   page('technical', '技术分析'),
   page('detailed', '详细周报'),
   group('研究工作台', [
@@ -25,16 +24,23 @@ const NAV = [
   ])
 ];
 const treeNav = $('#treeNav');
-function buildNav(items, parent) {
+function buildNav(items, parent, depth = 0, label = '研究目录') {
+  const row = document.createElement('div'); row.className = `nav-row nav-row-depth-${depth}`;
+  const caption = document.createElement('span'); caption.className = 'nav-row-label'; caption.textContent = label;
+  row.appendChild(caption); parent.appendChild(row);
   items.forEach(item => {
+    const button = document.createElement('button'); button.type = 'button';
+    button.className = 'tree-link nav-choice' + (item.type === 'group' ? ' is-parent' : '');
+    button.textContent = item.label; row.appendChild(button);
     if (item.type === 'group') {
-      const details = document.createElement('details'); details.open = item.open;
-      const summary = document.createElement('summary'); summary.textContent = item.label;
-      const children = document.createElement('div'); children.className = 'tree-children';
-      details.append(summary, children); parent.appendChild(details); buildNav(item.children, children);
+      button.addEventListener('click', () => {
+        let target = item;
+        while (target.type === 'group') target = target.children[0];
+        if (target.type === 'tool') showTool(target.id); else showPage(target.id);
+      });
+      buildNav(item.children, parent, depth + 1, item.label);
     } else {
-      const button = document.createElement('button'); button.type = 'button'; button.className = 'tree-link';
-      button.textContent = item.label; button.dataset[item.type === 'tool' ? 'tool' : 'page'] = item.id; parent.appendChild(button);
+      button.dataset[item.type === 'tool' ? 'tool' : 'page'] = item.id;
     }
   });
 }
@@ -91,7 +97,7 @@ $('#menuToggle').addEventListener('click', () => {
 });
 const anchorRoutes = {'#sumsec': 'sumsec', '#framework': 'framework', '#sources': 'sources', '#price': 'price',
   '#supply': 'supply_mine', '#smelt': 'supply_smelt', '#inventory': 'inventory', '#invsec': 'inventory',
-  '#cost': 'cost', '#balance': 'cost', '#demand': 'demand_solder', '#macro': 'macro', '#technical': 'technical', '#detailed': 'detailed'};
+  '#cost': 'cost', '#balance': 'cost', '#demand': 'demand_solder', '#technical': 'technical', '#detailed': 'detailed'};
 wrap.addEventListener('click', event => {
   const anchor = event.target.closest('a[href^="#"]'); if (!anchor) return;
   const hash = anchor.getAttribute('href');
