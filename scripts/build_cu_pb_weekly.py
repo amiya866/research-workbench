@@ -19,6 +19,7 @@ CACHE = Path(r'D:/Kimi/金属总网/网站构建/db/数据缓存_v1.db')
 SHFE_CSV = Path(r'D:/Kimi/有色截面配置_2026/_价格缓存.csv')
 LME_CSV = Path(r'D:/Kimi/有色截面配置_2026/_LME价格缓存.csv')
 IFIND_DB = Path(r'D:/Kimi/ifind_mirror/ifind_mirror.db')
+BAICHUAN_DB = Path(r'D:/Kimi/baichuan_mirror/baichuan_mirror.db')
 NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 MONTHS = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
           'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
@@ -191,6 +192,19 @@ def ifind_series(code, name, unit):
     if not points:
         return None
     return {'labels': [r[0] for r in points], 'datasets': [{'label': name, 'data': [r[1] for r in points],
+            'borderColor': '#1F4E79', 'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}, unit
+
+
+def baichuan_series(key, name, unit):
+    if not BAICHUAN_DB.exists():
+        return None
+    conn = sqlite3.connect(f'file:{BAICHUAN_DB.as_posix()}?mode=ro', uri=True)
+    rows = conn.execute('select date,value_num from series_points where indicator_key=? order by date', (key,)).fetchall()
+    conn.close()
+    points = [(date, float(value)) for date, value in rows if value is not None]
+    if not points:
+        return None
+    return {'labels': [row[0] for row in points], 'datasets': [{'label': name, 'data': [row[1] for row in points],
             'borderColor': '#1F4E79', 'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}, unit
 
 
@@ -405,6 +419,16 @@ def main(metal):
         if domestic_result:
             charts['overview_domestic_premium'], units['overview_domestic_premium'] = domestic_result
             source_meta['overview_domestic_premium'] = {'type': 'iFinD EDB', 'indicator': domestic_id}
+        if metal == 'PB':
+            baichuan_name = '华东1#铅锭现货升贴水（百川口径）'
+            baichuan_result = baichuan_series('1588348470396512053', baichuan_name, domestic_unit)
+            current = last(charts.get('overview_domestic_premium', {}))
+            alternate = last(baichuan_result[0]) if baichuan_result else [None, None]
+            if alternate[0] and (not current[0] or alternate[0] > current[0]):
+                charts['overview_domestic_premium'], units['overview_domestic_premium'] = baichuan_result
+                domestic_name = baichuan_name
+                source_meta['overview_domestic_premium'] = {'type': '百川盈孚', 'indicator': 'price:1588348470396512053',
+                                                           'note': '与iFinD 99.994%华东均价口径不同，整序列切换，不拼接'}
     else:
         charts['overview_domestic_premium'] = json.loads(json.dumps(charts[domestic_id]))
         units['overview_domestic_premium'] = domestic_unit

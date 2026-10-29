@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-29",
-  "built_at": "2026-10-29T13:38:51+08:00",
+  "built_at": "2026-10-29T13:59:33+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,44 +32,14 @@
     ]
   },
   "summary": {
-    "fresh": 35,
+    "fresh": 37,
     "watch": 0,
-    "stale": 2,
+    "stale": 0,
     "missing": 0,
     "review": 0,
     "total": 37
   },
   "rows": [
-    {
-      "key": "a10102727",
-      "name": "中国房屋竣工面积（单月）",
-      "module": "铝型材/板带/终端",
-      "source": "zhiji a10102727",
-      "frequency": "月度",
-      "unit": "万平米",
-      "latest": "2026-06-30",
-      "latest_value": "17,221",
-      "latest_iso": "2026-06-30",
-      "age_days": 121,
-      "status": "stale",
-      "status_label": "滞后",
-      "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
-    },
-    {
-      "key": "a10102770",
-      "name": "中国空调产量",
-      "module": "铝型材/板带/终端",
-      "source": "zhiji a10102770",
-      "frequency": "月度",
-      "unit": "万台",
-      "latest": "2026-06-30",
-      "latest_value": "2,565",
-      "latest_iso": "2026-06-30",
-      "age_days": 121,
-      "status": "stale",
-      "status_label": "滞后",
-      "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
-    },
     {
       "key": "FU00024308",
       "name": "SHFE 铝基差",
@@ -576,6 +546,36 @@
       "latest_value": "53",
       "latest_iso": "2026-10-22",
       "age_days": 7,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
+      "key": "a10102727",
+      "name": "中国房屋竣工面积（单月）",
+      "module": "铝型材/板带/终端",
+      "source": "zhiji+官方补充 a10102727",
+      "frequency": "月度",
+      "unit": "—",
+      "latest": "2026-09-30",
+      "latest_value": "23,271",
+      "latest_iso": "2026-09-30",
+      "age_days": 29,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
+      "key": "a10102770",
+      "name": "中国空调产量",
+      "module": "铝型材/板带/终端",
+      "source": "zhiji+官方补充 a10102770",
+      "frequency": "月度",
+      "unit": "—",
+      "latest": "2026-09-30",
+      "latest_value": "1,657",
+      "latest_iso": "2026-09-30",
+      "age_days": 29,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
