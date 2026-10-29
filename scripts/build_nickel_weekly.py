@@ -24,7 +24,7 @@ SECTIONS = [
     ('inventory', '库存与仓单', '重点关注/供给', ['overview_global_stock', 'inventory_shfe', 'inventory_lme', 'inventory_social', 'inventory_plate', 'inventory_bean', 'inventory_ss300', 'inventory_ss_cold', 'inventory_ss_hot', 'lme_region']),
     ('cost', '成本与利润', '重点关注/供给', ['cost_npi_profit', 'cost_ss_profit', 'cost_chrome', 'cost_chromium', 'supply_chrome', 'supply_chrome_import']),
     ('framework', '产业框架', '总览', []),
-    ('balance', '平衡表与财报项目', '平衡表', []),
+    ('balance', '年度平衡与2027策略', '平衡表', []),
     ('sources', '数据源与缺口', '总览', []),
 ]
 NAMES = {

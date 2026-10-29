@@ -10,12 +10,11 @@ $$('.report-page[data-page]', wrap).forEach(section => {
 const page = (id, label) => ({type: 'page', id, label});
 const group = (label, children, open = false) => ({type: 'group', label, children, open});
 const NAV = [
-  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
+  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('balance', '年度平衡与2027策略'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
   group('重点关注', [
     group('供给', [page('supply', '纯镍与印尼供应'), page('inventory', '库存与仓单'), page('cost', '成本与利润')], true),
     group('需求', [page('demand', '不锈钢与新能源')], true)
   ], true),
-  page('balance', '平衡表与财报项目'),
   group('研究工作台', [
     {type: 'tool', id: 'panel', label: '镍市瞭望'},
     {type: 'tool', id: 'framework', label: '原研究框架'},
