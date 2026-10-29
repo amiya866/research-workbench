@@ -73,7 +73,7 @@ def main():
     except Exception as e:
         print('token 兜底跳过:', e)
     ensure_proxy()
-    pull = run(['git', '-c', 'http.proxy=%s' % PROXY, 'pull', '--rebase', 'origin', 'main'], env=env)
+    pull = run(['git', '-c', 'http.proxy=%s' % PROXY, '-c', 'http.schannelCheckRevoke=false', 'pull', '--rebase', 'origin', 'main'], env=env)
     if pull.returncode:
         tail = '\n'.join(((pull.stdout or '') + (pull.stderr or '')).strip().splitlines()[-8:])
         print('pull --rebase 失败，停止推送以免覆盖远端：\n' + tail)
