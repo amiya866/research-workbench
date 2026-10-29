@@ -32,20 +32,20 @@
       "value": "-16 美元/吨（2026-10-28）"
     },
     {
-      "name": "国内现货升贴水",
+      "name": "国内升贴水（百川）",
       "value": "80 元/吨（2026-10-28）"
     }
   ],
   "local_url": "lead-weekly/#sumsec",
   "source_url": "https://amiya866.github.io/caibao-hub/",
-  "charts": 23,
+  "charts": 24,
   "freshness": {
     "fresh": 23,
     "watch": 0,
-    "stale": 0,
+    "stale": 1,
     "missing": 0,
     "review": 0,
-    "total": 23
+    "total": 24
   },
   "sync_status": "ok"
 }

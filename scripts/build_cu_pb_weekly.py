@@ -68,7 +68,7 @@ CONFIG = {
         'domestic': ('ifind', 'S005068211', '1#铅锭升贴水（华东）', '元/吨'),
         'financial': Path(r'D:/Kimi/金属总网/网站构建/财报汇总/铅/全球铅企季度产量梳理.xlsx'),
         'sheets': [('铅精矿·季度产量', 12), ('精炼铅·季度产量', 10)],
-        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium'],
+        'price': ['overview_shfe', 'overview_lme', 'overview_lme03', 'overview_domestic_premium', 'overview_domestic_premium_baichuan'],
         'supply_mine': ['a10127385', 'a10017055', 'a10021529', 'a10021532', 'a10021534', 'a10021525'],
         'supply_smelt': ['ID01001562', 'a10016988', 'a10017062', 'a10017000', 'a10017037', 'a10017091'],
         'inventory': ['overview_global_stock', 'FU00015325', 'a10134441', 'ID00188315'],
@@ -76,9 +76,9 @@ CONFIG = {
         'cost': ['a10127388', 'ID01245255'],
         'kpi': [('shfe', '沪铅主连', '元/吨'), ('lme', 'LME铅', '美元/吨'), ('global_stock', 'LME+SHFE库存', '吨'),
                 ('social_stock', '铅锭社库', '万吨'), ('tc', '铅精矿TC', '元/金属吨'), ('output', '原生铅产量', '万吨'),
-                ('lme03', 'LME 0-3', '美元/吨'), ('domestic', '国内现货升贴水', '元/吨')],
+                ('lme03', 'LME 0-3', '美元/吨'), ('domestic', '国内升贴水（百川）', '元/吨')],
         'latest': {'social_stock': 'ID00188315', 'tc': 'a10127385', 'output': 'ID01001562',
-                   'lme03': 'overview_lme03', 'domestic': 'overview_domestic_premium'},
+                   'lme03': 'overview_lme03', 'domestic': 'overview_domestic_premium_baichuan'},
         'demand_key': 'ID01030005', 'output_key': 'ID01001562',
         'js_supply': ['铅矿与进口', '原生/再生铅', '显性库存', '成本与平衡'],
         'js_demand': '铅酸蓄电池',
@@ -422,13 +422,12 @@ def main(metal):
         if metal == 'PB':
             baichuan_name = '华东1#铅锭现货升贴水（百川口径）'
             baichuan_result = baichuan_series('1588348470396512053', baichuan_name, domestic_unit)
-            current = last(charts.get('overview_domestic_premium', {}))
-            alternate = last(baichuan_result[0]) if baichuan_result else [None, None]
-            if alternate[0] and (not current[0] or alternate[0] > current[0]):
-                charts['overview_domestic_premium'], units['overview_domestic_premium'] = baichuan_result
-                domestic_name = baichuan_name
-                source_meta['overview_domestic_premium'] = {'type': '百川盈孚', 'indicator': 'price:1588348470396512053',
-                                                           'note': '与iFinD 99.994%华东均价口径不同，整序列切换，不拼接'}
+            if baichuan_result:
+                charts['overview_domestic_premium_baichuan'], units['overview_domestic_premium_baichuan'] = baichuan_result
+                names['overview_domestic_premium_baichuan'] = baichuan_name
+                source_meta['overview_domestic_premium_baichuan'] = {
+                    'type': '百川盈孚', 'indicator': 'price:1588348470396512053',
+                    'note': '独立并列序列；与iFinD 99.994%华东均价口径不同，不拼接'}
     else:
         charts['overview_domestic_premium'] = json.loads(json.dumps(charts[domestic_id]))
         units['overview_domestic_premium'] = domestic_unit

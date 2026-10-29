@@ -1,6 +1,6 @@
 {
   "asof": "2026-10-29",
-  "built_at": "2026-10-29T14:00:30+08:00",
+  "built_at": "2026-10-29T14:39:39+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -34,14 +34,29 @@
   "summary": {
     "fresh": 23,
     "watch": 0,
-    "stale": 0,
+    "stale": 1,
     "missing": 0,
     "review": 0,
-    "total": 23
+    "total": 24
   },
   "rows": [
     {
       "key": "overview_domestic_premium",
+      "name": "1#铅锭升贴水（华东）",
+      "module": "价格与结构",
+      "source": "iFinD EDB S005068211",
+      "frequency": "日度",
+      "unit": "—",
+      "latest": "2026-10-09",
+      "latest_value": "-135.0",
+      "latest_iso": "2026-10-09",
+      "age_days": 20,
+      "status": "stale",
+      "status_label": "滞后",
+      "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
+    },
+    {
+      "key": "overview_domestic_premium_baichuan",
       "name": "华东1#铅锭现货升贴水（百川口径）",
       "module": "价格与结构",
       "source": "百川盈孚 price:1588348470396512053",
