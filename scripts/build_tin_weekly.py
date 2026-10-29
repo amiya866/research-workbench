@@ -16,6 +16,27 @@ UPSTREAM = OUT / 'upstream.html'
 CHART_JS = OUT / 'charts_full' / 'weekly_inter.js'
 META = BASE / 'data' / 'tin_weekly_freshness.json'
 NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+SHFE_CSV = Path(r'D:/Kimi/有色截面配置_2026/_价格缓存.csv')
+BALANCE_CONFIG = {
+    'title': '年度平衡与2027策略：2026短暂过剩，2027重回紧平衡',
+    'rows': [
+        ('2026E', '38.10万吨（+2.7%）', '37.62万吨（-0.7%）', '+0.48', '小幅过剩，阶段空配'),
+        ('2027E', '38.75万吨（+1.7%）', '38.90万吨（+3.4%）', '-0.15', '紧平衡，不做长期空配'),
+    ],
+    'regional': '2026过剩依赖缅甸缓慢复产、Bisie满产和高价抑制消费；2027需求恢复后重新小幅短缺。平衡量不足全球市场0.5%，佤邦、印尼政策或刚果金扰动都可能改变方向。',
+    'source': '来源：Loyan AI 2026-06-19二次研究（综合ITA、CRU、USGS及公开数据），不是ITA官方平衡表；WBMS 2026-06单月短缺0.36万吨用于交叉验证。预测不是实际值。',
+    'strategy': [
+        '方向：2026小幅过剩只支持阶段空配；2027重回紧平衡，不套用其他有色的长期做空策略，回调后更应关注供给扰动带来的多头弹性。',
+        '入场：空配仅限库存连续回升、LME Back走弱或转Contango、缅甸进口恢复且价格反弹衰竭时；低库存和供应扰动急涨期不追空。',
+        '风控：若佤邦复产再推迟、印尼出口收紧、Bisie停产或全球显性库存重新连续下降，停止空配；锡市场小、波动大，仓位应低于铜铝。',
+        '止盈/失效：阶段回落6%—10%分批兑现；若2027平衡转为明显过剩才考虑中期空配，否则回调到成本与库存支撑区后转为观察多头机会。',
+    ],
+    'drivers': [
+        '供应恢复：缅甸佤邦缓慢复产、Alphamin Bisie满产是2026再平衡主因；恢复不及预期会立即压缩过剩。',
+        '需求节奏：2026高价和光伏走弱压制消费，2027AI电子、光伏与传统电子恢复使需求重新超过供应。',
+        '验证指标：缅甸矿进口、印尼出口、LME+SHFE库存、LME 0-3和焊料开工必须同向确认，不能只看年度点估计。',
+    ],
+}
 
 MODULES = [
     ('sumsec', '本周总结', '总览', []),
@@ -26,6 +47,7 @@ MODULES = [
     ('demand_solder', '焊料/电子/新能源', '重点关注/需求', ['需求 · 焊料', '需求 · 终端耗锡', '终端 · 电子', '终端 · 白电', '需求 · 光伏/家电/汽车/电子', '终端 · 光伏', 'AI · 半导体', '终端 · 半导体']),
     ('demand_chemical', '锡化工/镀锡板/铅酸', '重点关注/需求', ['需求 · 锡化工', '需求 · 其他下游', '终端 · 锡化工/玻璃', '终端 · 镀锡板', '需求 · 铅蓄电池', '终端 · 铅蓄电池']),
     ('cost', '成本与平衡', '平衡表', ['平衡']),
+    ('balance', '年度平衡与2027策略', '平衡表', []),
     ('detailed', '详细周报', '详细周报', ['详细周报']),
     ('framework', '产业框架', '总览', []),
     ('technical', '技术分析', '宏观与策略', []),
@@ -46,6 +68,19 @@ def text(fragment):
 def one(pattern, source, fallback=''):
     match = re.search(pattern, source, re.S | re.I)
     return match.group(1) if match else fallback
+
+
+def shfe_values():
+    import csv
+    values = []
+    with open(SHFE_CSV, encoding='utf-8-sig') as handle:
+        for row in csv.DictReader(handle):
+            value = row.get('SN')
+            if value not in (None, ''):
+                values.append(float(value))
+    if not values:
+        raise RuntimeError('沪锡行情为空，保留上一成功版并中止年度平衡重建')
+    return values
 
 
 def ordinal(value):
@@ -211,6 +246,7 @@ def main():
     quarter = shared.quarterly_html(OUT / 'index.html', one(r'(<details class="fold" id="q4outlook">.*?</details>)', source))
     framework = one(r'(<details class="fold" id="framework">.*?</details>)', source)
     balance = one(r'(<details class="fold" id="balance">.*?</details>)', source)
+    price_values = shfe_values()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'lib').mkdir(exist_ok=True)
     for name in ('research.css', 'weekly_mobile.css', 'weekly_polish.css', 'weekly_mobile.js'):
@@ -223,6 +259,8 @@ def main():
     for sid, title, trail, secs in MODULES:
         parts.append('<section class="report-page" data-page="%s" data-trail="%s"><div class="page-heading"><h2>%s</h2><span>%s</span></div><div class="page-body">' % (
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
+        if sid in ('sumsec', 'balance'):
+            parts.append(shared.forecast_balance_html(BALANCE_CONFIG, price_values, full=(sid == 'balance')))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div>' % shared.esc(headline))
             parts.append('<div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>')

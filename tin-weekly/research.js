@@ -10,7 +10,7 @@ $$('.report-page[data-page]', wrap).forEach(section => {
 const page = (id, label) => ({type: 'page', id, label});
 const group = (label, children, open = false) => ({type: 'group', label, children, open});
 const NAV = [
-  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
+  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('balance', '年度平衡与2027策略'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
   group('重点关注', [
     group('供给', [page('supply_mine', '矿端与进口'), page('supply_smelt', '冶炼与精锡'), page('inventory', '显性库存'), page('cost', '成本与平衡')], true),
     group('需求', [page('demand_solder', '焊料/电子/新能源'), page('demand_chemical', '锡化工/镀锡板/铅酸')], true)
@@ -97,7 +97,7 @@ $('#menuToggle').addEventListener('click', () => {
 });
 const anchorRoutes = {'#sumsec': 'sumsec', '#framework': 'framework', '#sources': 'sources', '#price': 'price',
   '#supply': 'supply_mine', '#smelt': 'supply_smelt', '#inventory': 'inventory', '#invsec': 'inventory',
-  '#cost': 'cost', '#balance': 'cost', '#demand': 'demand_solder', '#technical': 'technical', '#detailed': 'detailed'};
+  '#cost': 'cost', '#balance': 'balance', '#demand': 'demand_solder', '#technical': 'technical', '#detailed': 'detailed'};
 wrap.addEventListener('click', event => {
   const anchor = event.target.closest('a[href^="#"]'); if (!anchor) return;
   const hash = anchor.getAttribute('href');
