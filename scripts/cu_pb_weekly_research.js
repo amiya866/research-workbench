@@ -11,7 +11,7 @@ $$('.report-page[data-page]', wrap).forEach(section => {
 const page = (id, label) => ({type: 'page', id, label});
 const group = (label, children, open = false) => ({type: 'group', label, children, open});
 const NAV = [
-  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
+  group('总览', [page('sumsec', '本周总结'), page('price', '价格与结构（图）'), page('balance', '年度平衡与2027策略'), page('framework', '产业框架'), page('sources', '数据缺口')], true),
   group('重点关注', [
     group('供给', [page('supply_mine', CFG.supply[0]), page('supply_smelt', CFG.supply[1]), page('inventory', CFG.supply[2]), page('cost', CFG.supply[3])], true),
     group('需求', [page('demand', CFG.demand)], true)
@@ -91,7 +91,7 @@ $('#menuToggle').addEventListener('click', () => {
 });
 const anchorRoutes = {'#sumsec': 'sumsec', '#framework': 'framework', '#sources': 'sources', '#price': 'price',
   '#supply_mine': 'supply_mine', '#supply_smelt': 'supply_smelt', '#inventory': 'inventory', '#invsec': 'inventory',
-  '#cost': 'cost', '#demand': 'demand', '#technical': 'technical'};
+  '#cost': 'cost', '#balance': 'balance', '#demand': 'demand', '#technical': 'technical'};
 wrap.addEventListener('click', event => {
   const anchor = event.target.closest('a[href^="#"]'); if (!anchor) return;
   const hash = anchor.getAttribute('href');

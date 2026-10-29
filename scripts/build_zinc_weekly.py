@@ -28,7 +28,8 @@ SECTIONS = [
     ('supply_smelt', '精炼锌', '重点关注/供给', ['ID01510883', 'a10018029', 'a10018062']),
     ('inventory', '显性库存', '重点关注/供给', ['overview_global_stock', 'FU00016165', 'ID00188293', 'a10134450', 'ID00188329']),
     ('demand', '镀锌/压铸/终端', '重点关注/需求', ['ID00187499', 'a10097188', 'a10018028', 'a12803961', 'a10001884', 'a10001831', 'a12756052', 'GM0000033132']),
-    ('cost', '成本与平衡', '平衡表', ['ID01241108']),
+    ('cost', '成本与利润', '平衡表', ['ID01241108']),
+    ('balance', '年度平衡与2027策略', '平衡表', []),
     ('framework', '产业框架', '总览', []),
     ('technical', '技术分析', '宏观与策略', ['overview_shfe']),
     ('sources', '数据缺口', '总览', []),
@@ -37,6 +38,27 @@ NAMES = {key: title for key, title in []}
 UNITS = {'overview_shfe': '元/吨', 'overview_lme': '美元/吨', 'overview_global_stock': '吨'}
 KPI = [('shfe', '沪锌主连', '元/吨'), ('lme', 'LME锌', '美元/吨'), ('lme03', 'LME 0-3', '美元/吨'),
        ('global_stock', 'LME+SHFE库存', '吨'), ('social_stock', '锌锭社库', '万吨'), ('tc', '锌精矿TC', '元/吨')]
+BALANCE_CONFIG = {
+    'title': '年度平衡与2027策略：2026短缺 → 2027小幅过剩，弱空配而非趋势裸空',
+    'rows': [
+        ('2026E·矿端', '矿山1,240万吨（-2.6%）', '—', '矿端收缩', 'Antamina/Garpenberg/Red Dog减产'),
+        ('2026E·精炼', '1,393万吨（+0.9%）', '1,402万吨（+1.4%）', '-8.8', '近端短缺，Back有支撑'),
+        ('2027E·精炼', '1,421万吨（+2.0%）', '1,419万吨（+1.2%）', '+2.5', '仅小幅过剩，弱空配'),
+    ],
+    'regional': '2027过剩仅约市场0.2%，不是高确定性大过剩。矿端恢复与中国新增冶炼产能是空配依据，但低仓单、矿山事故和再生扰动可能迅速抹平。',
+    'source': '来源：ILZSG 2026-10-19；2027矿山预计恢复至1,278万吨（+3%）。预测值不是实际值，需按月验证。',
+    'strategy': [
+        '方向：2026近月不空，2027远月只做弱空配/卖出套保，不把2.5万吨小过剩写成长期趋势空。',
+        '入场：远月反弹且LME Back走弱、TC与精炼产量回升、国内外库存同步止降时参与；单一低库存市场不逆势追空。',
+        '风控：若Garpenberg/Red Dog/Antamina再降级、LME注销仓单上升或库存连续两月下降，停止空配。',
+        '止盈/失效：回落4%—8%分批兑现；若2027平衡重回短缺，立即退出年度空配。月度重拍矿端与冶炼增量。',
+    ],
+    'drivers': [
+        '矿端恢复：Kipushi、Aljustrel、Rosh Pinah、Gamsberg及中国新增产能贡献2027增量；Lady Loretta退出和美国品位下降形成对冲。',
+        '冶炼恢复：Odda扩建、Verkhny Ufaley新厂及加拿大/日本/哈萨克/秘鲁恢复，决定矿端增量能否变成锭。',
+        '需求：2027中国锌需求仅+0.3%，地产仍弱；若出口制造和镀锌排产强于预期，小过剩容易消失。',
+    ],
+}
 
 
 def series(conn, ind_id, name, unit):
@@ -247,6 +269,8 @@ def main():
     for sid, title, trail, keys in SECTIONS:
         parts.append('<section class="report-page" data-page="%s" data-trail="%s"><div class="page-heading"><h2>%s</h2><span>%s</span></div><div class="page-body">' % (
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
+        if sid in ('sumsec', 'balance'):
+            parts.append(shared.forecast_balance_html(BALANCE_CONFIG, shfe_values, full=(sid == 'balance')))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
             parts.append(weekly_html)

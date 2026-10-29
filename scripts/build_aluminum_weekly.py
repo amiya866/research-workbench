@@ -28,7 +28,8 @@ SECTIONS = [
     ('supply_smelt', '电解铝', '重点关注/供给', ['a10124317', 'ID01001838', 'ID01001837', 'a10016193', 'ID01001759', 'ID01131701']),
     ('inventory', '显性库存', '重点关注/供给', ['overview_global_stock', 'ID00188281', 'a10134438', 'a10166772', 'ID00188307', 'ID00188313']),
     ('demand', '铝型材/板带/终端', '重点关注/需求', ['a10031808', 'a10016011', 'a12750799', 'a10102727', 'a10102770', 'ID00275563']),
-    ('cost', '成本与平衡', '平衡表', ['a10016216', 'a10016215', 'a10016211', 'a10016206', 'ID00188177', 'ID01001761']),
+    ('cost', '成本与利润', '平衡表', ['a10016216', 'a10016215', 'a10016211', 'a10016206', 'ID00188177', 'ID01001761']),
+    ('balance', '年度平衡与2027策略', '平衡表', []),
     ('framework', '产业框架', '总览', []),
     ('technical', '技术分析', '宏观与策略', ['overview_shfe']),
     ('sources', '数据缺口', '总览', []),
@@ -76,7 +77,34 @@ def last(chart):
     return [point[0], point[1]] if point else [None, None]
 
 
+def empty_chart():
+    return {'labels': [], 'datasets': [], '_type': 'line'}
+
+
+def recover_previous_charts(charts, source_meta):
+    warnings = []
+    path = OUT / 'index.html'
+    if not path.exists():
+        return warnings
+    match = re.search(r'<script>const charts=(.*?);document\.querySelectorAll', path.read_text(encoding='utf-8'), re.S)
+    if not match:
+        return warnings
+    try:
+        previous = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return warnings
+    for key, old_chart in previous.items():
+        old_point = shared.last_point(old_chart)
+        if old_point and not shared.last_point(charts.get(key, {})):
+            charts[key] = old_chart
+            source_meta[key] = dict(source_meta.get(key) or {}, recoveredFrom=str(old_point[0]))
+            warnings.append('%s 当前源无有效数据，保留上一成功版（%s）' % (key, old_point[0]))
+    return warnings
+
+
 def global_stock(lme, shfe):
+    if not shared.last_point(lme) or not shared.last_point(shfe):
+        return empty_chart()
     dates = sorted(set(lme['labels']) | set(shfe['labels']))
     lv, sv = lme['datasets'][0]['data'], shfe['datasets'][0]['data']
     lm = dict(zip(lme['labels'], lv))
@@ -136,6 +164,42 @@ def update_daily(summary):
     path.write_text(page, encoding='utf-8')
 
 
+def annual_balance_html(shfe_values, full=False):
+    window = shfe_values[-120:]
+    low, high, current = min(window), max(window), shfe_values[-1]
+    position = (current - low) / (high - low) if high > low else 0.5
+    rows = [
+        ('2025实际', '7,405.6', '7,420.1', '-14.4', '小幅短缺'),
+        ('2026E', '7,442.7（+0.5%）', '7,530.7（+1.5%）', '-88.0', '短缺扩大，近月不能空'),
+        ('2027E', '7,810.6（+4.9%）', '7,757.0（+3.0%）', '+53.5', '转为过剩，远月空配窗口'),
+    ]
+    table = ''.join('<tr><td>%s</td><td class="num">%s</td><td class="num">%s</td><td class="num">%s</td><td>%s</td></tr>' % row for row in rows)
+    parts = ['<details class="fold" id="annualbalance%s" open><summary>年度平衡与2027空配：2026短缺 → 2027过剩</summary><div class="foldbody">' % ('Full' if full else ''),
+             '<div class="lead">全球原铝供需平衡（百万吨→万吨展示）</div>',
+             '<div class="tablewrap"><table class="bal"><tr><th>年份</th><th>产量（万吨）</th><th>消费（万吨）</th><th>平衡（万吨）</th><th>交易含义</th></tr>', table, '</table></div>',
+             '<p><b>区域拆分：</b>中国平衡2026E +22.4万吨→2027E -6.7万吨；海外（除中国）平衡2026E -110.4万吨→2027E <b>+60.2万吨</b>。2027过剩主要由海外复产与新增供应驱动，不能只看国内产能天花板。</p>',
+             '<p class="src-note">来源：CRU Aluminium Market Outlook 2026-06（2025实际、2026/2027预测）；2026Q3公司产量、库存与复产信息用于滚动验证。预测不是实际值，年度平衡需随新数据重拍。</p>',
+             '<div class="lead">可执行策略：空2027远月，不空2026近月</div><ul class="sq">',
+             '<li><b>方向：</b>2026短缺约束近月下跌空间；2027转过剩是中期空配依据。优先2027年远月反弹空，近月低库存/Back时不做长期裸空。</li>',
+             '<li><b>入场：</b>远月反弹至各自120日区间80%%分位以上，且现货升水不再走强、氧化铝/海外复产继续兑现，分批建立空配。当前沪铝主连120日位置为 %s（%s，区间%s—%s），主连位置仅作温度参考，执行须看对应远月合约。</li>' % (shared.pct(position), shared.fmt(current), shared.fmt(low), shared.fmt(high)),
+             '<li><b>风控：</b>单笔远月止损参考入场价上方3%—4%或突破对应合约120日高点；若海外复产再中断、库存连续两个月加速下降或LME Back持续走强，停止加空并减仓。</li>',
+             '<li><b>止盈/复核：</b>第一目标为远月回落5%—8%，第二目标10%—15%，到达后分批兑现而非无限期持有；每月重拍年度平衡。若2027平衡被下修至短缺，长期空配逻辑失效。</li>',
+             '<li><b>更稳结构：</b>近月强Back时可研究“多近月、空2027远月”的时间结构，但两腿合约流动性和保证金不同，不当作无风险套利。</li></ul>']
+    if full:
+        parts += ['<div class="lead">2027平衡敏感性（研究情景，不是CRU原预测）</div>',
+                  '<div class="tablewrap"><table class="bal"><tr><th>情景</th><th>产量增速</th><th>消费增速</th><th>2027平衡</th><th>策略</th></tr>',
+                  '<tr><td>紧张</td><td class="num">+3.5%</td><td class="num">+4.0%</td><td class="num">-128.7万吨</td><td>停止空配</td></tr>',
+                  '<tr><td>基准</td><td class="num">+4.9%</td><td class="num">+3.0%</td><td class="num">+53.5万吨</td><td>远月逢高空</td></tr>',
+                  '<tr><td>宽松</td><td class="num">+5.5%</td><td class="num">+2.0%</td><td class="num">+170.7万吨</td><td>提高空配优先级</td></tr></table></div>',
+                  '<div class="lead">供应增量路径与需要盯的证伪点</div><ul class="sq">',
+                  '<li><b>中东复产：</b>Alba受损产线修复、EGA恢复是海外增量的重要组成；若再次中断，2027过剩下修。</li>',
+                  '<li><b>欧洲/北美：</b>San Ciprián复产、Arvida旧线退出与AP60爬产构成置换；净增量不能只看名义产能。</li>',
+                  '<li><b>印度与氧化铝：</b>Vedanta电解铝和Lanjigarh氧化铝创纪录爬产，若氧化铝价格继续下降，电解铝高利润会进一步刺激供应。</li>',
+                  '<li><b>反向约束：</b>Mozal停产、Bell Bay永久退出抵消部分增量；2027是否过剩要看复产净额，而不是把新增项目简单相加。</li></ul>']
+    parts.append('</div></details>')
+    return ''.join(parts)
+
+
 def main():
     conn = sqlite3.connect(f'file:{CACHE.as_posix()}?mode=ro', uri=True)
     charts, source_meta, names, units = {}, {}, dict(NAMES), dict(UNITS)
@@ -147,27 +211,34 @@ def main():
     charts['overview_shfe'] = csv_chart(SHFE_CSV, 'AL', '沪铝主连')
     charts['overview_lme'] = csv_chart(LME_CSV, 'AL', 'LME铝')
     basis_chart = cached_lme03_chart()
-    if basis_chart:
-        charts['overview_lme03'] = basis_chart
-        units['overview_lme03'] = '美元/吨'
-        source_meta['overview_lme03'] = {'type': 'derived', 'formula': 'westmetall cash-3M'}
-        names['overview_lme03'] = 'LME铝 0-3 升贴水'
+    charts['overview_lme03'] = basis_chart or empty_chart()
+    units['overview_lme03'] = '美元/吨'
+    source_meta['overview_lme03'] = {'type': 'derived', 'formula': 'westmetall cash-3M'}
+    names['overview_lme03'] = 'LME铝 0-3 升贴水'
     charts['overview_global_stock'] = global_stock(charts['a10134438'], charts['ID00188281'])
     for key, label in [('overview_shfe', 'guan+本地日K'), ('overview_lme', '新浪外盘+本地缓存'), ('overview_global_stock', 'LME+SHFE合计')]:
         source_meta[key] = {'type': 'derived', 'formula': label}
         names[key] = {'overview_shfe': '沪铝主连', 'overview_lme': 'LME铝', 'overview_global_stock': '全球显性库存'}[key]
+    if not shared.last_point(charts['overview_shfe']):
+        raise RuntimeError('核心沪铝行情无有效数据，保留上一成功版并中止重建')
+    warnings = recover_previous_charts(charts, source_meta)
+    if not shared.last_point(charts['overview_shfe']):
+        raise RuntimeError('核心沪铝行情当前与上一成功版均无有效数据，中止重建')
+    raw_charts = charts
+    referenced = {key for _sid, _title, _trail, keys in SECTIONS for key in keys}
+    empty = sorted(key for key in referenced if not shared.last_point(charts.get(key, {})))
     shared.NAMES = names
     shared.SECTIONS = SECTIONS
     built = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
-    data = {'charts': charts, 'sourceMeta': {'charts': source_meta}, 'meta': {'builtAt': built, 'warnings': [], 'emptyCharts': []}}
+    data = {'charts': charts, 'sourceMeta': {'charts': source_meta}, 'meta': {'builtAt': built, 'warnings': warnings, 'emptyCharts': empty}}
     freshness = shared.build_freshness(data)
     META.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
     latest = {
-        'shfe': last(charts['overview_shfe']), 'lme': last(charts['overview_lme']),
-        'lme03': last(charts['overview_lme03']), 'domestic': last(charts['FU00024308']),
-        'global_stock': last(charts['overview_global_stock']),
-        'social_stock': last(charts['a10166772']), 'tc': last(charts['a10016216']),
-        'alumina': last(charts['ID00188139']),
+        'shfe': last(raw_charts['overview_shfe']), 'lme': last(raw_charts['overview_lme']),
+        'lme03': last(raw_charts['overview_lme03']), 'domestic': last(raw_charts['FU00024308']),
+        'global_stock': last(raw_charts['overview_global_stock']),
+        'social_stock': last(raw_charts['a10166772']), 'tc': last(raw_charts['a10016216']),
+        'alumina': last(raw_charts['ID00188139']),
     }
     asof = max(value[0] for value in latest.values() if value[0])
     shfe_values = [v for v in charts['overview_shfe']['datasets'][0]['data'] if v is not None]
@@ -245,7 +316,7 @@ def main():
     demand_score = 1 if (downstream_chg or 0) > 0.02 else (-1 if (downstream_chg or 0) < -0.02 else 0)
     demand_judge = '铝加工开工改善，偏多证据' if demand_score > 0 else ('铝加工开工走弱，偏空证据' if demand_score < 0 else '需求变化不足，跟踪')
     marginal_items = [
-        ('价格', '近5个交易日 %s' % shared.pct(chg5), '价格上行，偏多证据' if chg5 > 0 else ('价格下行，偏空证据' if chg5 < 0 else '价格震荡，等待方向'), _sign(chg5)),
+        ('价格', '近5个交易日 %s' % shared.pct(chg5), '价格上行，偏多证据' if (chg5 or 0) > 0 else ('价格下行，偏空证据' if (chg5 or 0) < 0 else '价格震荡，等待方向'), _sign(chg5)),
         ('结构', structure_desc, structure_judge, structure_score),
         ('库存', '全球显性库存20日 %s，社库20日 %s' % (shared.pct(global20), shared.pct(social20)), inventory_judge, inventory_score),
         ('供应', '电解铝产量近20日 %s，电解铝利润 %s 元/吨' % (shared.pct(output_chg), shared.fmt(latest['tc'][1])), supply_judge, supply_score),
@@ -270,6 +341,8 @@ def main():
     for sid, title, trail, keys in SECTIONS:
         parts.append('<section class="report-page" data-page="%s" data-trail="%s"><div class="page-heading"><h2>%s</h2><span>%s</span></div><div class="page-body">' % (
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
+        if sid in ('sumsec', 'balance'):
+            parts.append(annual_balance_html(shfe_values, full=(sid == 'balance')))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
             parts.append(weekly_html)
@@ -278,22 +351,22 @@ def main():
             def _cls(score):
                 return 'up' if (score or 0) > 0 else ('down' if (score or 0) < 0 else 'nt')
             score_map = {item[0]: item[3] for item in marginal_items}
-            if latest['lme03'][1] > 0:
+            if (latest['lme03'][1] or 0) > 0:
                 lme_status, lme_cls = 'Back偏多', 'up'
                 lme_conclusion = 'Back结构支撑近月' if (lme03_trend or 0) >= 0 else 'Back仍在但20日走弱，跟踪是否转弱'
-            elif latest['lme03'][1] < 0:
+            elif (latest['lme03'][1] or 0) < 0:
                 lme_status, lme_cls = 'Contango偏空', 'down'
                 lme_conclusion = 'Contango扩大，海外结构走弱' if (lme03_trend or 0) < 0 else 'Contango收窄，海外结构边际改善，仍需确认'
             else:
-                lme_status, lme_cls, lme_conclusion = '中性', 'nt', '海外结构持平'
-            if latest['domestic'][1] > 0:
+                lme_status, lme_cls, lme_conclusion = '数据缺失', 'nt', '海外结构暂不可得，继续跟踪'
+            if (latest['domestic'][1] or 0) > 0:
                 domestic_status, domestic_cls = ('升水走弱，关注', 'nt') if (domestic_trend or 0) < 0 else ('升水偏多', 'up')
                 domestic_conclusion = '国内基差升水但20日走弱，跟踪是否转贴水' if (domestic_trend or 0) < 0 else '国内基差升水，结构仍有支撑'
-            elif latest['domestic'][1] < 0:
+            elif (latest['domestic'][1] or 0) < 0:
                 domestic_status, domestic_cls = ('贴水扩大，偏空', 'down') if (domestic_trend or 0) < 0 else ('贴水收窄，关注', 'nt')
                 domestic_conclusion = '国内基差贴水扩大，结构走弱' if (domestic_trend or 0) < 0 else '国内基差贴水收窄，结构边际改善，仍需确认'
             else:
-                domestic_status, domestic_cls, domestic_conclusion = '中性', 'nt', '国内基差持平'
+                domestic_status, domestic_cls, domestic_conclusion = '数据缺失', 'nt', '国内基差暂不可得，继续跟踪'
             if social20 is not None:
                 social_status = '去库偏多' if social20 < 0 else '累库偏空'; social_cls = 'up' if social20 < 0 else 'down'
                 social_conclusion = '国内社库20日 %s，%s' % (shared.pct(social20), '去库支撑近月' if social20 < 0 else '累库压制近月')
@@ -303,10 +376,10 @@ def main():
                 ('价格', '沪铝 %s 元/吨（%s）｜LME铝 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, _cls(chg5)),
                 ('结构·LME', 'LME 0-3 %s 美元/吨（%s，20日 %s）' % (shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.pct(lme03_trend)), lme_conclusion, lme_status, lme_cls),
                 ('结构·国内', 'SHFE铝基差 %s 元/吨（%s，20日 %s）' % (shared.fmt(latest['domestic'][1]), latest['domestic'][0], shared.pct(domestic_trend)), domestic_conclusion, domestic_status, domestic_cls),
-                ('海外库存', 'LME铝库存 %s 吨（%s）' % (shared.fmt(last(charts['a10134438'])[1]), last(charts['a10134438'])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), '%s%s' % (stock_word, '偏多' if stock_word == '去库' else '偏空'), 'up' if stock_word == '去库' else 'dn'),
+                ('海外库存', 'LME铝库存 %s 吨（%s）' % (shared.fmt(last(raw_charts['a10134438'])[1]), last(raw_charts['a10134438'])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), '%s%s' % (stock_word, '偏多' if stock_word == '去库' else '偏空'), 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '铝锭社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), social_conclusion, social_status, social_cls),
-                ('供应·电解铝', '电解铝产量近20日 %s｜氧化铝价格 %s 元/吨（%s）' % (shared.pct(output_chg), shared.fmt(last(charts['ID00188139'])[1]), last(charts['ID00188139'])[0]), '氧化铝是成本层，产量恢复才是锭端供应压力', '偏多' if score_map['供应'] > 0 else ('偏空' if score_map['供应'] < 0 else '跟踪'), _cls(score_map['供应'])),
-                ('需求·铝加工', '铝型材龙头开工率 %s%%（%s，近20日 %s）' % (shared.fmt(last(charts['a10031808'])[1]), last(charts['a10031808'])[0], shared.pct(downstream_chg)), '铝型材、板带、地产、家电和出口共同验证', '偏多' if score_map['需求'] > 0 else ('偏空' if score_map['需求'] < 0 else '跟踪'), _cls(score_map['需求'])),
+                ('供应·电解铝', '电解铝产量近20日 %s｜氧化铝价格 %s 元/吨（%s）' % (shared.pct(output_chg), shared.fmt(last(raw_charts['ID00188139'])[1]), last(raw_charts['ID00188139'])[0]), '氧化铝是成本层，产量恢复才是锭端供应压力', '偏多' if score_map['供应'] > 0 else ('偏空' if score_map['供应'] < 0 else '跟踪'), _cls(score_map['供应'])),
+                ('需求·铝加工', '铝型材龙头开工率 %s%%（%s，近20日 %s）' % (shared.fmt(last(raw_charts['a10031808'])[1]), last(raw_charts['a10031808'])[0], shared.pct(downstream_chg)), '铝型材、板带、地产、家电和出口共同验证', '偏多' if score_map['需求'] > 0 else ('偏空' if score_map['需求'] < 0 else '跟踪'), _cls(score_map['需求'])),
                 ('策略观察', '价格、LME结构、国内结构、库存、产量和铝加工开工交叉验证', '信号未同向前不作单边外推；国内基差走弱时下调近月判断', '跟踪', 'nt'),
             ]
             for label, datum, conclusion, status, cls in rows:

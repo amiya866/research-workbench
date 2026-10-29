@@ -51,6 +51,27 @@ NAMES = {
 }
 KPI = [('shfe', '沪镍主连', '元/吨'), ('ss', '不锈钢主连', '元/吨'), ('lme', 'LME镍3M', '美元/吨'),
        ('global_stock', '全球显性库存', '吨'), ('social_stock', '镍社会库存', '吨'), ('npi_price', '镍铁价格', '元/镍点')]
+BALANCE_CONFIG = {
+    'title': '年度平衡与2027策略：过剩重新扩大，空配等待近端扰动落地',
+    'rows': [
+        ('2025实际', '供应过剩', '需求扩张', '+28.3', '高库存起点'),
+        ('2026E', '387万吨', '385万吨', '+1.9', '接近平衡，近端扰动仍可反弹'),
+        ('2027E', '407万吨（+5.2%）', '400万吨（+3.9%）', '+7.0', '过剩扩大，中期空配'),
+    ],
+    'regional': '印尼供给决定边际。2026仅小幅过剩，干旱、RKAB与HPAL扰动能制造阶段紧张；2027新增NPI/HPAL/精炼镍兑现后，供应增速再次超过需求。',
+    'source': '来源：INSG 2026-10-13预测（2025过剩为INSG历史口径）；Nickel Industries项目进度用于滚动验证。预测值不是实际值。',
+    'strategy': [
+        '方向：中期仍以2027远月反弹空为主，但不把2026小过剩当作随时可空；近端干旱、配额或库存连续下降时先等待。',
+        '入场：远月反弹且LME Contango不再收窄、国内社库止降、印尼产量恢复时分批空；避免在消息驱动的急涨首日追空。',
+        '风控：若RKAB进一步削减实际产量、干旱令RKEF长期低于铭牌、或国内外库存连续两个月同降，停止加空并降低仓位。',
+        '止盈/失效：远月回落5%—10%分批兑现；若2027过剩预测被下修至平衡或短缺，年度空配退出。每月复核印尼项目与INSG平衡。',
+    ],
+    'drivers': [
+        '增量：ENC HPAL 7.2万吨/年、HNC高负荷、印尼NPI与精炼镍新线；2027首个完整年贡献更明显。',
+        '扰动：2026-10干旱使RKEF约75%负荷，Weda Bay 9月恢复采矿，方向相反，不能只看项目名义产能。',
+        '需求：300系不锈钢是底座，三元受磷酸铁锂挤压；若不锈钢排产强于预期，过剩下修。',
+    ],
+}
 
 
 def esc(value):
@@ -191,6 +212,29 @@ def weekly_outlook_html(near, medium, strategy, invalidation):
             '<div class="foldbody"><ul class="sq">%s</ul>'
             '<p class="src-note">近端由最新价格、结构和库存驱动；中长期为产业格局基准，须由后续数据持续验证，不构成投资建议。</p>'
             '</div></details>' % body)
+
+
+def forecast_balance_html(config, shfe_values, full=False):
+    window = shfe_values[-120:]
+    low, high, current = min(window), max(window), shfe_values[-1]
+    position = (current - low) / (high - low) if high > low else 0.5
+    rows = ''.join('<tr><td>%s</td><td>%s</td><td>%s</td><td class="num">%s</td><td>%s</td></tr>' % row
+                   for row in config['rows'])
+    parts = ['<details class="fold" id="annualbalance%s" open><summary>%s</summary><div class="foldbody">' % ('Full' if full else '', esc(config['title'])),
+             '<div class="tablewrap"><table class="bal"><tr><th>年份</th><th>供应</th><th>需求</th><th>平衡（万吨）</th><th>交易含义</th></tr>',
+             rows, '</table></div><p><b>结构判断：</b>%s</p>' % esc(config['regional']),
+             '<p class="src-note">%s</p>' % esc(config['source']),
+             '<div class="lead">年度策略与执行边界</div><ul class="sq">']
+    parts += ['<li><b>%s</b></li>' % esc(item) for item in config['strategy']]
+    parts.append('<li><b>价格位置：</b>当前主连 %s，近120日区间 %s—%s，位置 %s；入场看对应远月合约，不能只按主连机械下单。</li>' % (
+        fmt(current), fmt(low), fmt(high), pct(position)))
+    parts.append('</ul>')
+    if full:
+        parts.append('<div class="lead">供应增量与证伪路径</div><ul class="sq">')
+        parts += ['<li>%s</li>' % esc(item) for item in config['drivers']]
+        parts.append('</ul>')
+    parts.append('</div></details>')
+    return ''.join(parts)
 
 
 FRESHNESS_FILE = BASE / 'data' / 'nickel_weekly_freshness.json'
@@ -496,10 +540,13 @@ def main():
     tin_html = (BASE / 'tin-weekly' / 'index.html').read_text(encoding='utf-8')
     base_css = re.search(r'<style>(.*?)</style>', tin_html, re.S).group(1)
 
+    shfe_values = [v for v in charts['overview_shfe']['datasets'][0]['data'] if v is not None]
     parts = []
     for sid, title, trail, keys in SECTIONS:
         parts.append('<section class="report-page" data-page="%s" data-trail="%s"><div class="page-heading"><h2>%s</h2><span>%s</span></div><div class="page-body">' % (
             sid, esc(trail), esc(title), esc(trail.replace('/', ' / ').upper())))
+        if sid in ('sumsec', 'balance'):
+            parts.append(forecast_balance_html(BALANCE_CONFIG, shfe_values, full=(sid == 'balance')))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div>' % esc(headline))
             parts.append('<div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>')
