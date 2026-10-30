@@ -6,6 +6,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+for _stream in (sys.stdout, sys.stderr):
+    if _stream is not None and hasattr(_stream, 'reconfigure'):
+        _stream.reconfigure(encoding='utf-8', errors='replace')
+
 BASE = Path(__file__).resolve().parents[1]
 NW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 

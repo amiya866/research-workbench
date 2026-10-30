@@ -33,6 +33,6 @@
   "source_sha256": "e9518c4380b4d60f5daac215bf69a3f3858e03d7399c3125f43a3d5c403da5a4",
   "asset_count": 279,
   "synced_at": "2026-10-30T08:41:39+08:00",
-  "sync_status": "ok",
-  "last_error": ""
+  "sync_status": "stale",
+  "last_error": "rc=35 curl: (35) schannel: failed to receive handshake, SSL/TLS connection failed\r\n；rc=6 rl: (6) Could not resolve host: raw.githubusercontent.com\r\ncurl: (6) Could not resolve host: raw.githubusercontent.com\r\n；rc=6 curl: (6) Could not resolve host: gsy1005.github.io\r\ncurl: (6) Could not resolve host: gsy1005.github.io\r\n"
 }
