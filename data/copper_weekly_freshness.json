@@ -1,6 +1,6 @@
 {
-  "asof": "2026-10-29",
-  "built_at": "2026-10-29T13:38:55+08:00",
+  "asof": "2026-10-30",
+  "built_at": "2026-10-30T08:46:15+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -50,7 +50,7 @@
       "latest": "2026-08-31",
       "latest_value": "3,932",
       "latest_iso": "2026-08-31",
-      "age_days": 59,
+      "age_days": 60,
       "status": "watch",
       "status_label": "关注",
       "action": "接近滞后期，保留使用并加强观察。"
@@ -65,7 +65,7 @@
       "latest": "2026-10-28",
       "latest_value": "536,978",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -80,7 +80,7 @@
       "latest": "2026-10-28",
       "latest_value": "-472.8",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -95,7 +95,7 @@
       "latest": "2026-10-28",
       "latest_value": "1,025",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -107,9 +107,9 @@
       "source": "衍生计算：新浪外盘+本地缓存",
       "frequency": "日度",
       "unit": "美元/吨",
-      "latest": "2026-10-28",
-      "latest_value": "14,475",
-      "latest_iso": "2026-10-28",
+      "latest": "2026-10-29",
+      "latest_value": "14,414",
+      "latest_iso": "2026-10-29",
       "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
@@ -122,9 +122,9 @@
       "source": "westmetall cash-3M",
       "frequency": "日度",
       "unit": "—",
-      "latest": "2026-10-28",
-      "latest_value": "191.5",
-      "latest_iso": "2026-10-28",
+      "latest": "2026-10-29",
+      "latest_value": "210.0",
+      "latest_iso": "2026-10-29",
       "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
@@ -140,7 +140,7 @@
       "latest": "2026-10-28",
       "latest_value": "17",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -155,7 +155,7 @@
       "latest": "2026-09-30",
       "latest_value": "50.1",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -170,7 +170,7 @@
       "latest": "2026-10-28",
       "latest_value": "5.05",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -185,7 +185,7 @@
       "latest": "2026-10-28",
       "latest_value": "1,025",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -200,7 +200,7 @@
       "latest": "2026-10-28",
       "latest_value": "102.5",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -215,7 +215,7 @@
       "latest": "2026-09-30",
       "latest_value": "253,363",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -230,7 +230,7 @@
       "latest": "2026-09-30",
       "latest_value": "47,934",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -245,7 +245,7 @@
       "latest": "2026-09-30",
       "latest_value": "1,397",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -260,7 +260,7 @@
       "latest": "2026-10-28",
       "latest_value": "-5,195",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -275,7 +275,7 @@
       "latest": "2026-10-28",
       "latest_value": "2,300",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -290,7 +290,7 @@
       "latest": "2026-10-28",
       "latest_value": "5,165",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -302,9 +302,9 @@
       "source": "衍生计算：guan+本地日K",
       "frequency": "日度",
       "unit": "元/吨",
-      "latest": "2026-10-28",
-      "latest_value": "109,200",
-      "latest_iso": "2026-10-28",
+      "latest": "2026-10-29",
+      "latest_value": "108,650",
+      "latest_iso": "2026-10-29",
       "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
@@ -320,7 +320,7 @@
       "latest": "2026-10-28",
       "latest_value": "220,425",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -335,7 +335,7 @@
       "latest": "2026-10-28",
       "latest_value": "51,025",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -350,7 +350,7 @@
       "latest": "2026-10-23",
       "latest_value": "19,058",
       "latest_iso": "2026-10-23",
-      "age_days": 6,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -365,7 +365,7 @@
       "latest": "2026-10-28",
       "latest_value": "800,321",
       "latest_iso": "2026-10-28",
-      "age_days": 1,
+      "age_days": 2,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -380,7 +380,7 @@
       "latest": "2026-10-26",
       "latest_value": "5.55",
       "latest_iso": "2026-10-26",
-      "age_days": 3,
+      "age_days": 4,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -395,7 +395,7 @@
       "latest": "2026-10-26",
       "latest_value": "8.19",
       "latest_iso": "2026-10-26",
-      "age_days": 3,
+      "age_days": 4,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -410,7 +410,7 @@
       "latest": "2026-10-27",
       "latest_value": "272,725",
       "latest_iso": "2026-10-27",
-      "age_days": 2,
+      "age_days": 3,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -425,7 +425,7 @@
       "latest": "2026-10-27",
       "latest_value": "291,783",
       "latest_iso": "2026-10-27",
-      "age_days": 2,
+      "age_days": 3,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -440,7 +440,7 @@
       "latest": "2026-10-23",
       "latest_value": "58.2",
       "latest_iso": "2026-10-23",
-      "age_days": 6,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -455,7 +455,7 @@
       "latest": "2026-10-23",
       "latest_value": "-241.1",
       "latest_iso": "2026-10-23",
-      "age_days": 6,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -470,7 +470,7 @@
       "latest": "2026-09-30",
       "latest_value": "198.4",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -485,7 +485,7 @@
       "latest": "2026-09-30",
       "latest_value": "108.4",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -500,7 +500,7 @@
       "latest": "2026-09-30",
       "latest_value": "653.5",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -515,7 +515,7 @@
       "latest": "2026-09-30",
       "latest_value": "608.3",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -530,7 +530,7 @@
       "latest": "2026-09-30",
       "latest_value": "2,482,028",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -545,7 +545,7 @@
       "latest": "2026-09-30",
       "latest_value": "63.92",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -560,7 +560,7 @@
       "latest": "2026-09-30",
       "latest_value": "72.18",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -575,7 +575,7 @@
       "latest": "2026-09-30",
       "latest_value": "63.11",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -590,7 +590,7 @@
       "latest": "2026-09-30",
       "latest_value": "74.52",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -605,7 +605,7 @@
       "latest": "2026-09-30",
       "latest_value": "102,518",
       "latest_iso": "2026-09-30",
-      "age_days": 29,
+      "age_days": 30,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
