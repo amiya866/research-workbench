@@ -1,34 +1,34 @@
 {
-  "built_at": "2026-10-31T19:48:52+08:00",
+  "built_at": "2026-10-31T21:11:27+08:00",
   "overall": "有需要检查项",
   "rows": [
     {
       "label": "实时行情",
-      "value": "2026-10-31 17:26 BJT",
+      "value": "2026-10-31 21:01 BJT",
       "status": "ok",
       "note": "RwBenchQuick 每2小时；页面打开时再拉取"
     },
     {
       "label": "快讯消息",
-      "value": "2026-10-31 17:26",
+      "value": "2026-10-31 21:01",
       "status": "ok",
       "note": "金十/CS/东财/新浪/LME；内嵌兜底同步刷新"
     },
     {
       "label": "宏观序列与图表",
-      "value": "2026-10-31 15:03 北京",
+      "value": "2026-10-31 20:56 北京",
       "status": "ok",
       "note": "RwBenchDaily 全链"
     },
     {
       "label": "美元流动性",
-      "value": "2026-10-31 07:03",
+      "value": "2026-10-31 20:52",
       "status": "ok",
       "note": "FRED/央行公开数据，按各自发布频率"
     },
     {
       "label": "FedWatch",
-      "value": "2026-10-31 03:56 BJT",
+      "value": "2026-10-31 21:01 BJT",
       "status": "ok",
       "note": "CME官方条件概率表"
     },
@@ -40,26 +40,26 @@
     },
     {
       "label": "共识日历",
-      "value": "2026-10-31 10:46 BJT",
+      "value": "2026-10-31 20:58 BJT",
       "status": "ok",
       "note": "投行/机构一致预期"
     },
     {
       "label": "CFTC持仓",
-      "value": "2026-10-31 15:03 北京",
+      "value": "2026-10-31 20:53 北京",
       "status": "ok",
       "note": "周度持仓，抓取时间不等于报告期"
     },
     {
       "label": "新出数据",
-      "value": "2026-10-31 17:27",
+      "value": "2026-10-31 21:01",
       "status": "ok",
       "note": "快讯中识别的官方发布"
     },
     {
       "label": "知识星球雷达",
-      "value": "2026-10-31T13:44:32+08:00",
-      "status": "warn",
+      "value": "2026-10-31T20:50:20+08:00",
+      "status": "ok",
       "note": "方向/研报/观点快照"
     },
     {
@@ -76,15 +76,15 @@
     },
     {
       "label": "地缘事件链",
-      "value": "2026-10-28",
+      "value": "2026-10-31",
       "status": "ok",
       "note": "全链扫描快讯标题自动追加；无新事件时不强行填日期"
     },
     {
       "label": "官方发布分项",
-      "value": "nfp=2026-09；cpi=2026-09；ppi=2026-09；gdp=2026Q2；pce_price=2026M08；pce_real=2026M08；fomc=2026-09-17",
-      "status": "bad",
-      "note": "旧值块：cpi,gdp,pce_price,pce_real"
+      "value": "nfp=2026-09；cpi=2026-09；ppi=2026-09；gdp=2026Q3；pce_price=2026M09；pce_real=2026M09；fomc=2026-09-17",
+      "status": "ok",
+      "note": "BLS/BEA/CME 本次全部成功；月份不同是自然披露节奏"
     },
     {
       "label": "锡研究周报",
@@ -127,9 +127,9 @@
     {
       "name": "RwBenchDaily",
       "state": "Running",
-      "last": "2026-10-31 13:43:51",
-      "next": "2026-10-31 20:40:00",
-      "result": 2147946720
+      "last": "2026-10-31 20:40:01",
+      "next": "2026-11-01 07:40:00",
+      "result": 267009
     },
     {
       "name": "RwBenchQuick",
