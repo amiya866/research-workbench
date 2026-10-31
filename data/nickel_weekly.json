@@ -1,23 +1,23 @@
 {
   "title": "研究周报 · 镍与不锈钢",
   "asof": "2026-10-30",
-  "headline": "本周定调：价格走弱与海外去库并存，结构Contango，边际仍看印尼 —— 沪镍近5个交易日-3.2%，LME镍库存近5个交易日-0.8%；印尼NPI最新读数 14.9 万金属吨（标签10），中国300系不锈钢产量最新读数 181.0 万吨（标签10）；结构：LME镍0-3 -181.6 美元/吨（2026-10-29），金川镍升贴水升水 3,900 元/吨（2026-10-29）。近端重点跟踪价格、结构、印尼供应兑现、300系排产和库存变化能否同向验证；⚙️规则摘要，不构成投资建议。",
+  "headline": "本周定调：价格走弱与海外去库并存，结构Contango，边际仍看印尼 —— 沪镍近5个交易日-2.8%，LME镍库存近5个交易日-0.9%；印尼NPI最新读数 14.9 万金属吨（标签10），中国300系不锈钢产量最新读数 181.0 万吨（标签10）；结构：LME镍0-3 -181.2 美元/吨（2026-10-30），金川镍升贴水升水 3,850 元/吨（2026-10-30）。近端重点跟踪价格、结构、印尼供应兑现、300系排产和库存变化能否同向验证；⚙️规则摘要，不构成投资建议。",
   "metrics": [
     {
       "name": "沪镍主连",
-      "value": "116,710 元/吨（2026-10-30）"
+      "value": "117,190 元/吨（2026-10-30）"
     },
     {
       "name": "不锈钢主连",
-      "value": "13,430 元/吨（2026-10-30）"
+      "value": "13,515 元/吨（2026-10-30）"
     },
     {
       "name": "LME镍3M",
-      "value": "15,550 美元/吨（2026-10-29）"
+      "value": "15,425 美元/吨（2026-10-30）"
     },
     {
       "name": "全球显性库存",
-      "value": "489,829 吨（2026-10-28）"
+      "value": "491,831 吨（2026-10-29）"
     },
     {
       "name": "镍社会库存",
@@ -25,30 +25,12 @@
     },
     {
       "name": "镍铁价格",
-      "value": "1,020 元/镍点（2026-10-29）"
+      "value": "1,020 元/镍点（2026-10-30）"
     }
   ],
-  "built_at": "2026-10-30T16:09:53+08:00",
+  "built_at": "2026-10-31T13:42:19+08:00",
   "local_url": "nickel-weekly/#sumsec",
   "source_url": "https://amiya866.github.io/nickel-panel/",
-  "warnings": [
-    "行情 NI: Expecting value: line 1 column 1 (char 0)",
-    "行情 SS: Expecting value: line 1 column 1 (char 0)",
-    "行情 CU: Expecting value: line 1 column 1 (char 0)",
-    "LME 3M: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 premium_russia: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 premium_jinchuan: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 premium_bean: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 cost_chrome: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 inventory_ss_cold: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 inventory_ss_hot: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 inventory_shfe: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连 inventory_lme: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "NPI价格直连: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "NPI利润直连: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "LME分洲库存直连: curl: (6) Could not resolve host: zhiji-ai.xyz",
-    "直连与镜像: 'premium_russia'",
-    "源端本次空值，保留上一成功版本：overview_shfe,overview_ss,overview_lme,premium,import_profit,ratio_ni_ss,ratio_ni_copper,ratio_npi_refined,supply_nickel_sulfate,inventory_ss_cold,inventory_ss_hot,cost_chrome,cost_chromium,premium_russia,premium_jinchuan,premium_bean,latest:shfe,latest:ss,latest:lme,latest:global_stock,latest:npi_price,latest:lme_stock"
-  ],
+  "warnings": [],
   "sync_status": "ok"
 }
