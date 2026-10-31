@@ -17,7 +17,7 @@
     },
     {
       "name": "全球显性库存",
-      "value": "491,831 吨（2026-10-29）"
+      "value": "491,279 吨（2026-10-30）"
     },
     {
       "name": "镍社会库存",
@@ -25,12 +25,20 @@
     },
     {
       "name": "镍铁价格",
-      "value": "1,020 元/镍点（2026-10-30）"
+      "value": "1,055 元/镍点（2026-10-10）"
     }
   ],
-  "built_at": "2026-10-31T13:42:19+08:00",
+  "built_at": "2026-10-31T19:46:13+08:00",
   "local_url": "nickel-weekly/#sumsec",
   "source_url": "https://amiya866.github.io/nickel-panel/",
-  "warnings": [],
+  "warnings": [
+    "NPI价格直连: zhiji ID00188192 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "NPI利润直连: zhiji a10018694 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "LME分洲库存直连: zhiji a10018417 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "铬铁直连: zhiji ID00258657 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "LME月间结构: zhiji j02797787 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "进出口与库存补充: zhiji a10000643 无有效数据 {'error': '触发限流: 超过 30 次/分', 'rate_limited': True}",
+    "源端本次空值，保留上一成功版本：lme_curve,cost_chromium"
+  ],
   "sync_status": "ok"
 }
