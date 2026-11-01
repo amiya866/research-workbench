@@ -181,25 +181,34 @@ def seasonalize_charts(charts):
     return converted
 
 
-def marginal_block(items):
-    """items=(标签, 证据, 判断, 分数)；输出“相关边际”，证据同向才给明确方向。"""
-    bull = sum(1 for item in items if (item[3] or 0) > 0)
-    bear = sum(1 for item in items if (item[3] or 0) < 0)
+def weekly_direction(items):
+    bull = [item for item in items if (item[3] or 0) > 0]
+    bear = [item for item in items if (item[3] or 0) < 0]
     net = sum(item[3] or 0 for item in items)
-    if bull >= 3 and bull - bear >= 2:
-        direction = '基准方向：偏多（价格、结构、库存/供需中多项同向，方向相对明确）'
-    elif bear >= 3 and bear - bull >= 2:
-        direction = '基准方向：偏空（价格、结构、库存/供需中多项同向，方向相对明确）'
-    elif net > 0 and bull > bear:
-        direction = '基准方向：偏多但证据不够齐，作为偏强观察而非单边确认'
-    elif net < 0 and bear > bull:
-        direction = '基准方向：偏空但证据不够齐，作为偏弱观察而非单边确认'
+    if len(bull) >= 3 and len(bull) - len(bear) >= 2:
+        label = '偏多'
+    elif len(bear) >= 3 and len(bear) - len(bull) >= 2:
+        label = '偏空'
+    elif net > 0 and len(bull) > len(bear):
+        label = '震荡偏多'
+    elif net < 0 and len(bear) > len(bull):
+        label = '震荡偏空'
     else:
-        direction = '基准方向：震荡/分化，暂不作单边外推，继续跟踪'
+        label = '震荡'
+    rationale = []
+    if bull:
+        rationale.append('支撑：' + '、'.join(item[0] for item in bull))
+    if bear:
+        rationale.append('压力：' + '、'.join(item[0] for item in bear))
+    return {'label': label, 'rationale': '；'.join(rationale) or '有效证据不足'}
+
+
+def marginal_block(items):
     parts = ['<div class="lead">相关边际</div><ul class="sq">']
     for label, evidence, judgment, _score in items:
         parts.append('<li><b>%s</b>：%s → %s</li>' % (esc(label), esc(evidence), esc(judgment)))
-    parts.append('<li><b>%s</b>；⚙️规则摘要，不构成投资建议。</li>' % esc(direction))
+    view = weekly_direction(items)
+    parts.append('<li><b>周度结论：%s</b>；%s。</li>' % (esc(view['label']), esc(view['rationale'])))
     parts.append('</ul>')
     return ''.join(parts)
 
@@ -445,11 +454,8 @@ def main():
     structure_desc = 'LME镍0-3 %s 美元/吨（%s），金川镍升贴水%s %s 元/吨（%s）' % (
         fmt(lme03[1]) if lme03 else '—', lme03[0] if lme03 else '—', domestic_structure,
         fmt(jinchuan[1]) if jinchuan else '—', jinchuan[0] if jinchuan else '—')
-    headline = ('本周定调：价格%s与海外%s并存，结构%s，边际仍看印尼 —— 沪镍近5个交易日%s，LME镍库存近5个交易日%s；'
-                '印尼NPI最新读数 %s 万金属吨（标签%s），中国300系不锈钢产量最新读数 %s 万吨（标签%s）；结构：%s。'
-                '近端重点跟踪价格、结构、印尼供应兑现、300系排产和库存变化能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-        price_word, stock_word, lme_structure, pct(shfe_chg), pct(lme_chg), fmt(npi[1]) if npi else '—', npi[0] if npi else '—',
-        fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—', structure_desc)
+    headline = ('沪镍近5个交易日%s，LME镍库存近5个交易日%s；镍社库 %s 吨（%s）；结构：%s。') % (
+        pct(shfe_chg), pct(lme_chg), fmt(latest['social_stock'][1]), latest['social_stock'][0], structure_desc)
     metrics = []
     for key, name, unit in KPI:
         date, value = latest.get(key) or [None, None]
@@ -511,13 +517,17 @@ def main():
         supply_score = 0; supply_judge = '供应线信号分化，跟踪印尼兑现'
     demand_score = 1 if (ss_chg or 0) > 0.02 else (-1 if (ss_chg or 0) < -0.02 else 0)
     demand_judge = '300系排产改善，需求端有支撑' if demand_score > 0 else ('300系排产走弱，需求端承压' if demand_score < 0 else '需求变化不足，跟踪')
+    price_score = 1 if (shfe_chg or 0) > 0.002 else (-1 if (shfe_chg or 0) < -0.002 else 0)
+    price_judge = '价格上行，偏多证据' if price_score > 0 else ('价格下行，偏空证据' if price_score < 0 else '价格基本持平，不构成方向证据')
     marginal_items = [
-        ('价格', '沪镍近5个交易日 %s' % pct(shfe_chg), '价格上行，偏多证据' if (shfe_chg or 0) > 0 else ('价格下行，偏空证据' if (shfe_chg or 0) < 0 else '价格震荡，等待方向'), _sign(shfe_chg)),
+        ('价格', '沪镍近5个交易日 %s' % pct(shfe_chg), price_judge, price_score),
         ('结构', structure_desc, structure_judge, structure_score),
         ('库存', '全球显性库存20日 %s，镍社库20日 %s' % (pct(global20), pct(social20)), inventory_judge, inventory_score),
         ('供应', '印尼NPI近20日 %s，中国精炼镍近20日 %s' % (pct(npi_chg), pct(refined_chg)), supply_judge, supply_score),
         ('需求', '中国300系不锈钢近20日 %s' % pct(ss_chg), demand_judge, demand_score),
     ]
+    view = weekly_direction(marginal_items)
+    headline = '本周定调：周度%s；高库存约束反弹，不追反弹，连续去库再上调。%s' % (view['label'], headline)
     marginal_html = marginal_block(marginal_items)
     weekly_html = weekly_outlook_html(
         '沪镍近5个交易日%s，%s；全球显性库存20日%s、国内社库20日%s。近端仍以库存和升贴水确认反弹持续性，不把单日上涨当反转。' % (pct(shfe_chg), structure_desc, pct(global20), pct(social20)),
@@ -584,14 +594,14 @@ def main():
             else:
                 social_status, social_cls, social_conclusion = '跟踪', 'nt', '社库趋势暂不可得，继续跟踪'
             rows = [
-                ('价格', '沪镍 %s 元/吨（%s）｜不锈钢 %s 元/吨（%s）' % (fmt(shfe[1]), shfe[0], fmt(ss[1]), ss[0]), '沪镍近5个交易日 %s，价格%s' % (pct(shfe_chg), price_word), price_word, _cls(shfe_chg)),
+                ('价格', '沪镍 %s 元/吨（%s）｜不锈钢 %s 元/吨（%s）' % (fmt(shfe[1]), shfe[0], fmt(ss[1]), ss[0]), '沪镍近5个交易日 %s，价格%s' % (pct(shfe_chg), price_word), price_word, _cls(score_map['价格'])),
                 ('结构·LME', 'LME镍0-3 %s 美元/吨（%s，20日 %s）' % (fmt(lme_value) if lme_value is not None else '—', lme03[0] if lme03 else '—', pct(lme03_trend)), lme_conclusion, lme_status, lme_cls),
                 ('结构·国内', '金川镍升贴水 %s 元/吨（%s，20日 %s）' % (fmt(dom_value) if dom_value is not None else '—', jinchuan[0] if jinchuan else '—', pct(domestic_trend)), domestic_conclusion, domestic_status, domestic_cls),
                 ('海外库存', 'LME镍库存 %s 吨（%s）' % (fmt(lm[1]), lm[0]), '近5个交易日 %s，海外%s' % (pct(lme_chg), stock_word), '%s%s' % (stock_word, '偏多' if stock_word == '去库' else '偏空'), 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '镍社会库存 %s 吨（%s）' % (fmt(social[1]), social[0]), social_conclusion, social_status, social_cls),
-                ('供应·印尼', 'NPI %s 万金属吨（标签%s，近20日 %s）' % (fmt(npi[1]) if npi else '—', npi[0] if npi else '—', pct(npi_chg)), '印尼供应与精炼镍同向才确认，分化则跟踪', '偏多' if score_map['供应'] > 0 else ('偏空' if score_map['供应'] < 0 else '跟踪'), _cls(score_map['供应'])),
-                ('需求·不锈钢', '中国300系 %s 万吨（标签%s，近20日 %s）' % (fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—', pct(ss_chg)), '排产、库存和镍铁采购共同验证', '偏多' if score_map['需求'] > 0 else ('偏空' if score_map['需求'] < 0 else '跟踪'), _cls(score_map['需求'])),
-                ('策略观察', '价格、LME结构、国内升贴水、库存、印尼供应和300系排产交叉验证', '信号未同向前不作单边外推；国内升贴水走弱时下调近月判断', '跟踪', 'nt'),
+                ('供应·印尼', 'NPI %s 万金属吨（标签%s，近20日 %s）' % (fmt(npi[1]) if npi else '—', npi[0] if npi else '—', pct(npi_chg)), marginal_items[3][2], '偏多' if score_map['供应'] > 0 else ('偏空' if score_map['供应'] < 0 else '跟踪'), _cls(score_map['供应'])),
+                ('需求·不锈钢', '中国300系 %s 万吨（标签%s，近20日 %s）' % (fmt(ss300[1]) if ss300 else '—', ss300[0] if ss300 else '—', pct(ss_chg)), marginal_items[4][2], '偏多' if score_map['需求'] > 0 else ('偏空' if score_map['需求'] < 0 else '跟踪'), _cls(score_map['需求'])),
+                ('策略观察', '周度方向与执行', '周度%s；不追反弹，连续去库且Contango收窄后再上调，中期仍以反弹偏空为主。' % view['label'], view['label'], _cls(-1 if '空' in view['label'] else (1 if '多' in view['label'] else 0))),
             ]
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (

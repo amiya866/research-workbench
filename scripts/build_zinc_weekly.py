@@ -187,10 +187,9 @@ def main():
     structure_desc = 'LME 0-3 %s 美元/吨（%s），SHFE锌基差%s %s 元/吨（%s）' % (
         shared.fmt(latest['lme03'][1]), latest['lme03'][0], domestic_structure,
         shared.fmt(latest['domestic'][1]), latest['domestic'][0])
-    headline = ('本周定调：沪锌%s与LME%s并存，结构%s —— 沪锌近5个交易日 %s，LME库存近5个交易日 %s；'
-                '锌锭社库 %s 万吨（%s），昆明50%% TC %s 元/吨（%s）；结构：%s。'
-                '近端重点跟踪价格、结构、LME仓单、国内社库与TC能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-        price_word, stock_word, lme_structure, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+    headline = ('沪锌近5个交易日 %s，LME库存近5个交易日 %s；锌锭社库 %s 万吨（%s），'
+                '昆明50%% TC %s 元/吨（%s）；结构：%s。') % (
+        shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
         shared.fmt(latest['tc'][1]), latest['tc'][0], structure_desc)
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])} for key, name, unit in KPI]
     q3 = shared.period_return(charts['overview_shfe'], '2026-07-01', '2026-09-30')
@@ -243,13 +242,17 @@ def main():
     supply_judge = 'TC为负且继续恶化，矿锭偏紧（方向明确）' if supply_score > 0 else ('TC低位回升，供应边际转松' if supply_score < 0 else '矿端仍紧但边际未继续恶化，跟踪')
     demand_score = 1 if (galv_chg or 0) > 0.02 else (-1 if (galv_chg or 0) < -0.02 else 0)
     demand_judge = '镀锌需求改善，偏多证据' if demand_score > 0 else ('镀锌需求走弱，偏空证据' if demand_score < 0 else '需求变化不足，跟踪')
+    price_score = 1 if (chg5 or 0) > 0.002 else (-1 if (chg5 or 0) < -0.002 else 0)
+    price_judge = '价格上行，偏多证据' if price_score > 0 else ('价格下行，偏空证据' if price_score < 0 else '价格基本持平，不构成方向证据')
     marginal_items = [
-        ('价格', '近5个交易日 %s' % shared.pct(chg5), '价格上行，偏多证据' if chg5 > 0 else ('价格下行，偏空证据' if chg5 < 0 else '价格震荡，等待方向'), _sign(chg5)),
+        ('价格', '近5个交易日 %s' % shared.pct(chg5), price_judge, price_score),
         ('结构', structure_desc, structure_judge, structure_score),
         ('库存', '全球显性库存20日 %s，社库20日 %s' % (shared.pct(global20), shared.pct(social20)), inventory_judge, inventory_score),
         ('供应', '昆明TC %s 元/吨（近5日 %s），精炼锌近20日 %s' % (shared.fmt(latest['tc'][1]), shared.pct(tc_chg), shared.pct(refined_chg)), supply_judge, supply_score),
         ('需求', '镀锌板卷近20日 %s' % shared.pct(galv_chg), demand_judge, demand_score),
     ]
+    view = shared.weekly_direction(marginal_items)
+    headline = '本周定调：周度%s；近月低库存与Back托底，不追空，远月等供应恢复后偏空。%s' % (view['label'], headline)
     marginal_html = shared.marginal_block(marginal_items)
     weekly_html = shared.weekly_outlook_html(
         '沪锌近5个交易日%s，%s；全球显性库存20日%s、国内社库20日%s。近端Back和低仓单仍限制追空，但内外库存分化说明不能只看单一市场。' % (shared.pct(chg5), structure_desc, shared.pct(global20), shared.pct(social20)),
@@ -301,14 +304,14 @@ def main():
             else:
                 social_status, social_cls, social_conclusion = '跟踪', 'nt', '社库趋势暂不可得，继续跟踪'
             rows = [
-                ('价格', '沪锌 %s 元/吨（%s）｜LME锌 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, _cls(chg5)),
+                ('价格', '沪锌 %s 元/吨（%s）｜LME锌 %s 美元/吨（%s）' % (shared.fmt(latest['shfe'][1]), latest['shfe'][0], shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, _cls(score_map['价格'])),
                 ('结构·LME', 'LME 0-3 %s 美元/吨（%s，20日 %s）' % (shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.pct(lme03_trend)), lme_conclusion, lme_status, lme_cls),
                 ('结构·国内', 'SHFE锌基差 %s 元/吨（%s，20日 %s）' % (shared.fmt(latest['domestic'][1]), latest['domestic'][0], shared.pct(domestic_trend)), domestic_conclusion, domestic_status, domestic_cls),
                 ('海外库存', 'LME锌库存 %s 吨（%s）' % (shared.fmt(last(charts['a10134450'])[1]), last(charts['a10134450'])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), '%s%s' % (stock_word, '偏多' if stock_word == '去库' else '偏空'), 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '锌锭社库 %s 万吨（%s）' % (shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), social_conclusion, social_status, social_cls),
-                ('供应·矿端', '昆明50%% TC %s 元/吨（%s，近5日 %s）' % (shared.fmt(latest['tc'][1]), latest['tc'][0], shared.pct(tc_chg)), 'TC与精炼锌产量共同判断供应松紧', '偏多' if score_map['供应'] > 0 else ('偏空' if score_map['供应'] < 0 else '跟踪'), _cls(score_map['供应'])),
-                ('需求·镀锌', '镀锌板卷产量 %s 万吨（%s，近20日 %s）' % (shared.fmt(last(charts['ID00187499'])[1]), last(charts['ID00187499'])[0], shared.pct(galv_chg)), '镀锌需求边际变化确认方向', '偏多' if score_map['需求'] > 0 else ('偏空' if score_map['需求'] < 0 else '跟踪'), _cls(score_map['需求'])),
-                ('策略观察', '价格、LME结构、国内结构、库存、TC和镀锌需求交叉验证', '信号未同向前不作单边外推；国内基差转弱时下调近月判断', '跟踪', 'nt'),
+                ('供应·矿端', '昆明50%% TC %s 元/吨（%s，近5日 %s）' % (shared.fmt(latest['tc'][1]), latest['tc'][0], shared.pct(tc_chg)), marginal_items[3][2], '偏多' if score_map['供应'] > 0 else ('偏空' if score_map['供应'] < 0 else '跟踪'), _cls(score_map['供应'])),
+                ('需求·镀锌', '镀锌板卷产量 %s 万吨（%s，近20日 %s）' % (shared.fmt(last(charts['ID00187499'])[1]), last(charts['ID00187499'])[0], shared.pct(galv_chg)), marginal_items[4][2], '偏多' if score_map['需求'] > 0 else ('偏空' if score_map['需求'] < 0 else '跟踪'), _cls(score_map['需求'])),
+                ('策略观察', '周度方向与执行', '周度%s；近月低库存不追空，远月等TC、产量与库存同步回升后偏空。' % view['label'], view['label'], _cls(-1 if '空' in view['label'] else (1 if '多' in view['label'] else 0))),
             ]
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (

@@ -327,8 +327,8 @@ def sign(value):
 
 
 def marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output):
-    price_score = sign(chg5)
-    price_judge = '价格上行，偏多证据' if price_score > 0 else ('价格下行，偏空证据' if price_score < 0 else '价格震荡，等待方向')
+    price_score = 1 if (chg5 or 0) > 0.002 else (-1 if (chg5 or 0) < -0.002 else 0)
+    price_judge = '价格上行，偏多证据' if price_score > 0 else ('价格下行，偏空证据' if price_score < 0 else '价格基本持平，不构成方向证据')
     lme_score = sign(latest['lme03'][1])
     domestic_score = sign(latest['domestic'][1])
     if lme_score and domestic_score and lme_score == domestic_score:
@@ -470,16 +470,14 @@ def main(metal):
         shared.fmt(latest['lme03'][1]), latest['lme03'][0], domestic_structure,
         shared.fmt(latest['domestic'][1]), latest['domestic'][0])
     if metal == 'CU':
-        headline = ('本周定调：沪铜%s与LME%s并存，%s —— 沪铜近5个交易日 %s，LME库存近5个交易日 %s；'
-                    '电解铜社库 %s 万吨（%s），铜精矿TC %s 美元/吨（%s）；结构：%s。'
-                    '近端重点跟踪价格、结构、库存和供应能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-            price_word, stock_word, structure_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+        headline = ('沪铜近5个交易日 %s，LME库存近5个交易日 %s；电解铜社库 %s 万吨（%s），'
+                    '铜精矿TC %s 美元/吨（%s）；结构：%s。') % (
+            shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
             shared.fmt(latest['tc'][1]), latest['tc'][0], structure_desc)
     else:
-        headline = ('本周定调：沪铅%s与LME%s并存，%s —— 沪铅近5个交易日 %s，LME库存近5个交易日 %s；'
-                    '铅锭社库 %s 万吨（%s），国产铅精矿TC %s 元/金属吨（%s）；结构：%s。'
-                    '近端重点跟踪价格、结构、库存和供应能否同向验证；⚙️规则摘要，不构成投资建议。') % (
-            price_word, stock_word, structure_word, shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
+        headline = ('沪铅近5个交易日 %s，LME库存近5个交易日 %s；铅锭社库 %s 万吨（%s），'
+                    '国产铅精矿TC %s 元/金属吨（%s）；结构：%s。') % (
+            shared.pct(chg5), shared.pct(stock_chg), shared.fmt(latest['social_stock'][1]), latest['social_stock'][0],
             shared.fmt(latest['tc'][1]), latest['tc'][0], structure_desc)
     metrics = [{'name': name, 'value': '%s %s（%s）' % (shared.fmt(latest[key][1]), unit, latest[key][0])}
                for key, name, unit in cfg['kpi']]
@@ -489,6 +487,11 @@ def main(metal):
     output = shared.last_point(charts[cfg['output_key']])
     q4_html = shared.quarterly_html(out / 'index.html', make_outlook(metal, q3, q4, latest, demand, output))
     marginal_items = marginal_items_for(metal, charts, latest, chg5, structure_desc, demand, output)
+    view = shared.weekly_direction(marginal_items)
+    if metal == 'CU':
+        headline = '本周定调：周度%s；国内去库与矿端约束托底，但海外累库限制追涨，优先等回调。%s' % (view['label'], headline)
+    else:
+        headline = '本周定调：周度%s；近端去库托底，中期再生供应恢复仍偏空，不追空、等反弹。%s' % (view['label'], headline)
     marginal_html = shared.marginal_block(marginal_items)
     social_trend = shared.change(charts[cfg['latest']['social_stock']], 20)
     if metal == 'CU':
@@ -567,15 +570,17 @@ def main(metal):
             demand_label = '需求·加工' if metal == 'CU' else '需求·电池'
             supply_status = '偏多' if marginal_scores['供应'] > 0 else ('偏空' if marginal_scores['供应'] < 0 else '跟踪')
             demand_status = '偏多' if marginal_scores['需求'] > 0 else ('偏空' if marginal_scores['需求'] < 0 else '跟踪')
+            strategy_text = ('周度%s；回调偏多但不追高，海外持续累库且结构转弱时先降敞口。' % view['label'] if metal == 'CU'
+                             else '周度%s；近端去库不追空，反弹后看再生恢复与累库，再提高空配。' % view['label'])
             rows = [
-                ('价格', '沪%s %s 元/吨（%s）｜LME%s %s 美元/吨（%s）' % (cn, shared.fmt(latest['shfe'][1]), latest['shfe'][0], cn, shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, _cls(chg5)),
+                ('价格', '沪%s %s 元/吨（%s）｜LME%s %s 美元/吨（%s）' % (cn, shared.fmt(latest['shfe'][1]), latest['shfe'][0], cn, shared.fmt(latest['lme'][1]), latest['lme'][0]), '近5个交易日 %s，价格%s' % (shared.pct(chg5), price_word), price_word, _cls(marginal_scores['价格'])),
                 ('结构·LME', 'LME 0-3 %s 美元/吨（%s，20日 %s）' % (shared.fmt(latest['lme03'][1]), latest['lme03'][0], shared.pct(lme03_trend)), lme_conclusion, lme_status, lme_cls),
                 ('结构·国内', '国内现货%s %s 元/吨（%s，20日 %s）' % (domestic_structure, shared.fmt(latest['domestic'][1]), latest['domestic'][0], shared.pct(domestic_trend)), domestic_conclusion, domestic_status, domestic_cls),
                 ('海外库存', 'LME%s库存 %s 吨（%s）' % (cn, shared.fmt(last(charts[lme_key])[1]), last(charts[lme_key])[0]), '近5个交易日 %s，海外%s' % (shared.pct(stock_chg), stock_word), '%s%s' % (stock_word, '偏多' if stock_word == '去库' else '偏空'), 'up' if stock_word == '去库' else 'dn'),
                 ('国内库存', '%s社库 %s 万吨（%s）' % (cn, shared.fmt(latest['social_stock'][1]), latest['social_stock'][0]), social_conclusion, social_status, social_cls),
-                (supply_label, '%s %s %s（%s）' % ('铜精矿TC' if metal == 'CU' else '原生铅产量', shared.fmt(latest['tc'][1]) if metal == 'CU' else shared.fmt(output[1] if output else None), '美元/吨' if metal == 'CU' else '万吨', latest['tc'][0] if metal == 'CU' else (output[0] if output else '—')), '供应方向按边际块证据确认，不单独外推', supply_status, _cls(marginal_scores['供应'])),
-                (demand_label, '%s %s%s（%s）' % ('精铜制杆产能利用率' if metal == 'CU' else '铅酸蓄电池开工率', shared.fmt(demand[1]) if demand else '—', '%' if demand else '', demand[0] if demand else '—'), '需求方向按开工/利用率边际变化确认，不单独外推', demand_status, _cls(marginal_scores['需求'])),
-                ('策略观察', '价格、LME结构、国内结构、库存、供应和需求交叉验证', '信号未同向前不作单边外推；铅重点盯国内升贴水是否转弱，铜重点盯TC与库存', '跟踪', 'nt'),
+                (supply_label, '%s %s %s（%s）' % ('铜精矿TC' if metal == 'CU' else '原生铅产量', shared.fmt(latest['tc'][1]) if metal == 'CU' else shared.fmt(output[1] if output else None), '美元/吨' if metal == 'CU' else '万吨', latest['tc'][0] if metal == 'CU' else (output[0] if output else '—')), marginal_items[3][2], supply_status, _cls(marginal_scores['供应'])),
+                (demand_label, '%s %s%s（%s）' % ('精铜制杆产能利用率' if metal == 'CU' else '铅酸蓄电池开工率', shared.fmt(demand[1]) if demand else '—', '%' if demand else '', demand[0] if demand else '—'), marginal_items[4][2], demand_status, _cls(marginal_scores['需求'])),
+                ('策略观察', '周度方向与执行', strategy_text, view['label'], _cls(-1 if '空' in view['label'] else (1 if '多' in view['label'] else 0))),
             ]
             for label, datum, conclusion, status, cls in rows:
                 parts.append('<tr><td class="c">%s</td><td>%s</td><td>%s</td><td><span class="dir %s">%s</span></td></tr>' % (
