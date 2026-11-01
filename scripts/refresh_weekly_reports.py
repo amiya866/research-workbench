@@ -19,6 +19,7 @@ def main():
     results = []
     steps = [
         'scripts/fetch_tin_weekly.py',
+        'scripts/update_tin_weekly_local.py',
         'scripts/refresh_nickel_weekly.py',
         'scripts/build_zinc_weekly.py',
         'scripts/build_aluminum_weekly.py',

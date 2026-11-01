@@ -1,70 +1,70 @@
 {
-  "built_at": "2026-11-01T11:16:37+08:00",
-  "overall": "有需要检查项",
+  "built_at": "2026-11-01T14:21:16+08:00",
+  "overall": "正常",
   "rows": [
     {
       "label": "实时行情",
-      "value": "2026-10-31 21:01 BJT",
-      "status": "warn",
+      "value": "2026-11-01 14:15 BJT",
+      "status": "ok",
       "note": "RwBenchQuick 每2小时；页面打开时再拉取"
     },
     {
       "label": "快讯消息",
-      "value": "2026-10-31 21:01",
-      "status": "warn",
+      "value": "2026-11-01 14:15",
+      "status": "ok",
       "note": "金十/CS/东财/新浪/LME；内嵌兜底同步刷新"
     },
     {
       "label": "宏观序列与图表",
-      "value": "2026-10-31 20:56 北京",
+      "value": "2026-11-01 14:09 北京",
       "status": "ok",
       "note": "RwBenchDaily 全链"
     },
     {
       "label": "美元流动性",
-      "value": "2026-10-31 20:52",
+      "value": "2026-11-01 11:25",
       "status": "ok",
       "note": "FRED/央行公开数据，按各自发布频率"
     },
     {
       "label": "FedWatch",
-      "value": "2026-10-31 21:01 BJT",
+      "value": "2026-11-01 14:15 BJT",
       "status": "ok",
       "note": "CME官方条件概率表"
     },
     {
       "label": "经济日历",
-      "value": "2026-10-31",
+      "value": "2026-11-01",
       "status": "ok",
       "note": "公开日历与发布计划"
     },
     {
       "label": "共识日历",
-      "value": "2026-10-31 20:58 BJT",
+      "value": "2026-11-01 14:12 BJT",
       "status": "ok",
       "note": "投行/机构一致预期"
     },
     {
       "label": "CFTC持仓",
-      "value": "2026-10-31 20:53 北京",
+      "value": "2026-11-01 11:27 北京",
       "status": "ok",
       "note": "周度持仓，抓取时间不等于报告期"
     },
     {
       "label": "新出数据",
-      "value": "2026-10-31 21:01",
-      "status": "warn",
+      "value": "2026-11-01 14:16",
+      "status": "ok",
       "note": "快讯中识别的官方发布"
     },
     {
       "label": "知识星球雷达",
-      "value": "2026-10-31T20:50:20+08:00",
-      "status": "warn",
+      "value": "2026-11-01T11:08:39+08:00",
+      "status": "ok",
       "note": "方向/研报/观点快照"
     },
     {
       "label": "预测市场",
-      "value": "2026-10-31T06:50:23.228275Z",
+      "value": "2026-11-01T02:31:51.363684Z",
       "status": "ok",
       "note": "Polymarket公开行情"
     },
@@ -88,8 +88,8 @@
     },
     {
       "label": "锡研究周报",
-      "value": "2026-10-23",
-      "status": "warn",
+      "value": "2026-10-30",
+      "status": "ok",
       "note": "周五/六/日检查；季度展望仅季度最后一周刷新"
     },
     {
@@ -147,10 +147,10 @@
     },
     {
       "name": "ResearchWeeklySync",
-      "state": "Running",
+      "state": "Ready",
       "last": "2026-11-01 11:06:57",
       "next": "2026-11-06 09:23:00",
-      "result": 267009
+      "result": 0
     },
     {
       "name": "ResearchQuarterlyOutlook",

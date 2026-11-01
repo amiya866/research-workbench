@@ -197,6 +197,11 @@ def main():
         page = raw.decode('utf-8-sig')
         if '<div id="sumsec">' not in page or 'class="tone"' not in page:
             raise RuntimeError('上游页面结构校验失败')
+        upstream_asof = re.search(r'数据截至\s*<b>(\d{4}-\d{2}-\d{2})</b>', page)
+        if previous.get('asof') and upstream_asof and upstream_asof.group(1) < previous['asof']:
+            print('上游周报日期 %s 早于本地 %s，保留现有镜像，改由本地 PPT 摘要层更新' % (
+                upstream_asof.group(1), previous['asof']))
+            return
         source_hash = hashlib.sha256(raw).hexdigest()
         refs = assets_in(page)
         changed = force or source_hash != previous.get('source_sha256') or not (OUT / 'index.html').is_file()
