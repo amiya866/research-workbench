@@ -47,7 +47,7 @@ def main():
     if len(strategy) < 6:
         raise RuntimeError('锡周报综述页段落结构不完整')
 
-    headline = '本周定调：%s。%s' % (cell(0, 1), strategy[-1])
+    headline = '本周定调：周度仍偏空（中性偏谨慎）。%s。%s' % (cell(0, 1), strategy[-1])
     metrics = [
         {'name': '本周价格', 'value': strategy[0]},
         {'name': '库存与结构', 'value': strategy[2].replace('基本面评述：', '')},
@@ -69,7 +69,7 @@ def main():
         '<tr><td class="c">供应</td><td>%s</td><td>%s</td><td><span class="dir dn">偏空</span></td></tr>' % (supply, html.escape(cell(1, 1))),
         '<tr><td class="c">需求</td><td>%s</td><td>%s</td><td><span class="dir nt">中性</span></td></tr>' % (demand, html.escape(cell(2, 1))),
         '<tr><td class="c">库存</td><td>%s</td><td>%s</td><td><span class="dir up">利多</span></td></tr>' % (inventory, html.escape(cell(3, 1))),
-        summary_row('策略', strategy[-1], strategy[-2], '谨慎'),
+        summary_row('策略', strategy[-1], strategy[-2], '偏空·谨慎'),
         summary_row('关注点', cell(5, 1), '下周验证清单', '跟踪'),
     ]
     summary = '<table class="sum"><tr><th>环节</th><th>相关数据与边际</th><th>周度结论</th><th>跟踪</th></tr>%s</table>' % ''.join(rows)
