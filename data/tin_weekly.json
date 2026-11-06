@@ -25,8 +25,8 @@
   "source_sha256": "e9518c4380b4d60f5daac215bf69a3f3858e03d7399c3125f43a3d5c403da5a4",
   "asset_count": 279,
   "synced_at": "2026-11-01T16:19:09+08:00",
-  "sync_status": "ok",
-  "last_error": "",
+  "sync_status": "stale",
+  "last_error": "上游页面结构校验失败",
   "local_summary_source": "D:\\拷贝文件\\E\\永安\\周报数据更新\\图表格式(1)\\锡周报20260709_试跑\\周报更新图\\锡周报20261101.pptx",
   "local_summary_sha256": "df9d85288aa0f052e405055ed722c4508e454da2f28c100ab81a3266970a6267"
 }
