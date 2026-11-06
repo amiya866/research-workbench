@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>实时快讯追踪 · 整合研究站</title>
+<style>
+:root{--bg:#f2efeb;--paper:#f8f6f2;--ink:#16140f;--muted:#807a70;--line:#d9d2c4;--green:#2e7d4f;--amber:#a3760e;--red:#b23a2e;--blue:#39769e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+button,input,select{font:inherit}.wrap{max-width:1240px;margin:auto;padding:0 28px}.num{font-variant-numeric:tabular-nums;font-family:ui-monospace,"Cascadia Mono",monospace}
+header{border-bottom:1px solid var(--ink);padding:22px 0 18px}.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+h1{font-size:27px;letter-spacing:1px}.sub{font-size:11px;letter-spacing:2px;color:var(--muted);margin-top:3px}.hd-right{text-align:right;font-size:12px;color:var(--muted)}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}.live-dot.warn{background:var(--amber)}.live-dot.bad{background:var(--red)}
+a{color:inherit}.back{font-size:12px;text-decoration:none;border-bottom:1px solid var(--ink);margin-left:14px}
+nav{position:sticky;top:0;z-index:10;background:rgba(242,239,235,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+nav .wrap{display:flex;gap:24px;padding-top:10px;padding-bottom:10px;overflow:auto}nav a{text-decoration:none;font-size:12px;color:var(--muted);white-space:nowrap}nav b{margin-right:5px;color:var(--ink)}
+section{padding:30px 0;border-bottom:1px solid var(--line)}.sec-hd{display:flex;align-items:baseline;gap:12px;margin-bottom:17px}.sec-no{font:11px ui-monospace,monospace;color:var(--muted)}h2{font-size:19px}.sec-note{margin-left:auto;font-size:11px;color:var(--muted)}
+#stale{display:none;border:1px solid var(--amber);color:#765509;background:#f5edda;padding:10px 14px;margin-top:18px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ink)}.stat{padding:15px 18px;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat b{display:block;font-size:25px;line-height:1.25}.stat span{font-size:11px;color:var(--muted)}
+.cats{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:14px}.cat{border:1px solid var(--line);background:transparent;text-align:left;padding:10px 13px;cursor:pointer;color:var(--ink)}.cat:hover,.cat.active{border-color:var(--ink);background:var(--paper)}.cat i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px}.cat b{float:right;font-family:ui-monospace,monospace}
+.controls{display:grid;grid-template-columns:1fr 160px auto auto;gap:10px;margin-top:16px}.controls input,.controls select{border:1px solid var(--line);background:var(--paper);padding:8px 11px;color:var(--ink);min-width:0}.check{display:flex;align-items:center;gap:6px;font-size:12px;white-space:nowrap}.btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:7px 14px;cursor:pointer;white-space:nowrap}.btn:disabled{opacity:.55}.btn.light{background:transparent;color:var(--ink);border-color:var(--line)}
+.focus-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--ink);border-left:1px solid var(--ink)}.focus{padding:13px 16px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);background:var(--paper)}.focus .content{font-size:13px}.meta{font:11px ui-monospace,monospace;color:var(--muted);margin-bottom:4px}.star{color:var(--red);font-weight:700}.src{display:inline-block;border:1px solid var(--line);padding:0 5px;margin:0 6px;line-height:1.6}.tag{font-size:10px;border:1px solid var(--line);padding:0 5px;margin-left:6px}
+.feed{border-top:1px solid var(--ink)}.item{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line)}.item .time{font:11px ui-monospace,monospace;color:var(--muted);padding-top:3px}.item .content{font-size:13px;overflow-wrap:anywhere}.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line)}.more{display:block;margin:18px auto 0}
+.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.source{border:1px solid var(--line);padding:12px 15px;background:var(--paper)}.source.bad{border-color:#cf9c92}.source .name{font-weight:700}.source .detail{font-size:11px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.ok{color:var(--green)}.bad-text{color:var(--red)}
+footer{padding:26px 0 42px;color:var(--muted);font-size:11px;line-height:2}footer a{text-decoration:none;border-bottom:1px solid var(--line)}
+@media(max-width:800px){.wrap{padding:0 17px}.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}.cats{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr 1fr}.controls input{grid-column:1/-1}.focus-grid,.sources{grid-template-columns:1fr}.item{grid-template-columns:1fr;gap:2px}.hd-right{text-align:left}.sec-note{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <div><h1>实时快讯追踪</h1><div class="sub">LIVE NEWS · 宏观 / 商品 / 地缘 / 权益</div></div>
+  <div class="hd-right"><div><span class="live-dot" id="liveDot"></span><span id="healthText">正在读取快照</span></div><div class="num" id="asof">--</div><div style="margin-top:5px"><a class="back" href="../index.html">返回工作台</a><a class="back" href="../daily/">宏观日报</a><a class="back" href="2026-08-28-archive.html">8·28 原解读存档</a></div></div>
+</div></header>
+<nav><div class="wrap"><a href="#overview"><b>00</b>信息流总览</a><a href="#focus"><b>01</b>焦点快讯</a><a href="#timeline"><b>02</b>实时时间线</a><a href="#sources"><b>03</b>数据源状态</a><a href="#timeline" style="margin-left:auto" id="nextRefresh">60 秒后自动刷新</a></div></nav>
+<div class="wrap"><div id="stale"></div></div>
+<section id="overview"><div class="wrap">
+  <div class="sec-hd"><span class="sec-no">00 / OVERVIEW</span><h2>信息流总览</h2><span class="sec-note">云端每 10 分钟抓取 · 页面每 60 秒刷新</span></div>
+  <div class="stats"><div class="stat"><b class="num" id="totalCount">--</b><span>当前快照去重快讯</span></div><div class="stat"><b class="num" id="importantCount">--</b><span>重要标记</span></div><div class="stat"><b class="num" id="latestTime">--</b><span>最新一条（北京时间）</span></div><div class="stat"><b class="num" id="sourceCount">--</b><span>可用快讯源</span></div></div>
+  <div class="cats" id="categoryCards"></div>
+  <div class="controls"><input id="search" type="search" placeholder="搜索快讯，例如：美联储 / 铜 / 伊朗"><select id="sourceFilter" aria-label="数据源"><option value="all">全部数据源</option><option value="jin10">金十</option><option value="cs">CS财经</option><option value="eastmoney">东方财富</option><option value="sina">新浪财经</option><option value="ah">先讯</option></select><label class="check"><input id="importantOnly" type="checkbox">只看重要</label><button class="btn" id="refreshBtn">立即刷新</button></div>
+</div></section>
+<section id="focus"><div class="wrap"><div class="sec-hd"><span class="sec-no">01 / FOCUS</span><h2>焦点快讯</h2><span class="sec-note">重要标记优先，无重要标记时展示最新消息</span></div><div class="focus-grid" id="focusGrid"></div></div></section>
+<section id="timeline"><div class="wrap"><div class="sec-hd"><span class="sec-no">02 / TIMELINE</span><h2>实时时间线</h2><span class="sec-note" id="filterNote">按时间倒序</span></div><div class="feed" id="feed"></div><button class="btn light more" id="moreBtn">展开全部</button></div></section>
+<section id="sources" style="border-bottom:0"><div class="wrap"><div class="sec-hd"><span class="sec-no">03 / SOURCES</span><h2>数据源状态</h2><span class="sec-note">失败源保留最后成功快照，不清空其他源</span></div><div class="sources" id="sourceList"></div></div></section>
+<footer><div class="wrap">快讯原文归各数据源所有；分类、去重与重要度展示为规则处理，不构成投资观点。页面不直接请求第三方接口，读取本站云端快照；快照时间和数据年龄见页首，延迟时明确报警。<br>旧版 <a href="2026-08-28.html">2026-08-28.html</a> 已转为实时入口；原手工解读完整保留在 <a href="2026-08-28-archive.html">存档页</a>。</div></footer>
+<script src="../data/news_fallback.js"></script>
+<script src="live.js"></script>
+</body>
+</html>

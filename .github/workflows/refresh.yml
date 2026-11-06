@@ -1,13 +1,17 @@
 name: 刷新消息快照
 on:
   schedule:
-    - cron: '7,37 * * * *' # 每30分钟(UTC), 配合页面端60s/300s轮询
+    - cron: '7,17,27,37,47,57 * * * *' # 每10分钟(UTC), 页面端每60秒轮询快照
   workflow_dispatch:       # 允许手动触发
 permissions:
   contents: write
+concurrency:
+  group: news-refresh
+  cancel-in-progress: false
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,7 +32,8 @@ jobs:
         run: |
           git config user.name "workbench-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add data/news_latest.json data/news_fallback.js data/releases_recent.json
+          git add -u
           git diff --cached --quiet || git commit -m "消息快照更新"
-          git pull --rebase origin main || git rebase --abort
+          git diff --quiet
+          git pull --rebase origin main
           git push

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<script src="../lib/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消息汇总解读 · 2026-08-28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2efeb;--ink:#16140f;--line:#d9d2c4;--green:#2e7d4f;--amber:#a3760e;--red:#b23a2e;--gray:#9a948a;--mono:'JetBrains Mono',ui-monospace,monospace;--serif:'Noto Serif SC',"Songti SC",serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.75}
+.num{font-variant-numeric:tabular-nums lining-nums;font-family:var(--mono)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+header{border-bottom:1px solid var(--ink);padding:20px 0 16px}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.sq{display:grid;grid-template-columns:repeat(3,7px);grid-template-rows:repeat(3,7px);gap:2px}
+.sq i{background:var(--ink);display:block}
+h1{font-family:var(--serif);font-size:24px;font-weight:900;letter-spacing:1px}
+.sub{font-size:11px;letter-spacing:2.5px;color:var(--gray);text-transform:uppercase;margin-top:2px}
+.hd-right{text-align:right;font-size:12px;color:var(--gray)}
+nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:50}
+nav .wrap{display:flex;gap:24px;padding:10px 28px;overflow-x:auto}
+nav a{font-size:12px;color:var(--gray);text-decoration:none;white-space:nowrap}
+nav a:hover{color:var(--ink)}
+nav a b{font-family:var(--mono);font-weight:500;color:var(--ink);margin-right:5px}
+section{padding:38px 0;border-bottom:1px solid var(--line)}
+.sec-hd{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
+.sec-no{font-family:var(--mono);font-size:12px;color:var(--gray)}
+h2{font-family:var(--serif);font-size:20px;font-weight:900}
+.sec-note{margin-left:auto;font-size:11px;color:var(--gray)}
+.badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:1px 7px;border:1px solid var(--line);color:#4a463e;margin-right:5px;white-space:nowrap}
+.badge.l2{border-color:var(--ink);color:var(--ink)}
+.badge.calc{border-color:var(--amber);color:var(--amber)}
+.badge.talk{border-color:var(--gray);color:var(--gray)}
+.rel{display:grid;grid-template-columns:88px 1fr;border:1px solid var(--ink)}
+.rel>div{padding:13px 16px;border-bottom:1px solid var(--line)}
+.rel>div:nth-child(odd){border-right:1px solid var(--line);font-weight:700;font-size:12.5px;display:flex;align-items:center}
+.rel>div:nth-child(even){font-size:13px;color:#33302a}
+.rel>div:nth-last-child(-n+2){border-bottom:none}
+.rel .v{color:var(--green);font-weight:700}
+.rel .s{color:var(--amber);font-weight:700}
+.rel .m{color:var(--red);font-weight:700}
+.thread{border:1px solid var(--ink);margin-bottom:26px}
+.th-hd{padding:16px 20px;border-bottom:1px solid var(--ink);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.th-hd h3{font-size:16px;font-weight:800}
+.th-hd .cnt{font-family:var(--mono);font-size:11px;color:var(--gray)}
+.th-hd .imp{margin-left:auto;font-size:11px;padding:2px 10px;border:1px solid var(--amber);color:var(--amber)}
+.facts{padding:12px 20px;border-bottom:1px dashed var(--line);background:#f7f4ef}
+.facts .f{font-size:12.5px;color:#33302a;padding:3.5px 0;display:flex;gap:10px}
+.facts .tm{font-family:var(--mono);font-size:11px;color:var(--gray);flex:none;width:52px;padding-top:2px}
+.facts .star{color:var(--red);font-weight:700}
+.read{padding:14px 20px;font-size:13px}
+.read p{margin-bottom:9px}
+.read p:last-child{margin-bottom:0}
+.read b{font-weight:700}
+.map{padding:10px 20px;border-top:1px dashed var(--line);font-size:12px;color:#4a463e}
+.map b{color:var(--ink)}
+.falsify{padding:10px 20px;border-top:1px dashed var(--line);font-size:12px;color:#4a463e}
+.falsify b{color:var(--red)}
+table{width:100%;border-collapse:collapse;border:1px solid var(--ink)}
+th{font-size:11px;letter-spacing:1.5px;color:var(--gray);text-align:left;padding:9px 12px;border-bottom:1px solid var(--ink);font-weight:500}
+td{padding:8px 12px;border-bottom:1px solid var(--line);font-size:12.5px;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.tm{font-family:var(--mono);font-size:11.5px;color:var(--gray);white-space:nowrap}
+.star{color:var(--red);font-weight:700}
+.gap{border:1px dashed var(--gray);padding:12px 16px;font-size:12.5px;color:#4a463e;margin-bottom:10px}
+.gap b{color:var(--ink)}
+a.back{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);font-weight:600;font-size:12px}
+footer{padding:30px 0 44px;font-size:11.5px;color:var(--gray);line-height:2}
+@media(max-width:720px){.rel{grid-template-columns:1fr}.rel>div:nth-child(odd){border-right:none;border-bottom:1px dashed var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap hd">
+    <div class="brand">
+      <div class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div>
+        <h1>消息汇总解读 · 2026-08-28</h1>
+        <div class="sub">NEWS DIGEST · 金十快讯 585 条 + 先讯 AH 延时档</div>
+      </div>
+    </div>
+    <div class="hd-right">
+      <div class="num">快照 2026-08-28 14:10 BJT</div>
+      <div style="margin-top:5px"><a class="back" href="../index.html">← 返回工作台</a>　<a class="back" href="../panels/2026-08-28.html">今日面板 ↗</a></div>
+    </div>
+  </div>
+</header>
+<nav>
+  <div class="wrap">
+    <a href="#s0"><b>00</b>与面板的关系</a>
+    <a href="#s1"><b>01</b>五大主线</a>
+    <a href="#s2"><b>02</b>重要条目速览</a>
+    <a href="#s3"><b>03</b>来源与缺口</a>
+  </div>
+</nav>
+
+<section id="s0">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">00 / LINK</span><h2>与今日面板的关系</h2><span class="sec-note">消息流不改变裁决,只做验证/强化/修正标记</span></div>
+    <div class="rel">
+      <div><span class="v">强化 ✓</span></div>
+      <div><b>紧缩再定价未结束。</b>美联储哈玛克「政策需要保持紧缩」(01:12)、柯林斯「通胀降温不及预期或支持加息」(02:41)、ECB 卡扎克斯放鹰(13:53);CME 9 月加息 25bp 概率 36.5%(06:03)。面板 01②「沃什验证窗 T-0」的鹰派一侧证据增厚。</div>
+      <div><span class="v">验证中 ◐</span></div>
+      <div><b>碳酸锂反弹延续。</b>电池级早盘 +850 元/吨至 153,050(Mysteel,10:33),主力合约日内 +4.00% 报 158,440(11:26)。面板 01③ 维持「按反弹对待」:去库加速叙事在价格中兑现,仓单 43,100 手压顶未解,定性不变。</div>
+      <div><span class="m">需修正 ⚠</span></div>
+      <div><b>能源腿撤退的节奏被证伪一半。</b>面板 01① 依据「伊朗-阿曼走廊框架」记 WTI -5.3%;但今日 Kpler 通行量周四仅 5 艘(vs 10 天均值 15、前日 17,10:32),特朗普政府拒绝重返 6 月备忘录(WSJ,01:52),SC 原油盘中 +4%(10:47)。复航方向未破、节奏证伪「快速正常化」。冻结条款「能源腿撤退≠regime 翻转」命中。</div>
+    </div>
+  </div>
+</section>
+
+<section id="s1">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">01 / THREADS</span><h2>今日五大消息主线</h2><span class="sec-note">585 条 → 按框架五线归并</span></div>
+
+    <div class="thread">
+      <div class="th-hd"><h3>A · 沃什杰克逊霍尔首秀</h3><span class="cnt num">16 条 · T-8h</span><span class="imp">影响: 全品种风险预算</span></div>
+      <div class="facts">
+        <div class="f"><span class="tm num">00:00</span><span><span class="star">★</span>今日事件轴首位:21:45 芝加哥 PMI、22:00 密大信心终值、<b>22:00 美联储主席沃什发表演讲</b>(杰克逊霍尔)。</span></div><div class="f"><span class="tm num">08:07</span><span><span class="star">★</span>沃什真正的难题是政策表达失效,市场只能通过利率上行逼出明确答案;政策反应函数越模糊,长端要求的风险补偿越高。</span></div><div class="f"><span class="tm num">09:54</span><span><span class="star">★</span>贝森特在杰克逊霍尔前夕给沃什「出难题」:财政部越来越深入债券市场,美联储如何获得有效市场信号。</span></div><div class="f"><span class="tm num">11:41</span><span><span class="star">★</span>多数机构预计沃什不会明确表态 9 月是否加息,延续减少沟通风格;长债波动加剧之际,任何对资产负债表和反应函数的暗示都会被放大。</span></div><div class="f"><span class="tm num">11:59</span><span><span class="star">★</span>鲍威尔 2022 年杰克逊霍尔强硬讲话曾让市场闻风丧胆;四年后沃什首登同一舞台,市场逻辑已变。</span></div>
+      </div>
+      <div class="read">
+        <p><b>⚙️ 解读:</b>日内叙事一边倒——市场已不押注「9 月是否加息」的答案,转而定价「反应函数是否可懂」。这与面板雷达「美债功能 1/4」同源:问题不在利率水平,在定价锚的可预期性。摩根大通与华侨银行均提示「想听利率路径大概率失望」,意味着<b>讲话落空=波动放大</b>而非平淡。</p>
+      </div>
+      <div class="map"><b>面板映射:</b>01② 沃什验证窗 T-0 → 今晚 22:00 兑现;02 主要矛盾 A 端(紧缩再定价)的第一裁决节点。对 AU/AG:讲话前金价退回 4600 下方属典型事件前降敞口,不单独构成方向信号。</div>
+      <div class="falsify"><b>观察点:</b>① 若只谈生产率/人口等长期议题 → 债市或把沉默解读为信号,长端利率再上一个台阶;② 若提及资产负债表/反应函数框架 → 任何鹰派细节都会被放大;③ 与鲍威尔 2022 的基调差 = 市场对「沃什折价/溢价」的首次定价。</div>
+    </div>
+
+    <div class="thread">
+      <div class="th-hd"><h3>B · 霍尔木兹复航博弈:方向未破,节奏证伪</h3><span class="cnt num">53 条 · 全日最高频主题</span><span class="imp">影响: 原油/通胀腿/运费</span></div>
+      <div class="facts">
+        <div class="f"><span class="tm num">01:34</span><span><span class="star">★</span>特朗普:霍尔木兹海峡是开放的,昨晚有 24 艘船只通过。</span></div><div class="f"><span class="tm num">01:52</span><span><span class="star">★</span>WSJ:特朗普政府已多次向调解方表示<b>无意重新接受 6 月与伊朗的谅解备忘录</b>,转向经济施压。</span></div><div class="f"><span class="tm num">05:21</span><span>伊朗雷扎伊:已准备好对美条件清单,目前允许船只临时通过特定航道;开放海峡与黎以停火挂钩。</span></div><div class="f"><span class="tm num">08:42</span><span>美国中央司令部:已清除霍尔木兹海峡国际航道内水雷,海峡已经开放,过境交通量持续增加。</span></div><div class="f"><span class="tm num">10:32</span><span><span class="star">★</span><b>Kpler:周四仅 5 艘大宗商品运输船通过海峡</b>,低于前一日 17 艘、过去 10 天均值 15 艘。</span></div><div class="f"><span class="tm num">10:49</span><span><span class="star">★</span>贝森特:过去 14 天已将 1.3 亿桶石油引导出霍尔木兹海峡,伊朗原油输出量为 0。</span></div><div class="f"><span class="tm num">10:47</span><span><span class="star">★</span>SC 原油期货盘中涨幅超 4%:「复航预期」是否已成泡影。</span></div><div class="f"><span class="tm num">11:11</span><span><span class="star">★</span>高盛:波斯湾石油出口恢复至战前约 2/3(1500-1600 万桶/日),仍比冲突前低 700-800 万桶/日。</span></div><div class="f"><span class="tm num">14:01</span><span><span class="star">★</span>布油一周跌近 5%,柴油裂解价差历史首次突破 100 美元。</span></div>
+      </div>
+      <div class="read">
+        <p><b>⚙️ 解读:</b>同一日内出现两组互相打架的事实——「水雷已清除/海峡已开放/24 艘通过」对「Kpler 5 艘/拒绝 6 月备忘录/伊朗条件清单挂钩黎以」。<b>官方口径在推「正常化」,船运数据在说「还早」</b>。面板已把通行量基线(~10%)作为唯一硬锚,今日 5/15 艘的单日读数低于该基线方向,属「复航交易的回撤」而非新信息革命。柴油裂解价差破 100 美元创历史——炼厂端紧张与原油端缓和背离,说明瓶颈在中游而非上游。</p>
+      </div>
+      <div class="map"><b>面板映射:</b>01① 能源通胀腿撤退 → 降为「撤退中但反复」;通胀腿对紧缩叙事的支撑没有消失。布油一周 -5% 与 SC 日内 +4% 并存 = 内外盘对复航节奏定价差。</div>
+      <div class="falsify"><b>证伪点:</b>通行量连续 3 日 ≥15 艘(10 天均值)且伊朗条件清单进入文本交换 → 复航交易重启;若通行量持续 &lt;5 艘或谈判破裂明示 → 能源通胀腿回归,面板 01① 需重写。</div>
+    </div>
+
+    <div class="thread">
+      <div class="th-hd"><h3>C · 全球央行放鹰潮(同日多点)</h3><span class="cnt num">26 条 · 美/欧/日共振</span><span class="imp">影响: 久期/美元/金银</span></div>
+      <div class="facts">
+        <div class="f"><span class="tm num">01:12</span><span><span class="star">★</span>美联储哈玛克:美联储政策需要保持紧缩。</span></div><div class="f"><span class="tm num">02:41</span><span><span class="star">★</span>美联储柯林斯:若通胀回落不及预期,可能支持在下次会议上加息。</span></div><div class="f"><span class="tm num">06:03</span><span><span class="star">★</span>CME 美联储观察:9 月维持不变 63.5%、加息 25bp 36.5%;10 月加息概率 43.4%。</span></div><div class="f"><span class="tm num">08:39</span><span><span class="star">★</span>东京 CPI(除生鲜)8 月同比 +1.8%,连续第三个月加速,强化日央行 9 月加息预期。</span></div><div class="f"><span class="tm num">12:05</span><span><span class="star">★</span>日本 2 年期国债招标倍数 2.97,创 2016 年来最弱(前值 3.63)。</span></div><div class="f"><span class="tm num">13:53</span><span><span class="star">★</span>ECB 管委卡扎克斯:不能让通胀根深蒂固,抑制通胀蔓延的方法之一就是加息。</span></div><div class="f"><span class="tm num">13:25</span><span><span class="star">★</span>机构:美债回购难解收益率上行结构性问题——回购不注销债务。</span></div>
+      </div>
+      <div class="read">
+        <p><b>⚙️ 解读:</b>美(哈玛克/柯林斯)、欧(卡扎克斯)、日(东京 CPI→9 月加息预期)三大央行同日偏鹰,叠加日本国债招标疲弱——<b>全球久期供给压力不是美国孤例</b>。9 月加息概率 36.5% 已被计入,这与面板 A 端「紧缩再定价」方向一致,且把沃什讲话的鹰派门槛抬高了:官员已把话说到前面,沃什「沉默」本身即偏鹰。</p>
+      </div>
+      <div class="map"><b>面板映射:</b>03 雷达·久期 1/4 维持;A 端主要矛盾强化。日本招标疲弱+日央行加息预期 → 日元融资盘成本上行,监测「美元融资」维度缺口(今日 SOFR-IORB 仍缺口)。</div>
+      <div class="falsify"><b>证伪点:</b>若沃什今晚明确排除 9 月加息 → A 端阶段性见顶;若日本 9 月加息落地且日债招标继续崩塌 → 套息平仓冲击外溢美债,雷达「美元融资」维度需重新点亮。</div>
+    </div>
+
+    <div class="thread">
+      <div class="th-hd"><h3>D · 黄金:事件前退回 4600 下方,ETF 与矿业股说另一个故事</h3><span class="cnt num">21 条</span><span class="imp">影响: AU/AG</span></div>
+      <div class="facts">
+        <div class="f"><span class="tm num">06:18</span><span><span class="star">★</span>SPDR Gold Trust 持仓较上日 +1.141 吨至 1,046.636 吨。</span></div><div class="f"><span class="tm num">06:58</span><span><span class="star">★</span>iShares Silver Trust 持仓 -16.87 吨至 15,345.86 吨。</span></div><div class="f"><span class="tm num">10:12</span><span>华侨银行:杰克逊霍尔会议成黄金下一关键考验;此类讲话不设问答,市场要求明确信号的空间有限。</span></div><div class="f"><span class="tm num">11:27</span><span><span class="star">★</span>财政线支撑黄金、通胀线压制黄金,金价在今晚沃什讲话前跌回 4600 之下。</span></div><div class="f"><span class="tm num">11:59</span><span><span class="star">★</span>MSCI 全球黄金矿业股指数 8 月 +43%,有望创纪录最大单月涨幅,涨势超过芯片股近年任何一个月。</span></div><div class="f"><span class="tm num">13:17</span><span>泰国央行行长:或进一步收紧黄金交易限制。</span></div><div class="f"><span class="tm num">14:10</span><span>金十行情条:现货黄金约 4,605-4,620 区间(盘前面板快照 4,605.77)。</span></div>
+      </div>
+      <div class="read">
+        <p><b>⚙️ 解读:</b>价格(事件前降敞口回撤)与持仓(SPDR 继续增、矿业股月度 +43% 创纪录)背离——<b>长线资金没有撤,撤的是事件前的短线杠杆</b>。这与 B 端「实物资产重估」主线自洽:央行购金与 ETF 增持是慢变量,沃什讲话是快变量。白银 ETF 小幅减持但银价早盘仍 +1.55%(行情条 69.17),金银走势分化延续「银强金弱」的高 β 特征。</p>
+      </div>
+      <div class="map"><b>面板映射:</b>06 品种 AU/AG 卡片:讲话前不追方向,维持事件窗降敞口提示;02 主要矛盾 B 端支撑证据(SPDR 增持、矿业股动量)继续累积。</div>
+      <div class="falsify"><b>证伪点:</b>讲话后若金价收复 4,650 上方且 SPDR 继续增持 → B 端加速;若跌破 4,550 且伴随实际利率跳升 → 紧缩压金剧本重启,AU 卡片重评。</div>
+    </div>
+
+    <div class="thread">
+      <div class="th-hd"><h3>E · 碳酸锂 +4% 与有色边角:反弹延续,仓单矛盾未解</h3><span class="cnt num">16 条</span><span class="imp">影响: LC/CU/AO</span></div>
+      <div class="facts">
+        <div class="f"><span class="tm num">00:31</span><span><span class="star">★</span>加拿大将美国制造的铜线和木炭加入 50% 反制关税清单(约 200 亿美元规模)。</span></div><div class="f"><span class="tm num">10:33</span><span>Mysteel:电池级碳酸锂早盘 +850 元/吨,中间价 153,050 元/吨。</span></div><div class="f"><span class="tm num">11:26</span><span><span class="star">★</span>碳酸锂主力合约日内 +4.00%,报 158,440 元/吨。</span></div><div class="f"><span class="tm num">11:30</span><span>早盘收盘:SC 原油、碳酸锂涨近 4% 领涨;沪锌、不锈钢偏弱。</span></div><div class="f"><span class="tm num">13:08</span><span><span class="star">★</span>俄铝拟临时封存俄罗斯部分氧化铝资产(皮卡廖沃氧化铝厂、北乌拉尔铝土矿等)。</span></div>
+      </div>
+      <div class="read">
+        <p><b>⚙️ 解读:</b>碳酸锂连续第二日走强,与 SMM 周度去库(-5,985/-7,516)叙事互相印证,但面板 01③ 的定性不变:<b>仓单 43,100 手(+1,160)压顶 vs 现货去库加速,反弹对待、不追趋势</b>。铜线入加拿大反制清单是贸易链碎片化的又一边角料,对 CU 的实物流向影响有限但方向不利。俄铝封存氧化铝资产若落地,边际收紧 AO 海外供给——与氧化铝偏弱盘面构成潜在预期差,列入观察。</p>
+      </div>
+      <div class="map"><b>面板映射:</b>06 品种 LC 卡(按反弹对待)延续;AO 卡新增观察项「俄铝封存」;CU 卡贸易流备注。</div>
+      <div class="falsify"><b>证伪点:</b>LC 若仓单拐头向下+现货升水走扩 → 反弹升级为反转候选;若价格冲高但仓单续增 → 反弹末端信号。</div>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">02 / SCAN</span><h2>其他重要条目速览</h2><span class="sec-note">五主线之外 · 按时间倒序 · 40 条</span></div>
+    <table>
+      <thead><tr><th style="width:110px">时间</th><th>内容(金十快讯, 🗣 市场叙事层)</th></tr></thead><tbody><tr><td class='tm num'>08-28 14:05</td><td>【韩国国民年金上半年回报率达到27.2%】金十数据8月28日讯， 韩国国民年金公团（NPS）上半年回报率达到27.2%，为至少2022年以来同期最佳表现。韩国股市强劲上涨，提振了这一全球最大养老基金之一的投资表现。 NPS周五表示，截至6月…</td></tr><tr><td class='tm num'>08-28 14:03</td><td>【法兴银行：2027年预算谈判将成为欧元区国债关键风险】金十数据8月28日讯，法兴银行利率策略师表示，2027年预算谈判将成为整个欧元区政府债券市场的一项关键风险。相关谈判可能令投资者重新关注财政挑战和政治不确定性，包括意大利和西班牙面临的…</td></tr><tr><td class='tm num'>08-28 14:02</td><td>【国家发改委：全面推进大江大河大湖堤防达标建设】金十数据8月28日讯，国家发改委政策研究室副主任李超在发改委8月份例行发布会上表示，我国将全面推进大江大河大湖堤防达标建设，特别是加快推进黄河上游干流堤防加固、淮河入海水道、海河骨干河道防洪治…</td></tr><tr><td class='tm num'>08-28 14:00</td><td>【机构：非常规政策构想不利于市场情绪】金十数据8月28日讯，法国安盛投资管理投资研究院主席、法巴银行资产管理核心投资首席投资官Chris Iggo表示，提出非常规政策构想并不利于市场情绪，“这会让投资者质疑其背后的动机是什么。”他表示，鉴于…</td></tr><tr><td class='tm num'>08-28 13:58</td><td>印尼财政部长：印尼主权财富基金Danantara将在2026年将120万亿印尼盾的利润交给政府作为储备基金，该资金将作为政府预算中的非税收收入进行核算。该资金将使预算赤字维持在目前占GDP 2.85%的水平。</td></tr><tr><td class='tm num'>08-28 13:53</td><td>【行业协会：厄尔尼诺或致印尼明年棕榈油减产300万吨】金十数据8月28日讯，据行业估计，由于未来数月预计将出现严重的厄尔尼诺天气，印尼明年棕榈油产量可能减少多达300万吨，进一步加大价格上涨压力。印尼棕榈油协会（Gapki）表示，这一降幅小…</td></tr><tr><td class='tm num'>08-28 13:51</td><td>【俄称打击乌方存有导弹及军用物资的仓库】金十数据8月28日讯，当地时间8月28日，俄罗斯国防部通报称，俄军当天凌晨使用攻击型无人机，命中基辅州用于存放“火烈鸟”远程巡航导弹成品及火箭助推器燃料的仓库综合体，以及敖德萨州敖德萨港6座保障乌军的…</td></tr><tr><td class='tm num'>08-28 13:49</td><td>【中共中央政治局召开会议 研究部署西藏日喀则市吉隆县泥石流灾害抢险救援工作】金十数据8月28日讯，中共中央政治局8月28日召开会议，研究部署西藏日喀则市吉隆县泥石流灾害抢险救援工作。中共中央总书记习近平主持会议。会议强调，要科学制定搜救方案…</td></tr><tr><td class='tm num'>08-28 13:37</td><td><span class=star>★</span> 创业板指午后跌幅扩大至1%，早盘一度涨超1%。</td></tr><tr><td class='tm num'>08-28 13:29</td><td>【郑州土拍现62%溢价 华润11亿拿下郑州外国语周边80亩宅地】金十数据8月28日讯，今日，河南京润万象房地产开发有限公司以11.19亿元，竞得郑政高出〔2026〕14号（网）。该地块位于郑州高新区枫杨街北、雪松路西，周边有郑州大学、郑州外…</td></tr><tr><td class='tm num'>08-28 13:25</td><td><span class=star>★</span> 中国地震台网正式测定：8月28日13时13分在四川内江市隆昌市发生5.1级地震，震源深度13千米。</td></tr><tr><td class='tm num'>08-28 13:25</td><td><span class=star>★</span> 中国地震台网正式测定：8月28日13时13分在四川内江市隆昌市发生5.1级地震，震源深度13千米。</td></tr><tr><td class='tm num'>08-28 13:22</td><td>【调查：芯片需求激增 韩国8月出口料连续第15个月增长】金十数据8月28日讯，路透调查显示，受全球人工智能芯片需求激增推动，韩国8月出口可能延续强劲增长，连续第15个月实现同比增长。10名经济学家的预测中值显示，韩国8月出口预计同比增长62…</td></tr><tr><td class='tm num'>08-28 13:17</td><td><span class=star>★</span> 中国地震台网自动测定：08月28日13时13分在四川内江市隆昌市附近（北纬29.25度，东经105.21度）发生4.9级左右地震，最终结果以正式速报为准。</td></tr><tr><td class='tm num'>08-28 13:14</td><td><span class=star>★</span> 贝森特选择增加流动性，并拒绝过早拉长美债发行期限。米兰认为这一做法完全正确，因为关税收入恢复、增长改善和通胀回落，都可能让美国赤字重新下降。</td></tr><tr><td class='tm num'>08-28 13:13</td><td><span class=star>★</span> 【期货热点追踪】极端厄尔尼诺或致棕榈油减产500万吨！印尼棕榈油协会发出预警，明年供应缺口有多大？</td></tr><tr><td class='tm num'>08-28 13:13</td><td><span class=star>★</span> 沪深两市成交额连续第273个交易日突破1.5万亿元。</td></tr><tr><td class='tm num'>08-28 13:01</td><td>【应对台风“沙德尔” 长三角铁路部分列车临时停运】金十数据8月28日讯，从中国铁路上海局集团有限公司获悉，受今年第18号台风“沙德尔”影响，8月28日上午浙江台州、温州等地沿海迎来强风暴雨。为确保旅客出行安全，上铁集团对8月27日至28日杭…</td></tr><tr><td class='tm num'>08-28 13:00</td><td>【“特朗普所乘直升机遭遇飞行安全事件”初步调查：有白宫施工因素】金十数据8月28日讯，美国总统特朗普所乘直升机于8月初在华盛顿遭遇飞行安全事件，引发外界关注。综合美国有线电视新闻网（CNN）、美联社等媒体报道，美国国家运输安全委员会8月27…</td></tr><tr><td class='tm num'>08-28 12:59</td><td>【韩国一工厂发生火灾致3死4伤】金十数据8月28日讯，据韩国媒体28日报道，韩国忠清南道天安市一家油漆原料生产厂当天发生火灾，已造成3人死亡、4人受伤。</td></tr><tr><td class='tm num'>08-28 12:59</td><td>【AI需求强劲 马来西亚芯片行业负责人上调电子出口预期】金十数据8月28日讯，马来西亚半导体产业协会会长Wong Siew Hai上调了今年该国电气与电子产品出口预测至逾9000亿林吉特（2230亿美元），因全球人工智能热潮推动的需求超过此…</td></tr><tr><td class='tm num'>08-28 12:56</td><td>【竞价201轮 华润置地80.6亿元摘取广州海珠琶洲南区一地块】金十数据8月28日讯，广州今日出让3宗涉宅用地，起始总价96.09亿元，其中，上午出让的海珠区琶洲南区石榴岗路涉宅用地，引发激烈争夺。该地块为二类居住用地兼容商业设施用地，规划…</td></tr><tr><td class='tm num'>08-28 12:49</td><td>固生堂(02273.HK)：截至2026年6月30日止六个月（上半财年），公司实现净利润2.19亿元，同比增长44.21%；每股基本盈利1.00元，上年同期为0.63元。</td></tr><tr><td class='tm num'>08-28 12:49</td><td><span class=star>★</span> 【期货热点追踪】战火重创黑海港口物流！芝加哥小麦期货持稳于三年高位附近，全球粮食供应链遭遇极限施压，地缘恐慌情绪迅速席卷农产品市场，粮食的“安全溢价”正被重新定价。</td></tr><tr><td class='tm num'>08-28 12:46</td><td>【越南敦促高通、三星扩大在越AI及芯片投资】金十数据8月28日讯，随着越南寻求成为区域创新中心，该国领导人敦促高通(QCOM.O)和三星扩大在人工智能、半导体以及研发领域的投资。根据越南政府的一份声明，越南国家主席苏林周四在河内举行的一次会…</td></tr><tr><td class='tm num'>08-28 12:36</td><td>【云南：研究将上市公司市值管理纳入企业内外部考核评价体系】金十数据8月28日讯，云南省人民政府印发《发挥资本市场作用助力云南高质量发展的若干措施》，其中提出，推动上市公司高质量发展。推动上市公司提升投资价值，规范开展市值管理，研究将上市公司…</td></tr><tr><td class='tm num'>08-28 12:35</td><td>【丰田汽车7月销量和产量双双下跌】金十数据8月28日讯，丰田汽车(TM.N)周五公布，受中国、美国和中东地区销量下滑的影响，7月全球汽车销量和产量均有所下降，抵消了日本市场强劲的业绩。公司全球销量同比下降4.8%至856,125辆，产量下降…</td></tr><tr><td class='tm num'>08-28 12:21</td><td>【3000万元！广东文旅消费券拟于9月11日起发放】金十数据8月28日讯，在2026广东金秋消费季暨文旅产业招商推介会新闻发布会上获悉，广东金秋文旅消费季将在9月11日正式启动，持续至10月底，覆盖中秋、国庆双节。广东省文化和旅游厅将发放3…</td></tr><tr><td class='tm num'>08-28 12:16</td><td>【Omdia：预计2028年AI ASIC出货量将超过GPU】金十数据8月28日讯，Omdia最新的预测分析显示，2028年定制AI ASIC的出货量将超过GPU。Omdia预计，2028年AI ASIC出货量将达到1050万颗，而GPU出…</td></tr><tr><td class='tm num'>08-28 12:10</td><td>【香港交易所将于希音上市日向投资者提供多项产品选择】金十数据8月28日讯，香港交易所今天宣布，将于希音国际控股有限公司(00625.HK)在2026年9月1日上市时，推出下列产品和措施：一、希音每周及每月期权将于2026年9月1日希音股份上…</td></tr><tr><td class='tm num'>08-28 12:07</td><td>【中科曙光发布新一代词元加速方案ParaCache】金十数据8月28日讯，中科曙光在数博会上正式对外推出新一代词元加速方案ParaCache。该方案采用全国产化技术路线，并已在首个全国产十万卡AI超集群曙光8000的推理应用场景完成验证。企…</td></tr><tr><td class='tm num'>08-28 12:05</td><td>【阿根廷7月石油日产量创历史新高】金十数据8月28日讯，阿根廷政府日前发布的最新数据显示，阿根廷7月石油日产量超过91.6万桶，同比增长17.2%，创历史新高。数据显示，巴卡穆埃尔塔油田是带动阿根廷石油和天然气产量和石油出口增长的主要因素。…</td></tr><tr><td class='tm num'>08-28 12:05</td><td>【港股午评：恒生指数低开高走 电讯概念股涨幅居前】金十数据8月28日讯，恒生指数、恒生科技指数早盘均上扬，截至午间收盘，恒生指数收涨0.47%，恒生科技指数收涨0.6%。板块个股方面，港股电讯网路基建概念股涨幅居前，俊知集团(01300.H…</td></tr><tr><td class='tm num'>08-28 12:03</td><td>【受台风“沙德尔”影响 国铁广州局调整列车运行秩序】金十数据8月28日讯，据中央气象台最新消息，今年第18号台风“沙德尔”已于8月28日在浙江台州玉环市坎门街道沿海登陆，台风天气将对铁路运输秩序带来一定影响，为确保旅客列车运行安全，国铁广州…</td></tr><tr><td class='tm num'>08-28 12:02</td><td>【中国人寿刘晖：持续加大人工智能、半导体、大健康与生物技术等核心赛道配置】金十数据8月28日讯，今日在中国人寿2026年中期业绩会上，中国人寿副总裁、董事会秘书刘晖表示，目前中国人寿管理资产规模近8万亿，未来在新质生产力的布局空间将非常广阔…</td></tr><tr><td class='tm num'>08-28 12:00</td><td>【墨西哥时隔两年重返武士债市场】金十数据8月28日讯，墨西哥周五时隔两年首次重返武士债券市场，发行2828亿日元债券。随着借款人寻求在日本利率可能进一步上升之前锁定融资成本，武士债发行正迎来一波热潮。此次发行的多期限武士债券期限从3.5年至…</td></tr><tr><td class='tm num'>08-28 11:55</td><td>【2025年我国智能体专利授权量超过3400件】金十数据8月28日讯，国家数据发展研究院院长胡坚波8月28日在2026中国国际大数据产业博览会开幕式上表示，智能体应用带动词元服务加速发展。2025年，我国智能体专利授权量超过3400件，增速…</td></tr><tr><td class='tm num'>08-28 11:55</td><td>【2025年我国智能体专利授权量超过3400件】金十数据8月28日讯，国家数据发展研究院院长胡坚波8月28日在2026中国国际大数据产业博览会开幕式上表示，智能体应用带动词元服务加速发展。2025年，我国智能体专利授权量超过3400件，增速…</td></tr><tr><td class='tm num'>08-28 11:55</td><td><span class=star>★</span> 1. 国家发改委：发展机器人产业必须因地制宜，防止盲目跟风、一哄而上。2. 特朗普政府正在考虑新一轮大规模半导体关税。3. 美国法官阻止五角大楼将Anthropic列入黑名单。4. 马斯克、黄仁勋、奥尔特曼下周齐聚G20科技会议。5. 阿里…</td></tr><tr><td class='tm num'>08-28 11:47</td><td>【我国5G移动电话用户占比超七成】金十数据8月28日讯，工业和信息化部28日发布的数据显示，今年以来，我国5G网络建设稳步推进。截至7月末，三家基础电信企业及中国广电的移动电话用户总数达18.47亿户，其中5G移动电话用户达13.03亿户，…</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="s3" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-hd"><span class="sec-no">03 / SOURCES</span><h2>来源与缺口</h2><span class="sec-note">证据分层 · 缺口标灰不分配权重</span></div>
+    <div class="gap"><b>金十快讯 · 已接入(免登录实时 API)。</b>今日 00:00–14:07 共 585 条,工作台左侧消息栏滚动展示最新 60 条。证据层级:🗣 市场叙事层——按框架纪律,叙事不单独支撑方向,只作验证/强化/修正标记;其中数据类条目(CME 概率、Kpler 通行量、Mysteel 报价等)回溯后升级至 L2/L3。</div>
+    <div class="gap" style="opacity:.75"><b>先讯 Alpha Heartbeat · 已接入延时档(24h)。</b>免费层仅可见 24 小时前消息,解读页不引用其内容以免混淆时点;登录会员后切实时通道。</div>
+    <div class="gap" style="opacity:.75"><b>CS财经 · 待登录接入。</b>全站数据端点需会员令牌,等账号密码到位后接入。</div>
+    <div class="gap" style="opacity:.6"><b>缺口声明:</b>① 金十 VIP 快讯(vip=1 通道)未登录状态下与普通快讯混排,VIP 专属内容可能有缺;② 消息流刷新依赖工作台版本快照频率,浏览器端不直接连第三方 API(CORS 受限)。</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    本页为消息流的框架化解读,与当日面板(panels/2026-08-28.html)同源同时点;消息流不触发裁决变更,裁决变更只走面板事前冻结通道。<br>
+    证据分层:L1 官方 / L2 交易所 / L3 第三方 / ⚙️ 自建计算 / 🗣 市场叙事。本页事实链均为 🗣 金十快讯原文(已标时间戳),解读均为 ⚙️ 框架合成。<br>
+    快照时点 2026-08-28 14:10 BJT · 数据截至金十快讯 14:07:33 · 不构成投资建议。
+  </div>
+</footer>
+</body>
+</html>
