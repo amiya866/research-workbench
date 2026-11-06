@@ -1,6 +1,6 @@
 {
   "asof": "2026-11-06",
-  "built_at": "2026-11-06T08:39:16+08:00",
+  "built_at": "2026-11-06T09:29:10+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -152,10 +152,10 @@
       "source": "zhiji GM0000032808",
       "frequency": "日度",
       "unit": "%",
-      "latest": "2026-11-04",
-      "latest_value": "4.9",
-      "latest_iso": "2026-11-04",
-      "age_days": 2,
+      "latest": "2026-11-05",
+      "latest_value": "4.84",
+      "latest_iso": "2026-11-05",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -242,10 +242,10 @@
       "source": "zhiji j02870870",
       "frequency": "日度",
       "unit": "元/吨",
-      "latest": "2026-11-04",
-      "latest_value": "-4,763",
-      "latest_iso": "2026-11-04",
-      "age_days": 2,
+      "latest": "2026-11-05",
+      "latest_value": "-4,541",
+      "latest_iso": "2026-11-05",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -347,10 +347,10 @@
       "source": "zhiji ID00188286",
       "frequency": "日度",
       "unit": "短吨",
-      "latest": "2026-11-04",
-      "latest_value": "807,240",
-      "latest_iso": "2026-11-04",
-      "age_days": 2,
+      "latest": "2026-11-05",
+      "latest_value": "808,035",
+      "latest_iso": "2026-11-05",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
