@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-08T09:38:24+08:00",
+  "built_at": "2026-11-08T10:06:16+08:00",
   "overall": "有需要检查项",
   "rows": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "label": "快讯消息",
-      "value": "2026-11-08 09:13",
+      "value": "2026-11-08 09:41",
       "status": "ok",
       "note": "金十/CS/东财/新浪/LME；内嵌兜底同步刷新"
     },
@@ -28,8 +28,8 @@
     },
     {
       "label": "FedWatch",
-      "value": "2026-11-06 15:53 BJT",
-      "status": "warn",
+      "value": "2026-11-08 09:38 BJT",
+      "status": "ok",
       "note": "CME官方条件概率表"
     },
     {
@@ -52,7 +52,7 @@
     },
     {
       "label": "新出数据",
-      "value": "2026-11-08 09:13",
+      "value": "2026-11-08 09:41",
       "status": "ok",
       "note": "快讯中识别的官方发布"
     },
@@ -76,7 +76,7 @@
     },
     {
       "label": "地缘事件链",
-      "value": "2026-11-06",
+      "value": "2026-11-08",
       "status": "ok",
       "note": "全链扫描快讯标题自动追加；无新事件时不强行填日期"
     },
@@ -84,7 +84,7 @@
       "label": "官方发布分项",
       "value": "nfp=2026-09；cpi=2026-09；ppi=2026-09；gdp=2026Q3；pce_price=2026M09；pce_real=2026M09；fomc=2026-09-17",
       "status": "bad",
-      "note": "旧值块：cpi,gdp,pce_price,pce_real"
+      "note": "旧值块：nfp,cpi,cpi_hist,cpi_detail,ppi,ppi_hist,ppi_detail"
     },
     {
       "label": "锡研究周报",
@@ -147,10 +147,10 @@
     },
     {
       "name": "ResearchWeeklySync",
-      "state": "Running",
+      "state": "Ready",
       "last": "2026-11-08 09:23:00",
       "next": "2026-11-13 09:23:00",
-      "result": 2147946720
+      "result": 1
     },
     {
       "name": "ResearchQuarterlyOutlook",
