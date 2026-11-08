@@ -1,5 +1,5 @@
 {
- "asof": "2026-11-06 08:31 BJT",
+ "asof": "2026-11-08 09:37 BJT",
  "cats": [
   [
    "rates",
@@ -76,6 +76,12 @@
    "cat": "rates",
    "title": "FedWatch各会议概率",
    "sub": "加息/维持(%)"
+  },
+  {
+   "file": "gold_silver.png",
+   "cat": "cmdty",
+   "title": "金银比",
+   "sub": "避险温度计"
   }
  ]
 }
