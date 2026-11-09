@@ -51,7 +51,9 @@ REMOTE_DATA = {
     'data/truth_posts.json', 'data/cftc.json', 'data/macro_series.json',
     'data/liquidity.json', 'data/tic.json', 'data/trump_zone.json',
     'data/auctions.json', 'data/econ_calendar.json', 'data/release_panels.json',
-    'data/calendar_consensus.json', 'data/chart_series.js',
+    'data/calendar_consensus.json', 'data/chart_series.js', 'data/fedwatch.json',
+    'data/releases_recent.json', 'data/live_quotes.json', 'data/polymarket.json',
+    'data/macro_catalog.js', 'data/j10_store.json',
 }
 
 def check_report():
