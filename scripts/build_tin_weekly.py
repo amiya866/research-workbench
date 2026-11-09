@@ -159,7 +159,7 @@ def update_nonferrous_daily(common_charts, common_rows, names, asof):
     payload = {}
     parts = [begin, '<div class="card" id="nonferrousCommon" style="border-left:3px solid var(--blue);margin:14px 0;">',
              '<h3 style="color:var(--blue);margin-bottom:6px;">有色共性前瞻 · 宏观与美股</h3>',
-             '<p style="font-size:12px;color:var(--dim);">由锡周报迁入，作为铜/铝/锌/镍/锡/铅共用宏观层；不再占用单品种周报目录。数据截至 %s。</p>' % shared.esc(asof)]
+             '<p style="font-size:12px;color:var(--dim);">由锡周报迁入，作为铜/铝/锌/镍/锡/铅共用宏观层；叙事为周报存档（%s），美债/美元/WTI/SOX图按每日宏观管线刷新，核心CPI按官方月度披露。</p>' % shared.esc(asof)]
     for title, row_key, keys, implication in sections:
         row = common_rows.get(row_key) or {}
         parts.append('<h4 style="color:var(--gold);margin:14px 0 5px;">%s</h4>' % shared.esc(title))

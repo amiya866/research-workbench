@@ -171,6 +171,19 @@ def sina_sge(symbol):
             time.sleep(i + 1)
     return []
 
+def sina_us_daily(symbol, limit=400):
+    url = ('https://stock.finance.sina.com.cn/usstock/api/jsonp.php/var%20x=/'
+           'US_MinKService.getDailyK?symbol=' + urllib.parse.quote(symbol))
+    t = http_get(url, timeout=20, retries=3)
+    if not t:
+        return []
+    try:
+        rows = json.loads(re.search(r'\(\s*(\[.*?\])\s*\)', t, re.S).group(1))
+        return [[r['d'][:10], round(float(r['c']), 4)] for r in rows if r.get('c')][-limit:]
+    except Exception as e:
+        log('  x 新浪美股', symbol, repr(e)[:100])
+        return []
+
 def us_debt():
     url = ('https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/'
            'accounting/od/debt_to_penny?sort=-record_date&page[size]=3000'
@@ -351,6 +364,7 @@ add('Y_XLV', '医疗行业ETF(XLV)', '美元', 'asset', 'L2·Yahoo', ('yahoo', '
 add('Y_XLI', '工业行业ETF(XLI)', '美元', 'asset', 'L2·Yahoo', ('yahoo', 'XLI'))
 add('Y_IBIT', '比特币ETF(IBIT)', '美元', 'asset', 'L2·Yahoo', ('yahoo', 'IBIT'))
 add('Y_PLT', '铂金ETF(PPLT)', '美元', 'asset', 'L2·Yahoo', ('yahoo', 'PPLT'))
+add('Y_SOX', '费城半导体指数', '点', 'asset', 'L2·新浪美股日线', ('ext',))
 # ---- 流动性板块(GMF框架): 由 scripts/fetch_liquidity.py 每日管线刷新, ext=仅登记 ----
 for sid, name, unit, src in [
     ('SOFR99', 'SOFR第99分位(尾部)', '%', 'L1·FRED/NYFed'),
@@ -602,6 +616,12 @@ def main():
             old.update(ser)
             hist[key] = sorted(old.items())
             log('新浪上金所快照', key, '最新→', hist[key][-1])
+    sox = sina_us_daily('.SOX')
+    if sox:
+        old = dict(hist.get('Y_SOX', []))
+        old.update(sox)
+        hist['Y_SOX'] = sorted(old.items())
+        log('新浪SOX日线', '最新→', hist['Y_SOX'][-1])
     # 写 chart_series.js (只更新本次抓到的键, MM上传的键原样保留)
     with open(cs_path, 'w', encoding='utf-8') as f:
         f.write('window.CHART_SERIES = ' + json.dumps(hist, separators=(',', ':')) + ';')
