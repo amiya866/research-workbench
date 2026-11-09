@@ -119,16 +119,6 @@ def convert_chart(key, chart):
     return {'labels': labels, 'datasets': datasets, '_type': kind}
 
 
-def common_summary(source):
-    table = one(r'(<table class="sum">.*?</table>)', source)
-    result = {}
-    for row in re.findall(r'<tr[^>]*>(.*?)</tr>', table, re.S):
-        cells = re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)
-        if len(cells) >= 5 and text(cells[0]) in ('宏观', '美股·半导体 AI'):
-            result[text(cells[0])] = {'datum': text(cells[1]) + ' ' + text(cells[2]), 'conclusion': text(cells[3])}
-    return result
-
-
 def summary_table(source):
     table = one(r'(<table class="sum">.*?</table>)', source)
     rows = ['<table class="sum"><tr><th>环节</th><th>相关数据与边际</th><th>周度结论</th><th>跟踪</th></tr>']
@@ -143,57 +133,6 @@ def summary_table(source):
             label, datum, daily, conclusion, cls, direction))
     rows.append('</table>')
     return ''.join(rows)
-
-
-def update_nonferrous_daily(common_charts, common_rows, names, asof):
-    path = BASE / 'reports' / 'daily_latest.html'
-    if not path.exists():
-        return
-    begin, end = '<!-- NONFERROUS_COMMON_BEGIN -->', '<!-- NONFERROUS_COMMON_END -->'
-    sections = [
-        ('宏观与跨资产', '宏观', ['c_cpi.png', 'c_us10y.png', 'c_dxy.png', 'c_wti.png', 'c_cusn.png', 'c_agsn.png'],
-         '利率、美元、油价与地缘是全部有色共同的风险预算和估值约束；方向仍须回到各品种库存、升贴水和供需验证。'),
-        ('美股与半导体 AI', '美股·半导体 AI', ['m_sox.png'],
-         'SOX与AI财报影响电子需求预期及风险偏好：对锡焊料传导更直接，对铜铝等其他有色主要通过宏观情绪与资本开支预期传导，不等同于实际订单。'),
-    ]
-    payload = {}
-    parts = [begin, '<div class="card" id="nonferrousCommon" style="border-left:3px solid var(--blue);margin:14px 0;">',
-             '<h3 style="color:var(--blue);margin-bottom:6px;">有色共性前瞻 · 宏观与美股</h3>',
-             '<p style="font-size:12px;color:var(--dim);">由锡周报迁入，作为铜/铝/锌/镍/锡/铅共用宏观层；叙事为周报存档（%s），美债/美元/WTI/SOX图按每日宏观管线刷新，核心CPI按官方月度披露。</p>' % shared.esc(asof)]
-    for title, row_key, keys, implication in sections:
-        row = common_rows.get(row_key) or {}
-        parts.append('<h4 style="color:var(--gold);margin:14px 0 5px;">%s</h4>' % shared.esc(title))
-        if row.get('datum'):
-            parts.append('<p style="font-size:12.5px;line-height:1.8;"><b>前瞻事件与事实：</b>%s</p>' % shared.esc(row['datum']))
-        parts.append('<p style="font-size:12.5px;line-height:1.8;"><b>共性策略含义：</b>%s</p>' % shared.esc(implication))
-        parts.append('<div class="grid2">')
-        for key in keys:
-            chart = common_charts.get(key)
-            if not chart:
-                continue
-            payload[key] = chart
-            point = shared.last_point(chart)
-            chart_id = 'nfCommon' + str(len(payload))
-            parts.append('<div class="mini"><h4>%s</h4><div id="%s" data-nf-chart="%s" style="height:220px;"></div><div style="font-size:11px;color:var(--dim);">最新 %s ｜ %s</div></div>' % (
-                shared.esc(names.get(key, key)), chart_id, shared.esc(key),
-                shared.esc(point[0] if point else '—'), shared.fmt(point[1]) if point else '—'))
-        parts.append('</div>')
-    parts.append('</div>')
-    parts.append('<script>window.NF_COMMON_CHARTS=%s;(function(){const charts={};function draw(){document.querySelectorAll("[data-nf-chart]").forEach(function(el){if(!el.offsetParent)return;const c=window.NF_COMMON_CHARTS[el.dataset.nfChart];if(!c)return;const chart=charts[el.id]||(charts[el.id]=echarts.init(el));chart.setOption({animation:false,grid:{left:55,right:16,top:20,bottom:42},tooltip:{trigger:"axis"},xAxis:{type:"category",data:c.labels||[],axisLabel:{fontSize:10}},yAxis:{type:"value",scale:true},series:(c.datasets||[]).map(function(d){return{name:d.label,type:"line",data:d.data||[],showSymbol:false,connectNulls:true,lineStyle:{width:1.5}}})},true);chart.resize();});}window.addEventListener("resize",draw);document.querySelectorAll(".dtabs button").forEach(function(btn){btn.addEventListener("click",function(){setTimeout(draw,50);});});draw();})();</script>' % json.dumps(payload, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
-    parts.append(end)
-    block = '\n'.join(parts)
-    page = path.read_text(encoding='utf-8')
-    pattern = re.escape(begin) + r'.*?' + re.escape(end)
-    if re.search(pattern, page, re.S):
-        page = re.sub(pattern, lambda _m: block, page, count=1, flags=re.S)
-    else:
-        anchor = '<section class="dp on" id="dp1">'
-        if anchor not in page:
-            raise RuntimeError('daily_latest.html 缺少总览页锚点')
-        page = page.replace(anchor, anchor + '\n' + block, 1)
-    tmp = path.with_name(path.name + '.tmp')
-    tmp.write_text(page, encoding='utf-8')
-    os.replace(tmp, path)
 
 
 def sync_technical():
@@ -227,7 +166,6 @@ def main():
     converted = {key: convert_chart(key, value) for key, value in raw_charts.items()}
     common_keys = {key for key, value in raw_charts.items()
                    if value.get('sec') == '宏观 · 利率美元商品' or key == 'm_sox.png'}
-    common_charts = {key: converted[key] for key in common_keys}
     charts = shared.seasonalize_charts({key: value for key, value in converted.items() if key not in common_keys})
     names = {key: value.get('title', key) for key, value in raw_charts.items()}
     shared.NAMES = names
@@ -241,7 +179,8 @@ def main():
     technical = sync_technical()
     headline = text(one(r'<div class="tone">(.*?)</div>', source))
     asof = one(r'数据截至\s*<b>(\d{4}-\d{2}-\d{2})</b>', source, datetime.date.today().isoformat())
-    update_nonferrous_daily(common_charts, common_summary(source), names, asof)
+    from update_nonferrous_common import main as update_nonferrous_common
+    update_nonferrous_common()
     summary = summary_table(source)
     quarter = shared.quarterly_html(OUT / 'index.html', one(r'(<details class="fold" id="q4outlook">.*?</details>)', source))
     framework = one(r'(<details class="fold" id="framework">.*?</details>)', source)

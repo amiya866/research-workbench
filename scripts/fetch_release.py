@@ -89,8 +89,8 @@ CPI_ITEMS = [  # (中文名, SA序列, NSA序列)
 ]
 def bls_fetch(series_ids, startyear, endyear):
     out = {}
-    for i in range(0, len(series_ids), 50):
-        chunk = series_ids[i:i+50]
+    for i in range(0, len(series_ids), 20):
+        chunk = series_ids[i:i+20]
         payload = {'seriesid': chunk, 'startyear': str(startyear), 'endyear': str(endyear), 'calculations': False}
         if BLS_KEY: payload['registrationkey'] = BLS_KEY
         r = http_post_json('https://api.bls.gov/publicAPI/v2/timeseries/data/', payload)
@@ -129,7 +129,10 @@ try:
     log('== CPI分项贡献 ==')
     sa_ids = [x[1] for x in CPI_ITEMS] + ['CUSR0000SA0', 'CUSR0000SA0L1E']
     nsa_ids = [x[2] for x in CPI_ITEMS] + ['CUUR0000SA0', 'CUUR0000SA0L1E']
-    d = bls_fetch(sa_ids + nsa_ids, 2024, 2026)
+    d = bls_fetch(sa_ids + nsa_ids, 2021, 2023)
+    recent = bls_fetch(sa_ids + nsa_ids, 2024, datetime.datetime.now().year)
+    for sid, rows in recent.items():
+        d[sid] = d.get(sid, []) + rows
     def _shift(per, months):  # 'YYYY-MM' 平移months个月
         y, m = int(per[:4]), int(per[5:7]) + months
         y += (m - 1) // 12; m = (m - 1) % 12 + 1
@@ -147,6 +150,10 @@ try:
         dd = dict(s); per, v = s[-1]
         base = dd.get(_shift(per, -12))
         return round((v/base-1)*100, 2) if base else None
+    def yoy_series(s):
+        dd = dict(s)
+        return [[per + '-01', round((v / dd[_shift(per, -12)] - 1) * 100, 2)]
+                for per, v in s if _shift(per, -12) in dd]
     items = []
     gap_any = False
     for name, sa, nsa in CPI_ITEMS:
@@ -160,6 +167,7 @@ try:
         'weights_src': 'L1·BLS相对重要性2025-12快照(2026-02-13发布,每年2月更新)',
         'headline_mom': hm, 'headline_yoy': yoy(d['CUUR0000SA0']),
         'core_mom': cm, 'core_yoy': yoy(d['CUUR0000SA0L1E']),
+        'core_yoy_history': yoy_series(d['CUUR0000SA0L1E']),
         'gap_note': '2025-10/11因政府停摆缺月,部分环比为跨期值' if gap_any else None,
         'items': items, 'next': '每月10-13日 20:30北京(冬令21:30)'}
     log('  CPI', panel['blocks']['cpi']['period'], 'headline yoy', panel['blocks']['cpi']['headline_yoy'])
