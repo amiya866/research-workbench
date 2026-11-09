@@ -1321,7 +1321,7 @@ function autoDate(){
   var el=document.getElementById('autoDate'); if(!el)return;
   if(!window.CHART_SERIES){setTimeout(autoDate,400);return;}
   var mx='';
-  ['DGS10','Y_GOLD','IF_000300SH','T10Y2Y','SOFR'].forEach(function(k){
+  ['DGS10','Y_GOLD','IF_000300SH','IF_AU9999','T10Y2Y','SOFR'].forEach(function(k){
     var p=latestPoint(k);if(p&&p[0]>mx)mx=p[0];
   });
   el.textContent=mx?mx+'（管线最新）':'—';
@@ -1540,6 +1540,7 @@ async function loadFwMini(){
     }).join('');
     const concl = (window.CE&&window.CE.fwConclusion)?window.CE.fwConclusion(F):'';
     window.__fwFresh = true;
+    document.querySelectorAll('.snapAsof').forEach(function(e){e.textContent='FedWatch·管线快照：'+F.asof;});
     document.getElementById('fwBox').innerHTML =
       `<table><tr><th>FOMC会议</th><th style="text-align:right;">降息</th><th style="text-align:right;">维持</th><th style="text-align:right;">加息</th></tr>${rows}</table>`+
       concl+

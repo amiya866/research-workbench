@@ -142,6 +142,35 @@ def yahoo(sym, rng='5y'):
         out.append([datetime.datetime.utcfromtimestamp(a).strftime('%Y-%m-%d'), round(float(b), 4)])
     return out
 
+def sina_cn_index(symbol, limit=400):
+    url = ('https://quotes.sina.cn/cn/api/openapi.php/CN_MarketDataService.getKLineData'
+           '?symbol=%s&scale=240&ma=no&datalen=%d' % (symbol, limit))
+    t = http_get(url, timeout=20, retries=3)
+    if not t:
+        return []
+    try:
+        rows = (json.loads(t).get('result') or {}).get('data') or []
+        return [[r['day'][:10], round(float(r['close']), 4)] for r in rows if r.get('close')][-limit:]
+    except Exception as e:
+        log('  x 新浪A股', symbol, repr(e)[:100])
+        return []
+
+def sina_sge(symbol):
+    url = 'https://hq.sinajs.cn/list=gds_' + symbol
+    for i in range(3):
+        try:
+            req = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 (research-workbench)',
+                'Referer': 'https://finance.sina.com.cn/'})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                text = r.read().decode('gbk', 'replace')
+            f = text.split('="', 1)[1].split(',')
+            return [[f[12], round(float(f[0]), 4)]]
+        except Exception as e:
+            log('  retry 新浪上金所', symbol, i + 1, repr(e)[:100])
+            time.sleep(i + 1)
+    return []
+
 def us_debt():
     url = ('https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/'
            'accounting/od/debt_to_penny?sort=-record_date&page[size]=3000'
@@ -278,13 +307,13 @@ add('NEWORDER', '核心资本品订单', '百万美元', 'mfg', 'L1·FRED/Census
 add('TSA_PAX', 'TSA日均安检旅客', '百万人', 'move', 'L1·TSA', ('tsa',))
 # 民调 poll 补充(支持率主图在 trump_zone.json)
 add('UMCSENT', '密歇根消费者信心', '点', 'poll', 'L1·FRED/UMich', ('fred', 'UMCSENT'))
-# iFinD直采(由 scripts/fetch_ifind.py 每日沙箱管线刷新, Actions不抓; ext=仅登记元数据)
-add('IF_000300SH', '沪深300指数', '点', 'cn', 'L1·iFinD⚙️直采', ('ext',))
-add('IF_000001SH', '上证综合指数', '点', 'cn', 'L1·iFinD⚙️直采', ('ext',))
-add('IF_399006SZ', '创业板指', '点', 'cn', 'L1·iFinD⚙️直采', ('ext',))
-add('IF_000905SH', '中证500指数', '点', 'cn', 'L1·iFinD⚙️直采', ('ext',))
-add('IF_AU9999', '沪金AU9999现货', '元/克', 'asset', 'L1·iFinD⚙️直采', ('ext',))
-add('IF_AG9999', '沪银AG9999现货', '元/千克', 'asset', 'L1·iFinD⚙️直采', ('ext',))
+# iFinD历史序列保留，主流程尾部用新浪公开日线/快照续接，防止终端停更冻结卡片。
+add('IF_000300SH', '沪深300指数', '点', 'cn', 'L2·新浪行情 / L1·iFinD历史', ('ext',))
+add('IF_000001SH', '上证综合指数', '点', 'cn', 'L2·新浪行情 / L1·iFinD历史', ('ext',))
+add('IF_399006SZ', '创业板指', '点', 'cn', 'L2·新浪行情 / L1·iFinD历史', ('ext',))
+add('IF_000905SH', '中证500指数', '点', 'cn', 'L2·新浪行情 / L1·iFinD历史', ('ext',))
+add('IF_AU9999', '沪金AU9999现货', '元/克', 'asset', 'L2·新浪上金所快照 / L1·iFinD历史', ('ext',))
+add('IF_AG9999', '沪银AG9999现货', '元/千克', 'asset', 'L2·新浪上金所快照 / L1·iFinD历史', ('ext',))
 # CFTC持仓(由 scripts/fetch_cftc.py 每日管线刷新; ext=仅登记)
 add('CFTC_GC_NET', '黄金非商业净持仓', '手', 'asset', 'L1·CFTC⚙️周报', ('ext',))
 add('CFTC_SI_NET', '白银非商业净持仓', '手', 'asset', 'L1·CFTC⚙️周报', ('ext',))
@@ -552,6 +581,27 @@ def main():
                     log(sid, '决议日补齐→', asof_d, vv)
     except Exception as e:
         log('  x 走廊补齐失败(不影响主流程)', repr(e)[:120])
+    # iFinD长期停更时用新浪公开行情续接；合并而非替换，保留既有历史。
+    cn_indexes = {
+        'IF_000300SH': 'sh000300', 'IF_000001SH': 'sh000001',
+        'IF_399006SZ': 'sz399006', 'IF_000905SH': 'sh000905',
+        'IF_399001SZ': 'sz399001', 'IF_000016SH': 'sh000016',
+        'IF_000852SH': 'sh000852', 'IF_000688SH': 'sh000688',
+    }
+    for key, symbol in cn_indexes.items():
+        ser = sina_cn_index(symbol)
+        if ser:
+            old = dict(hist.get(key, []))
+            old.update(ser)
+            hist[key] = sorted(old.items())
+            log('新浪A股续接', key, '最新→', hist[key][-1])
+    for key, symbol in (('IF_AU9999', 'AUTD'), ('IF_AG9999', 'AGTD')):
+        ser = sina_sge(symbol)
+        if ser:
+            old = dict(hist.get(key, []))
+            old.update(ser)
+            hist[key] = sorted(old.items())
+            log('新浪上金所快照', key, '最新→', hist[key][-1])
     # 写 chart_series.js (只更新本次抓到的键, MM上传的键原样保留)
     with open(cs_path, 'w', encoding='utf-8') as f:
         f.write('window.CHART_SERIES = ' + json.dumps(hist, separators=(',', ':')) + ';')
