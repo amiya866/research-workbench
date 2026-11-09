@@ -102,7 +102,7 @@ def sync_daily_fallback(out):
     if not os.path.exists(path):
         return
     page = open(path, encoding='utf-8').read()
-    fallback = {key: out.get(key, []) for key in ('jin10', 'ah', 'cs')}
+    fallback = {key: out.get(key, []) for key in ('jin10', 'ah', 'cs', 'eastmoney', 'sina')}
     replacement = 'const N = ' + json.dumps(fallback, ensure_ascii=False) + ';'
     conflict = re.compile(r'^<<<<<<<[^\n]*\nconst N = .*;\n=======\nconst N = .*;\n>>>>>>>[^\n]*$', re.M)
     page = conflict.sub(lambda _m: replacement, page)

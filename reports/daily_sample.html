@@ -1654,11 +1654,11 @@ document.addEventListener('click',function(e){
   var open=o.classList.toggle('open');
   b.textContent=open?'收起 ▴':('其他 +'+o.querySelectorAll('.fcchip').length+' ▾');
 });
-/* ====== 消息跑马灯：金十/先讯/CS合并，三行按关键字过滤滚动（宏观/股市/商品）+关键词高亮；BJT 07-23点每60秒拉取，其余时段5分钟 ====== */
+/* ====== 消息跑马灯：金十/先讯/CS/东财/新浪五源合并，三行按关键字过滤滚动（宏观/股市/商品）+关键词高亮；BJT 07-23点每60秒拉取，其余时段5分钟 ====== */
 (function(){
   var rows=[document.getElementById('tkIn1'),document.getElementById('tkIn2'),document.getElementById('tkIn3')];
   if(!rows[0])return;
-  var SRCC={jin10:['金十','#d4a944'],ah:['先讯','#5b9bd5'],cs:['CS','#b08ad9']};
+  var SRCC={jin10:['金十','#d4a944'],ah:['先讯','#5b9bd5'],cs:['CS','#b08ad9'],eastmoney:['东财','#4da3ff'],sina:['新浪','#e28b65']};
   /* 三行关键字过滤（英文词带边界,防 AI 误配 Taiwan/said 等;锡 排除无锡） */
   var ROWKW=[
     {n:'宏观', re:/(美债|美元|美伊|美国|伊朗|贝森特|沃什|加息|降息)/i},
@@ -1673,7 +1673,7 @@ document.addEventListener('click',function(e){
   function poll(){
     fetch('../data/news_latest.json?v='+Date.now()).then(function(r){return r.json();}).then(function(d){
       var items=[];
-      ['jin10','ah','cs'].forEach(function(k){(d[k]||[]).slice(0,60).forEach(function(it){items.push({t:it.ts||it.time||'',c:it.content||'',s:k,imp:it.important});});});
+      ['jin10','ah','cs','eastmoney','sina'].forEach(function(k){(d[k]||[]).slice(0,60).forEach(function(it){items.push({t:it.ts||it.time||'',c:it.content||'',s:k,imp:it.important});});});
       items.sort(function(a,b){return a.t<b.t?1:-1;});
       if(!items.length){rows[0].textContent='快讯快照为空 · 等待云端管线更新';return;}
       rows.forEach(function(row,ri){
