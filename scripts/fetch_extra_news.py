@@ -104,9 +104,22 @@ def sync_daily_fallback(out):
     page = open(path, encoding='utf-8').read()
     fallback = {key: out.get(key, []) for key in ('jin10', 'ah', 'cs')}
     replacement = 'const N = ' + json.dumps(fallback, ensure_ascii=False) + ';'
-    updated, count = re.subn(r'^const N = .*;$', lambda _m: replacement, page, count=1, flags=re.M)
-    if count:
-        open(path, 'w', encoding='utf-8').write(updated)
+    conflict = re.compile(r'^<<<<<<<[^\n]*\nconst N = .*;\n=======\nconst N = .*;\n>>>>>>>[^\n]*$', re.M)
+    page = conflict.sub(lambda _m: replacement, page)
+    lines = list(re.finditer(r'^const N = .*;$', page, re.M))
+    if not lines:
+        raise RuntimeError('daily_latest.html 缺少 const N 快讯兜底块')
+    updated = page[:lines[0].start()] + replacement
+    cursor = lines[0].end()
+    for match in lines[1:]:
+        updated += page[cursor:match.start()]
+        cursor = match.end()
+    updated += page[cursor:]
+    if re.search(r'^(<<<<<<<|=======|>>>>>>>)', updated, re.M):
+        raise RuntimeError('daily_latest.html 仍有 Git 冲突标记，停止写入')
+    if len(re.findall(r'^const N = .*;$', updated, re.M)) != 1:
+        raise RuntimeError('daily_latest.html 快讯兜底块去重失败')
+    open(path, 'w', encoding='utf-8').write(updated)
 
 
 def main():
