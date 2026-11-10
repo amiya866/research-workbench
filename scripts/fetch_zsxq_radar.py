@@ -104,6 +104,10 @@ def main():
                          'pdf_name': pdg.get('name'), 'pts': pts[:6], 'pdf_href': href})
     pdfs.sort(key=lambda x: (x.get('date') or ''), reverse=True)
     pdfs = pdfs[:PDF_MAX]
+    keep_pdfs = {p['pdf_href'].rsplit('/', 1)[-1] for p in pdfs if p.get('pdf_href')}
+    for name in os.listdir(OUT_PDFS):
+        if name.endswith('.pdf') and name not in keep_pdfs:
+            os.remove(os.path.join(OUT_PDFS, name))
 
     # 市场观点：宏观外汇/观点讨论/权益策略 高质量条目（宏观与股市强相关）
     opinions = []
