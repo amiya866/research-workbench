@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10 04:47",
+ "updated": "2026-11-10 08:22",
  "asof": "2026-11-10",
  "regime": {
   "stage": 2,
@@ -91,7 +91,7 @@
     "id": "MOVE_X",
     "name": "MOVE",
     "z": 0.71,
-    "chg63": 10.524,
+    "chg63": 10.52,
     "triggered": false
    }
   ],
