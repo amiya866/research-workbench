@@ -20,7 +20,7 @@ SHFE_CSV = Path(r'D:/Kimi/有色截面配置_2026/_价格缓存.csv')
 LME_CSV = Path(r'D:/Kimi/有色截面配置_2026/_LME价格缓存.csv')
 FINANCIAL = Path(r'D:/Kimi/金属总网/网站构建/财报汇总/铝/全球铝企季度产量梳理.xlsx')
 META = BASE / 'data' / 'aluminum_weekly_freshness.json'
-NBS_SUPPLEMENT = {
+OFFICIAL_SUPPLEMENT = {
     'a10102727': {
         'points': [('2026-07-31', 19195), ('2026-08-31', 21097), ('2026-09-30', 23271)],
         'source': '国家统计局房地产开发投资月报（累计值）',
@@ -30,6 +30,11 @@ NBS_SUPPLEMENT = {
         'points': [('2026-07-31', 1803.4), ('2026-08-31', 1495.2), ('2026-09-30', 1657.4)],
         'source': '国家统计局工业生产数据（Mysteel转载，单月产量）',
         'url': 'https://m.mysteel.com/a/26102109/7ECBA7C85219AC02_abc.html',
+    },
+    'a12750799': {
+        'points': [('2026-10-31', 59.4)],
+        'source': '海关总署统计快讯（Mysteel转载，2026-11-10）',
+        'url': 'https://youse.mysteel.com/a/26111010/0AAF956FA7567CDD.html',
     },
 }
 
@@ -59,8 +64,8 @@ def series(conn, ind_id, name, unit):
             'borderColor': '#1F4E79', 'backgroundColor': '#1F4E79', 'borderWidth': 1.6}], '_type': 'line'}, unit
 
 
-def supplement_nbs(charts, source_meta):
-    for key, supplement in NBS_SUPPLEMENT.items():
+def supplement_official(charts, source_meta):
+    for key, supplement in OFFICIAL_SUPPLEMENT.items():
         chart = charts[key]
         points = dict(zip(chart['labels'], chart['datasets'][0]['data']))
         points.update(supplement['points'])
@@ -68,6 +73,7 @@ def supplement_nbs(charts, source_meta):
         chart['labels'] = [row[0] for row in rows]
         chart['datasets'][0]['data'] = [row[1] for row in rows]
         source_meta[key] = {'type': 'zhiji+官方补充', 'indicator': key,
+                            'unit': (source_meta.get(key) or {}).get('unit'),
                             'source': supplement['source'], 'url': supplement['url']}
 
 
@@ -245,7 +251,7 @@ def main():
         names[key] = {'overview_shfe': '沪铝主连', 'overview_lme': 'LME铝', 'overview_global_stock': '全球显性库存'}[key]
     if not shared.last_point(charts['overview_shfe']):
         raise RuntimeError('核心沪铝行情无有效数据，保留上一成功版并中止重建')
-    supplement_nbs(charts, source_meta)
+    supplement_official(charts, source_meta)
     warnings = recover_previous_charts(charts, source_meta)
     if not shared.last_point(charts['overview_shfe']):
         raise RuntimeError('核心沪铝行情当前与上一成功版均无有效数据，中止重建')
