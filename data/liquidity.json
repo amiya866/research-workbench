@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-11 07:51",
+ "updated": "2026-11-11 19:50",
  "asof": "2026-11-12",
  "regime": {
   "stage": 2,
@@ -7,7 +7,7 @@
   "desc": "ON RRP近枯竭→银行准备金边际定价, TGCR/SOFR对供给冲击更敏感(缩表阶段2)"
  },
  "stress": {
-  "value": 62.0,
+  "value": 61.7,
   "n_comp": 9,
   "components": [
    {
@@ -33,7 +33,7 @@
    {
     "id": "VIXCLS",
     "name": "VIX(股市波动)",
-    "pct": 63.1
+    "pct": 60.4
    },
    {
     "id": "MOVE_X",
@@ -83,8 +83,8 @@
    {
     "id": "VIXCLS",
     "name": "VIX",
-    "z": 0.87,
-    "chg63": 5.37,
+    "z": 0.78,
+    "chg63": 4.83,
     "triggered": false
    },
    {
@@ -235,11 +235,11 @@
   {
    "id": "vix",
    "name": "VIX(股市)",
-   "val": 19.92,
+   "val": 19.46,
    "unit": "点",
-   "date": "2026-11-09",
-   "chg": -5.72,
-   "pct": 63.1,
+   "date": "2026-11-10",
+   "chg": -0.46,
+   "pct": 60.4,
    "key": "VIXCLS"
   },
   {
