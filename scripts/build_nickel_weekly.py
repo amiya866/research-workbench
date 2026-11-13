@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""由 nickel-panel/data.json 生成与锡周报同版式的镍周报、摘要 JSON 和日报卡片。"""
+"""由 nickel-panel 数据生成镍周报、摘要和日报卡片，并同步中国平衡交互面板。"""
 import datetime
 import html
 import json
@@ -436,6 +436,24 @@ def chart_group(charts, keys):
     return ''.join(parts)
 
 
+def sync_china_balance():
+    source = Path(r'D:/Kimi/nickel-panel')
+    destination = OUT / 'balance'
+    assets = destination / 'assets'
+    data_dir = destination / 'data'
+    assets.mkdir(parents=True, exist_ok=True)
+    data_dir.mkdir(parents=True, exist_ok=True)
+    for name in ('china-balance.js', 'chart.umd.min.js', 'ni-insight.ico'):
+        shutil.copyfile(source / 'assets' / name, assets / name)
+    shutil.copyfile(source / 'data' / 'china_balance.json', data_dir / 'china_balance.json')
+    page = (source / 'china-balance.html').read_text(encoding='utf-8')
+    if 'const CHINA_BALANCE={};' in page:
+        raise RuntimeError('中国平衡尚未构建，请先运行 nickel-panel/scripts/build_china_balance.py')
+    page = page.replace('<a href="index.html#balance">返回镍市瞭望 →</a>',
+                        '<a href="../index.html#sumsec" target="_top">返回镍周报 →</a>')
+    (destination / 'index.html').write_text(page, encoding='utf-8')
+
+
 def main():
     data = json.loads(SOURCE.read_text(encoding='utf-8'))
     charts = data['charts']
@@ -542,6 +560,7 @@ def main():
     freshness = build_freshness(data)
     FRESHNESS_FILE.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
     OUT.mkdir(parents=True, exist_ok=True)
+    sync_china_balance()
     (OUT / 'lib').mkdir(exist_ok=True)
     for name in ('research.css', 'weekly_mobile.css', 'weekly_polish.css', 'weekly_mobile.js'):
         shutil.copyfile(BASE / 'tin-weekly' / name, OUT / name)

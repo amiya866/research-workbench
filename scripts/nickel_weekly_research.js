@@ -16,6 +16,7 @@ const NAV = [
     group('需求', [page('demand', '不锈钢与新能源')], true)
   ], true),
   group('研究工作台', [
+    {type: 'tool', id: 'china-balance', label: '中国平衡（可调）'},
     {type: 'tool', id: 'panel', label: '镍市瞭望'},
     {type: 'tool', id: 'framework', label: '原研究框架'},
     {type: 'tool', id: 'sources', label: '周报图表溯源'}
@@ -45,6 +46,7 @@ function buildNav(items, parent, depth = 0, label = '研究目录') {
 buildNav(NAV, treeNav);
 const toolPage = $('#toolPage'), toolFrame = $('#toolFrame');
 const toolUrls = {
+  'china-balance': ['中国平衡（全镍 / 电镍 / NPI / 不锈钢）', './balance/index.html'],
   panel: ['镍市瞭望', 'https://amiya866.github.io/nickel-panel/'],
   framework: ['原研究框架', 'https://amiya866.github.io/nickel-panel/framework.html'],
   sources: ['周报图表溯源', 'https://amiya866.github.io/nickel-panel/sources.html']
@@ -79,7 +81,9 @@ function showTool(toolId) {
   $('#toolTitle').textContent = tool[0]; $('#breadcrumb').innerHTML = `<span>研究工作台</span><span>${tool[0]}</span>`;
   if (toolFrame.dataset.tool !== toolId) { toolFrame.src = tool[1]; toolFrame.dataset.tool = toolId; }
   $$('.tree-link', treeNav).forEach(button => button.classList.remove('active'));
+  $$('.tree-link[data-tool]', treeNav).forEach(button => button.classList.toggle('active', button.dataset.tool === toolId));
   $('#researchSidebar').classList.remove('open'); document.title = `${tool[0]} · 研究周报 · 镍`;
+  if (location.protocol !== 'file:') history.replaceState(null, '', `./?tool=${encodeURIComponent(toolId)}`);
   window.scrollTo({top: 0, behavior: 'instant'});
 }
 treeNav.addEventListener('click', event => {
@@ -113,5 +117,9 @@ function applyView(mode) {
 }
 viewToggle.addEventListener('click', () => applyView(viewMode === 'mobile' ? 'desktop' : 'mobile'));
 window.addEventListener('resize', resizeCharts, {passive: true});
-const requested = new URLSearchParams(location.search).get('page') || anchorRoutes[location.hash] || 'sumsec';
-applyView(viewMode); showPage(registry.has(requested) ? requested : 'sumsec', false);
+const params = new URLSearchParams(location.search);
+const requested = params.get('page') || anchorRoutes[location.hash] || 'sumsec';
+const requestedTool = params.get('tool') || (location.hash === '#china-balance' ? 'china-balance' : null);
+applyView(viewMode);
+if (requestedTool && toolUrls[requestedTool]) showTool(requestedTool);
+else showPage(registry.has(requested) ? requested : 'sumsec', false);

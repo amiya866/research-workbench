@@ -24,6 +24,8 @@ CLASH_EXE = r'C:\Program Files\Miloucloud\clash-verge.exe'
 def ensure_proxy():
     """push 前确保 7897 在；不在拉起 clash-verge 并轮询最多 150s（2026-10-14 加，
     原 12s 固定等待不够 clash 起端口，曾致部署连续失败）"""
+    if not PROXY:
+        return True
     def alive():
         try:
             socket.create_connection(('127.0.0.1', 7897), timeout=3).close()

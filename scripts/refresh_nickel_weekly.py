@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""先刷新镍面板数据，再重建研究站镍周报；失败保留上一成功版。"""
+"""先刷新镍面板与中国平衡，再重建研究站镍周报并同步面板；失败保留上一成功版。"""
 import os
 import subprocess
 import sys
@@ -15,6 +15,13 @@ def main():
     p = subprocess.run([sys.executable, 'scripts/build_nickel_data.py', '--inject'], cwd=SOURCE,
                        env=env, capture_output=True, text=True, encoding='utf-8', errors='replace',
                        timeout=900, creationflags=NW)
+    print('\n'.join((p.stdout or '').splitlines()[-12:]))
+    if p.returncode:
+        print(p.stderr[-1200:], file=sys.stderr)
+        return p.returncode
+    p = subprocess.run([sys.executable, 'scripts/build_china_balance.py'], cwd=SOURCE,
+                       env=env, capture_output=True, text=True, encoding='utf-8', errors='replace',
+                       timeout=300, creationflags=NW)
     print('\n'.join((p.stdout or '').splitlines()[-12:]))
     if p.returncode:
         print(p.stderr[-1200:], file=sys.stderr)
