@@ -1,6 +1,6 @@
 {
-  "asof": "2026-11-08",
-  "built_at": "2026-11-08T09:52:31+08:00",
+  "asof": "2026-11-13",
+  "built_at": "2026-11-13T15:51:37+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,8 +32,8 @@
     ]
   },
   "summary": {
-    "fresh": 27,
-    "watch": 0,
+    "fresh": 23,
+    "watch": 4,
     "stale": 16,
     "missing": 1,
     "review": 7,
@@ -65,7 +65,7 @@
       "latest": "08",
       "latest_value": "195,300",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -80,7 +80,7 @@
       "latest": "08",
       "latest_value": "41,200",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -95,7 +95,7 @@
       "latest": "08",
       "latest_value": "67,600",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -110,7 +110,7 @@
       "latest": "08",
       "latest_value": "11,000",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -125,7 +125,7 @@
       "latest": "08",
       "latest_value": "44.57",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -140,7 +140,7 @@
       "latest": "08",
       "latest_value": "14.09",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -155,7 +155,7 @@
       "latest": "2026-10-09",
       "latest_value": "0.89",
       "latest_iso": "2026-10-09",
-      "age_days": 30,
+      "age_days": 35,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -170,7 +170,7 @@
       "latest": "02-04",
       "latest_value": "48,072",
       "latest_iso": "2026-02-04",
-      "age_days": 277,
+      "age_days": 282,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -185,7 +185,7 @@
       "latest": "2026-10-08",
       "latest_value": "250,866",
       "latest_iso": "2026-10-08",
-      "age_days": 31,
+      "age_days": 36,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -200,7 +200,7 @@
       "latest": "2026-10-09",
       "latest_value": "-71.91",
       "latest_iso": "2026-10-09",
-      "age_days": 30,
+      "age_days": 35,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -215,7 +215,7 @@
       "latest": "2026-10-09",
       "latest_value": "-4.17",
       "latest_iso": "2026-10-09",
-      "age_days": 30,
+      "age_days": 35,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -230,7 +230,7 @@
       "latest": "08",
       "latest_value": "97.38",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -245,7 +245,7 @@
       "latest": "08",
       "latest_value": "15.76",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -260,7 +260,7 @@
       "latest": "08",
       "latest_value": "1.43",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -275,7 +275,7 @@
       "latest": "08",
       "latest_value": "0.35",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -290,7 +290,7 @@
       "latest": "08",
       "latest_value": "62.05",
       "latest_iso": "2026-08-01",
-      "age_days": 99,
+      "age_days": 104,
       "status": "stale",
       "status_label": "滞后",
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
@@ -395,10 +395,70 @@
       "latest": "12",
       "latest_value": "8,000",
       "latest_iso": "2026-12-01",
-      "age_days": -23,
+      "age_days": -18,
       "status": "review",
       "status_label": "待核",
       "action": "最新标签晚于当前日，需核对是否为预测、排产或未来占位。"
+    },
+    {
+      "key": "import_profit",
+      "name": "精炼镍进口盈亏",
+      "module": "价格与结构",
+      "source": "Mysteel镜像 —（失败刷新保留自 2026-11-08T09:21:50）",
+      "frequency": "日度",
+      "unit": "元/吨",
+      "latest": "2026-11-05",
+      "latest_value": "396.6",
+      "latest_iso": "2026-11-05",
+      "age_days": 8,
+      "status": "watch",
+      "status_label": "关注",
+      "action": "接近滞后期，保留使用并加强观察。"
+    },
+    {
+      "key": "lme03",
+      "name": "LME镍0-3升贴水",
+      "module": "价格与结构",
+      "source": "zhiji a10018357（失败刷新保留自 2026-11-08T09:21:50）",
+      "frequency": "日度",
+      "unit": "美元/吨",
+      "latest": "2026-11-05",
+      "latest_value": "-185.0",
+      "latest_iso": "2026-11-05",
+      "age_days": 8,
+      "status": "watch",
+      "status_label": "关注",
+      "action": "接近滞后期，保留使用并加强观察。"
+    },
+    {
+      "key": "overview_lme",
+      "name": "LME镍3M",
+      "module": "价格与结构",
+      "source": "zhiji FU00014810（失败刷新保留自 2026-11-08T09:21:50）",
+      "frequency": "日度",
+      "unit": "美元/吨",
+      "latest": "2026-11-05",
+      "latest_value": "16,265",
+      "latest_iso": "2026-11-05",
+      "age_days": 8,
+      "status": "watch",
+      "status_label": "关注",
+      "action": "接近滞后期，保留使用并加强观察。"
+    },
+    {
+      "key": "inventory_bean",
+      "name": "镍豆库存",
+      "module": "库存与仓单",
+      "source": "zhiji a10018954（失败刷新保留自 2026-11-08T09:21:50）",
+      "frequency": "周度",
+      "unit": "吨",
+      "latest": "2026-10-30",
+      "latest_value": "0",
+      "latest_iso": "2026-10-30",
+      "age_days": 14,
+      "status": "watch",
+      "status_label": "关注",
+      "action": "接近滞后期，保留使用并加强观察。"
     },
     {
       "key": "demand_ss_cn",
@@ -410,7 +470,7 @@
       "latest": "10",
       "latest_value": "181.0",
       "latest_iso": "2026-10-01",
-      "age_days": 38,
+      "age_days": 43,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -425,37 +485,7 @@
       "latest": "10",
       "latest_value": "40",
       "latest_iso": "2026-10-01",
-      "age_days": 38,
-      "status": "fresh",
-      "status_label": "正常",
-      "action": "按源口径使用，随自动链更新。"
-    },
-    {
-      "key": "import_profit",
-      "name": "精炼镍进口盈亏",
-      "module": "价格与结构",
-      "source": "Mysteel镜像 —（失败刷新保留自 2026-11-08T09:21:50）",
-      "frequency": "日度",
-      "unit": "元/吨",
-      "latest": "2026-11-05",
-      "latest_value": "396.6",
-      "latest_iso": "2026-11-05",
-      "age_days": 3,
-      "status": "fresh",
-      "status_label": "正常",
-      "action": "按源口径使用，随自动链更新。"
-    },
-    {
-      "key": "lme03",
-      "name": "LME镍0-3升贴水",
-      "module": "价格与结构",
-      "source": "zhiji a10018357（失败刷新保留自 2026-11-08T09:21:50）",
-      "frequency": "日度",
-      "unit": "美元/吨",
-      "latest": "2026-11-05",
-      "latest_value": "-185.0",
-      "latest_iso": "2026-11-05",
-      "age_days": 3,
+      "age_days": 43,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -470,22 +500,7 @@
       "latest": "10-10",
       "latest_value": "1,055",
       "latest_iso": "2026-10-10",
-      "age_days": 29,
-      "status": "fresh",
-      "status_label": "正常",
-      "action": "按源口径使用，随自动链更新。"
-    },
-    {
-      "key": "overview_lme",
-      "name": "LME镍3M",
-      "module": "价格与结构",
-      "source": "zhiji FU00014810（失败刷新保留自 2026-11-08T09:21:50）",
-      "frequency": "日度",
-      "unit": "美元/吨",
-      "latest": "2026-11-05",
-      "latest_value": "16,265",
-      "latest_iso": "2026-11-05",
-      "age_days": 3,
+      "age_days": 34,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -500,7 +515,7 @@
       "latest": "2026-11-06",
       "latest_value": "122,740",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -515,7 +530,7 @@
       "latest": "2026-11-06",
       "latest_value": "14,135",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -530,7 +545,7 @@
       "latest": "2026-11-06",
       "latest_value": "-200.0",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -545,7 +560,7 @@
       "latest": "2026-11-06",
       "latest_value": "-200.0",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -560,7 +575,7 @@
       "latest": "2026-11-06",
       "latest_value": "2,900",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -575,7 +590,7 @@
       "latest": "2026-11-06",
       "latest_value": "200.0",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -590,7 +605,7 @@
       "latest": "2026-11-06",
       "latest_value": "1.18",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -605,22 +620,7 @@
       "latest": "2026-11-06",
       "latest_value": "8.68",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
-      "status": "fresh",
-      "status_label": "正常",
-      "action": "按源口径使用，随自动链更新。"
-    },
-    {
-      "key": "inventory_bean",
-      "name": "镍豆库存",
-      "module": "库存与仓单",
-      "source": "zhiji a10018954（失败刷新保留自 2026-11-08T09:21:50）",
-      "frequency": "周度",
-      "unit": "吨",
-      "latest": "2026-10-30",
-      "latest_value": "0",
-      "latest_iso": "2026-10-30",
-      "age_days": 9,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -635,7 +635,7 @@
       "latest": "10-09",
       "latest_value": "282,864",
       "latest_iso": "2026-10-09",
-      "age_days": 30,
+      "age_days": 35,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -650,7 +650,7 @@
       "latest": "2026-11-06",
       "latest_value": "382,771",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -665,7 +665,7 @@
       "latest": "2026-11-06",
       "latest_value": "239,788",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -680,7 +680,7 @@
       "latest": "2026-11-06",
       "latest_value": "366,027",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -695,7 +695,7 @@
       "latest": "2026-11-06",
       "latest_value": "50.5",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -710,7 +710,7 @@
       "latest": "2026-11-06",
       "latest_value": "7,400",
       "latest_iso": "2026-11-06",
-      "age_days": 2,
+      "age_days": 7,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -725,7 +725,7 @@
       "latest": "2026Q2",
       "latest_value": "9,165",
       "latest_iso": "2026-06-30",
-      "age_days": 131,
+      "age_days": 136,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -740,7 +740,7 @@
       "latest": "2026Q2",
       "latest_value": "13,895",
       "latest_iso": "2026-06-30",
-      "age_days": 131,
+      "age_days": 136,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -755,7 +755,7 @@
       "latest": "2026-09-30",
       "latest_value": "47,419",
       "latest_iso": "2026-09-30",
-      "age_days": 39,
+      "age_days": 44,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -770,7 +770,7 @@
       "latest": "10",
       "latest_value": "2.72",
       "latest_iso": "2026-10-01",
-      "age_days": 38,
+      "age_days": 43,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -785,7 +785,7 @@
       "latest": "10",
       "latest_value": "14.9",
       "latest_iso": "2026-10-01",
-      "age_days": 38,
+      "age_days": 43,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
@@ -800,7 +800,7 @@
       "latest": "10",
       "latest_value": "28,375",
       "latest_iso": "2026-10-01",
-      "age_days": 38,
+      "age_days": 43,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"

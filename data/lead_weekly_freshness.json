@@ -1,6 +1,6 @@
 {
   "asof": "2026-11-13",
-  "built_at": "2026-11-13T09:27:44+08:00",
+  "built_at": "2026-11-13T15:35:47+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,14 +32,29 @@
     ]
   },
   "summary": {
-    "fresh": 22,
+    "fresh": 21,
     "watch": 0,
     "stale": 2,
-    "missing": 0,
+    "missing": 1,
     "review": 0,
     "total": 24
   },
   "rows": [
+    {
+      "key": "overview_lme03",
+      "name": "LME 铅 0-3 升贴水",
+      "module": "价格与结构",
+      "source": "westmetall cash-3M",
+      "frequency": "标签型",
+      "unit": "—",
+      "latest": "—",
+      "latest_value": "—",
+      "latest_iso": "",
+      "age_days": null,
+      "status": "missing",
+      "status_label": "缺失",
+      "action": "未找到可靠同口径源；保留空态，不补0、不用其他指标硬替。"
+    },
     {
       "key": "overview_domestic_premium",
       "name": "1#铅锭升贴水（华东）",
@@ -79,21 +94,6 @@
       "unit": "美元/吨",
       "latest": "2026-11-12",
       "latest_value": "1,882",
-      "latest_iso": "2026-11-12",
-      "age_days": 1,
-      "status": "fresh",
-      "status_label": "正常",
-      "action": "按源口径使用，随自动链更新。"
-    },
-    {
-      "key": "overview_lme03",
-      "name": "LME 铅 0-3 升贴水",
-      "module": "价格与结构",
-      "source": "westmetall cash-3M",
-      "frequency": "日度",
-      "unit": "—",
-      "latest": "2026-11-12",
-      "latest_value": "-36",
       "latest_iso": "2026-11-12",
       "age_days": 1,
       "status": "fresh",
@@ -212,10 +212,10 @@
       "source": "zhiji a10127388",
       "frequency": "日度",
       "unit": "元/吨",
-      "latest": "2026-11-11",
+      "latest": "2026-11-12",
       "latest_value": "1,075",
-      "latest_iso": "2026-11-11",
-      "age_days": 2,
+      "latest_iso": "2026-11-12",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
