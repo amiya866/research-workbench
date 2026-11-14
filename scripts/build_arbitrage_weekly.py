@@ -3,6 +3,7 @@ import datetime as dt
 import json
 import math
 import os
+import shutil
 import sqlite3
 import sys
 from pathlib import Path
@@ -20,6 +21,7 @@ SMM_DB = Path(r'D:/Kimi/smm_mirror/smm_mirror.db')
 SPOT = {'LC': ('202212050001', 'SMM电池级碳酸锂指数'), 'SI': ('201812270002', '通氧553#硅(华东)')}
 NAMES = {'CU': '铜', 'AL': '铝', 'ZN': '锌', 'PB': '铅', 'NI': '镍', 'SN': '锡', 'LC': '碳酸锂', 'SI': '工业硅'}
 WEEKLY_LINKS = {'CU': 'copper-weekly', 'AL': 'aluminum-weekly', 'ZN': 'zinc-weekly', 'PB': 'lead-weekly', 'NI': 'nickel-weekly', 'SN': 'tin-weekly'}
+WARNINGS = []
 
 
 def finite(value):
@@ -79,9 +81,21 @@ def build_metal(sym, name, indicator, field, fx, offline):
         shfe = arb.load_csv(str(Path(arb.DATADIR) / f'arb6_{sym}_shfe.csv'))
         lme = load_lme(sym)
     else:
-        imp = arb.get_imp(sym, indicator)
-        shfe = arb.get_shfe(sym)
-        lme = arb.get_lme(sym, field)
+        try:
+            imp = arb.get_imp(sym, indicator)
+        except Exception as exc:
+            imp = arb.load_csv(str(Path(arb.DATADIR) / f'arb6_{sym}_imp.csv'))
+            WARNINGS.append(f'{sym} 进口盈亏接口失败，使用缓存：{str(exc)[:120]}')
+        try:
+            shfe = arb.get_shfe(sym)
+        except Exception as exc:
+            shfe = arb.load_csv(str(Path(arb.DATADIR) / f'arb6_{sym}_shfe.csv'))
+            WARNINGS.append(f'{sym} SHFE接口失败，使用缓存：{str(exc)[:120]}')
+        try:
+            lme = arb.get_lme(sym, field)
+        except Exception as exc:
+            lme = load_lme(sym)
+            WARNINGS.append(f'{sym} LME接口失败，使用缓存：{str(exc)[:120]}')
     days = sorted(set(imp) & set(shfe) & set(lme) & set(fx))
     if not days:
         raise RuntimeError(f'{sym} 没有共同交易日')
@@ -118,7 +132,7 @@ def build_metal(sym, name, indicator, field, fx, offline):
 
 
 def build_spot(sym, offline):
-    futures = arb.load_csv(str(Path(arb.DATADIR) / f'arb6_{sym}_shfe.csv') if offline else arb.get_shfe(sym)
+    futures = arb.load_csv(str(Path(arb.DATADIR) / f'arb6_{sym}_shfe.csv')) if offline else arb.get_shfe(sym)
     item_id, source_name = SPOT[sym]
     spot = spot_series(item_id)
     days = sorted(set(futures) & set(spot))
@@ -163,6 +177,7 @@ def build(offline=False):
         'meta': {
             'builtAt': dt.datetime.now().isoformat(timespec='seconds'),
             'latest': max(panel['last'] for panel in panels),
+            'warnings': WARNINGS,
             'notes': ['正套=买LME/空SHFE；反套=买SHFE/空LME。', '窗口和历史统计需同时满足，候选不等于无条件交易指令。', '碳酸锂与工业硅没有LME对应合约，仅做期现基差观察。'],
         },
         'panels': panels,
@@ -188,11 +203,20 @@ def validate(payload):
         assert panel['last'] >= '2026-01-01', panel['symbol']
         if panel['kind'] == 'lme-shfe':
             assert panel['ratio'] > 0 and panel['eq'] > 0 and panel['fx'] > 0
+            scenario_imp = panel['shfe'] - (panel['lmeCash'] + panel['scenario']['premium']) * panel['fx'] * 1.13 - panel['scenario']['otherCost']
+            assert abs(scenario_imp - panel['imp']) < 0.02, f"{panel['symbol']} 情景基准不闭合"
         else:
             assert panel['spot'] > 0 and panel['futures'] > 0
 
 
 def write_outputs(payload, inject=True):
+    template = BASE / 'scripts' / 'templates' / 'arbitrage-weekly'
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(template / 'index.html', PAGE)
+    (OUT_DIR / 'assets').mkdir(exist_ok=True)
+    shutil.copyfile(template / 'assets' / 'app.js', OUT_DIR / 'assets' / 'app.js')
+    (OUT_DIR / 'lib').mkdir(exist_ok=True)
+    shutil.copyfile(BASE / 'tin-weekly' / 'lib' / 'chart.min.js', OUT_DIR / 'lib' / 'chart.min.js')
     OUT.parent.mkdir(parents=True, exist_ok=True)
     if OUT.exists():
         PREVIOUS.write_bytes(OUT.read_bytes())

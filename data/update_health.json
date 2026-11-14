@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-14T16:35:18+08:00",
+  "built_at": "2026-11-14T16:54:30+08:00",
   "overall": "有需要检查项",
   "rows": [
     {
@@ -16,19 +16,19 @@
     },
     {
       "label": "宏观序列与图表",
-      "value": "2026-11-14 16:12 北京",
+      "value": "2026-11-14 15:42 北京",
       "status": "ok",
       "note": "RwBenchDaily 全链"
     },
     {
       "label": "美元流动性",
-      "value": "2026-11-14 16:07",
+      "value": "2026-11-14 07:42",
       "status": "ok",
       "note": "FRED/央行公开数据，按各自发布频率"
     },
     {
       "label": "FedWatch",
-      "value": "2026-11-14 16:18 BJT",
+      "value": "2026-11-14 01:09 BJT",
       "status": "ok",
       "note": "CME官方条件概率表"
     },
@@ -40,20 +40,20 @@
     },
     {
       "label": "共识日历",
-      "value": "2026-11-14 16:15 BJT",
+      "value": "2026-11-14 11:36 BJT",
       "status": "ok",
       "note": "投行/机构一致预期"
     },
     {
       "label": "CFTC持仓",
-      "value": "2026-11-14 16:08 北京",
+      "value": "2026-11-14 15:42 北京",
       "status": "ok",
       "note": "周度持仓，抓取时间不等于报告期"
     },
     {
       "label": "新出数据",
-      "value": "2026-11-14 16:19",
-      "status": "ok",
+      "value": "2026-11-14 11:32",
+      "status": "warn",
       "note": "快讯中识别的官方发布"
     },
     {
@@ -64,8 +64,8 @@
     },
     {
       "label": "预测市场",
-      "value": "2026-11-11T19:49:58.736918Z",
-      "status": "warn",
+      "value": "2026-11-14T07:29:28.749191Z",
+      "status": "ok",
       "note": "Polymarket公开行情"
     },
     {
@@ -84,7 +84,7 @@
       "label": "官方发布分项",
       "value": "nfp=2026-10；cpi=2026-10；ppi=2026-10；gdp=2026Q3；pce_price=2026M09；pce_real=2026M09；fomc=2026-09-17",
       "status": "bad",
-      "note": "旧值块：pce_real"
+      "note": "旧值块：gdp,pce_price,pce_real"
     },
     {
       "label": "锡研究周报",
@@ -126,10 +126,10 @@
   "tasks": [
     {
       "name": "RwBenchDaily",
-      "state": "Running",
+      "state": "Ready",
       "last": "2026-11-14 16:10:16",
       "next": "2026-11-14 20:40:00",
-      "result": 2147946720
+      "result": 0
     },
     {
       "name": "RwBenchQuick",

@@ -13,7 +13,7 @@
     },
     {
       "name": "需求与成交",
-      "value": "社库仍低与海外back提供支撑，下游日均成交336吨较上周264吨回升，低价补库弹性有所兑现。"
+      "value": "社库仍低与海外back提供支撑，下游日均成交143吨较上周336吨回落，低价补库弹性有所走弱。"
     },
     {
       "name": "本周策略",
@@ -24,9 +24,9 @@
   "local_url": "tin-weekly/#sumsec",
   "source_sha256": "f651757ec1e1abaecade4d14c230cc9d53c176a08345c1691bb25a1b1d9d2b82",
   "asset_count": 543,
-  "synced_at": "2026-11-14T16:30:17+08:00",
+  "synced_at": "2026-11-14T16:47:40+08:00",
   "sync_status": "ok",
   "last_error": "",
   "local_summary_source": "D:\\拷贝文件\\E\\永安\\周报数据更新\\图表格式(1)\\锡周报20260709_试跑\\周报更新图\\锡周报20261114.pptx",
-  "local_summary_sha256": "5f53dc5a06b787d9c2f952445c10f28abc7a847325be05f6de98c7f6756e320a"
+  "local_summary_sha256": "3a891323564a58cdc801dcccf4a63d70ab86c4e10ac6448d80fafa63e42ec79f"
 }
