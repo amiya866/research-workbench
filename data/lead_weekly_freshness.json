@@ -1,6 +1,6 @@
 {
   "asof": "2026-11-14",
-  "built_at": "2026-11-14T16:17:37+08:00",
+  "built_at": "2026-11-14T16:32:33+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -212,10 +212,10 @@
       "source": "zhiji a10127388",
       "frequency": "日度",
       "unit": "元/吨",
-      "latest": "2026-11-12",
+      "latest": "2026-11-13",
       "latest_value": "1,075",
-      "latest_iso": "2026-11-12",
-      "age_days": 2,
+      "latest_iso": "2026-11-13",
+      "age_days": 1,
       "status": "fresh",
       "status_label": "正常",
       "action": "按源口径使用，随自动链更新。"
