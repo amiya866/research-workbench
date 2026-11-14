@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""同步锡研究周报全文与静态资源，并更新日报/分品种页摘要。用法：python scripts/fetch_tin_weekly.py [--force]"""
+"""先重建锡矿/锡锭平衡，再同步锡研究周报全文、静态资源与日报摘要。用法：python scripts/fetch_tin_weekly.py [--force]"""
 import concurrent.futures
 import datetime
 import hashlib
@@ -193,6 +193,12 @@ def main():
     previous = load_json(META, {}) or {}
     state = load_json(STATE, {}) or {}
     try:
+        balance = subprocess.run([sys.executable, str(BASE / 'scripts' / 'build_tin_balance.py')],
+                                 cwd=BASE, capture_output=True, text=True, encoding='utf-8', errors='replace',
+                                 timeout=240, creationflags=NW)
+        print(balance.stdout, flush=True)
+        if balance.returncode:
+            raise RuntimeError('锡矿/锡锭平衡构建失败：%s' % balance.stderr[-500:])
         raw = fetch(SOURCE)
         page = raw.decode('utf-8-sig')
         if '<div id="sumsec">' not in page or 'class="tone"' not in page:

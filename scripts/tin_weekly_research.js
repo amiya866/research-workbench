@@ -18,6 +18,7 @@ const NAV = [
   page('technical', '技术分析'),
   page('detailed', '详细周报'),
   group('研究工作台', [
+    {type: 'tool', id: 'tin-balance', label: '锡矿/锡锭平衡（可调）'},
     {type: 'tool', id: 'upstream', label: '原版全文'},
     {type: 'tool', id: 'insight', label: '锡息相关'},
     {type: 'tool', id: 'archive', label: '周报留档'}
@@ -47,6 +48,7 @@ function buildNav(items, parent, depth = 0, label = '研究目录') {
 buildNav(NAV, treeNav);
 const toolPage = $('#toolPage'), toolFrame = $('#toolFrame');
 const toolUrls = {
+  'tin-balance': ['锡矿 / 锡锭平衡（可调）', './balance/index.html'],
   upstream: ['原版全文', './upstream.html'],
   insight: ['锡息相关', 'https://amiya866.github.io/tin-insight/'],
   archive: ['周报留档', 'https://gsy1005.github.io/tin-research/weekly_archive.html']
@@ -82,7 +84,9 @@ function showTool(toolId) {
   $('#toolTitle').textContent = tool[0]; $('#breadcrumb').innerHTML = `<span>研究工作台</span><span>${tool[0]}</span>`;
   if (toolFrame.dataset.tool !== toolId) { toolFrame.src = tool[1]; toolFrame.dataset.tool = toolId; }
   $$('.tree-link', treeNav).forEach(button => button.classList.remove('active'));
+  $$('.tree-link[data-tool]', treeNav).forEach(button => button.classList.toggle('active', button.dataset.tool === toolId));
   $('#researchSidebar').classList.remove('open'); document.title = `${tool[0]} · 研究周报 · 锡`;
+  if (location.protocol !== 'file:') history.replaceState(null, '', `./?tool=${encodeURIComponent(toolId)}`);
   window.scrollTo({top: 0, behavior: 'instant'});
 }
 treeNav.addEventListener('click', event => {
@@ -191,5 +195,9 @@ function initTechnical() {
     id('techGrid').innerHTML = '<div class="tech-note">暂时无法读取技术快照，请稍后刷新重试。</div>';
   }).finally(() => { technicalLoading = false; });
 }
-const requested = new URLSearchParams(location.search).get('page') || anchorRoutes[location.hash] || 'sumsec';
-applyView(viewMode); showPage(registry.has(requested) ? requested : 'sumsec', false);
+const params = new URLSearchParams(location.search);
+const requested = params.get('page') || anchorRoutes[location.hash] || 'sumsec';
+const requestedTool = params.get('tool') || (location.hash === '#tin-balance' ? 'tin-balance' : null);
+applyView(viewMode);
+if (requestedTool && toolUrls[requestedTool]) showTool(requestedTool);
+else showPage(registry.has(requested) ? requested : 'sumsec', false);
