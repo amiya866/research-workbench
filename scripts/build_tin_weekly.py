@@ -265,6 +265,8 @@ def main():
     tmp = OUT / 'index.html.tmp'
     tmp.write_text(doc, encoding='utf-8')
     os.replace(tmp, OUT / 'index.html')
+    from update_tin_weekly_local import main as update_local_summary
+    update_local_summary()
     print(json.dumps({'output': str(OUT / 'index.html'), 'asof': asof, 'charts': len(charts),
                       'freshness': freshness['summary'], 'technical': technical.get('updated_at')}, ensure_ascii=False))
 
