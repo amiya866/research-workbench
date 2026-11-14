@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from pptx import Presentation
+from tin_weekly_ai import generate_ai_narrative
 
 BASE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BASE / 'scripts'))
@@ -47,13 +48,10 @@ def main():
     if len(strategy) < 6:
         raise RuntimeError('锡周报综述页段落结构不完整')
 
-    headline = '本周定调：周度仍偏空（中性偏谨慎）。%s。%s' % (cell(0, 1), strategy[-1])
-    metrics = [
-        {'name': '本周价格', 'value': strategy[0]},
-        {'name': '库存与结构', 'value': strategy[2].replace('基本面评述：', '')},
-        {'name': '需求与成交', 'value': strategy[3]},
-        {'name': '本周策略', 'value': strategy[-1]},
-    ]
+    table_text = '\n'.join(' | '.join(plain(table.cell(r, c).text) for c in range(3)) for r in range(6))
+    narrative, narrative_model = generate_ai_narrative(ppt, table_text, strategy, asof.isoformat())
+    headline = narrative['headline']
+    metrics = narrative['metrics']
 
     def summary_row(label, datum, conclusion, direction):
         cls = 'up' if '多' in direction else ('dn' if '空' in direction or '谨慎' in direction else 'nt')
@@ -61,17 +59,8 @@ def main():
                 '<td><span class="dir %s">%s</span></td></tr>') % tuple(
                     html.escape(str(v)) for v in (label, datum, conclusion, cls, direction))
 
-    supply = '<br>'.join(html.escape(v) for v in lines(table.cell(1, 2).text))
-    demand = '<br>'.join(html.escape(v) for v in lines(table.cell(2, 2).text))
-    inventory = '<br>'.join(html.escape(v) for v in lines(table.cell(3, 2).text))
-    rows = [
-        summary_row('价格', cell(0, 1), '价格破位，低库存托底但结构走弱', '偏空'),
-        '<tr><td class="c">供应</td><td>%s</td><td>%s</td><td><span class="dir dn">偏空</span></td></tr>' % (supply, html.escape(cell(1, 1))),
-        '<tr><td class="c">需求</td><td>%s</td><td>%s</td><td><span class="dir nt">中性</span></td></tr>' % (demand, html.escape(cell(2, 1))),
-        '<tr><td class="c">库存</td><td>%s</td><td>%s</td><td><span class="dir up">利多</span></td></tr>' % (inventory, html.escape(cell(3, 1))),
-        summary_row('策略', strategy[-1], strategy[-2], '偏空·谨慎'),
-        summary_row('关注点', cell(5, 1), '下周验证清单', '跟踪'),
-    ]
+    rows = [summary_row(item['label'], item['datum'], item['conclusion'], item['direction'])
+            for item in narrative['summary']]
     summary = '<table class="sum"><tr><th>环节</th><th>相关数据与边际</th><th>周度结论</th><th>跟踪</th></tr>%s</table>' % ''.join(rows)
 
     page = OUT.read_text(encoding='utf-8')
@@ -102,6 +91,8 @@ def main():
         'synced_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
         'sync_status': 'ok',
         'last_error': '',
+        'narrative_mode': 'ai-generated',
+        'narrative_model': narrative_model,
         'local_summary_source': str(ppt),
         'local_summary_sha256': hashlib.sha256(ppt.read_bytes()).hexdigest(),
     })
