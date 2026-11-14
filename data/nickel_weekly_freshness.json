@@ -1,6 +1,6 @@
 {
   "asof": "2026-11-14",
-  "built_at": "2026-11-14T16:56:00+08:00",
+  "built_at": "2026-11-14T21:09:39+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,8 +32,8 @@
     ]
   },
   "summary": {
-    "fresh": 32,
-    "watch": 5,
+    "fresh": 33,
+    "watch": 4,
     "stale": 9,
     "missing": 1,
     "review": 4,
@@ -194,11 +194,11 @@
       "key": "lme_curve",
       "name": "伦镍月间结构",
       "module": "价格与结构",
-      "source": "zhiji FU00014810/a10018357/j02797786/j02797787（失败刷新保留自 2026-11-14T16:29:53）",
+      "source": "zhiji FU00014810/a10018357/j02797786/j02797787",
       "frequency": "标签型",
       "unit": "美元/吨",
       "latest": "27M",
-      "latest_value": "17,787",
+      "latest_value": "17,711",
       "latest_iso": "",
       "age_days": null,
       "status": "review",
@@ -281,21 +281,6 @@
       "action": "接近滞后期，保留使用并加强观察。"
     },
     {
-      "key": "lme03",
-      "name": "LME镍0-3升贴水",
-      "module": "价格与结构",
-      "source": "zhiji a10018357（失败刷新保留自 2026-11-14T16:29:53）",
-      "frequency": "日度",
-      "unit": "美元/吨",
-      "latest": "2026-11-05",
-      "latest_value": "-185.0",
-      "latest_iso": "2026-11-05",
-      "age_days": 9,
-      "status": "watch",
-      "status_label": "关注",
-      "action": "接近滞后期，保留使用并加强观察。"
-    },
-    {
       "key": "supply_chrome_import",
       "name": "高碳铬铁进口量",
       "module": "成本与利润",
@@ -364,6 +349,21 @@
       "unit": "元/吨",
       "latest": "2026-11-13",
       "latest_value": "-173.0",
+      "latest_iso": "2026-11-13",
+      "age_days": 1,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
+      "key": "lme03",
+      "name": "LME镍0-3升贴水",
+      "module": "价格与结构",
+      "source": "zhiji a10018357",
+      "frequency": "日度",
+      "unit": "美元/吨",
+      "latest": "2026-11-13",
+      "latest_value": "-198.9",
       "latest_iso": "2026-11-13",
       "age_days": 1,
       "status": "fresh",
