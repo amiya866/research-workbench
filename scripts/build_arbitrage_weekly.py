@@ -39,6 +39,16 @@ DRIVERS = {
            'premium': ('s22715114', 'SMM 421#硅(广东)升贴水-平均价（非553同口径）')},
 }
 NAMES = {'CU': '铜', 'AL': '铝', 'ZN': '锌', 'PB': '铅', 'NI': '镍', 'SN': '锡', 'LC': '碳酸锂', 'SI': '工业硅'}
+FLOWS = {
+    'CU': ('import', 'a10014992', '中国海关电解铜进口量', '万吨', 1),
+    'AL': ('import', 'a10016192', '中国海关电解铝进口量', '吨', 1),
+    'ZN': ('import', 'a10018062', '中国海关精炼锌进口量', '吨', 1),
+    'PB': ('import', 'a12813951', '中国海关精炼铅进口量（原始单位千克，已换算为吨）', '吨', 0.001),
+    'NI': ('import', 'ID00188813', '中国海关未锻轧非合金镍进口量', '吨', 1),
+    'SN': ('import', 'a10003102', '中国海关未锻轧非合金锡进口量', '吨', 1),
+    'LC': ('import', 'a10009654', '中国海关碳酸锂进口量', '吨', 1),
+    'SI': ('export', 'a10020029', '中国海关金属硅出口量', '吨', 1),
+}
 WEEKLY_LINKS = {'CU': 'copper-weekly', 'AL': 'aluminum-weekly', 'ZN': 'zinc-weekly', 'PB': 'lead-weekly', 'NI': 'nickel-weekly', 'SN': 'tin-weekly'}
 WARNINGS = []
 
@@ -144,15 +154,71 @@ def mirror_stock_series(chart_code):
     return output
 
 
-def driver_metric(points, unit, source):
+def nearby_point(points, target, tolerance):
     if not points:
-        return {'value': None, 'change': None, 'date': None, 'unit': unit, 'source': source}
-    last = max(points)
-    target = (dt.date.fromisoformat(last) - dt.timedelta(days=20)).isoformat()
-    previous_candidates = [date for date in points if date <= target]
-    previous = max(previous_candidates) if previous_candidates else min(points)
-    return {'value': points[last], 'change': points[last] - points[previous], 'date': last,
-            'previousDate': previous, 'unit': unit, 'source': source}
+        return None
+    date = min(points, key=lambda item: abs((dt.date.fromisoformat(item) - target).days))
+    return date if abs((dt.date.fromisoformat(date) - target).days) <= tolerance else None
+
+
+def driver_metric(points, unit, source):
+    empty = {'value': None, 'change': None, 'date': None, 'unit': unit, 'source': source,
+             'history': [], 'pctRank': None, 'yoy': None, 'yoyChange': None,
+             'oneYearChange': None, 'high': None, 'low': None, 'fromHigh': None, 'level': '未核定'}
+    if not points:
+        return empty
+    ordered = sorted(points)
+    last = ordered[-1]
+    last_date = dt.date.fromisoformat(last)
+    previous = nearby_point(points, last_date - dt.timedelta(days=20), 15)
+    year_ago = nearby_point(points, last_date - dt.timedelta(days=365), 45)
+    values = list(points.values())
+    current = points[last]
+    high, low = max(values), min(values)
+    rank = pct_rank(values, current)
+    previous_year_value = points[year_ago] if year_ago else None
+    yoy_change = current - previous_year_value if previous_year_value is not None else None
+    yoy = yoy_change / abs(previous_year_value) * 100 if previous_year_value not in (None, 0) else None
+    return {
+        'value': current, 'change': current - points[previous] if previous else None,
+        'date': last, 'previousDate': previous, 'unit': unit, 'source': source,
+        'history': [{'date': date, 'value': points[date]} for date in ordered[-120:]],
+        'pctRank': rank, 'yoy': yoy, 'yoyChange': yoy_change, 'oneYearChange': yoy_change,
+        'yearAgoDate': year_ago, 'high': high, 'low': low,
+        'fromHigh': (current / high - 1) * 100 if high else None,
+        'level': '历史高位区' if rank >= 75 else ('历史低位区' if rank <= 25 else '历史中位区'),
+        'sampleStart': ordered[0],
+    }
+
+
+def build_flow(sym, offline, window_open=None):
+    direction, indicator, source, unit, scale = FLOWS[sym]
+    raw = indicator_series(indicator, offline)
+    points = {date: value * scale for date, value in raw.items() if finite(value)}
+    metric = driver_metric(points, unit, f'{source}｜知几 {indicator}')
+    if not points:
+        metric.update({'direction': direction, 'mom': None, 'momChange': None, 'status': '海关货流数据未核定',
+                       'indicator': indicator, 'note': '海关月度数据有发布滞后，不能证明当月窗口已经兑现。'})
+        return metric
+    ordered = sorted(points)
+    last = ordered[-1]
+    previous = ordered[-2] if len(ordered) > 1 else None
+    mom_change = points[last] - points[previous] if previous else None
+    mom = mom_change / abs(points[previous]) * 100 if previous and points[previous] else None
+    rising = mom_change is not None and mom_change > 0
+    noun = '进口' if direction == 'import' else '出口'
+    if window_open is True:
+        status = f'窗口后{noun}回升，货流初步验证' if rising else f'窗口开但当月{noun}未放量，待确认'
+    elif window_open is False:
+        status = f'窗口关闭但{noun}回升，关注边际变化' if rising else f'窗口关闭且{noun}未放量'
+    else:
+        status = f'{noun}环比回升，跟踪供给边际' if rising else f'{noun}环比回落，跟踪供给边际'
+    metric.update({
+        'direction': direction, 'mom': mom, 'momChange': mom_change, 'status': status,
+        'indicator': indicator, 'history': [{'date': date, 'value': points[date]} for date in ordered[-12:]],
+        'note': '海关月度数据有发布滞后，只能验证上一轮窗口后的实际货流，不能证明当月窗口已经兑现。',
+    })
+    return metric
 
 
 def build_drivers(sym, field, offline):
@@ -249,6 +315,7 @@ def build_metal(sym, name, indicator, field, fx, offline):
         'shfe': shfe_last, 'lmeCash': cash_last, 'lmeM3': m3_last, 'fx': fx_last,
         'scenario': {'premium': 0, 'otherCost': calibration},
         'history': history, 'weekly': WEEKLY_LINKS.get(sym), 'drivers': build_drivers(sym, field, offline),
+        'flow': build_flow(sym, offline, imp[last] > 0),
         'source': {'importProfit': indicator, 'lme': field, 'fx': 'CM00891264 / 历史缓存'},
     }
 
@@ -278,6 +345,7 @@ def build_spot(sym, offline):
         'basis': basis, 'basisPct': basis / spot[last] * 100, 'ratioPct': percentile,
         'spot': spot[last], 'futures': futures[last], 'history': history,
         'scenario': {'premium': 0, 'otherCost': 0}, 'weekly': None, 'drivers': build_drivers(sym, '', offline),
+        'flow': build_flow(sym, offline),
         'source': {'spot': f'SMM hq {item_id} {source_name}', 'futures': '知几 guan 主连日K'},
     }
 
