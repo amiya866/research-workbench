@@ -20,6 +20,7 @@ SHFE_CSV = Path(r'D:/Kimi/有色截面配置_2026/_价格缓存.csv')
 LME_CSV = Path(r'D:/Kimi/有色截面配置_2026/_LME价格缓存.csv')
 FINANCIAL = Path(r'D:/Kimi/金属总网/网站构建/财报汇总/锌/全球锌企季度产量梳理.xlsx')
 META = BASE / 'data' / 'zinc_weekly_freshness.json'
+BALANCE_PANEL = BASE / 'scripts' / 'assets' / 'zinc-balance'
 
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
@@ -266,6 +267,10 @@ def main():
         shutil.copyfile(BASE / 'nickel-weekly' / name, OUT / name)
     shutil.copyfile(BASE / 'nickel-weekly' / 'lib' / 'chart.min.js', OUT / 'lib' / 'chart.min.js')
     shutil.copyfile(BASE / 'scripts' / 'zinc_weekly_research.js', OUT / 'research.js')
+    for rel in ('index.html', 'assets/echarts.min.js', 'data/balance_data.json'):
+        destination = OUT / 'balance' / rel
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(BALANCE_PANEL / rel, destination)
     base_css = re.search(r'<style>(.*?)</style>', (BASE / 'nickel-weekly' / 'index.html').read_text(encoding='utf-8'), re.S).group(1)
 
     parts = []
@@ -274,6 +279,10 @@ def main():
             sid, shared.esc(trail), shared.esc(title), shared.esc(trail.replace('/', ' / ').upper())))
         if sid in ('sumsec', 'balance'):
             parts.append(shared.forecast_balance_html(BALANCE_CONFIG, shfe_values, full=(sid == 'balance')))
+        if sid == 'sumsec':
+            parts.append('<div class="tone"><b>锌矿—锌锭平衡拟合面板：</b>ILZSG 总量锚 + 矿山项目 + 冶炼厂拟合，支持回收率、二次原料和需求情景调整。<a href="?page=balance">进入平衡表面板 ↗</a></div>')
+        if sid == 'balance':
+            parts.append('''<details class="fold" id="balancePanel" open><summary>全球锌矿—锌锭平衡拟合面板</summary><div class="foldbody"><p>历史实际、公司指引与面板情景分层展示；2026E/2027E 为拟合或预测。<a href="balance/index.html" target="_blank" rel="noopener">新标签页打开完整面板 ↗</a></p><iframe src="balance/index.html" title="全球锌矿—锌锭平衡拟合面板" loading="lazy" style="display:block;width:100%;height:1200px;border:0;background:#f4f6f7"></iframe></div></details>''')
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
             parts.append(weekly_html)

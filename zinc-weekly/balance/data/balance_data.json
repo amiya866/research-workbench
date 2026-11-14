@@ -1,0 +1,1133 @@
+{
+  "asof": "2026-11-12",
+  "years": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027
+  ],
+  "global": {
+    "mine": [
+      1279.7,
+      1246.4,
+      1220.8,
+      1194.5,
+      1258.6,
+      1240.0,
+      1278.0
+    ],
+    "refined": [
+      1393.3,
+      1339.6,
+      1387.5,
+      1353.9,
+      1383.0,
+      1393.0,
+      1421.0
+    ],
+    "usage": [
+      1405.0,
+      1344.1,
+      1362.3,
+      1360.8,
+      1386.3,
+      1402.0,
+      1419.0
+    ],
+    "balance": [
+      -11.7,
+      -4.5,
+      25.2,
+      -6.9,
+      -3.3,
+      -8.8,
+      2.5
+    ],
+    "stocks": [
+      84.8,
+      68.8,
+      82.9,
+      81.6,
+      73.9,
+      null,
+      null
+    ]
+  },
+  "assumptions": {
+    "recovery": 0.965,
+    "secondary": 0.12749916147754947
+  },
+  "mines": [
+    {
+      "company": "Vedanta",
+      "project": "Zinc India",
+      "country": "印度",
+      "region": "亚洲/澳洲",
+      "values": [
+        108.1,
+        108.3,
+        110.9,
+        109.5,
+        112.0
+      ],
+      "note": "2026指引中值；2027稳态小幅增长情景",
+      "actual": "26Q2采矿金属26.8万吨创同期新高(品位改善)；精炼锌21.3万吨(+6%)"
+    },
+    {
+      "company": "Zinc India",
+      "project": "Gamsberg",
+      "country": "南非",
+      "region": "非洲",
+      "values": [
+        17.4,
+        11.4,
+        18.4,
+        19.0,
+        25.0
+      ],
+      "note": "2026指引中值；2027二期完整贡献年情景",
+      "actual": "26Q3 Gamsberg锌4.6万吨，环比+1%；二期已投产、10月起贡献可销售产量；Vedanta Q2FY27官方公告"
+    },
+    {
+      "company": "Zinc International",
+      "project": "BMM",
+      "country": "黑山",
+      "region": "非洲",
+      "values": [
+        6.3,
+        4.6,
+        4.2,
+        6.0,
+        6.0
+      ],
+      "note": "2026指引中值；2027按稳定运行",
+      "actual": "26Q3 BMM锌0.7万吨（Zinc International总量53kt−Gamsberg 46kt推算），BMM工厂运行趋稳；Vedanta Q2FY27"
+    },
+    {
+      "company": "TECK",
+      "project": "Antamina(100%口径)",
+      "country": "秘鲁",
+      "region": "南美",
+      "values": [
+        46.31,
+        26.81,
+        45.48,
+        17.78,
+        17.78
+      ],
+      "note": "Teck 22.5%权益指引中值4万吨÷22.5%；2027同法，低品位计划延续",
+      "actual": "品位和采选顺序如期上升；26Q2: 入选铜锌矿比例降至33%(去年同期77%)，矿山计划所致"
+    },
+    {
+      "company": "TECK",
+      "project": "Red Dog",
+      "country": "加拿大",
+      "region": "北美",
+      "values": [
+        53.98,
+        55.56,
+        46.27,
+        41.0,
+        38.0
+      ],
+      "note": "2026按最新季报指引偏上限；2027品位下降情景",
+      "actual": "品位下降；26Q2: 品位如矿山计划下降；Q3销量指引22-27万吨(发运季7/12启动)"
+    },
+    {
+      "company": "Glencore",
+      "project": "Kazzinc",
+      "country": "哈萨克斯坦",
+      "region": "亚洲/澳洲",
+      "values": [
+        17.39,
+        22.71,
+        12.55,
+        9.5,
+        10.0
+      ],
+      "note": "无单体指引，按年内运行与集团锌指引拟合",
+      "actual": "26Q2: Zinc in concentrates 30.5kt(同比-4.7%)，来自Glencore 2026-H1 Production Report(PDF)；历史Kazzinc数据口径以官方报告为准"
+    },
+    {
+      "company": "Glencore",
+      "project": "McArthur River",
+      "country": "澳大利亚",
+      "region": "亚洲/澳洲",
+      "values": [
+        26.22,
+        25.97,
+        27.46,
+        27.5,
+        27.5
+      ],
+      "note": "按2025稳定运行水平拟合",
+      "actual": "26Q2: Zinc in concentrates 70.0kt(同比+4.8%)，来自Glencore 2026-H1 Production Report；历史数据与官方报告Zinc in concentrates口径吻合"
+    },
+    {
+      "company": "Glencore",
+      "project": "Mount Isa",
+      "country": "澳大利亚",
+      "region": "亚洲/澳洲",
+      "values": [
+        28.72,
+        28.87,
+        28.82,
+        20.0,
+        15.0
+      ],
+      "note": "Lady Loretta资源枯竭，2027继续退坡",
+      "actual": "26Q2: Zinc in concentrates 39.1kt(同比-46.1%)，来自Glencore 2026-H1 Production Report；历史数据与官方报告Zinc in concentrates口径吻合"
+    },
+    {
+      "company": "NEXA",
+      "project": "Cerro Lindo",
+      "country": "秘鲁",
+      "region": "南美",
+      "values": [
+        7.819999999999999,
+        8.65,
+        8.76,
+        8.1,
+        7.9
+      ],
+      "note": "Nexa 2026-10-29指引中值",
+      "actual": "2Q26：品位升至1.64%+block caving投产，产量同比-6.1%"
+    },
+    {
+      "company": "NEXA",
+      "project": "Vazante",
+      "country": "巴西",
+      "region": "南美",
+      "values": [
+        14.57,
+        13.99,
+        12.79,
+        13.65,
+        13.0
+      ],
+      "note": "Nexa 2026-10-29指引中值",
+      "actual": "2Q26：同比+18.8%，运营改善"
+    },
+    {
+      "company": "BOLIDEN",
+      "project": "Tara",
+      "country": "爱尔兰",
+      "region": "欧洲",
+      "values": [
+        5.33,
+        0.63,
+        7.590000000000001,
+        6.0,
+        8.0
+      ],
+      "note": "2026磨矿指引折算；2027恢复情景",
+      "actual": "Q2 将 2026 磨矿指引 1.8→1.6Mt（开拓进度不及预期），H2 偏弱"
+    },
+    {
+      "company": "BOLIDEN",
+      "project": "Garpenberg",
+      "country": "瑞典",
+      "region": "欧洲",
+      "values": [
+        9.61,
+        10.9,
+        10.18,
+        3.35,
+        6.5
+      ],
+      "note": "2026地震后磨矿1.5Mt、品位2.7%折算；2027磨矿2.3Mt情景",
+      "actual": "3/14 异常地震+岩爆停产至 4 月底，Q2 磨矿仅约 0.1Mt；受损提升机已修复、未受影响区域复产，目前约 30% 产能；2027 磨矿指引 2.3Mt"
+    },
+    {
+      "company": "BOLIDEN",
+      "project": "Neves-Corvo",
+      "country": "葡萄牙",
+      "region": "欧洲",
+      "values": [
+        10.89,
+        10.96,
+        11.06,
+        11.0,
+        11.0
+      ],
+      "note": "2026指引中值；2027稳态",
+      "actual": "一季度强降雨影响；26Q2锌2.79万吨(+7%): 磨矿量环比回升、品位稳定"
+    },
+    {
+      "company": "BOLIDEN",
+      "project": "Zinkgruvan",
+      "country": "瑞典",
+      "region": "欧洲",
+      "values": [
+        7.630000000000001,
+        8.22,
+        7.799999999999999,
+        8.0,
+        8.0
+      ],
+      "note": "2026指引中值；2027稳态",
+      "actual": "品位和回收率环比上升；26Q2锌1.68万吨(-24%): 磨矿量环比下降，锌品位升高部分对冲"
+    },
+    {
+      "company": "MMG",
+      "project": "Dugald River",
+      "country": "澳大利亚",
+      "region": "亚洲/澳洲",
+      "values": [
+        15.1844,
+        16.34,
+        18.35,
+        17.5,
+        18.0
+      ],
+      "note": "2026指引中值；2027稳态",
+      "actual": "26Q3 Dugald River锌47,784吨=4.7784万吨，同比-1%，品位及回收率支撑；MMG Q3"
+    },
+    {
+      "company": "MMG",
+      "project": "Rosebery",
+      "country": "澳大利亚",
+      "region": "亚洲/澳洲",
+      "values": [
+        5.17,
+        5.63,
+        4.86,
+        3.45,
+        3.5
+      ],
+      "note": "2026下调后指引中值；2027低位稳定",
+      "actual": "26Q3 Rosebery锌8,130吨=0.813万吨，同比-23%：X-South地震后可用矿量下降；全年指引下调至3.2-3.7万吨；MMG Q3"
+    },
+    {
+      "company": "Newmont",
+      "project": "Penasquito",
+      "country": "墨西哥",
+      "region": "北美",
+      "values": [
+        10.44,
+        25.72,
+        23.1,
+        22.0,
+        20.0
+      ],
+      "note": "2026公司指引；2027副产锌品位回归情景",
+      "actual": "26Q3 Peñasquito锌6.7万吨，环比+68%：共产品位提高；Newmont Q3 8-K"
+    },
+    {
+      "company": "Polymetal",
+      "project": "Ozernaya Minin",
+      "country": "俄罗斯",
+      "region": "亚洲/澳洲",
+      "values": [
+        null,
+        null,
+        24.1,
+        10.0,
+        10.0
+      ],
+      "note": "历史跟踪估计，非公开季报实际值",
+      "actual": "私有化后无公开披露：Polymetal 2024/3/7出售全部俄罗斯资产后更名Solidcore（仅剩哈萨克资产，26Q2季报2026/9/9才发布且不含Ozernoye）；俄资产无公开季度产量（2026-08-31核：akm.ru + solidcore-resources.com）"
+    },
+    {
+      "company": "South32",
+      "project": "Cannington",
+      "country": "澳大利亚",
+      "region": "亚洲/澳洲",
+      "values": [
+        5.779999999999999,
+        5.459999999999999,
+        4.03,
+        4.0,
+        4.0
+      ],
+      "note": "按FY26实际及FY27锌当量指引近似",
+      "actual": "26Q3 Cannington应付锌8.8kt=0.88万吨，同比+6%/环比-23%；South32 FY27Q1"
+    },
+    {
+      "company": "Ivanhoe",
+      "project": "Kipushi",
+      "country": "刚果（金）",
+      "region": "非洲",
+      "values": [
+        null,
+        3.4,
+        20.31,
+        28.5,
+        32.0
+      ],
+      "note": "2026指引偏上限；2027按近年年化能力保守拟合，非公司指引",
+      "actual": "26Q3再创纪录7.71万吨(环比+10%)：入选品位41.6%与回收率96%双纪录，7月单月2.66万吨纪录；连续7个季度环比增长，年化约30.9万吨（Ivanhoe 10/8公告）"
+    },
+    {
+      "company": "紫金矿业",
+      "project": "新疆紫金锌业/内蒙三贵口等",
+      "country": "中国",
+      "region": "中国",
+      "values": [
+        null,
+        null,
+        35.7453,
+        35.0,
+        38.0
+      ],
+      "note": "2026按前三季度运行拟合；2027新增产能情景",
+      "actual": "26Q3矿山产锌80,736吨=8.0736万吨；公司三季报直接披露单季值"
+    },
+    {
+      "company": "Peñoles",
+      "project": "墨西哥多矿(Fresnillo/Saucito/Tizapa等)",
+      "country": "墨西哥",
+      "region": "北美",
+      "values": [
+        null,
+        null,
+        25.0305,
+        27.0,
+        26.5
+      ],
+      "note": "合并口径，含Fresnillo，不能再与Fresnillo行相加",
+      "actual": "官方Informe del Director 2T26口径(含Fresnillo 74.99%+Juanicipio 100%应付，非权益)；26Q2=6.8718万吨(68,718吨)同比+14.2%(主因Tizapa复产)/环比+3.1%。来源:penoles.com.mx Informe_Director_2T26_Eng.pdf(2026-08-04)"
+    },
+    {
+      "company": "Volcan",
+      "project": "Yauli/Chungar/Cerro de Pasco/Alpamarca",
+      "country": "秘鲁",
+      "region": "南美",
+      "values": [
+        null,
+        null,
+        23.55,
+        24.0,
+        25.0
+      ],
+      "note": "按年内运行及Romina爬产拟合",
+      "actual": "官方MD&A口径（锌金属量）；25Q1/26Q1为官方累计值之差推算；Romina矿2026年6月投产爬产中（26Q2已产锌0.14万吨）"
+    },
+    {
+      "company": "Southern Copper",
+      "project": "Buenavista/IMMSA",
+      "country": "墨西哥/秘鲁",
+      "region": "北美",
+      "values": [
+        null,
+        null,
+        17.6979,
+        16.39,
+        17.0
+      ],
+      "note": "2026公司下调后指引；2027小幅恢复",
+      "actual": "26Q3矿产锌41,880吨=4.188万吨，同比-7.9%：Buenavista及IMMSA品位下降；SCCO 3Q26官方新闻稿"
+    },
+    {
+      "company": "Sibanye-Stillwater",
+      "project": "Century(尾矿再处理)",
+      "country": "澳大利亚",
+      "region": "亚洲/澳洲",
+      "values": [
+        null,
+        null,
+        10.1,
+        9.23,
+        9.5
+      ],
+      "note": "2026应付锌指引中值；2027稳态",
+      "actual": "26Q2=2.5万吨（推导值：H1 2026 Century应付锌45kt[8/27经营更新] − 26Q1 20kt[已披露] = 25kt；Q2单季未直接披露，9/1正式中报后复核）。FY2025 Century应付锌101kt(+22%超指引上限97.8kt)。源：Sibanye 8/27经营更新 + 2025年报(2/20)"
+    },
+    {
+      "company": "KAZ Minerals",
+      "project": "East Region多金属矿(Nikolayevsky等)",
+      "country": "哈萨克斯坦",
+      "region": "亚洲/澳洲",
+      "values": [
+        null,
+        null,
+        5.38,
+        5.5,
+        5.5
+      ],
+      "note": "按2026年内运行拟合",
+      "actual": "26Q2 精矿含锌 11.3kt=1.13 万吨（+9% QoQ，处理量提升）；H1 21.7kt（+6%，品位改善）。源：KAZ Q2 2026 生产报告（8/11，SMM 快讯）"
+    },
+    {
+      "company": "Pan American Silver",
+      "project": "Huaron/La Colorada/Juanicipio(44%)",
+      "country": "秘鲁/墨西哥等",
+      "region": "亚洲/澳洲",
+      "values": [
+        null,
+        null,
+        5.59,
+        6.05,
+        6.1
+      ],
+      "note": "2026权益指引中值；2027稳定",
+      "actual": "26Q2 锌产量 15.6kt=1.56 万吨（Q1 12.6kt）；权益口径。源：Pan American Silver Q2 2026（8/12）"
+    },
+    {
+      "company": "Buenaventura",
+      "project": "Uchucchacua/Tambomayo",
+      "country": "秘鲁",
+      "region": "南美",
+      "values": [
+        null,
+        null,
+        2.902,
+        3.02,
+        3.1
+      ],
+      "note": "2026公司指引中值；2027稳定",
+      "actual": "26Q3直接运营锌6,938吨=0.6938万吨（Uchucchacua 6,433+Tambomayo 505）；Buenaventura 6-K"
+    },
+    {
+      "company": "Adriatic Metals",
+      "project": "Vares(Rupice)",
+      "country": "波黑",
+      "region": "欧洲",
+      "values": [
+        null,
+        null,
+        1.84,
+        2.95,
+        3.5
+      ],
+      "note": "2026 DPM指引中值；2027爬产情景",
+      "actual": "26Q3 Vareš精矿含锌28Mlb=12,700.8吨=1.2701万吨，爬产强於预期；DPM 10/8初步产量公告"
+    },
+    {
+      "company": "Hudbay",
+      "project": "Manitoba(Lalor)",
+      "country": "加拿大",
+      "region": "北美",
+      "values": [
+        null,
+        null,
+        1.7646,
+        1.85,
+        1.9
+      ],
+      "note": "2026公司指引；2027稳定",
+      "actual": "官方新闻稿口径；25Q3曼尼托巴野火强制撤离停产约两个月（仅548吨）；26Q2环比+4.3%（Lalor品位回升）"
+    },
+    {
+      "company": "NEXA",
+      "project": "El Porvenir",
+      "country": "秘鲁",
+      "region": "南美",
+      "values": [
+        null,
+        null,
+        null,
+        5.15,
+        7.1
+      ],
+      "note": "Nexa 2026-10-29指引中值",
+      "actual": "2Q26：同比-3.7%，Q1扰动后恢复"
+    },
+    {
+      "company": "NEXA",
+      "project": "Atacocha",
+      "country": "秘鲁",
+      "region": "南美",
+      "values": [
+        null,
+        null,
+        null,
+        1.35,
+        1.7
+      ],
+      "note": "Nexa 2026-10-29指引中值",
+      "actual": "2Q26：同比-4.2%"
+    },
+    {
+      "company": "NEXA",
+      "project": "Aripuanã",
+      "country": "巴西",
+      "region": "南美",
+      "values": [
+        null,
+        null,
+        null,
+        5.25,
+        6.5
+      ],
+      "note": "Nexa 2026-10-29指引中值",
+      "actual": "2Q26：同比+43.8%；Q1创纪录13kt，Q2尾矿过滤机投产过渡季"
+    },
+    {
+      "company": "Almina",
+      "project": "Aljustrel",
+      "region": "欧洲",
+      "country": "葡萄牙",
+      "values": [
+        null,
+        null,
+        2.0,
+        7.5,
+        10.0
+      ],
+      "note": "2025Q4复产，2025为爬坡估计；2026—2027为恢复情景，私营矿无季度披露"
+    },
+    {
+      "company": "Appian",
+      "project": "Rosh Pinah RP2.0",
+      "region": "非洲",
+      "country": "纳米比亚",
+      "values": [
+        null,
+        null,
+        null,
+        5.5,
+        8.0
+      ],
+      "note": "扩建预计2026Q3完成，处理量0.7→1.3Mtpa；产量为面板情景而非公司指引"
+    }
+  ],
+  "smelters": [
+    {
+      "region": "欧洲",
+      "company": "Glencore",
+      "project": "San Juan de Nieva",
+      "values": [
+        506.91,
+        502.4,
+        505.0,
+        498.0,
+        504.0,
+        504.0,
+        490.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Glencore",
+      "project": "Nordenham",
+      "values": [
+        145.1,
+        134.94,
+        0,
+        87.5,
+        138.2,
+        127.6,
+        130.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Glencore",
+      "project": "Porto Vesme",
+      "values": [
+        148.6,
+        55.1,
+        55.1,
+        45.0,
+        0,
+        0,
+        0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Boliden",
+      "project": "Kokkola",
+      "values": [
+        293.0,
+        294.12,
+        293.96,
+        302.25,
+        290.21,
+        289.48,
+        290.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Boliden",
+      "project": "Odda",
+      "values": [
+        180.0,
+        181.14,
+        164.14,
+        151.5,
+        167.14,
+        159.14,
+        230.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Nyrstar",
+      "project": "Balen",
+      "values": [
+        281.89,
+        230.01,
+        220.03,
+        245.02,
+        240.35,
+        231.5,
+        225.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Nyrstar",
+      "project": "Budel",
+      "values": [
+        270.69,
+        209.11,
+        238.85,
+        188.09,
+        250.0,
+        183.1,
+        180.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Nyrstar",
+      "project": "Auby",
+      "values": [
+        164.99,
+        109.28,
+        102.11,
+        149.85,
+        130.24,
+        120.4,
+        115.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "SZP100",
+      "project": "Sirt",
+      "values": [
+        0,
+        8.0,
+        37.0,
+        30.0,
+        30.0,
+        25.0,
+        25.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "欧洲",
+      "company": "Russia Copper",
+      "project": "Verkhny Ufaley",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        6.0,
+        20.0,
+        24.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "北美",
+      "company": "Glencore",
+      "project": "CEZ",
+      "values": [
+        264.05,
+        188.6,
+        213.0,
+        244.0,
+        268.0,
+        271.0,
+        265.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "北美",
+      "company": "Teck",
+      "project": "Trail",
+      "values": [
+        279.0,
+        248.9,
+        266.6,
+        256.0,
+        230.0,
+        230.0,
+        280.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "北美",
+      "company": "Hudbay",
+      "project": "Flin Flon",
+      "values": [
+        96.44,
+        38.0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "北美",
+      "company": "Nyrstar",
+      "project": "Clarksville",
+      "values": [
+        96.0,
+        96.0,
+        100.0,
+        100.0,
+        90.0,
+        100.0,
+        95.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Korea Zinc",
+      "project": "Onsan",
+      "values": [
+        640.4,
+        640.0,
+        640.0,
+        630.15,
+        600.01,
+        585.04,
+        570.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Young Poong",
+      "project": "Seokpo",
+      "values": [
+        308.6,
+        325.28,
+        320.18,
+        208.4,
+        183.81,
+        182.69,
+        175.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Mitsui M&S",
+      "project": "Hachinohe",
+      "values": [
+        91.7,
+        94.5,
+        88.2,
+        88.6,
+        87.8,
+        71.8,
+        80.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Mitsui M&S",
+      "project": "Hikoshima",
+      "values": [
+        66.2,
+        68.2,
+        63.7,
+        64.0,
+        63.4,
+        63.4,
+        62.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Mitsui M&S",
+      "project": "Kamioka",
+      "values": [
+        61.5,
+        63.3,
+        59.1,
+        59.4,
+        58.8,
+        58.8,
+        58.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "DOWA",
+      "project": "Akita",
+      "values": [
+        0,
+        177.6,
+        165.1,
+        177.3,
+        166.5,
+        189.3,
+        180.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Toho Zinc",
+      "project": "Annaka",
+      "values": [
+        90.96,
+        83.2,
+        77.7,
+        62.7,
+        15.1,
+        0,
+        0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Hindustan Zinc",
+      "project": "HZL",
+      "values": [
+        759.0,
+        816.0,
+        814.31,
+        837.46,
+        840.82,
+        870.0,
+        871.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Glencore",
+      "project": "Kazzinc",
+      "values": [
+        291.4,
+        256.9,
+        262.3,
+        269.0,
+        251.8,
+        212.6,
+        205.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "亚洲",
+      "company": "Kapuas Prima",
+      "project": "Belantikan Raya",
+      "values": [
+        0,
+        0,
+        0,
+        3.0,
+        12.0,
+        12.0,
+        12.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "澳洲",
+      "company": "Korea Zinc",
+      "project": "Townsville",
+      "values": [
+        206.78,
+        149.0,
+        215.0,
+        196.84,
+        254.88,
+        252.76,
+        250.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "澳洲",
+      "company": "Nyrstar",
+      "project": "Hobart",
+      "values": [
+        259.22,
+        208.65,
+        214.87,
+        216.0,
+        175.5,
+        164.0,
+        165.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "南美",
+      "company": "Nexa",
+      "project": "Cajamarquilla",
+      "values": [
+        333.4,
+        340.4,
+        326.1,
+        333.5,
+        343.9,
+        334.1,
+        325.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "南美",
+      "company": "Nexa",
+      "project": "Três Marias",
+      "values": [
+        156.7,
+        151.8,
+        146.7,
+        144.3,
+        122.7,
+        137.3,
+        135.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "南美",
+      "company": "Nexa",
+      "project": "Juiz de Fora",
+      "values": [
+        80.8,
+        83.7,
+        82.9,
+        81.9,
+        62.1,
+        74.5,
+        78.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "南美",
+      "company": "Peñoles",
+      "project": "Torreon",
+      "values": [
+        264.4,
+        237.0,
+        251.75,
+        241.22,
+        199.11,
+        191.63,
+        195.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "南美",
+      "company": "Southern Copper",
+      "project": "San Luis Potosi",
+      "values": [
+        92.7,
+        95.0,
+        101.01,
+        98.76,
+        87.05,
+        84.53,
+        85.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    },
+    {
+      "region": "南美",
+      "company": "KCM",
+      "project": "Plovdiv",
+      "values": [
+        66.4,
+        70.02,
+        80.0,
+        80.0,
+        80.0,
+        80.0,
+        78.0
+      ],
+      "note": "2026—2027参考用户表格；Nexa以最新公司指引交叉验证"
+    }
+  ],
+  "sources": [
+    {
+      "name": "ILZSG 2025年度供需与库存（2026-02-24）",
+      "url": "https://www.ilzsg.org/wp-content/uploads/3.PRESS%20RELEASES/ILZSG%20February%202026%20Zn.pdf",
+      "use": "2021—2025全球及分地区实际值、报告库存"
+    },
+    {
+      "name": "ILZSG 2026年10月预测（2026-10-19）",
+      "url": "https://www.ilzsg.org/wp-content/uploads/3.PRESS%20RELEASES/ILZSG%20October%202026%20Press%20Release.pdf",
+      "use": "2026—2027全球矿产量、精炼产量、消费和平衡基准"
+    },
+    {
+      "name": "Nexa Guidance & Outlook（2026-10-29）",
+      "url": "https://ri.nexaresources.com/financial-information/guidance-outlook/",
+      "use": "Nexa矿山2026—2027指引、冶炼销售指引"
+    },
+    {
+      "name": "Teck 2026Q3季报（2026-10-28）",
+      "url": "https://www.teck.com/media/2026-Q3-Teck.pdf",
+      "use": "Antamina/Red Dog最新运行及2026指引方向"
+    },
+    {
+      "name": "Ivanhoe 2026Q3业绩（2026-11-03）",
+      "url": "https://www.ivanhoemines.com/news-stories/news-release/ivanhoe-mines-issues-2026-third-quarter-financial-results-overview-of-operations-and-exploration-activities/",
+      "use": "Kipushi Q3创纪录及2026指引跟踪"
+    },
+    {
+      "name": "Nyrstar锌冶炼模型",
+      "url": "https://www.nyrstarnv.be/~/media/Files/N/Nyrstar-IR/investor-toolkit/Modeling%20Nyrstar%20January%202019.pdf",
+      "use": "冶炼回收率96.5%参考"
+    },
+    {
+      "name": "Rosh Pinah RP2.0进展",
+      "url": "https://appiancapitaladvisory.com/rosh-pinah-zinc-commissions-paste-fill-plant-advancing-rp2-0-and-unlocking-growth-potential/",
+      "use": "扩建处理量与2026Q3完工预期"
+    }
+  ],
+  "latest": {
+    "lme": 143575,
+    "shfe": 54600,
+    "social": 16.02,
+    "tc": -2300,
+    "date": "2026-11-11",
+    "socialDate": "2026-11-09"
+  },
+  "china": {
+    "mine": [
+      406.6,
+      402.5,
+      422.6
+    ],
+    "refined": [
+      700.0,
+      725.9,
+      736.8
+    ],
+    "usage": [
+      705.0,
+      717.69,
+      719.84
+    ],
+    "note": "2025实际；2026精炼产量+3.7%、消费+1.8%及2027消费+0.3%按ILZSG推算；其余为面板情景，非ILZSG分国别正式预测。"
+  }
+}
