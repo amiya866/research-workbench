@@ -44,7 +44,7 @@ def age_hours(value):
 def task_status():
     if os.name != 'nt':
         return []
-    command = '''$rows=foreach($n in @("RwBenchDaily","RwBenchQuick","RWXsAlignDaily","ResearchWeeklySync","ResearchQuarterlyOutlook")){
+    command = '''$rows=foreach($n in @("RwBenchDaily","RwBenchQuick","RWXsAlignDaily","ResearchWeeklySync","ResearchQuarterlyOutlook","ArbitrageWeeklySync")){
       $t=Get-ScheduledTask -TaskName $n -ErrorAction SilentlyContinue
       if($t){$i=$t|Get-ScheduledTaskInfo; [pscustomobject]@{name=$n;state=[string]$t.State;last=$i.LastRunTime.ToString("yyyy-MM-dd HH:mm:ss");next=$i.NextRunTime.ToString("yyyy-MM-dd HH:mm:ss");result=$i.LastTaskResult}}
       else{[pscustomobject]@{name=$n;state="MISSING";last="";next="";result=-1}}
@@ -110,6 +110,16 @@ def main():
         rows.append({'label': label, 'value': data.get('asof', '未读取'),
                      'status': 'ok' if data.get('sync_status') == 'ok' else 'warn',
                      'note': '周五/六/日检查；季度展望仅季度最后一周刷新'})
+    try:
+        arbitrage = json.loads((BASE / 'arbitrage-weekly' / 'data' / 'arbitrage_weekly.json').read_text(encoding='utf-8'))
+    except Exception:
+        arbitrage = {}
+    arb_meta = arbitrage.get('meta', {})
+    arb_built = arb_meta.get('builtAt', '')
+    arb_age = age_hours(arb_built)
+    rows.append({'label': '有色套利周报', 'value': '%s｜构建 %s' % (arb_meta.get('latest', '未读取'), arb_built or '未读取'),
+                 'status': 'ok' if arb_age is not None and arb_age <= 24 * 8 else 'warn',
+                 'note': '每周六10:27更新；五年季节性、海关货流与LME/国内升贴水'})
     tasks = task_status()
     overall = '正常' if all(row['status'] == 'ok' for row in rows) else '有需要检查项'
     built = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
@@ -122,6 +132,7 @@ def main():
         'RWXsAlignDaily': '交易日15:52：截面信号对齐→日报→部署',
         'ResearchWeeklySync': '周五/六/日09:23：锡→镍→锌→铝→日报→点评→健康检查→部署',
         'ResearchQuarterlyOutlook': '3/6/9/12月最后一个周五09:23：同周报链，允许刷新季度展望',
+        'ArbitrageWeeklySync': '每周六10:27：套利周报五年季节性→健康检查→部署',
     }
     task_html = ''.join('<tr><td><b>%s</b><br><span class="muted">%s</span></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % (
         esc(task.get('name')), esc(task_descriptions.get(task.get('name'), '')), esc(task.get('state')),

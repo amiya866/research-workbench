@@ -161,9 +161,21 @@ def nearby_point(points, target, tolerance):
     return date if abs((dt.date.fromisoformat(date) - target).days) <= tolerance else None
 
 
+def seasonal_series(points, years=5):
+    if not points:
+        return []
+    last_year = dt.date.fromisoformat(max(points)).year
+    output = []
+    for year in range(last_year - years + 1, last_year + 1):
+        rows = [{'date': date[5:], 'value': points[date]} for date in sorted(points) if date.startswith(f'{year}-')]
+        if rows:
+            output.append({'year': year, 'points': rows})
+    return output
+
+
 def driver_metric(points, unit, source):
     empty = {'value': None, 'change': None, 'date': None, 'unit': unit, 'source': source,
-             'history': [], 'pctRank': None, 'yoy': None, 'yoyChange': None,
+             'history': [], 'seasonal': [], 'pctRank': None, 'yoy': None, 'yoyChange': None,
              'oneYearChange': None, 'high': None, 'low': None, 'fromHigh': None, 'level': '未核定'}
     if not points:
         return empty
@@ -183,6 +195,7 @@ def driver_metric(points, unit, source):
         'value': current, 'change': current - points[previous] if previous else None,
         'date': last, 'previousDate': previous, 'unit': unit, 'source': source,
         'history': [{'date': date, 'value': points[date]} for date in ordered[-120:]],
+        'seasonal': seasonal_series(points),
         'pctRank': rank, 'yoy': yoy, 'yoyChange': yoy_change, 'oneYearChange': yoy_change,
         'yearAgoDate': year_ago, 'high': high, 'low': low,
         'fromHigh': (current / high - 1) * 100 if high else None,
@@ -221,10 +234,13 @@ def build_flow(sym, offline, window_open=None):
     return metric
 
 
-def build_drivers(sym, field, offline):
+def build_drivers(sym, field, offline, lme=None):
     config = DRIVERS[sym]
+    lme = load_lme(sym) if lme is None and sym not in ('LC', 'SI') else (lme or {})
+    lme03 = {date: values[0] - values[1] for date, values in lme.items()}
     return {
         'lmeStock': driver_metric({}, '吨', '无LME对应合约') if sym in ('LC', 'SI') else driver_metric(lme_stock_series(sym, field, offline), '吨', f'westmetall {field}'),
+        'lmePremium': driver_metric(lme03, '美元/吨', f'westmetall {field} cash-3M') if sym not in ('LC', 'SI') else driver_metric({}, '美元/吨', '无LME对应合约'),
         'domesticStock': driver_metric(mirror_stock_series(config['stock'][1]) if config['stock'][0] == 'mirror' else indicator_series(config['stock'][0], offline),
                                        config['stock'][2] if config['stock'][0] == 'mirror' else ('万吨' if sym == 'SI' else '吨'), config['stock'][3] if config['stock'][0] == 'mirror' else config['stock'][1]),
         'domesticPremium': driver_metric(indicator_series(config['premium'][0], offline), '元/吨', config['premium'][1]),
@@ -314,7 +330,7 @@ def build_metal(sym, name, indicator, field, fx, offline):
         'sharpeA': strategy_a[0], 'sharpeB': strategy_b[0], 'wide': wide,
         'shfe': shfe_last, 'lmeCash': cash_last, 'lmeM3': m3_last, 'fx': fx_last,
         'scenario': {'premium': 0, 'otherCost': calibration},
-        'history': history, 'weekly': WEEKLY_LINKS.get(sym), 'drivers': build_drivers(sym, field, offline),
+        'history': history, 'seasonal': seasonal_series(rmap), 'weekly': WEEKLY_LINKS.get(sym), 'drivers': build_drivers(sym, field, offline, lme),
         'flow': build_flow(sym, offline, imp[last] > 0),
         'source': {'importProfit': indicator, 'lme': field, 'fx': 'CM00891264 / 历史缓存'},
     }
@@ -344,6 +360,7 @@ def build_spot(sym, offline):
         'action': action, 'thesis': thesis, 'invalid': '仅作期现观察；基差回到中位或流动性不足时不执行',
         'basis': basis, 'basisPct': basis / spot[last] * 100, 'ratioPct': percentile,
         'spot': spot[last], 'futures': futures[last], 'history': history,
+        'seasonal': seasonal_series({date: spot[date] - futures[date] for date in days}),
         'scenario': {'premium': 0, 'otherCost': 0}, 'weekly': None, 'drivers': build_drivers(sym, '', offline),
         'flow': build_flow(sym, offline),
         'source': {'spot': f'SMM hq {item_id} {source_name}', 'futures': '知几 guan 主连日K'},

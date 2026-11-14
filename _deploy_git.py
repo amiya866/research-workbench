@@ -76,7 +76,11 @@ def continue_rebase(paths):
     for path in paths:
         if path in REMOTE_DATA:
             side = '--ours'
-        elif path.startswith('reports/') or path in ('data/news_latest.json', 'data/news_fallback.js'):
+        elif (path.startswith('reports/') or path.startswith('arbitrage-weekly/')
+              or path.startswith('scripts/templates/arbitrage-weekly/')
+              or path in ('data/news_latest.json', 'data/news_fallback.js',
+                          'scripts/build_arbitrage_weekly.py', 'scripts/build_update_health.py',
+                          'scripts/refresh_arbitrage_weekly.py', 'scripts/register_arbitrage_weekly.ps1')):
             side = '--theirs'
         else:
             print('未登记的冲突文件，停止自动取舍：' + path)
