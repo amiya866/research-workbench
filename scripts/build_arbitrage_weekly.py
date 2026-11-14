@@ -3,6 +3,7 @@ import datetime as dt
 import json
 import math
 import os
+import re
 import shutil
 import sqlite3
 import sys
@@ -19,6 +20,24 @@ PREVIOUS = OUT_DIR / 'data' / 'arbitrage_weekly.previous.json'
 PAGE = OUT_DIR / 'index.html'
 SMM_DB = Path(r'D:/Kimi/smm_mirror/smm_mirror.db')
 SPOT = {'LC': ('202212050001', 'SMM电池级碳酸锂指数'), 'SI': ('201812270002', '通氧553#硅(华东)')}
+DRIVERS = {
+    'CU': {'stock': ('mirror', 'cuStockMarketYieldSum', '万吨', 'Mysteel国内市场电解铜库存'),
+           'premium': ('s20123047', 'SMM长江1#电解铜升贴水-平均价')},
+    'AL': {'stock': ('mirror', 'alStockSpots', '万吨', 'Mysteel中国主要市场电解铝现货库存'),
+           'premium': ('s20016488', 'SMM A00铝升贴水-平均价')},
+    'ZN': {'stock': ('mirror', 'znStockHomeSum', '万吨', 'Mysteel国内主要市场锌锭库存'),
+           'premium': ('ID02038785', 'Mysteel上海0#锌锭升贴水')},
+    'PB': {'stock': ('mirror', 'pbStockHomeSum', '万吨', 'Mysteel国内主要市场铅锭库存'),
+           'premium': ('ID01029987', 'Mysteel上海驰宏1#铅锭升贴水')},
+    'NI': {'stock': ('a10020773', 'SMM纯镍社会库存分地区:六地总计'),
+           'premium': ('s20019092', 'SMM 1#金川镍沪镍合约升贴水-平均价')},
+    'SN': {'stock': ('a10020744', 'SMM锡锭社会库存:总库存'),
+           'premium': ('a10083984', 'SMM沪锡市场现货升贴水-平均价')},
+    'LC': {'stock': ('a12752003', 'SMM四地样本碳酸锂社会库存:沪苏赣川'),
+           'premium': ('ID01922207', 'Mysteel电池级碳酸锂升贴水')},
+    'SI': {'stock': ('a10020032', 'SMM金属硅社会库存:昆明'),
+           'premium': ('s22715114', 'SMM 421#硅(广东)升贴水-平均价（非553同口径）')},
+}
 NAMES = {'CU': '铜', 'AL': '铝', 'ZN': '锌', 'PB': '铅', 'NI': '镍', 'SN': '锡', 'LC': '碳酸锂', 'SI': '工业硅'}
 WEEKLY_LINKS = {'CU': 'copper-weekly', 'AL': 'aluminum-weekly', 'ZN': 'zinc-weekly', 'PB': 'lead-weekly', 'NI': 'nickel-weekly', 'SN': 'tin-weekly'}
 WARNINGS = []
@@ -41,6 +60,109 @@ def load_lme(sym):
             if len(parts) == 3:
                 result[parts[0]] = (float(parts[1]), float(parts[2]))
     return result
+
+
+def load_driver_csv(path):
+    if not path.exists():
+        return {}
+    result = {}
+    for line in path.read_text(encoding='utf-8').splitlines()[1:]:
+        parts = line.split(',')
+        if len(parts) >= 2:
+            try:
+                result[parts[0]] = float(parts[1])
+            except ValueError:
+                pass
+    return result
+
+
+def save_driver_csv(path, points):
+    path.write_text('date,value\n' + ''.join(f'{date},{value}\n' for date, value in sorted(points.items())), encoding='utf-8')
+
+
+def indicator_series(indicator, offline=False):
+    path = Path(arb.DATADIR) / f'arb_driver_{indicator}.csv'
+    if offline:
+        return load_driver_csv(path)
+    try:
+        raw = arb.curl(f'{arb.ZSERIES}?id={indicator}&start=2020-01-01&end={dt.date.today().isoformat()}',
+                       [f'X-Data-Key: {arb.key()}'])
+        points = {}
+        for row in json.loads(raw).get('points') or []:
+            try:
+                points[str(row['date'])[:10]] = float(row['value'])
+            except (TypeError, ValueError):
+                pass
+        if not points:
+            raise RuntimeError(f'{indicator} 无有效数据')
+        save_driver_csv(path, points)
+        return points
+    except Exception:
+        return load_driver_csv(path)
+
+
+def lme_stock_series(sym, field, offline=False):
+    path = Path(arb.DATADIR) / f'arb6_{sym}_lme_stock.csv'
+    cached = load_driver_csv(path)
+    if offline or (cached and max(cached) >= (dt.date.today() - dt.timedelta(days=4)).isoformat()):
+        return cached
+    months = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
+              "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
+    try:
+        for year in range(2020, dt.date.today().year + 1):
+            text = arb.curl(f'https://www.westmetall.com/en/markdaten.php?action=table&field={field}&year={year}',
+                            ['User-Agent: Mozilla/5.0'], timeout=40)
+            for row in re.findall(r'<tr[^>]*>(.*?)</tr>', text, re.S):
+                cells = [re.sub(r'<[^>]+>|\s+', ' ', cell).strip()
+                         for cell in re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)]
+                if len(cells) < 4:
+                    continue
+                match = re.match(r'(\d{2})\. (\w+) (\d{4})', cells[0])
+                if not match or match.group(2) not in months:
+                    continue
+                day = f'{match.group(3)}-{months[match.group(2)]:02d}-{int(match.group(1)):02d}'
+                try:
+                    cached[day] = float(cells[3].replace(',', ''))
+                except ValueError:
+                    pass
+        save_driver_csv(path, cached)
+    except Exception:
+        pass
+    return cached
+
+
+def mirror_stock_series(chart_code):
+    connection = sqlite3.connect(r'file:D:/Kimi/mysteel_mirror/mysteel_mirror.db?mode=ro', uri=True)
+    try:
+        rows = connection.execute('select series_name,date,value from series_points where chart_code=? order by date', (chart_code,)).fetchall()
+    finally:
+        connection.close()
+    output = {}
+    for _name, date, value in rows:
+        if finite(value):
+            output[str(date)[:10]] = value
+    return output
+
+
+def driver_metric(points, unit, source):
+    if not points:
+        return {'value': None, 'change': None, 'date': None, 'unit': unit, 'source': source}
+    last = max(points)
+    target = (dt.date.fromisoformat(last) - dt.timedelta(days=20)).isoformat()
+    previous_candidates = [date for date in points if date <= target]
+    previous = max(previous_candidates) if previous_candidates else min(points)
+    return {'value': points[last], 'change': points[last] - points[previous], 'date': last,
+            'previousDate': previous, 'unit': unit, 'source': source}
+
+
+def build_drivers(sym, field, offline):
+    config = DRIVERS[sym]
+    return {
+        'lmeStock': driver_metric({}, '吨', '无LME对应合约') if sym in ('LC', 'SI') else driver_metric(lme_stock_series(sym, field, offline), '吨', f'westmetall {field}'),
+        'domesticStock': driver_metric(mirror_stock_series(config['stock'][1]) if config['stock'][0] == 'mirror' else indicator_series(config['stock'][0], offline),
+                                       config['stock'][2] if config['stock'][0] == 'mirror' else ('万吨' if sym == 'SI' else '吨'), config['stock'][3] if config['stock'][0] == 'mirror' else config['stock'][1]),
+        'domesticPremium': driver_metric(indicator_series(config['premium'][0], offline), '元/吨', config['premium'][1]),
+    }
 
 
 def spot_series(item_id):
@@ -126,7 +248,7 @@ def build_metal(sym, name, indicator, field, fx, offline):
         'sharpeA': strategy_a[0], 'sharpeB': strategy_b[0], 'wide': wide,
         'shfe': shfe_last, 'lmeCash': cash_last, 'lmeM3': m3_last, 'fx': fx_last,
         'scenario': {'premium': 0, 'otherCost': calibration},
-        'history': history, 'weekly': WEEKLY_LINKS.get(sym),
+        'history': history, 'weekly': WEEKLY_LINKS.get(sym), 'drivers': build_drivers(sym, field, offline),
         'source': {'importProfit': indicator, 'lme': field, 'fx': 'CM00891264 / 历史缓存'},
     }
 
@@ -155,7 +277,7 @@ def build_spot(sym, offline):
         'action': action, 'thesis': thesis, 'invalid': '仅作期现观察；基差回到中位或流动性不足时不执行',
         'basis': basis, 'basisPct': basis / spot[last] * 100, 'ratioPct': percentile,
         'spot': spot[last], 'futures': futures[last], 'history': history,
-        'scenario': {'premium': 0, 'otherCost': 0}, 'weekly': None,
+        'scenario': {'premium': 0, 'otherCost': 0}, 'weekly': None, 'drivers': build_drivers(sym, '', offline),
         'source': {'spot': f'SMM hq {item_id} {source_name}', 'futures': '知几 guan 主连日K'},
     }
 
