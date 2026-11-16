@@ -20,7 +20,7 @@ PRICE_GROUPS = [
     ('行情与相关比价（价格为5年季节图，比价为连续日频）',
      ['overview_shfe', 'overview_ss', 'overview_lme', 'ratio_ni_ss', 'ratio_ni_copper', 'ratio_npi_refined']),
     ('内外结构与进口盈亏（月间结构=相对近月/0M价差）', ['lme03', 'ni_curve', 'ss_curve', 'lme_curve', 'import_profit']),
-    ('不同镍产品折镍价与现货升贴水', ['premium', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
+    ('不同镍产品折镍价与现货升贴水（升贴水纵轴按PDF区间显示，原始极端值保留）', ['premium', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
     ('硫酸镍、原料折扣与三元材料',
      ['sulfate_price', 'matte_discount', 'mhp_ni_discount', 'mhp_co_discount',
       'precursor_price', 'precursor_622', 'cathode_price', 'cathode_622']),
@@ -203,7 +203,7 @@ def trim_existing_seasonal(chart):
         if year not in keep:
             continue
         year_index = keep.index(year)
-        color = season_color(source_index, year_index, len(keep), len(sources))
+        color = season_color(source_index, year_index, len(keep), 1)
         datasets.append(dict(source, borderColor=color, backgroundColor=color,
                              borderWidth=2.2 if year == latest else 1.2))
     return dict(chart, datasets=datasets, _seasonal=True, _year_count=len(keep))
@@ -223,11 +223,17 @@ def seasonalize_charts(charts):
             converted[key] = dict(chart, _continuous=True)
             continue
         labels = chart.get('labels') or []
-        daily = len(labels) >= 40 and all(re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(x)) for x in labels)
-        monthly = len(labels) >= 24 and all(re.fullmatch(r'\d{4}-\d{2}', str(x)) for x in labels)
+        iso = all(re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(x)) for x in labels)
+        daily = len(labels) >= 40 and iso
+        month_end = iso and not daily and all(
+            20 <= (datetime.date.fromisoformat(str(b)) - datetime.date.fromisoformat(str(a))).days <= 45
+            for a, b in zip(labels, labels[1:]))
+        monthly = len(labels) >= 24 and (all(re.fullmatch(r'\d{4}-\d{2}', str(x)) for x in labels) or month_end)
         if not daily and not monthly:
             converted[key] = trim_existing_seasonal(chart)
             continue
+        if monthly:
+            labels = [str(x)[:7] for x in labels]
         years = sorted({str(x)[:4] for x in labels})[-SEASON_YEAR_COUNT:]
         month_days = [f'{month:02d}' for month in range(1, 13)] if monthly else sorted(
             {str(x)[5:] for x in labels if str(x)[:4] in years})

@@ -66,6 +66,7 @@ document.querySelectorAll('canvas[data-chart]').forEach(canvas => {
           grid: {color: '#e3e3e3'},
         },
         y: {
+          ...(config._y_limits ? {min: config._y_limits[0], max: config._y_limits[1]} : {}),
           title: {display: Boolean(unit), text: unit, font: {family: chartFont, size: 11}},
           ticks: {
             font: {family: chartFont, size: 10},
