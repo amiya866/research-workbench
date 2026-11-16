@@ -16,9 +16,20 @@ DAILY = BASE / 'reports' / 'daily_latest.html'
 BEGIN = '<!-- NICKEL_WEEKLY_CARD_BEGIN -->'
 END = '<!-- NICKEL_WEEKLY_CARD_END -->'
 
+PRICE_GROUPS = [
+    ('行情与相关比价（价格为5年季节图，比价为连续日频）',
+     ['overview_shfe', 'overview_ss', 'overview_lme', 'ratio_ni_ss', 'ratio_ni_copper', 'ratio_npi_refined']),
+    ('内外结构与进口盈亏（月间结构=相对近月/0M价差）', ['lme03', 'ni_curve', 'ss_curve', 'lme_curve', 'import_profit']),
+    ('不同镍产品折镍价与现货升贴水', ['premium', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
+    ('硫酸镍、原料折扣与三元材料',
+     ['sulfate_price', 'matte_discount', 'mhp_ni_discount', 'mhp_co_discount',
+      'precursor_price', 'precursor_622', 'cathode_price', 'cathode_622']),
+    ('不锈钢价格、基差及价差', ['ss_spot', 'ss_basis', 'ss_cold_hot_spread']),
+    ('镍矿与镍铁价格', ['nickel_ore_philippines', 'nickel_ore_indonesia', 'nickel_ore_grades', 'npi_price']),
+]
 SECTIONS = [
     ('sumsec', '本周总结', '总览', []),
-    ('price', '价格与结构', '总览', ['overview_shfe', 'overview_ss', 'overview_lme', 'premium', 'ratio_ni_ss', 'lme03', 'import_profit', 'npi_price', 'ni_curve', 'ss_curve', 'lme_curve', 'ratio_ni_copper', 'ratio_npi_refined', 'premium_russia', 'premium_jinchuan', 'premium_bean']),
+    ('price', '价格与结构', '总览', [key for _title, keys in PRICE_GROUPS for key in keys]),
     ('supply', '纯镍与印尼供应', '重点关注/供给', ['supply_refined_cn', 'supply_refined_id', 'supply_npi_cn', 'supply_npi_id', 'supply_npi_stock', 'supply_nickel_sulfate', 'supply_sulfate_rate', 'supply_matte', 'supply_mhp', 'overview_trade_net']),
     ('demand', '不锈钢与新能源需求', '重点关注/需求', ['demand_ss_cn', 'demand_ss_id', 'demand_battery_ternary', 'demand_battery_lfp', 'demand_install_ternary', 'demand_install_lfp', 'demand_ss_import', 'demand_ss_export']),
     ('inventory', '库存与仓单', '重点关注/供给', ['overview_global_stock', 'inventory_shfe', 'inventory_lme', 'inventory_social', 'inventory_plate', 'inventory_bean', 'inventory_ss300', 'inventory_ss_cold', 'inventory_ss_hot', 'lme_region']),
@@ -30,9 +41,9 @@ SECTIONS = [
 NAMES = {
     'overview_shfe': '沪镍主连', 'overview_ss': '不锈钢主连', 'overview_lme': 'LME镍3M',
     'overview_global_stock': '全球显性库存', 'premium': '不同镍产品折镍价', 'ratio_ni_ss': '镍/不锈钢比价',
-    'lme03': 'LME镍0-3升贴水', 'import_profit': '精炼镍进口盈亏', 'npi_price': '镍铁价格',
-    'ni_curve': '沪镍月间结构', 'ss_curve': '不锈钢月间结构', 'lme_curve': '伦镍月间结构',
-    'ratio_ni_copper': '镍/铜比价', 'ratio_npi_refined': '镍铁/纯镍比价',
+    'lme03': 'LME镍0-3升贴水', 'import_profit': '精炼镍进口盈亏', 'npi_price': '镍铁价格（江苏7%–13%）',
+    'ni_curve': '沪镍月间结构（相对近月）', 'ss_curve': '不锈钢月间结构（相对近月）', 'lme_curve': '伦镍月间结构（相对0M）',
+    'ratio_ni_copper': '镍/铜比价', 'ratio_npi_refined': 'NPI折纯镍/精炼镍',
     'supply_refined_cn': '中国精炼镍产量', 'supply_refined_id': '印尼精炼镍产量',
     'supply_npi_cn': '中国镍铁产量', 'supply_npi_id': '印尼镍铁产量', 'supply_npi_stock': '镍铁库存',
     'supply_nickel_sulfate': '中国硫酸镍产量', 'supply_sulfate_rate': '硫酸镍企业开工率',
@@ -48,6 +59,13 @@ NAMES = {
     'cost_chrome': '铬矿价格', 'cost_chromium': '高碳铬铁价格', 'supply_chrome': '中国高碳铬铁产量',
     'supply_chrome_import': '高碳铬铁进口量', 'premium_russia': '俄镍升贴水',
     'premium_jinchuan': '金川镍升贴水', 'premium_bean': '镍豆升贴水',
+    'sulfate_price': '硫酸镍价格', 'matte_discount': '高冰镍折扣系数',
+    'mhp_ni_discount': 'MHP镍折扣系数', 'mhp_co_discount': 'MHP钴折扣系数',
+    'precursor_price': '三元前驱体价格', 'precursor_622': '三元前驱体价格季节性：622',
+    'cathode_price': '三元正极价格', 'cathode_622': '三元正极价格季节性：622',
+    'ss_spot': '不锈钢现货基价：无锡', 'ss_basis': '不锈钢基差', 'ss_cold_hot_spread': '不锈钢冷热轧价差',
+    'nickel_ore_philippines': '菲律宾镍矿价格（1.5%）', 'nickel_ore_indonesia': '印尼镍矿价格（HPM，1.6%）',
+    'nickel_ore_grades': '菲律宾镍矿价格：不同品位',
 }
 KPI = [('shfe', '沪镍主连', '元/吨'), ('ss', '不锈钢主连', '元/吨'), ('lme', 'LME镍3M', '美元/吨'),
        ('global_stock', '全球显性库存', '吨'), ('social_stock', '镍社会库存', '吨'), ('npi_price', '镍铁价格', '元/镍点')]
@@ -142,6 +160,12 @@ def quarterly_html(path, new_html):
 
 
 SEASON_COLORS = ['#1F4E79', '#C00000', '#2E7D32', '#7B1FA2', '#E65100', '#00838F', '#8C564B', '#C2185B', '#546E7A', '#7A8800']
+SEASON_PALETTE = ['#00A6A6', '#7F7F7F', '#ED7D31', '#70AD47', '#C00000']
+SEASON_YEAR_COUNT = 5
+CONTINUOUS_CHARTS = {
+    'premium', 'ratio_ni_ss', 'ratio_ni_copper', 'ratio_npi_refined',
+    'precursor_price', 'cathode_price', 'nickel_ore_grades',
+}
 
 
 def tint(color, factor):
@@ -154,30 +178,75 @@ def tint(color, factor):
     return '#%02X%02X%02X' % tuple(parts)
 
 
+def season_color(source_index, year_index, year_count, source_count):
+    if source_count == 1:
+        return SEASON_PALETTE[SEASON_YEAR_COUNT - year_count + year_index]
+    depth = 0.45 + 0.55 * (year_index / max(1, year_count - 1))
+    return tint(SEASON_COLORS[source_index % len(SEASON_COLORS)], depth)
+
+
+def trim_existing_seasonal(chart):
+    sources = chart.get('datasets') or []
+    years = []
+    for source in sources:
+        match = re.search(r'20\d{2}', str(source.get('label', '')))
+        if not match:
+            return chart
+        years.append(int(match.group()))
+    if not years:
+        return chart
+    keep = sorted(set(years))[-SEASON_YEAR_COUNT:]
+    latest = max(keep)
+    datasets = []
+    for source_index, source in enumerate(sources):
+        year = int(re.search(r'20\d{2}', str(source.get('label', ''))).group())
+        if year not in keep:
+            continue
+        year_index = keep.index(year)
+        color = season_color(source_index, year_index, len(keep), len(sources))
+        datasets.append(dict(source, borderColor=color, backgroundColor=color,
+                             borderWidth=2.2 if year == latest else 1.2))
+    return dict(chart, datasets=datasets, _seasonal=True, _year_count=len(keep))
+
+
 def seasonalize_charts(charts):
+    continuous_limits = {'ratio_ni_ss': 500, 'ratio_ni_copper': 500, 'ratio_npi_refined': 500}
+    y_limits = {'premium_russia': [-800, 600], 'premium_jinchuan': [0, 5500], 'premium_bean': [-4000, 5500]}
     converted = {}
     for key, chart in charts.items():
-        labels = chart.get('labels') or []
-        if len(labels) < 40 or not all(re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(x)) for x in labels):
-            converted[key] = chart
+        if key in CONTINUOUS_CHARTS or chart.get('_continuous') or chart.get('_curve'):
+            limit = continuous_limits.get(key)
+            if limit:
+                chart = dict(chart, labels=(chart.get('labels') or [])[-limit:],
+                             datasets=[dict(source, data=(source.get('data') or [])[-limit:])
+                                       for source in chart.get('datasets') or []])
+            converted[key] = dict(chart, _continuous=True)
             continue
-        years = sorted({str(x)[:4] for x in labels})
-        month_days = sorted({str(x)[5:] for x in labels})
+        labels = chart.get('labels') or []
+        daily = len(labels) >= 40 and all(re.fullmatch(r'\d{4}-\d{2}-\d{2}', str(x)) for x in labels)
+        monthly = len(labels) >= 24 and all(re.fullmatch(r'\d{4}-\d{2}', str(x)) for x in labels)
+        if not daily and not monthly:
+            converted[key] = trim_existing_seasonal(chart)
+            continue
+        years = sorted({str(x)[:4] for x in labels})[-SEASON_YEAR_COUNT:]
+        month_days = [f'{month:02d}' for month in range(1, 13)] if monthly else sorted(
+            {str(x)[5:] for x in labels if str(x)[:4] in years})
         sources = chart.get('datasets') or []
         datasets = []
+        latest = int(max(years))
         for source_index, source in enumerate(sources):
-            base = SEASON_COLORS[source_index % len(SEASON_COLORS)]
             for year_index, year in enumerate(years):
                 lookup = {str(label)[5:]: value for label, value in zip(labels, source.get('data') or []) if str(label).startswith(year)}
-                if len(sources) > 1:
-                    depth = 0.45 + 0.55 * (year_index / max(1, len(years) - 1))
-                    color = tint(base, depth)
-                else:
-                    color = SEASON_COLORS[year_index % len(SEASON_COLORS)]
-                datasets.append(dict(source, label='%s年｜%s' % (year, source.get('label', key)),
-                                     data=[lookup.get(md) for md in month_days],
-                                     borderColor=color, backgroundColor=color))
-        converted[key] = dict(chart, labels=month_days, datasets=datasets, _seasonal=True)
+                color = season_color(source_index, year_index, len(years), len(sources))
+                label = '%s年' % year if len(sources) == 1 else '%s年｜%s' % (year, source.get('label', key))
+                datasets.append(dict(source, label=label, data=[lookup.get(md) for md in month_days],
+                                     borderColor=color, backgroundColor=color,
+                                     borderWidth=2.2 if int(year) == latest else 1.2))
+        converted[key] = dict(chart, labels=month_days, datasets=datasets,
+                              _seasonal=True, _year_count=len(years))
+    for key, limits in y_limits.items():
+        if key in converted:
+            converted[key]['_y_limits'] = limits
     return converted
 
 
@@ -249,10 +318,14 @@ def forecast_balance_html(config, shfe_values, full=False):
 FRESHNESS_FILE = BASE / 'data' / 'nickel_weekly_freshness.json'
 UNITS = {
     'overview_shfe': '元/吨', 'overview_ss': '元/吨', 'overview_lme': '美元/吨',
-    'overview_global_stock': '吨', 'premium': '元/吨', 'ratio_ni_ss': '比值',
+    'overview_global_stock': '吨', 'premium': '元/金属吨', 'ratio_ni_ss': '倍',
     'lme03': '美元/吨', 'import_profit': '元/吨', 'npi_price': '元/镍点',
     'ni_curve': '元/吨', 'ss_curve': '元/吨', 'lme_curve': '美元/吨',
-    'ratio_ni_copper': '比值', 'ratio_npi_refined': '比值',
+    'ratio_ni_copper': '倍', 'ratio_npi_refined': '倍',
+    'sulfate_price': '元/吨', 'matte_discount': '%', 'mhp_ni_discount': '%', 'mhp_co_discount': '%',
+    'precursor_price': '元/吨', 'precursor_622': '元/吨', 'cathode_price': '元/吨', 'cathode_622': '元/吨',
+    'ss_spot': '元/吨', 'ss_basis': '元/吨', 'ss_cold_hot_spread': '元/吨',
+    'nickel_ore_philippines': '美元/湿吨', 'nickel_ore_indonesia': '美元/湿吨', 'nickel_ore_grades': '美元/湿吨',
     'supply_refined_cn': '金属吨', 'supply_refined_id': '金属吨',
     'supply_npi_cn': '万金属吨', 'supply_npi_id': '万金属吨', 'supply_npi_stock': '万金属吨',
     'supply_nickel_sulfate': '金属吨', 'supply_sulfate_rate': '%',
@@ -279,8 +352,8 @@ def source_detail(source):
         return '%s %s!%s（%s）' % (source.get('workbook'), source.get('sheet'), source.get('position'), source.get('slot'))
     if kind == 'zhiji':
         return 'zhiji ' + '/'.join(source.get('indicators') or [source.get('indicator', '—')])
-    if kind == 'zhiji-guan':
-        return '知几行情 ' + str(source.get('symbol', '—'))
+    if kind in ('zhiji-guan', 'sina+zhiji-guan'):
+        return '新浪主连全历史 + 知几行情补充 ' + str(source.get('symbol', '—'))
     if kind == 'derived':
         return '衍生计算：' + str(source.get('formula', '—'))
     if kind == 'financial':
@@ -423,12 +496,15 @@ def update_daily(meta):
 def chart_group(charts, keys):
     parts = ['<div class="charts3">']
     for key in keys:
-        point = last_point(charts.get(key, {}))
+        chart = charts.get(key, {})
+        point = last_point(chart)
+        unit = UNITS.get(key, '')
         parts.append('<div class="cbox%s">' % (' ec' if point else ''))
         if point:
-            parts.append('<div class="echart"><div class="chart-box"><canvas data-chart="%s"></canvas></div></div>' % esc(key))
-            parts.append('<div class="cap">%s</div><div class="stats">最新标签 %s ｜ 最新值 %s ｜ %s</div>' % (
-                esc(NAMES.get(key, key)), esc(point[0]), fmt(point[1]), esc(point[2])))
+            parts.append('<div class="echart"><div class="chart-box"><canvas data-chart="%s" data-unit="%s"></canvas></div></div>' % (esc(key), esc(unit)))
+            label = '%s %s' % (point[2], point[0]) if chart.get('_seasonal') else str(point[0])
+            parts.append('<div class="cap">%s</div><div class="stats">最新标签 %s ｜ 最新值 %s %s ｜ %s</div>' % (
+                esc(NAMES.get(key, key)), esc(label), fmt(point[1]), esc(unit), esc(point[2])))
         else:
             parts.append('<div class="cap">%s</div><div class="stats">本期无有效数据，保留空态不补零。</div>' % esc(NAMES.get(key, key)))
         parts.append('</div>')
@@ -556,6 +632,7 @@ def main():
             'built_at': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
             'local_url': 'nickel-weekly/#sumsec', 'source_url': 'https://amiya866.github.io/nickel-panel/',
             'warnings': data.get('meta', {}).get('warnings', []), 'sync_status': 'ok'}
+    shfe_values = [v for v in charts['overview_shfe']['datasets'][0]['data'] if v is not None]
     charts = seasonalize_charts(charts)
     freshness = build_freshness(data)
     FRESHNESS_FILE.write_text(json.dumps(freshness, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -566,10 +643,10 @@ def main():
         shutil.copyfile(BASE / 'tin-weekly' / name, OUT / name)
     shutil.copyfile(BASE / 'tin-weekly' / 'lib' / 'chart.min.js', OUT / 'lib' / 'chart.min.js')
     shutil.copyfile(BASE / 'scripts' / 'nickel_weekly_research.js', OUT / 'research.js')
+    shutil.copyfile(BASE / 'scripts' / 'nickel_weekly_charts.js', OUT / 'charts.js')
     tin_html = (BASE / 'tin-weekly' / 'index.html').read_text(encoding='utf-8')
     base_css = re.search(r'<style>(.*?)</style>', tin_html, re.S).group(1)
 
-    shfe_values = [v for v in charts['overview_shfe']['datasets'][0]['data'] if v is not None]
     parts = []
     for sid, title, trail, keys in SECTIONS:
         parts.append('<section class="report-page" data-page="%s" data-trail="%s"><div class="page-heading"><h2>%s</h2><span>%s</span></div><div class="page-body">' % (
@@ -647,7 +724,7 @@ def main():
             parts.append('</table></div>')
         if sid == 'sources':
             summary = freshness['summary']
-            parts.append('<details class="fold" id="datagap" open><summary>数据口径、缺口与新鲜度（51项全量审计）</summary><div class="foldbody">')
+            parts.append('<details class="fold" id="datagap" open><summary>数据口径、缺口与新鲜度（%d项全量审计）</summary><div class="foldbody">' % summary['total'])
             parts.append('<div class="fresh-grid">')
             for code, label in [('fresh', '正常'), ('watch', '关注'), ('stale', '滞后'), ('missing', '缺失'), ('review', '待核')]:
                 parts.append('<button type="button" class="fresh-kpi %s" data-filter="%s"><span>%s</span><strong>%d</strong><small>点击筛选</small></button>' % (code, code, label, summary[code]))
@@ -663,7 +740,11 @@ def main():
                     esc(row['frequency']), esc(row['unit']), esc(row['latest']), esc(row['latest_value']), esc(age),
                     row['status'], esc(row['status_label']), esc(row['action'])))
             parts.append('</table></div>')
-        if keys:
+        if sid == 'price':
+            for group_title, group_keys in PRICE_GROUPS:
+                parts.append('<div class="lead">%s · 最新读数逐项标注日期</div>' % esc(group_title))
+                parts.append(chart_group(charts, group_keys))
+        elif keys:
             parts.append('<div class="lead">%s · 最新读数逐项标注日期</div>' % esc(title))
             parts.append(chart_group(charts, keys))
         if sid == 'sumsec':
@@ -675,7 +756,7 @@ def main():
 <title>研究周报 · 镍与不锈钢</title><style>__BASE_CSS__</style><link href="weekly_mobile.css" rel="stylesheet"><link href="weekly_polish.css" rel="stylesheet"><link href="research.css" rel="stylesheet"><link href="../weekly-light.css" rel="stylesheet"><style>.chart-box{height:240px;position:relative}.chart-box canvas{display:block;width:100%;height:100%}.tablewrap{overflow-x:auto}.page-body p{font-size:14.5px}.cbox .stats{line-height:1.55}.fresh-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:12px 0}.fresh-kpi{border:1px solid var(--line);background:var(--cardbg);padding:10px;text-align:left;cursor:pointer}.fresh-kpi span,.fresh-kpi small{display:block;color:var(--faint);font-size:11px}.fresh-kpi strong{display:block;font-size:25px}.fresh-kpi.fresh strong{color:#188865}.fresh-kpi.watch strong{color:#a3760e}.fresh-kpi.stale strong,.fresh-kpi.missing strong{color:#c44b5d}.fresh-kpi.review strong{color:#7c4dff}.fresh-kpi.active{outline:2px solid var(--blue);outline-offset:1px}.fresh-legend{margin:12px 0;color:var(--grey);font-size:13px}.fresh-badge{display:inline-block;padding:1px 7px;border:1px solid var(--line);white-space:nowrap}.fresh-badge.fresh{color:#188865}.fresh-badge.watch{color:#a3760e}.fresh-badge.stale,.fresh-badge.missing{color:#c44b5d}.fresh-badge.review{color:#7c4dff}.src-note{color:var(--faint);font-size:11px}.fresh-table{min-width:1080px}.fresh-table td{vertical-align:top}@media(max-width:900px){.fresh-grid{grid-template-columns:repeat(3,1fr)}}</style></head>
 <body><header class="research-topbar"><div class="research-brand"><a aria-label="返回整合研究站" class="back-home" href="../index.html">← 整合研究站</a><div class="brand-copy"><p class="research-eyebrow">COMMODITY WEEKLY RESEARCH · NICKEL</p><h1>研究周报 <span class="commodity-current">镍</span></h1><p>镍 × 不锈钢 · 周度研究 · 印尼供应 · 库存 · 成本平衡</p></div></div><div class="research-actions"><nav class="commodity-switch" aria-label="品种切换"><a href="../tin-weekly/#sumsec">锡</a><a class="active" href="#sumsec">镍</a><a href="../zinc-weekly/#sumsec">锌</a><a href="../aluminum-weekly/#sumsec">铝</a><a href="../copper-weekly/#sumsec">铜</a><a href="../lead-weekly/#sumsec">铅</a><a href="../arbitrage-weekly/">套利</a></nav><a class="back-home" href="https://amiya866.github.io/nickel-panel/" target="_blank" rel="noopener">镍市瞭望 ↗</a><span class="research-stamp">数据截至 <b>__ASOF__</b></span><button aria-pressed="false" class="view-toggle" id="viewToggle" type="button">切换手机版</button></div></header>
 <div class="research-workspace"><aside class="research-sidebar top-navigation" id="researchSidebar"><button aria-controls="treeNav" aria-expanded="false" class="menu-toggle" id="menuToggle" type="button">研究目录 <span>＋</span></button><div class="sidebar-heading"><span>RESEARCH INDEX</span><b>研究目录</b></div><nav aria-label="镍研究分层目录" class="tree-nav top-nav-inner" id="treeNav"></nav></aside><div class="research-content"><div aria-live="polite" class="breadcrumb" id="breadcrumb"></div><div class="wrap" id="reportWrap">__SECTIONS__</div><section aria-live="polite" class="tool-page" hidden id="toolPage"><div class="tool-head"><div><p class="research-eyebrow">RESEARCH WORKBENCH</p><h2 id="toolTitle">研究工作台</h2></div><button id="closeTool" type="button">← 返回周报</button></div><iframe hidden id="toolFrame" title="镍研究工作台"></iframe></section></div></div>
-<script src="lib/chart.min.js"></script><script>const DATA=__PAYLOAD__;const charts=DATA.charts;document.querySelectorAll('canvas[data-chart]').forEach(function(canvas){const c=charts[canvas.dataset.chart];if(!c)return;const ds=(c.datasets||[]).map(function(d){return Object.assign({borderWidth:1.5,pointRadius:0,spanGaps:true},d);});new Chart(canvas,{type:'line',data:{labels:c.labels||[],datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{family:'KaiTi,"楷体",serif',size:10}}}},scales:{x:{ticks:{maxTicksLimit:8,font:{family:'KaiTi,"楷体",serif',size:10}},grid:{color:'#e3e3e3'}},y:{ticks:{font:{family:'KaiTi,"楷体",serif',size:10}},grid:{color:'#e3e3e3'}}}}});});</script><script src="weekly_mobile.js"></script><script src="research.js"></script><script>document.querySelectorAll('.fresh-kpi').forEach(function(btn){btn.addEventListener('click',function(){const code=btn.dataset.filter;let shown=0;document.querySelectorAll('.fresh-kpi').forEach(function(x){x.classList.toggle('active',x===btn)});document.querySelectorAll('tr[data-fresh]').forEach(function(row){const visible=code==='all'||row.dataset.fresh===code;row.hidden=!visible;if(visible)shown++});document.getElementById('freshCount').textContent=shown})});</script></body></html>'''
+<script src="lib/chart.min.js"></script><script>const DATA=__PAYLOAD__;const charts=DATA.charts;</script><script src="charts.js"></script><script src="weekly_mobile.js"></script><script src="research.js"></script><script>document.querySelectorAll('.fresh-kpi').forEach(function(btn){btn.addEventListener('click',function(){const code=btn.dataset.filter;let shown=0;document.querySelectorAll('.fresh-kpi').forEach(function(x){x.classList.toggle('active',x===btn)});document.querySelectorAll('tr[data-fresh]').forEach(function(row){const visible=code==='all'||row.dataset.fresh===code;row.hidden=!visible;if(visible)shown++});document.getElementById('freshCount').textContent=shown})});</script></body></html>'''
     doc = doc.replace('__BASE_CSS__', base_css).replace('__ASOF__', esc(asof)).replace('__SECTIONS__', ''.join(parts)).replace('__PAYLOAD__', payload)
     tmp = OUT / 'index.html.tmp'
     tmp.write_text(doc, encoding='utf-8')
