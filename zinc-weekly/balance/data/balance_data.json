@@ -119,7 +119,7 @@
         17.78
       ],
       "note": "Teck 22.5%权益指引中值4万吨÷22.5%；2027同法，低品位计划延续",
-      "actual": "品位和采选顺序如期上升；26Q2: 入选铜锌矿比例降至33%(去年同期77%)，矿山计划所致"
+      "actual": "26Q3 Antamina锌3.85万吨（100%口径），同比-69.6%：入选铜锌矿比例下降；Teck Q3 2026 News Release"
     },
     {
       "company": "TECK",
@@ -134,7 +134,7 @@
         38.0
       ],
       "note": "2026按最新季报指引偏上限；2027品位下降情景",
-      "actual": "品位下降；26Q2: 品位如矿山计划下降；Q3销量指引22-27万吨(发运季7/12启动)"
+      "actual": "26Q3 Red Dog锌10.65万吨，同比-12.7%：矿山计划内品位下降；Teck Q3 2026 News Release"
     },
     {
       "company": "Glencore",
@@ -149,7 +149,7 @@
         10.0
       ],
       "note": "无单体指引，按年内运行与集团锌指引拟合",
-      "actual": "26Q2: Zinc in concentrates 30.5kt(同比-4.7%)，来自Glencore 2026-H1 Production Report(PDF)；历史Kazzinc数据口径以官方报告为准"
+      "actual": "26Q3 Kazzinc锌精矿含锌2.93万吨，环比-4%；Glencore Q3 2026 Production Report"
     },
     {
       "company": "Glencore",
@@ -164,7 +164,7 @@
         27.5
       ],
       "note": "按2025稳定运行水平拟合",
-      "actual": "26Q2: Zinc in concentrates 70.0kt(同比+4.8%)，来自Glencore 2026-H1 Production Report；历史数据与官方报告Zinc in concentrates口径吻合"
+      "actual": "26Q3 McArthur River锌精矿含锌6.87万吨，环比-2%；Glencore Q3 2026 Production Report"
     },
     {
       "company": "Glencore",
@@ -179,7 +179,7 @@
         15.0
       ],
       "note": "Lady Loretta资源枯竭，2027继续退坡",
-      "actual": "26Q2: Zinc in concentrates 39.1kt(同比-46.1%)，来自Glencore 2026-H1 Production Report；历史数据与官方报告Zinc in concentrates口径吻合"
+      "actual": "26Q3 Mount Isa锌精矿含锌4.59万吨，环比+17%；Glencore Q3 2026 Production Report"
     },
     {
       "company": "NEXA",
@@ -194,7 +194,7 @@
         7.9
       ],
       "note": "Nexa 2026-10-29指引中值",
-      "actual": "2Q26：品位升至1.64%+block caving投产，产量同比-6.1%"
+      "actual": "26Q3 Cerro Lindo锌2.13万吨，同比-4.3%/环比-2.5%：品位下降，处理量恢复部分对冲；Nexa 3Q26"
     },
     {
       "company": "NEXA",
@@ -209,7 +209,7 @@
         13.0
       ],
       "note": "Nexa 2026-10-29指引中值",
-      "actual": "2Q26：同比+18.8%，运营改善"
+      "actual": "26Q3 Vazante锌3.37万吨，同比持平/环比+3.5%：处理量及品位提高；Nexa 3Q26"
     },
     {
       "company": "BOLIDEN",
@@ -224,7 +224,7 @@
         8.0
       ],
       "note": "2026磨矿指引折算；2027恢复情景",
-      "actual": "Q2 将 2026 磨矿指引 1.8→1.6Mt（开拓进度不及预期），H2 偏弱"
+      "actual": "26Q3 Tara锌14,957吨=1.4957万吨；Boliden Q3 2026 Interim Report"
     },
     {
       "company": "BOLIDEN",
@@ -239,7 +239,7 @@
         6.5
       ],
       "note": "2026地震后磨矿1.5Mt、品位2.7%折算；2027磨矿2.3Mt情景",
-      "actual": "3/14 异常地震+岩爆停产至 4 月底，Q2 磨矿仅约 0.1Mt；受损提升机已修复、未受影响区域复产，目前约 30% 产能；2027 磨矿指引 2.3Mt"
+      "actual": "26Q3 Garpenberg锌10,046吨=1.0046万吨，震后未受影响矿区逐步复产；Boliden Q3 2026"
     },
     {
       "company": "BOLIDEN",
@@ -254,7 +254,7 @@
         11.0
       ],
       "note": "2026指引中值；2027稳态",
-      "actual": "一季度强降雨影响；26Q2锌2.79万吨(+7%): 磨矿量环比回升、品位稳定"
+      "actual": "26Q3 Somincor/Neves-Corvo锌28,901吨=2.8901万吨，同比-1.4%/环比+3.7%；Boliden Q3 2026"
     },
     {
       "company": "BOLIDEN",
@@ -269,7 +269,7 @@
         8.0
       ],
       "note": "2026指引中值；2027稳态",
-      "actual": "品位和回收率环比上升；26Q2锌1.68万吨(-24%): 磨矿量环比下降，锌品位升高部分对冲"
+      "actual": "26Q3 Zinkgruvan锌18,532吨=1.8532万吨，同比-8.3%/环比+10.1%；Boliden Q3 2026"
     },
     {
       "company": "MMG",
@@ -329,7 +329,7 @@
         10.0
       ],
       "note": "历史跟踪估计，非公开季报实际值",
-      "actual": "私有化后无公开披露：Polymetal 2024/3/7出售全部俄罗斯资产后更名Solidcore（仅剩哈萨克资产，26Q2季报2026/9/9才发布且不含Ozernoye）；俄资产无公开季度产量（2026-08-31核：akm.ru + solidcore-resources.com）"
+      "actual": "私有化且俄资产已出售，不披露季度产量，不纳入预填拟合"
     },
     {
       "company": "South32",
@@ -389,7 +389,7 @@
         26.5
       ],
       "note": "合并口径，含Fresnillo，不能再与Fresnillo行相加",
-      "actual": "官方Informe del Director 2T26口径(含Fresnillo 74.99%+Juanicipio 100%应付，非权益)；26Q2=6.8718万吨(68,718吨)同比+14.2%(主因Tizapa复产)/环比+3.1%。来源:penoles.com.mx Informe_Director_2T26_Eng.pdf(2026-08-04)"
+      "actual": "26Q3矿产锌66,181吨=6.6181万吨，同比+4.8%：Tizapa贡献及Fresnillo/Sabinas品位改善；Peñoles 3T26官方生产表"
     },
     {
       "company": "Volcan",
@@ -404,7 +404,7 @@
         25.0
       ],
       "note": "按年内运行及Romina爬产拟合",
-      "actual": "官方MD&A口径（锌金属量）；25Q1/26Q1为官方累计值之差推算；Romina矿2026年6月投产爬产中（26Q2已产锌0.14万吨）"
+      "actual": "26Q3锌约60,200金属吨=6.02万吨：官方9M=168.7千金属吨，减H1=108.5千金属吨；Volcan 3Q26 MD&A"
     },
     {
       "company": "Southern Copper",
@@ -434,7 +434,7 @@
         9.5
       ],
       "note": "2026应付锌指引中值；2027稳态",
-      "actual": "26Q2=2.5万吨（推导值：H1 2026 Century应付锌45kt[8/27经营更新] − 26Q1 20kt[已披露] = 25kt；Q2单季未直接披露，9/1正式中报后复核）。FY2025 Century应付锌101kt(+22%超指引上限97.8kt)。源：Sibanye 8/27经营更新 + 2025年报(2/20)"
+      "actual": "26Q3 Century应付锌25kt=2.5万吨，同比+2%/环比持平；Sibanye Q3 2026 Operating Update"
     },
     {
       "company": "KAZ Minerals",
@@ -464,7 +464,7 @@
         6.1
       ],
       "note": "2026权益指引中值；2027稳定",
-      "actual": "26Q2 锌产量 15.6kt=1.56 万吨（Q1 12.6kt）；权益口径。源：Pan American Silver Q2 2026（8/12）"
+      "actual": "26Q3权益锌15.2kt=1.52万吨，同比+20.6%/环比-2.6%；Pan American Silver Q3 2026 News Release"
     },
     {
       "company": "Buenaventura",
@@ -524,7 +524,7 @@
         7.1
       ],
       "note": "Nexa 2026-10-29指引中值",
-      "actual": "2Q26：同比-3.7%，Q1扰动后恢复"
+      "actual": "26Q3 El Porvenir锌1.37万吨，同比-4.5%/环比+5.1%；Nexa 3Q26"
     },
     {
       "company": "NEXA",
@@ -539,7 +539,7 @@
         1.7
       ],
       "note": "Nexa 2026-10-29指引中值",
-      "actual": "2Q26：同比-4.2%"
+      "actual": "26Q3 Atacocha锌0.31万吨，同比+6.8%/环比+4.7%：锌品位提高；Nexa 3Q26"
     },
     {
       "company": "NEXA",
@@ -554,7 +554,7 @@
         6.5
       ],
       "note": "Nexa 2026-10-29指引中值",
-      "actual": "2Q26：同比+43.8%；Q1创纪录13kt，Q2尾矿过滤机投产过渡季"
+      "actual": "26Q3 Aripuanã锌1.30万吨，同比+24.7%/环比+47.6%：第四尾矿过滤机提升处理量；Nexa 3Q26"
     },
     {
       "company": "Almina",
