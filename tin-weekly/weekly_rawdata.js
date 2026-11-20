@@ -1,6 +1,7 @@
 /* W45 source-workbook browser: lazy worksheet loading, filtering and pagination. */
 (function () {
   'use strict';
+  const rawDir = /weekly_w46_|weekly_full\.html/.test(location.pathname) ? 'w46' : 'w45';
   const panel = document.getElementById('rawDataPanel');
   if (!panel) return;
   const fileEl = document.getElementById('rawFile');
@@ -86,7 +87,7 @@
     table.replaceChildren();
     try {
       if (!cache.has(entry.key)) {
-        const response = await fetch(`weekly_data/w45/${entry.key}.json`, { cache: 'no-store' });
+        const response = await fetch(`weekly_data/${rawDir}/${entry.key}.json`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         cache.set(entry.key, await response.json());
       }
@@ -98,7 +99,7 @@
       if (id !== requestId) return;
       payload = null;
       filtered = [];
-      statusEl.textContent = `工作表读取失败：${error.message}。源文件仍保留在 weekly_data/w45/，未用空表替代。`;
+      statusEl.textContent = `工作表读取失败：${error.message}。源文件仍保留在 weekly_data/${rawDir}/，未用空表替代。`;
       pageInfo.textContent = '';
       prev.disabled = next.disabled = true;
     }
@@ -113,7 +114,7 @@
   }
   async function init() {
     try {
-      const response = await fetch('weekly_data/w45/manifest.json', { cache: 'no-store' });
+      const response = await fetch(`weekly_data/${rawDir}/manifest.json`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       manifest = await response.json();
       const files = [...new Set(manifest.map(item => item.file))];

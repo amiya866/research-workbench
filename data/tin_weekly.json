@@ -22,13 +22,13 @@
   ],
   "source_url": "https://gsy1005.github.io/tin-research/weekly_full.html#sumsec",
   "local_url": "tin-weekly/#sumsec",
-  "source_sha256": "f651757ec1e1abaecade4d14c230cc9d53c176a08345c1691bb25a1b1d9d2b82",
+  "source_sha256": "c02727ceec79b25787ded3f87a49b806c67f69412fe5bcdc3f44c323ccc55a0c",
   "asset_count": 543,
-  "synced_at": "2026-11-15T17:03:16+08:00",
+  "synced_at": "2026-11-20T09:24:17+08:00",
   "sync_status": "ok",
   "last_error": "",
-  "local_summary_source": "D:\\拷贝文件\\E\\永安\\周报数据更新\\图表格式(1)\\锡周报20260709_试跑\\周报更新图\\锡周报20261114.pptx",
-  "local_summary_sha256": "5655a41a605d5796e81fbdf3c8b624e9a4475031f9cbb53f6883e73a01aff40f",
   "narrative_mode": "ai-generated",
-  "narrative_model": "kimi-code-cli"
+  "narrative_model": "kimi-code-cli",
+  "local_summary_source": "D:\\拷贝文件\\E\\永安\\周报数据更新\\图表格式(1)\\锡周报20260709_试跑\\周报更新图\\锡周报20261114.pptx",
+  "local_summary_sha256": "5655a41a605d5796e81fbdf3c8b624e9a4475031f9cbb53f6883e73a01aff40f"
 }
