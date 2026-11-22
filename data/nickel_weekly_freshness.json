@@ -1,6 +1,6 @@
 {
   "asof": "2026-11-22",
-  "built_at": "2026-11-22T13:32:21+08:00",
+  "built_at": "2026-11-22T15:47:51+08:00",
   "thresholds": {
     "日度": [
       7,
@@ -32,9 +32,9 @@
     ]
   },
   "summary": {
-    "fresh": 42,
+    "fresh": 44,
     "watch": 9,
-    "stale": 9,
+    "stale": 7,
     "missing": 1,
     "review": 4,
     "total": 65
@@ -116,21 +116,6 @@
       "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
     },
     {
-      "key": "cost_npi_profit",
-      "name": "镍铁价格与理论利润",
-      "module": "成本与利润",
-      "source": "B01 NPI利润：Q高镍铁价格-AQ山东RKEF成本",
-      "frequency": "日度",
-      "unit": "元/镍点",
-      "latest": "2026-10-09",
-      "latest_value": "-71.91",
-      "latest_iso": "2026-10-09",
-      "age_days": 44,
-      "status": "stale",
-      "status_label": "滞后",
-      "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
-    },
-    {
       "key": "cost_ss_profit",
       "name": "不锈钢成本与利润",
       "module": "成本与利润",
@@ -154,21 +139,6 @@
       "unit": "万吨",
       "latest": "08",
       "latest_value": "97.38",
-      "latest_iso": "2026-08-01",
-      "age_days": 113,
-      "status": "stale",
-      "status_label": "滞后",
-      "action": "保留最后真实值并标注日期；等待源端更新，不补0，不作为本周新增证据。"
-    },
-    {
-      "key": "supply_npi_stock",
-      "name": "镍铁库存",
-      "module": "纯镍与印尼供应",
-      "source": "B01 中国平衡（NPI）!AY16（P28-BR）",
-      "frequency": "月度/季节图",
-      "unit": "万金属吨",
-      "latest": "08",
-      "latest_value": "0.35",
       "latest_iso": "2026-08-01",
       "age_days": 113,
       "status": "stale",
@@ -971,6 +941,21 @@
       "action": "按源口径使用，随自动链更新。"
     },
     {
+      "key": "cost_npi_profit",
+      "name": "镍铁价格与理论利润",
+      "module": "成本与利润",
+      "source": "衍生计算：Mysteel山东7%-13%到厂价-SMM山东RKEF完全成本",
+      "frequency": "日度",
+      "unit": "元/镍点",
+      "latest": "2026-11-20",
+      "latest_value": "31.8",
+      "latest_iso": "2026-11-20",
+      "age_days": 2,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
       "key": "supply_matte",
       "name": "印尼高冰镍项目产量",
       "module": "纯镍与印尼供应",
@@ -1009,6 +994,21 @@
       "unit": "金属吨",
       "latest": "2026-10-31",
       "latest_value": "46,831",
+      "latest_iso": "2026-10-31",
+      "age_days": 22,
+      "status": "fresh",
+      "status_label": "正常",
+      "action": "按源口径使用，随自动链更新。"
+    },
+    {
+      "key": "supply_npi_stock",
+      "name": "镍铁库存",
+      "module": "纯镍与印尼供应",
+      "source": "zhiji ID01002131",
+      "frequency": "月度/季节图",
+      "unit": "万金属吨",
+      "latest": "10-31",
+      "latest_value": "0.65",
       "latest_iso": "2026-10-31",
       "age_days": 22,
       "status": "fresh",
