@@ -33,13 +33,13 @@ function field(key,cls){
   return '<div class="field-wrap '+(cls||'')+'"><button type="button" class="reset-field" data-reset="'+esc(key)+'" title="解除手动锁定">恢复自动</button><div class="field" data-key="'+esc(key)+'" contenteditable="false">'+esc(value(key))+'</div><span class="origin '+esc(kind)+'">'+esc(originLabel(kind))+'</span></div>';
 }
 function opinionRow(person,index){
-  return '<tr><td class="row-label person">'+field('name.'+person)+'</td><td class="content opinion-content">'+field('opinion.'+person)+'</td>'+(index===0?'<td class="side-label direction" rowspan="6">应对方向</td><td class="content" rowspan="6">'+field('strategy')+'</td>':'')+'</tr>';
+  return '<tr><td class="row-label person">'+field('name.'+person)+'</td><td class="content opinion-content">'+field('opinion.'+person)+'</td>'+(index===0?'<td class="side-label direction" rowspan="'+data.people.length+'">应对方向</td><td class="content" rowspan="'+data.people.length+'">'+field('strategy')+'</td>':'')+'</tr>';
 }
 function render(){
   const rows=[];
   rows.push('<colgroup><col style="width:65px"><col style="width:105px"><col><col style="width:115px"><col></colgroup>');
   rows.push('<tr><th class="corner">周会记录<br>自动更新 · 可手改</th><th class="head" colspan="2">'+field('week')+'</th><th class="head strategy" colspan="2">'+field('strategyTitle')+'</th></tr>');
-  rows.push('<tr><td class="commodity" rowspan="10">AL</td><td class="row-label auto-label">平衡</td><td class="content">'+field('balance')+'</td><td class="side-label" rowspan="4">主要矛盾方向</td><td class="content" rowspan="4">'+field('contradiction')+'</td></tr>');
+  rows.push('<tr><td class="commodity" rowspan="'+(4+data.people.length)+'">AL</td><td class="row-label auto-label">平衡</td><td class="content">'+field('balance')+'</td><td class="side-label" rowspan="4">主要矛盾方向</td><td class="content" rowspan="4">'+field('contradiction')+'</td></tr>');
   rows.push('<tr><td class="row-label auto-label">现货</td><td class="content">'+field('spot')+'</td></tr>');
   rows.push('<tr><td class="row-label auto-label">持仓</td><td class="content">'+field('positions')+'</td></tr>');
   rows.push('<tr><td class="row-label auto-label">关注</td><td class="content">'+field('watch')+'</td></tr>');

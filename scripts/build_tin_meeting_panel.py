@@ -17,7 +17,7 @@ TIN_DB = Path(r'D:/Kimi/锡席位与期权流动性/data/tin_monitor.db')
 OVERRIDES = BASE / 'data' / 'tin_meeting_overrides.json'
 SUMMARY = BASE / 'data' / 'tin_meeting_panel.json'
 MINUTES_DIR = Path(os.environ.get('SN_MINUTES_DIR', r'D:/Kimi/腾讯会议纪要/锡'))
-PEOPLE = common.PEOPLE
+PEOPLE = ['天', '杨', '陈', '昊', '文', '标']
 TIN_PATTERN = r'锡|缅甸|佤邦|印尼|LME|SHFE|库存|升贴水|月差|仓单|持仓|borrow|lending|反套|正套|偏[多空头]|看空|看多|焊料|半导体'
 
 
@@ -146,7 +146,7 @@ def copy_template():
 
 def main():
     auto, origins, sources, asof = build_auto()
-    minutes, minutes_meta = common.load_minutes(MINUTES_DIR, TIN_PATTERN)
+    minutes, minutes_meta = common.load_minutes(MINUTES_DIR, TIN_PATTERN, PEOPLE)
     for person, text in minutes.items():
         if text:
             auto['opinion.' + person] = text

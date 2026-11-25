@@ -21,7 +21,7 @@ LME_JSON = BASE / 'data' / 'lme_cash3m.json'
 OVERRIDES = BASE / 'data' / 'aluminum_meeting_overrides.json'
 SUMMARY = BASE / 'data' / 'aluminum_meeting_panel.json'
 MINUTES_DIR = Path(os.environ.get('AL_MINUTES_DIR', r'D:/Kimi/腾讯会议纪要/铝'))
-PEOPLE = ['天', '杨', '陈', '昊', '文', '标']
+PEOPLE = ['谭', '骆', '顾', '马', '禹', '齐', '昊']
 
 
 def read_json(path, default):
@@ -113,17 +113,19 @@ def read_text(path):
     return raw.decode('utf-8', errors='replace')
 
 
-def speaker_name(text):
+def speaker_name(text, people=None):
+    people = people or PEOPLE
     text = re.sub(r'(?:老师|发言人)$', '', text.strip())
-    if text in PEOPLE:
+    if text in people:
         return text
-    if len(text) <= 6 and text[-1:] in PEOPLE:
+    if len(text) <= 6 and text[-1:] in people:
         return text[-1]
     return None
 
 
-def parse_speakers(text):
-    blocks = {person: [] for person in PEOPLE}
+def parse_speakers(text, people=None):
+    people = people or PEOPLE
+    blocks = {person: [] for person in people}
     current, unassigned = None, 0
     for raw in text.splitlines():
         line = re.sub(r'^\s*(?:\d+\s+)?(?:\d{1,2}:\d{2}:\d{2}[,.]\d+\s+-->\s+\d{1,2}:\d{2}:\d{2}[,.]\d+)\s*$', '', raw).strip()
@@ -136,7 +138,7 @@ def parse_speakers(text):
             continue
         match = re.match(r'^(?:发言人\s*[:：]?\s*)?([\u4e00-\u9fff·]{1,6})(?:老师)?\s*[:：]\s*(.*)$', line)
         if match:
-            current = speaker_name(match.group(1))
+            current = speaker_name(match.group(1), people)
             content = match.group(2).strip()
             if current and content:
                 blocks[current].append(content)
@@ -145,7 +147,7 @@ def parse_speakers(text):
             continue
         match = re.match(r'^(?:发言人\s*[:：]?\s*)?([\u4e00-\u9fff·]{1,6})(?:老师)?\s+\d{1,2}:\d{2}(?::\d{2})?\s*$', line)
         if match:
-            current = speaker_name(match.group(1))
+            current = speaker_name(match.group(1), people)
             continue
         if current:
             blocks[current].append(line)
@@ -156,12 +158,17 @@ def parse_speakers(text):
 
 def summarize(lines, commodity_pattern=None):
     pattern = commodity_pattern or r'铝|氧化铝|LME|SHFE|库存|升贴水|月差|仓单|持仓|borrow|lending|反套|正套|偏[多空头]|看空|看多'
-    sentences = []
+    sentences, candidates = [], []
     for line in lines:
         for sentence in re.split(r'(?<=[。！？；])', line):
             sentence = re.sub(r'\s+', ' ', sentence).strip()
-            if len(sentence) >= 8 and re.search(pattern, sentence, re.I):
+            if len(sentence) < 8:
+                continue
+            candidates.append(sentence)
+            if re.search(pattern, sentence, re.I):
                 sentences.append(sentence)
+    if not sentences:
+        sentences = candidates
     scored = []
     for index, sentence in enumerate(sentences):
         score = len(re.findall(r'认为|预计|建议|关注|风险|偏[多空头]|看多|看空|库存|升贴水|月差|borrow|lending|反套|正套|止损|复产|去库|累库', sentence, re.I))
@@ -175,21 +182,22 @@ def summarize(lines, commodity_pattern=None):
     return '\n'.join(output)
 
 
-def load_minutes(directory=None, commodity_pattern=None):
+def load_minutes(directory=None, commodity_pattern=None, people=None):
+    people = people or PEOPLE
     directory = directory or MINUTES_DIR
     directory.mkdir(parents=True, exist_ok=True)
     files = [p for p in directory.iterdir() if p.is_file() and p.suffix.lower() in ('.txt', '.md', '.vtt', '.srt', '.docx') and not p.name.startswith('~$')]
-    opinions = {person: '' for person in PEOPLE}
+    opinions = {person: '' for person in people}
     if not files:
         return opinions, {'status': '待接入', 'file': None, 'unassigned': 0}
     path = max(files, key=lambda p: p.stat().st_mtime)
     try:
-        blocks, unassigned = parse_speakers(read_text(path))
-        for person in PEOPLE:
+        blocks, unassigned = parse_speakers(read_text(path), people)
+        for person in people:
             opinions[person] = summarize(blocks[person], commodity_pattern)
         stamp = datetime.datetime.fromtimestamp(path.stat().st_mtime).astimezone().isoformat(timespec='seconds')
-        count = sum(bool(opinions[p]) for p in PEOPLE)
-        return opinions, {'status': f'{path.name} · 已提炼{count}/6人', 'file': path.name,
+        count = sum(bool(opinions[p]) for p in people)
+        return opinions, {'status': f'{path.name} · 已提炼{count}/{len(people)}人', 'file': path.name,
                           'updated_at': stamp, 'unassigned': unassigned}
     except Exception as exc:
         return opinions, {'status': f'{path.name} · 解析失败：{exc}', 'file': path.name, 'unassigned': 0}
@@ -287,10 +295,11 @@ def main():
     manual.setdefault('values', {})
     manual.setdefault('auto_reset', [])
     built = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
+    people_text = '／'.join(PEOPLE)
     meta = {'asof': asof, 'built_at': built, 'minutes_status': minutes_meta['status'],
             'minutes_file': minutes_meta.get('file'), 'minutes_unassigned_lines': minutes_meta.get('unassigned', 0),
             'balance_note': '年度平衡是 CRU 2026-06 基准，日／周数据用于滚动验证；CFTC 为 COMEX 铝非商业持仓，不等同参考表中的 LME 高盛口径。缺数不补零。',
-            'minutes_help': f'腾讯会议纪要放入 {MINUTES_DIR}（TXT / MD / VTT / SRT / DOCX）。最新文件按“天／杨／陈／昊／文／标”及姓名末字识别发言人，保留原句提炼，不识别“发言人1”等匿名标签；原始纪要不进入网站目录。'}
+            'minutes_help': f'腾讯会议纪要放入 {MINUTES_DIR}（TXT / MD / VTT / SRT / DOCX）。最新文件按“{people_text}”及姓名末字识别发言人，保留原句提炼，不识别“发言人1”等匿名标签；原始纪要不进入网站目录。'}
     payload = {'auto': auto, 'origins': origins, 'manual': manual, 'people': PEOPLE,
                'sources': sources, 'meta': meta}
     OUT.mkdir(parents=True, exist_ok=True)
@@ -303,7 +312,7 @@ def main():
     SUMMARY.write_text(json.dumps({'asof': asof, 'built_at': built, 'minutes': minutes_meta,
                                    'local_url': 'aluminum-weekly/meeting/', 'sync_status': 'ok'},
                                   ensure_ascii=False, indent=2), encoding='utf-8')
-    assert len(PEOPLE) == 6 and all('opinion.' + p in auto for p in PEOPLE)
+    assert len(PEOPLE) == 7 and all('opinion.' + p in auto for p in PEOPLE)
     assert all(key in auto for key in ('balance', 'spot', 'positions', 'watch', 'contradiction', 'strategy'))
     print(json.dumps({'output': str(OUT), 'asof': asof, 'minutes': minutes_meta['status']}, ensure_ascii=False))
 

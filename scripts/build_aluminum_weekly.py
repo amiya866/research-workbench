@@ -380,7 +380,7 @@ def main():
             parts.append(annual_balance_html(shfe_values, full=(sid == 'balance')))
         if sid == 'sumsec':
             parts.append('<div class="tone"><b>%s</b></div><div class="roll">策略每日滚动更新：周报为周五存档，最新决策见日报页。使用左侧目录切换研究内容。</div>' % shared.esc(headline))
-            parts.append('<div class="roll" style="border-left:3px solid #c00000;padding-left:12px;margin:12px 0;"><b>铝周会面板：</b>平衡／现货／持仓随日报周报自动更新，六人观点接入腾讯会议纪要，全字段支持手动覆盖。<a href="meeting/index.html" style="font-weight:700;margin-left:8px;">打开周会面板 ↗</a></div>')
+            parts.append('<div class="roll" style="border-left:3px solid #c00000;padding-left:12px;margin:12px 0;"><b>铝周会面板：</b>平衡／现货／持仓随日报周报自动更新，七人观点接入腾讯会议纪要，全字段支持手动覆盖。<a href="meeting/index.html" style="font-weight:700;margin-left:8px;">打开周会面板 ↗</a></div>')
             parts.append(weekly_html)
             parts.append(q4_html)
             parts.append('<div id="sumsec"><h2>总结<span class="en">SUMMARY</span></h2><table class="sum"><tr><th>环节</th><th>相关数据</th><th>周度结论</th><th>跟踪</th></tr>')
