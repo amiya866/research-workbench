@@ -46,10 +46,20 @@ def web_series(ind_id):
     return rows
 
 
-def lme03_series():
-    data = read_json(LME_JSON, {}).get('AL', {})
-    return sorted((d, float(v[0]) - float(v[1])) for d, v in (data.get('hist') or {}).items()
-                  if isinstance(v, list) and len(v) >= 2)
+def lme03_series(comm='AL'):
+    data = read_json(LME_JSON, {}).get(comm, {})
+    rows = {d: float(v[0]) - float(v[1]) for d, v in (data.get('hist') or {}).items()
+            if isinstance(v, list) and len(v) >= 2}
+    daily_path = BASE / 'reports' / 'variety_latest.html'
+    daily = daily_path.read_text(encoding='utf-8') if daily_path.exists() else ''
+    name = {'AL': '铝', 'SN': '锡'}.get(comm, comm)
+    marker = '<div class="comm"><h2>' + name + '</h2>'
+    if marker in daily:
+        section = daily.split(marker, 1)[1].split('<div class="comm"><h2>', 1)[0]
+        match = re.search(r'LME 0-3\s+([+\-]?[\d,.]+)\s*美元/吨（(\d{4}-\d{2}-\d{2})）', section)
+        if match:
+            rows[match.group(2)] = float(match.group(1).replace(',', ''))
+    return sorted(rows.items())
 
 
 def window_change(rows, days=7):
@@ -84,7 +94,7 @@ def stock_text(label, rows, scale=1, unit='万吨', days=7):
     if change and change['date'] != latest[0]:
         text += f'（对比{change["date"]}）'
     return text + '。', {'label': label, 'value': f'{num(value, 2)}{unit}；近{days}天{num(delta, 2, True)}{unit}',
-                         'date': latest[0], 'source': '数据缓存_v1.db / 铝周报'}
+                         'date': latest[0], 'source': '数据缓存_v1.db / 周报与日报'}
 
 
 def read_text(path):
@@ -120,6 +130,10 @@ def parse_speakers(text):
         if not line or line.upper() in ('WEBVTT',):
             continue
         line = re.sub(r'^\[[\d:.\-—\s]+\]\s*', '', line)
+        if re.match(r'^(?:发言人\s*\d+|speaker\s*\d+)\s*(?:[:：]|\d{1,2}:\d{2})', line, re.I):
+            current = None
+            unassigned += 1
+            continue
         match = re.match(r'^(?:发言人\s*[:：]?\s*)?([\u4e00-\u9fff·]{1,6})(?:老师)?\s*[:：]\s*(.*)$', line)
         if match:
             current = speaker_name(match.group(1))
@@ -140,12 +154,13 @@ def parse_speakers(text):
     return blocks, unassigned
 
 
-def summarize(lines):
+def summarize(lines, commodity_pattern=None):
+    pattern = commodity_pattern or r'铝|氧化铝|LME|SHFE|库存|升贴水|月差|仓单|持仓|borrow|lending|反套|正套|偏[多空头]|看空|看多'
     sentences = []
     for line in lines:
         for sentence in re.split(r'(?<=[。！？；])', line):
             sentence = re.sub(r'\s+', ' ', sentence).strip()
-            if len(sentence) >= 8 and re.search(r'铝|氧化铝|LME|SHFE|库存|升贴水|月差|仓单|持仓|borrow|lending|反套|正套|偏[多空头]|看空|看多', sentence, re.I):
+            if len(sentence) >= 8 and re.search(pattern, sentence, re.I):
                 sentences.append(sentence)
     scored = []
     for index, sentence in enumerate(sentences):
@@ -160,9 +175,10 @@ def summarize(lines):
     return '\n'.join(output)
 
 
-def load_minutes():
-    MINUTES_DIR.mkdir(parents=True, exist_ok=True)
-    files = [p for p in MINUTES_DIR.iterdir() if p.is_file() and p.suffix.lower() in ('.txt', '.md', '.vtt', '.srt', '.docx') and not p.name.startswith('~$')]
+def load_minutes(directory=None, commodity_pattern=None):
+    directory = directory or MINUTES_DIR
+    directory.mkdir(parents=True, exist_ok=True)
+    files = [p for p in directory.iterdir() if p.is_file() and p.suffix.lower() in ('.txt', '.md', '.vtt', '.srt', '.docx') and not p.name.startswith('~$')]
     opinions = {person: '' for person in PEOPLE}
     if not files:
         return opinions, {'status': '待接入', 'file': None, 'unassigned': 0}
@@ -170,7 +186,7 @@ def load_minutes():
     try:
         blocks, unassigned = parse_speakers(read_text(path))
         for person in PEOPLE:
-            opinions[person] = summarize(blocks[person])
+            opinions[person] = summarize(blocks[person], commodity_pattern)
         stamp = datetime.datetime.fromtimestamp(path.stat().st_mtime).astimezone().isoformat(timespec='seconds')
         count = sum(bool(opinions[p]) for p in PEOPLE)
         return opinions, {'status': f'{path.name} · 已提炼{count}/6人', 'file': path.name,
@@ -273,6 +289,7 @@ def main():
     built = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
     meta = {'asof': asof, 'built_at': built, 'minutes_status': minutes_meta['status'],
             'minutes_file': minutes_meta.get('file'), 'minutes_unassigned_lines': minutes_meta.get('unassigned', 0),
+            'balance_note': '年度平衡是 CRU 2026-06 基准，日／周数据用于滚动验证；CFTC 为 COMEX 铝非商业持仓，不等同参考表中的 LME 高盛口径。缺数不补零。',
             'minutes_help': f'腾讯会议纪要放入 {MINUTES_DIR}（TXT / MD / VTT / SRT / DOCX）。最新文件按“天／杨／陈／昊／文／标”及姓名末字识别发言人，保留原句提炼，不识别“发言人1”等匿名标签；原始纪要不进入网站目录。'}
     payload = {'auto': auto, 'origins': origins, 'manual': manual, 'people': PEOPLE,
                'sources': sources, 'meta': meta}

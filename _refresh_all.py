@@ -41,9 +41,9 @@ FULL_CHAIN = [
     'fetch_extra', 'fetch_cn_macro', 'fetch_calendar', 'fetch_trump',
     'fetch_downstream', 'gen_charts', 'fetch_fedwatch', 'fetch_live',
     'fetch_news', 'fetch_extra_news', 'collect_releases', 'fetch_release',
-    'fetch_zsxq_radar', 'fetch_tin_weekly', 'refresh_nickel_weekly', 'build_zinc_weekly', 'build_aluminum_weekly', 'build_aluminum_meeting_panel', 'build_copper_weekly', 'build_lead_weekly',
+    'fetch_zsxq_radar', 'fetch_tin_weekly', 'build_tin_meeting_panel', 'refresh_nickel_weekly', 'build_zinc_weekly', 'build_aluminum_weekly', 'build_aluminum_meeting_panel', 'build_copper_weekly', 'build_lead_weekly',
 ]
-QUICK_CHAIN = ['fetch_live', 'fetch_news', 'fetch_extra_news', 'collect_releases', 'fetch_zsxq_radar', 'fetch_tin_weekly', 'refresh_nickel_weekly', 'build_zinc_weekly', 'build_aluminum_weekly', 'build_aluminum_meeting_panel', 'build_copper_weekly', 'build_lead_weekly']
+QUICK_CHAIN = ['fetch_live', 'fetch_news', 'fetch_extra_news', 'collect_releases', 'fetch_zsxq_radar', 'fetch_tin_weekly', 'build_tin_meeting_panel', 'refresh_nickel_weekly', 'build_zinc_weekly', 'build_aluminum_weekly', 'build_aluminum_meeting_panel', 'build_copper_weekly', 'build_lead_weekly']
 KEYED_CHAIN = ['fetch_ifind_mcp', 'fetch_shfe_stock']
 SKIP_KEYED = 1  # 密钥未配，置 0 纳入
 

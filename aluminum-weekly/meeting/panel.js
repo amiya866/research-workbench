@@ -60,7 +60,7 @@ function renderMeta(){
   document.getElementById('meta').textContent='数据截至 '+(meta.asof||'—')+' · 构建 '+(meta.built_at||'—')+' · 纪要：'+(meta.minutes_status||'未接入');
   document.getElementById('minutesHelp').textContent=meta.minutes_help||'';
   const sources=data.sources||[];
-  document.getElementById('sourceList').innerHTML='<ul>'+sources.map(function(s){return '<li><b>'+esc(s.label)+'</b>：'+esc(s.value)+'（'+esc(s.date||'—')+'）｜'+esc(s.source)+'</li>'}).join('')+'</ul><p>年度平衡是 CRU 2026-06 基准，日／周数据用于滚动验证；CFTC 为 COMEX 铝非商业持仓，不等同参考表中的 LME 高盛口径。缺数不补零。</p>';
+  document.getElementById('sourceList').innerHTML='<ul>'+sources.map(function(s){return '<li><b>'+esc(s.label)+'</b>：'+esc(s.value)+'（'+esc(s.date||'—')+'）｜'+esc(s.source)+'</li>'}).join('')+'</ul><p>'+esc(meta.balance_note||'缺数不补零。')+'</p>';
 }
 function showNotice(text){const n=document.getElementById('notice');n.textContent=text;n.classList.add('show')}
 function save(){

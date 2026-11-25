@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link href="data:," rel="icon">
+  <title>锡周会面板 · 自动更新</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <main class="page">
+    <nav class="topline">
+      <a href="../index.html#sumsec">← 锡研究周报</a>
+      <a href="../../reports/variety_latest.html">每日点评</a>
+      <span>TIN WEEKLY MEETING</span>
+    </nav>
+    <section class="toolbar" aria-label="面板工具">
+      <div>
+        <h1>锡周会面板</h1>
+        <p id="meta">正在读取数据…</p>
+      </div>
+      <div class="actions">
+        <button id="editBtn" type="button">编辑面板</button>
+        <button id="saveBtn" type="button" hidden>保存到本机</button>
+        <button id="exportBtn" type="button">导出手动配置</button>
+        <button id="importBtn" type="button">导入配置</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+        <button id="printBtn" type="button">打印 / 存 PDF</button>
+      </div>
+    </section>
+    <div id="notice" class="notice" role="status"></div>
+    <div class="table-shell">
+      <table id="meetingTable" class="meeting-table" aria-label="铝周会记录"></table>
+    </div>
+    <section class="help">
+      <b>更新规则</b>
+      <p>平衡、现货、持仓与应对方向由周报／日报数据自动重建；关注、主要矛盾和所有文字均可手改。点击“编辑面板”后修改，保存到本机；单项“恢复自动”会解除手动锁定。跨电脑或要设为线上默认值时，导出配置并替换 <code>data/tin_meeting_overrides.json</code>。</p>
+      <p id="minutesHelp"></p>
+    </section>
+    <details class="sources">
+      <summary>数据口径与逐项日期</summary>
+      <div id="sourceList"></div>
+    </details>
+  </main>
+  <script src="panel_data.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>
