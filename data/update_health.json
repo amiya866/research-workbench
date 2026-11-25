@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-22T15:50:37+08:00",
+  "built_at": "2026-11-25T09:08:55+08:00",
   "overall": "有需要检查项",
   "rows": [
     {
@@ -10,62 +10,62 @@
     },
     {
       "label": "快讯消息",
-      "value": "2026-11-20 15:15",
-      "status": "warn",
+      "value": "2026-11-25 09:03",
+      "status": "ok",
       "note": "金十/CS/东财/新浪/LME；内嵌兜底同步刷新"
     },
     {
       "label": "宏观序列与图表",
-      "value": "2026-11-20 04:59 北京",
-      "status": "warn",
+      "value": "2026-11-25 08:53 北京",
+      "status": "ok",
       "note": "RwBenchDaily 全链"
     },
     {
       "label": "美元流动性",
-      "value": "2026-11-19 20:56",
-      "status": "warn",
+      "value": "2026-11-25 08:49",
+      "status": "ok",
       "note": "FRED/央行公开数据，按各自发布频率"
     },
     {
       "label": "FedWatch",
-      "value": "2026-11-20 02:11 BJT",
-      "status": "warn",
+      "value": "2026-11-25 09:00 BJT",
+      "status": "ok",
       "note": "CME官方条件概率表"
     },
     {
       "label": "经济日历",
-      "value": "2026-11-20",
-      "status": "warn",
+      "value": "2026-11-25",
+      "status": "ok",
       "note": "公开日历与发布计划"
     },
     {
       "label": "共识日历",
-      "value": "2026-11-20 05:00 BJT",
-      "status": "warn",
+      "value": "2026-11-25 08:59 BJT",
+      "status": "ok",
       "note": "投行/机构一致预期"
     },
     {
       "label": "CFTC持仓",
-      "value": "2026-11-20 04:56 北京",
-      "status": "warn",
+      "value": "2026-11-25 08:49 北京",
+      "status": "ok",
       "note": "周度持仓，抓取时间不等于报告期"
     },
     {
       "label": "新出数据",
-      "value": "2026-11-22 12:54",
+      "value": "2026-11-25 09:03",
       "status": "ok",
       "note": "快讯中识别的官方发布"
     },
     {
       "label": "知识星球雷达",
-      "value": "2026-11-20T16:30:38+08:00",
+      "value": "2026-11-24T13:50:16+08:00",
       "status": "warn",
       "note": "方向/研报/观点快照"
     },
     {
       "label": "预测市场",
-      "value": "2026-11-19T20:56:01.905235Z",
-      "status": "warn",
+      "value": "2026-11-24T00:17:25.669635Z",
+      "status": "ok",
       "note": "Polymarket公开行情"
     },
     {
@@ -84,7 +84,7 @@
       "label": "官方发布分项",
       "value": "nfp=2026-10；cpi=2026-10；ppi=2026-10；gdp=2026Q3；pce_price=2026M09；pce_real=2026M09；fomc=2026-09-17",
       "status": "bad",
-      "note": "旧值块：gdp,pce_price,pce_real"
+      "note": "旧值块：nfp,cpi,cpi_hist,cpi_detail,ppi,ppi_hist,ppi_detail"
     },
     {
       "label": "锡研究周报",
@@ -124,7 +124,7 @@
     },
     {
       "label": "有色套利周报",
-      "value": "2026-11-20｜构建 2026-11-22T13:33:45",
+      "value": "2026-11-20｜构建 2026-11-24T13:52:23",
       "status": "ok",
       "note": "每周六10:27更新；五年季节性、海关货流与LME/国内升贴水"
     }
@@ -132,23 +132,23 @@
   "tasks": [
     {
       "name": "RwBenchDaily",
-      "state": "Ready",
-      "last": "2026-11-22 13:02:20",
-      "next": "2026-11-22 20:40:00",
-      "result": 1
+      "state": "Running",
+      "last": "2026-11-25 08:43:20",
+      "next": "2026-11-25 20:40:00",
+      "result": 2147946720
     },
     {
       "name": "RwBenchQuick",
       "state": "Ready",
-      "last": "2026-11-22 01:53:56",
-      "next": "2026-11-23 09:12:00",
-      "result": 3221225786
+      "last": "2026-11-25 03:39:29",
+      "next": "2026-11-25 09:12:00",
+      "result": 0
     },
     {
       "name": "RWXsAlignDaily",
       "state": "Ready",
-      "last": "2026-11-20 15:52:00",
-      "next": "2026-11-23 15:52:00",
+      "last": "2026-11-24 15:52:00",
+      "next": "2026-11-25 15:52:00",
       "result": 1
     },
     {
