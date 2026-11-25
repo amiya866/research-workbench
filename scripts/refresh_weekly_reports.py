@@ -23,6 +23,7 @@ def main():
         'scripts/refresh_nickel_weekly.py',
         'scripts/build_zinc_weekly.py',
         'scripts/build_aluminum_weekly.py',
+        'scripts/build_aluminum_meeting_panel.py',
         'scripts/build_copper_weekly.py',
         'scripts/build_lead_weekly.py',
         'scripts/build_arbitrage_weekly.py',
