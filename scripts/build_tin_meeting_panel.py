@@ -6,18 +6,18 @@ import os
 import sqlite3
 from pathlib import Path
 
-import build_aluminum_meeting_panel as common
+import tin_meeting_common as common
 from build_tin_weekly import BALANCE_CONFIG
 
 BASE = Path(__file__).resolve().parents[1]
 OUT = BASE / 'tin-weekly' / 'meeting'
-TEMPLATE = BASE / 'scripts' / 'templates' / 'aluminum-meeting'
+TEMPLATE = BASE / 'scripts' / 'templates' / 'tin-meeting'
 CACHE = Path(r'D:/Kimi/金属总网/网站构建/db/数据缓存_v1.db')
 TIN_DB = Path(r'D:/Kimi/锡席位与期权流动性/data/tin_monitor.db')
 OVERRIDES = BASE / 'data' / 'tin_meeting_overrides.json'
 SUMMARY = BASE / 'data' / 'tin_meeting_panel.json'
 MINUTES_DIR = Path(os.environ.get('SN_MINUTES_DIR', r'D:/Kimi/腾讯会议纪要/锡'))
-PEOPLE = ['天', '杨', '陈', '昊', '文', '标']
+PEOPLE = ['标', '昊', '天', '航', '陈', '文']
 TIN_PATTERN = r'锡|缅甸|佤邦|印尼|LME|SHFE|库存|升贴水|月差|仓单|持仓|borrow|lending|反套|正套|偏[多空头]|看空|看多|焊料|半导体'
 
 
@@ -42,7 +42,7 @@ def build_auto():
             'a10003128', 'a10083975', 'a10099105')
     rows = {key: common.cache_series(conn, key) for key in keys}
     conn.close()
-    lme03 = common.lme03_series('SN')
+    lme03 = common.lme03_series()
     seats = seat_net_series()
     social, social_source = common.stock_text('SMM锡锭社库', rows['a10020744'], unit='吨')
     social_my, my_source = common.stock_text('Mysteel锡锭社库', rows['ID01517441'], unit='吨')
@@ -154,11 +154,14 @@ def main():
     manual = common.read_json(OVERRIDES, {'values': {}, 'auto_reset': []})
     manual.setdefault('values', {})
     manual.setdefault('auto_reset', [])
+    supplied = [p for p in PEOPLE if manual['values'].get('opinion.' + p)]
+    if not minutes_meta.get('file') and supplied:
+        minutes_meta['status'] = f'2025-11-W4用户纪要 · 已填{len(supplied)}/{len(PEOPLE)}人'
     built = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
     meta = {'asof': asof, 'built_at': built, 'minutes_status': minutes_meta['status'],
             'minutes_file': minutes_meta.get('file'), 'minutes_unassigned_lines': minutes_meta.get('unassigned', 0),
             'balance_note': '年度平衡来自永安锡周报2026-10-24预测，日／周数据用于滚动验证；SMM与Mysteel社库、westmetall与SMM升贴水并列展示，不混成同一序列；前20席位不等于真实盈亏。缺数不补零。',
-            'minutes_help': f'腾讯会议纪要放入 {MINUTES_DIR}（TXT / MD / VTT / SRT / DOCX）。最新文件按“天／杨／陈／昊／文／标”及姓名末字识别发言人，保留原句提炼，不识别“发言人1”等匿名标签；原始纪要不进入网站目录。'}
+            'minutes_help': f'腾讯会议纪要放入 {MINUTES_DIR}（TXT / MD / VTT / SRT / DOCX）。最新文件按“标／昊／天／航／陈／文”及姓名末字识别发言人，保留原句提炼，不识别“发言人1”等匿名标签；原始纪要不进入网站目录。本期五段观点来自用户提供的2025-11-W4会议纪要，已设为线上手动默认。'}
     payload = {'auto': auto, 'origins': origins, 'manual': manual, 'people': PEOPLE,
                'sources': sources, 'meta': meta}
     copy_template()
