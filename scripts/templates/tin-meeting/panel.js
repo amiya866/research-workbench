@@ -2,6 +2,8 @@
 'use strict';
 const data=window.SN_MEETING_PANEL;
 const table=document.getElementById('meetingTable');
+const strategyTable=document.getElementById('strategyTable');
+const opinionTable=document.getElementById('opinionTable');
 const storageKey='tin-meeting-panel-overrides-v1';
 const empty={values:{},auto_reset:[]};
 let editing=false,dirty=false;
@@ -32,24 +34,25 @@ function field(key,cls){
   const kind=origin(key);
   return '<div class="field-wrap '+(cls||'')+'"><button type="button" class="reset-field" data-reset="'+esc(key)+'" title="解除手动锁定">恢复自动</button><div class="field" data-key="'+esc(key)+'" contenteditable="false">'+esc(value(key))+'</div><span class="origin '+esc(kind)+'">'+esc(originLabel(kind))+'</span></div>';
 }
-function opinionRow(person,index){
-  return '<tr><td class="row-label person">'+field('name.'+person)+'</td><td class="content opinion-content">'+field('opinion.'+person)+'</td>'+(index===0?'<td class="side-label direction" rowspan="'+data.people.length+'">应对方向</td><td class="content" rowspan="'+data.people.length+'">'+field('strategy')+'</td>':'')+'</tr>';
+function opinionRow(person){
+  return '<tr><td class="row-label person">'+field('name.'+person)+'</td><td class="content opinion-content">'+field('opinion.'+person)+'</td></tr>';
 }
 function render(){
   const rows=[];
   rows.push('<colgroup><col style="width:65px"><col style="width:105px"><col><col style="width:115px"><col></colgroup>');
   rows.push('<tr><th class="corner">周会记录<br>自动更新 · 可手改</th><th class="head" colspan="2">'+field('week')+'</th><th class="head strategy" colspan="2">'+field('strategyTitle')+'</th></tr>');
-  rows.push('<tr><td class="commodity" rowspan="'+(4+data.people.length)+'">SN</td><td class="row-label auto-label">平衡</td><td class="content">'+field('balance')+'</td><td class="side-label" rowspan="4">主要矛盾方向</td><td class="content" rowspan="4">'+field('contradiction')+'</td></tr>');
+  rows.push('<tr><td class="commodity" rowspan="4">SN</td><td class="row-label auto-label">平衡</td><td class="content">'+field('balance')+'</td><td class="side-label" rowspan="4">主要矛盾方向</td><td class="content" rowspan="4">'+field('contradiction')+'</td></tr>');
   rows.push('<tr><td class="row-label auto-label">现货</td><td class="content">'+field('spot')+'</td></tr>');
   rows.push('<tr><td class="row-label auto-label">持仓</td><td class="content">'+field('positions')+'</td></tr>');
   rows.push('<tr><td class="row-label auto-label">关注</td><td class="content">'+field('watch')+'</td></tr>');
-  data.people.forEach(function(person,index){rows.push(opinionRow(person,index))});
   table.innerHTML=rows.join('');
-  table.querySelectorAll('.field').forEach(function(el){
+  strategyTable.innerHTML='<colgroup><col style="width:140px"><col></colgroup><tr><th class="strategy-heading">会议应对方向</th><td class="content strategy-content">'+field('strategy')+'</td></tr>';
+  opinionTable.innerHTML='<colgroup><col style="width:90px"><col></colgroup><thead><tr><th>参会人</th><th>核心观点与交易判断</th></tr></thead><tbody>'+data.people.map(opinionRow).join('')+'</tbody>';
+  document.querySelectorAll('.field').forEach(function(el){
     el.contentEditable=editing?'true':'false';
     el.addEventListener('input',function(){el.dataset.changed='1';dirty=true;showNotice('有未保存修改。点击“保存到本机”后生效。')})
   });
-  table.querySelectorAll('[data-reset]').forEach(function(btn){btn.addEventListener('click',function(){resetField(btn.dataset.reset)})});
+  document.querySelectorAll('[data-reset]').forEach(function(btn){btn.addEventListener('click',function(){resetField(btn.dataset.reset)})});
   document.body.classList.toggle('editing',editing);
   document.getElementById('editBtn').textContent=editing?'退出编辑':'编辑面板';
   document.getElementById('saveBtn').hidden=!editing;
@@ -64,7 +67,7 @@ function renderMeta(){
 }
 function showNotice(text){const n=document.getElementById('notice');n.textContent=text;n.classList.add('show')}
 function save(){
-  table.querySelectorAll('.field[data-changed="1"]').forEach(function(el){
+  document.querySelectorAll('.field[data-changed="1"]').forEach(function(el){
     const key=el.dataset.key;local.values[key]=el.innerText.replace(/\u00a0/g,' ').trim();local.auto_reset=local.auto_reset.filter(function(k){return k!==key});
   });
   localStorage.setItem(storageKey,JSON.stringify(local));dirty=false;render();showNotice('已保存到本机。导出配置后可设为线上默认值。');
