@@ -1,6 +1,6 @@
 {
  "source": "Polymarket Gamma/CLOB API（GitHub Actions每日更新）",
- "fetched_at": "2026-11-27T05:18:50.121961Z",
+ "fetched_at": "2026-11-27T09:32:59.897028Z",
  "markets": [
   {
    "question": "Will the Democratic Party control the Senate after the 2026 Midterm elections?",
@@ -3250,7 +3250,7 @@
      "price": 1.0
     }
    ],
-   "vol24": 8058,
+   "vol24": 42710,
    "end": "2026-07-01",
    "slug": "us-iran-final-nuclear-deal-by-20260621201254412",
    "history": [
@@ -3308,7 +3308,7 @@
      "price": 0.955
     }
    ],
-   "vol24": 6,
+   "vol24": 4244,
    "end": "2027-01-01",
    "slug": "what-will-be-in-a-us-iran-deal-in-2026-20260624150226501",
    "history": [
@@ -5003,18 +5003,84 @@
    ]
   },
   {
+   "question": "US announces end of Iranian blockade by July 24, 2026?",
+   "outcomes": [
+    {
+     "name": "Yes",
+     "price": 0.0
+    },
+    {
+     "name": "No",
+     "price": 1.0
+    }
+   ],
+   "vol24": 90414,
+   "end": "2026-07-25",
+   "slug": "us-announces-end-of-iranian-blockade-byptptpt-20260713152715080",
+   "history": [
+    [
+     "2026-07-14",
+     0.08
+    ],
+    [
+     "2026-07-15",
+     0.115
+    ],
+    [
+     "2026-07-16",
+     0.13
+    ],
+    [
+     "2026-07-17",
+     0.075
+    ],
+    [
+     "2026-07-18",
+     0.075
+    ],
+    [
+     "2026-07-19",
+     0.0355
+    ],
+    [
+     "2026-07-20",
+     0.046
+    ],
+    [
+     "2026-07-21",
+     0.05
+    ],
+    [
+     "2026-07-22",
+     0.044
+    ],
+    [
+     "2026-07-23",
+     0.0255
+    ],
+    [
+     "2026-07-24",
+     0.0225
+    ],
+    [
+     "2026-07-25",
+     0.0055
+    ]
+   ]
+  },
+  {
    "question": "Strait of Hormuz traffic returns to normal by November 30?",
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.0025
+     "price": 0.0015
     },
     {
      "name": "No",
-     "price": 0.9975
+     "price": 0.9985
     }
    ],
-   "vol24": 83573,
+   "vol24": 83054,
    "end": "2026-12-01",
    "slug": "strait-of-hormuz-traffic-returns-to-normal-by-november-30-20260810151158765",
    "history": [
@@ -5400,73 +5466,7 @@
     ],
     [
      "2026-11-27",
-     0.0025
-    ]
-   ]
-  },
-  {
-   "question": "US announces end of Iranian blockade by July 24, 2026?",
-   "outcomes": [
-    {
-     "name": "Yes",
-     "price": 0.0
-    },
-    {
-     "name": "No",
-     "price": 1.0
-    }
-   ],
-   "vol24": 79584,
-   "end": "2026-07-25",
-   "slug": "us-announces-end-of-iranian-blockade-byptptpt-20260713152715080",
-   "history": [
-    [
-     "2026-07-14",
-     0.08
-    ],
-    [
-     "2026-07-15",
-     0.115
-    ],
-    [
-     "2026-07-16",
-     0.13
-    ],
-    [
-     "2026-07-17",
-     0.075
-    ],
-    [
-     "2026-07-18",
-     0.075
-    ],
-    [
-     "2026-07-19",
-     0.0355
-    ],
-    [
-     "2026-07-20",
-     0.046
-    ],
-    [
-     "2026-07-21",
-     0.05
-    ],
-    [
-     "2026-07-22",
-     0.044
-    ],
-    [
-     "2026-07-23",
-     0.0255
-    ],
-    [
-     "2026-07-24",
-     0.0225
-    ],
-    [
-     "2026-07-25",
-     0.0055
+     0.0015
     ]
    ]
   },
@@ -5482,7 +5482,7 @@
      "price": 1.0
     }
    ],
-   "vol24": 57162,
+   "vol24": 49343,
    "end": "2026-06-01",
    "slug": "bab-el-mandeb-strait-effectively-closed-by",
    "history": [
@@ -5661,14 +5661,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.0285
+     "price": 0.0275
     },
     {
      "name": "No",
-     "price": 0.9715
+     "price": 0.9725
     }
    ],
-   "vol24": 22296,
+   "vol24": 36050,
    "end": "2027-01-01",
    "slug": "strait-of-hormuz-traffic-returns-to-normal-by-december-31",
    "history": [
@@ -6442,7 +6442,7 @@
     ],
     [
      "2026-11-27",
-     0.0285
+     0.0275
     ]
    ]
   },
@@ -6458,7 +6458,7 @@
      "price": 0.0
     }
    ],
-   "vol24": 293418,
+   "vol24": 234526,
    "end": "2026-07-18",
    "slug": "israel-x-iran-ceasefire-continues-throughptptpt-20260716224448963",
    "history": [
@@ -6496,7 +6496,7 @@
      "price": 1.0
     }
    ],
-   "vol24": 97936,
+   "vol24": 90691,
    "end": "2026-10-01",
    "slug": "iran-leadership-change-by",
    "history": [
@@ -6890,7 +6890,7 @@
      "price": 1.0
     }
    ],
-   "vol24": 66099,
+   "vol24": 63133,
    "end": "2026-11-08",
    "slug": "us-x-iran-effective-ceasefire-begins-by-2-week-pause-20261108",
    "history": [
@@ -6940,7 +6940,7 @@
      "price": 0.0
     }
    ],
-   "vol24": 42878,
+   "vol24": 42817,
    "end": "2026-12-01",
    "slug": "will-iran-target-kuwait-byptptpt-20261119",
    "history": [
@@ -7056,7 +7056,7 @@
      "price": 1.0
     }
    ],
-   "vol24": 468,
+   "vol24": 903,
    "end": "2026-07-31",
    "slug": "which-month-will-strait-of-hormuz-traffic-return-to-normal-20260702155718114",
    "history": [
@@ -7175,14 +7175,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.955
+     "price": 0.9605
     },
     {
      "name": "No",
-     "price": 0.045
+     "price": 0.0395
     }
    ],
-   "vol24": 4365,
+   "vol24": 5483,
    "end": "2026-12-10",
    "slug": "another-fed-rate-hike-in-2026",
    "history": [
@@ -7444,7 +7444,7 @@
     ],
     [
      "2026-11-27",
-     0.955
+     0.9605
     ]
    ]
   },
@@ -10843,14 +10843,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.033
+     "price": 0.0335
     },
     {
      "name": "No",
-     "price": 0.967
+     "price": 0.9665
     }
    ],
-   "vol24": 15374,
+   "vol24": 15128,
    "end": "2027-01-31",
    "slug": "us-recession-by-end-of-2026",
    "history": [
@@ -12408,7 +12408,7 @@
     ],
     [
      "2026-11-27",
-     0.033
+     0.0335
     ]
    ]
   },
@@ -12424,7 +12424,7 @@
      "price": 0.645
     }
    ],
-   "vol24": 699,
+   "vol24": 28,
    "end": "2027-12-31",
    "slug": "us-recession-by-end-of-2027-20260807185409760",
    "history": [
@@ -12839,11 +12839,11 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.3305
+     "price": 0.3245
     },
     {
      "name": "No",
-     "price": 0.6695
+     "price": 0.6755
     }
    ],
    "vol24": 19,
@@ -12944,7 +12944,7 @@
     ],
     [
      "2026-11-27",
-     0.3305
+     0.325
     ]
    ]
   },
@@ -14410,7 +14410,7 @@
      "price": 0.9985
     }
    ],
-   "vol24": 131928,
+   "vol24": 132422,
    "end": "2026-12-09",
    "slug": "fed-decision-in-december-20260729232808632",
    "history": [
@@ -14876,7 +14876,7 @@
      "price": 0.735
     }
    ],
-   "vol24": 7748,
+   "vol24": 5234,
    "end": "2026-12-13",
    "slug": "government-shutdown-by",
    "history": [
@@ -15003,14 +15003,14 @@
    "outcomes": [
     {
      "name": "Yes",
-     "price": 0.0075
+     "price": 0.0135
     },
     {
      "name": "No",
-     "price": 0.9925
+     "price": 0.9865
     }
    ],
-   "vol24": 339,
+   "vol24": 425,
    "end": "2026-11-28",
    "slug": "trump-approval-rating-on-november-27",
    "history": [
@@ -15040,7 +15040,7 @@
     ],
     [
      "2026-11-27",
-     0.0075
+     0.0135
     ]
    ]
   },
